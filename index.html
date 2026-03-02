@@ -327,27 +327,33 @@
 
     .carousel-slide { min-width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
 
+    /* ── SLIDE MEDIA: fixed so Vimeo iframes fill the box ── */
     .slide-media {
-      background: #111; aspect-ratio: 16/9;
-      position: relative; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
+      background: #111;
+      aspect-ratio: 16/9;
+      position: relative;        /* iframes use position:absolute inside */
+      overflow: hidden;
     }
-    .slide-media video, .slide-media img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .slide-media-ph {
+
+    /* Poster image shown before slide becomes active */
+    .slide-poster {
       position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 10px;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 1;
+      transition: opacity 0.4s;
     }
-    .ph-text {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--gold-light); opacity: 0.7;
+
+    /* Vimeo iframe wrapper that fills the media box */
+    .slide-vimeo-wrap {
+      position: absolute; inset: 0;
+      z-index: 2;
     }
-    .ph-sub {
-      font-family: 'DM Mono', monospace; font-size: 9px;
-      letter-spacing: 1px; color: rgba(245,242,235,0.45);
+    .slide-vimeo-wrap iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
     }
 
     .slide-content {
@@ -702,17 +708,18 @@
       height: 560px; border: none;
     }
 
+    /* ── SLIDE DETAIL MODAL: video section ── */
     .modal-video-wrap {
-      width: 100%; aspect-ratio: 16/9;
-      background: #111; overflow: hidden;
+      width: 100%;
+      padding-top: 56.25%;   /* 16:9 ratio */
+      position: relative;
+      background: #111;
+      overflow: hidden;
     }
-    .modal-video-wrap video {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .modal-video-ph {
+    .modal-video-wrap iframe {
+      position: absolute; top: 0; left: 0;
       width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 10px;
+      border: none;
     }
 
     .modal-detail-body { padding: 40px 48px; }
@@ -953,7 +960,7 @@
         <div class="carousel-track-wrap">
           <div class="carousel-track" id="carouselTrack">
 
-                      <!-- SLIDE 0: ROSe -->
+            <!-- SLIDE 0: ROSe -->
             <div class="carousel-slide" id="slide-0" role="tabpanel">
               <div class="slide-media">
                 <!-- Poster shown until slide is active; Vimeo loads on goTo(0) -->
@@ -1284,6 +1291,7 @@
     <div class="footer-copy">2026 Tenneri. All rights reserved.</div>
   </footer>
 
+  <!-- Demo video request modal -->
   <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal" id="modal">
       <div class="modal-header">
@@ -1305,6 +1313,7 @@
     </div>
   </div>
 
+  <!-- Slide detail modal -->
   <div class="modal-overlay" id="slideModalOverlay" role="dialog" aria-modal="true" aria-labelledby="slideModalTitle">
     <div class="modal modal-wide" id="slideModal">
       <div class="modal-header">
@@ -1314,16 +1323,13 @@
         </div>
         <button class="modal-close" onclick="closeSlideDetail()" aria-label="Close">&#215;</button>
       </div>
-      <div class="modal-video-wrap" id="slideModalVideo">
-        <div class="slide-media-ph modal-video-ph" id="slideModalPh">
-          <div class="ph-text" id="slideModalPhText"></div>
-          <div class="ph-sub" id="slideModalPhSub"></div>
-        </div>
-      </div>
+      <!-- 16:9 video container; JS injects iframe here -->
+      <div class="modal-video-wrap" id="slideModalVideo"></div>
       <div class="modal-detail-body" id="slideModalBody"></div>
     </div>
   </div>
 
+  <!-- Case study modal -->
   <div class="modal-overlay" id="csModalOverlay" role="dialog" aria-modal="true" aria-labelledby="csModalTitle">
     <div class="cs-modal" id="csModal">
       <div class="cs-modal-header">
@@ -1340,33 +1346,27 @@
   </div>
 
   <script>
+    // ── Intersection observer for fade-ins ──────────────────────────────
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+    // ── Mobile nav ───────────────────────────────────────────────────────
     const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
     function closeMobile() { mobileMenu.classList.remove('open'); }
 
+    // ── Demo video request modal ─────────────────────────────────────────
     const modalOverlay = document.getElementById('modalOverlay');
+    function openModal()  { modalOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeModal() { modalOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 
-    function openModal() {
-      modalOverlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modalOverlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-
-      const slideDetails = [
+    // ── Slide detail data ────────────────────────────────────────────────
+    // vimeoId is used to build the detail-modal embed URL
+    const slideDetails = [
       {
         kicker:  'Scenario-Based Technical Training',
         title:   'ROSe: Simulated OS Environment',
@@ -1447,32 +1447,24 @@
       }
     ];
 
+    // ── Slide detail modal ───────────────────────────────────────────────
     const slideModalOverlay = document.getElementById('slideModalOverlay');
 
     function openSlideDetail(index) {
       const d = slideDetails[index];
       document.getElementById('slideModalKicker').textContent = d.kicker;
-      document.getElementById('slideModalTitle').textContent = d.title;
-      document.getElementById('slideModalPhText').textContent = d.phText;
-      document.getElementById('slideModalPhSub').textContent  = d.phSub;
+      document.getElementById('slideModalTitle').textContent  = d.title;
 
+      // Build a proper Vimeo iframe inside the 16:9 wrapper
       const videoWrap = document.getElementById('slideModalVideo');
-      const oldVid = videoWrap.querySelector('video');
-      if (oldVid) oldVid.remove();
-
-      if (d.videoSrc) {
-        const vid = document.createElement('video');
-        vid.autoplay = true; vid.muted = true; vid.loop = true; vid.playsInline = true;
-        vid.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-        const src = document.createElement('source');
-        src.src = d.videoSrc; src.type = 'video/mp4';
-        vid.appendChild(src);
-        vid.addEventListener('canplay', () => {
-          document.getElementById('slideModalPh').style.display = 'none';
-        });
-        videoWrap.insertBefore(vid, videoWrap.firstChild);
-        vid.play().catch(() => {});
-      }
+      videoWrap.innerHTML = `
+        <iframe
+          src="https://player.vimeo.com/video/${d.vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="${d.title}">
+        </iframe>`;
 
       document.getElementById('slideModalBody').innerHTML = `
         <span class="modal-detail-label">About This Capability</span>
@@ -1483,7 +1475,6 @@
         </ul>
       `;
 
-      document.getElementById('slideModalPh').style.display = 'flex';
       slideModalOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -1491,14 +1482,15 @@
     function closeSlideDetail() {
       slideModalOverlay.classList.remove('open');
       document.body.style.overflow = '';
-      const vid = document.getElementById('slideModalVideo').querySelector('video');
-      if (vid) vid.pause();
+      // Clear the iframe so video stops
+      document.getElementById('slideModalVideo').innerHTML = '';
     }
 
     slideModalOverlay.addEventListener('click', (e) => {
       if (e.target === slideModalOverlay) closeSlideDetail();
     });
 
+    // ── Case study modal ─────────────────────────────────────────────────
     const caseStudyData = {
       datacamp: {
         kicker: 'Course Design / Cost Reduction',
@@ -1598,6 +1590,7 @@
       });
     });
 
+    // ── Stats counter ────────────────────────────────────────────────────
     function animateCount(el) {
       const target   = parseInt(el.dataset.target);
       const prefix   = el.dataset.prefix || '';
@@ -1635,24 +1628,25 @@
     const proofSection = document.getElementById('proof');
     if (proofSection) statsObserver.observe(proofSection);
 
+    // ── Carousel ─────────────────────────────────────────────────────────
     const track   = document.getElementById('carouselTrack');
-    const slides  = track.querySelectorAll('.carousel-slide');
     const tabs    = document.querySelectorAll('.carousel-tab');
     const dots    = document.querySelectorAll('.carousel-dot');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     let current   = 0;
-    const total   = slides.length;
-
-    for (let i = 0; i < total; i++) {
-      const ph  = document.getElementById('ph-' + i);
-      const vid = document.getElementById('vid-' + i);
-      if (ph && vid) vid.addEventListener('canplay', () => { ph.style.display = 'none'; });
-    }
+    const total   = 6;
 
     function goTo(index) {
+      // Hide previous slide's video, show poster
+      const prevWrap   = document.getElementById('vimeo-wrap-' + current);
+      const prevPoster = document.getElementById('poster-' + current);
+      if (prevWrap)   { prevWrap.style.display = 'none'; }
+      if (prevPoster) { prevPoster.style.display = 'block'; }
+
       current = Math.max(0, Math.min(index, total - 1));
       track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
       tabs.forEach((t, i) => {
         t.classList.toggle('active', i === current);
         t.setAttribute('aria-selected', i === current);
@@ -1660,11 +1654,12 @@
       dots.forEach((d, i) => d.classList.toggle('active', i === current));
       prevBtn.disabled = current === 0;
       nextBtn.disabled = current === total - 1;
-      for (let i = 0; i < total; i++) {
-        const v = document.getElementById('vid-' + i);
-        if (!v) continue;
-        if (i === current) v.play().catch(() => {}); else v.pause();
-      }
+
+      // Show video for active slide, hide poster
+      const newWrap   = document.getElementById('vimeo-wrap-' + current);
+      const newPoster = document.getElementById('poster-' + current);
+      if (newWrap)   { newWrap.style.display = 'block'; }
+      if (newPoster) { newPoster.style.display = 'none'; }
     }
 
     tabs.forEach(t => t.addEventListener('click', () => goTo(parseInt(t.dataset.index))));
@@ -1672,6 +1667,7 @@
     prevBtn.addEventListener('click', () => goTo(current - 1));
     nextBtn.addEventListener('click', () => goTo(current + 1));
 
+    // ── Keyboard nav ─────────────────────────────────────────────────────
     document.addEventListener('keydown', (e) => {
       const anyOpen = modalOverlay.classList.contains('open') ||
                       slideModalOverlay.classList.contains('open') ||
@@ -1686,6 +1682,7 @@
       }
     });
 
+    // ── Touch swipe ──────────────────────────────────────────────────────
     let touchStartX = 0;
     track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     track.addEventListener('touchend', e => {
@@ -1693,21 +1690,11 @@
       if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
     });
 
+    // Initialise — slide 0 shows its video immediately
     goTo(0);
   </script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-  
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
