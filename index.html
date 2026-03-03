@@ -157,9 +157,9 @@
     .hero-title em { font-style: italic; color: var(--gold); }
 
     .hero-sub {
-      font-size: clamp(17px, 1.9vw, 22px); font-weight: 300;
+      font-size: clamp(19px, 2.1vw, 24px); font-weight: 400;
       color: var(--muted); max-width: 580px; margin-top: 36px;
-      line-height: 1.75;
+      line-height: 1.8;
       opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards;
     }
 
@@ -293,8 +293,8 @@
     .intro-heading em { font-style: italic; color: var(--gold); }
 
     .intro-body {
-      font-size: 18px; font-weight: 300; color: var(--muted);
-      max-width: 600px; line-height: 1.85; margin-top: 16px;
+      font-size: 20px; font-weight: 400; color: var(--muted);
+      max-width: 600px; line-height: 1.9; margin-top: 16px;
     }
 
     .carousel-outer { position: relative; }
@@ -327,15 +327,13 @@
 
     .carousel-slide { min-width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
 
-    /* ── SLIDE MEDIA: fixed so Vimeo iframes fill the box ── */
     .slide-media {
       background: #111;
       aspect-ratio: 16/9;
-      position: relative;        /* iframes use position:absolute inside */
+      position: relative;       
       overflow: hidden;
     }
 
-    /* Poster image shown before slide becomes active */
     .slide-poster {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -345,7 +343,6 @@
       transition: opacity 0.4s;
     }
 
-    /* Vimeo iframe wrapper that fills the media box */
     .slide-vimeo-wrap {
       position: absolute; inset: 0;
       z-index: 2;
@@ -369,7 +366,7 @@
       line-height: 1.2; margin-bottom: 20px;
     }
     .slide-desc {
-      font-size: 17px; font-weight: 300; color: var(--muted); line-height: 1.85;
+      font-size: 18px; font-weight: 400; color: var(--muted); line-height: 1.9;
     }
 
     .carousel-nav {
@@ -398,7 +395,7 @@
     .proof .intro-kicker { color: rgba(212,173,90,0.9); }
     .proof .intro-heading { color: var(--paper); }
     .proof .intro-heading em { color: var(--gold-light); }
-    .proof .intro-body { color: rgba(248,246,241,0.65); }
+    .proof .intro-body { color: rgba(248,246,241,0.8); }
 
     .stats-grid {
       display: grid; grid-template-columns: repeat(4, 1fr);
@@ -440,8 +437,8 @@
     }
     .proof-list { list-style: none; }
     .proof-list li {
-      font-size: 16px; font-weight: 300;
-      color: rgba(248,246,241,0.75);
+      font-size: 17px; font-weight: 400;
+      color: rgba(248,246,241,0.8);
       padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
       display: flex; align-items: baseline; gap: 12px; line-height: 1.6;
     }
@@ -477,8 +474,8 @@
     }
 
     .cs-body {
-      font-size: 16px; font-weight: 300;
-      color: var(--muted); line-height: 1.85; margin-bottom: 28px;
+      font-size: 17px; font-weight: 400;
+      color: var(--muted); line-height: 1.9; margin-bottom: 28px;
     }
 
     .cs-outcome {
@@ -558,7 +555,7 @@
     }
 
     .cs-modal-text {
-      font-size: 18px; font-weight: 300;
+      font-size: 19px; font-weight: 400;
       color: var(--muted); line-height: 1.9;
     }
 
@@ -575,7 +572,7 @@
     }
 
     .cs-modal-outcome-text {
-      font-size: 20px; font-weight: 300; line-height: 1.7;
+      font-size: 21px; font-weight: 400; line-height: 1.75;
     }
 
     .cs-modal-outcome-text strong { color: var(--gold-light); font-weight: 400; }
@@ -600,7 +597,7 @@
     .about-img-ph .ph-sub  { color: var(--muted); opacity: 0.4; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; }
 
     .about-text p {
-      font-size: 18px; font-weight: 300;
+      font-size: 19px; font-weight: 400;
       line-height: 1.9; color: var(--muted); margin-bottom: 22px;
     }
     .about-text p strong { color: var(--ink); font-weight: 600; }
@@ -626,7 +623,7 @@
     .contact .intro-heading { color: var(--paper); }
     .contact .intro-heading em { color: var(--gold-light); }
     .contact .intro-block { text-align: center; }
-    .contact .intro-body { color: rgba(248,246,241,0.6); margin-left: auto; margin-right: auto; }
+    .contact .intro-body { color: rgba(248,246,241,0.8); margin-left: auto; margin-right: auto; }
 
     .contact-form-wrap {
       margin-top: 52px; max-width: 720px;
@@ -708,10 +705,9 @@
       height: 560px; border: none;
     }
 
-    /* ── SLIDE DETAIL MODAL: video section ── */
     .modal-video-wrap {
       width: 100%;
-      padding-top: 56.25%;   /* 16:9 ratio */
+      padding-top: 56.25%;   
       position: relative;
       background: #111;
       overflow: hidden;
@@ -726,8 +722,8 @@
 
     .modal-feature-list { list-style: none; margin-top: 20px; }
     .modal-feature-list li {
-      font-size: 16px; font-weight: 300;
-      color: var(--muted); line-height: 1.7;
+      font-size: 17px; font-weight: 400;
+      color: var(--muted); line-height: 1.75;
       padding: 10px 0; border-bottom: 1px solid var(--rule);
       display: flex; align-items: baseline; gap: 12px;
     }
@@ -745,8 +741,8 @@
     .modal-detail-label:first-child { margin-top: 0; }
 
     .modal-detail-desc {
-      font-size: 18px; font-weight: 300;
-      color: var(--muted); line-height: 1.85;
+      font-size: 19px; font-weight: 400;
+      color: var(--muted); line-height: 1.9;
     }
 
     footer {
@@ -869,7 +865,7 @@
       </h1>
 
       <p class="hero-sub">
-        We build advanced learning environments directly inside your LMS. Everything from
+        We build advanced learning environments directly inside your LMS (Learning Management System). Everything from
         fully simulated operating systems, adaptive labs, and course designs that most
         institutions assume require external platforms.
         Instead of adding another tool, we transform the one you already own.
@@ -950,7 +946,7 @@
       <div class="carousel-outer fade-in">
         <div class="carousel-tabs" role="tablist">
           <button class="carousel-tab active" data-index="0" role="tab" aria-selected="true"  aria-controls="slide-0">ROSe</button>
-          <button class="carousel-tab" data-index="1" role="tab" aria-selected="false" aria-controls="slide-1">RayOS</button>
+          <button class="carousel-tab" data-index="1" role="tab" aria-selected="false" aria-controls="slide-1">PonchOS</button>
           <button class="carousel-tab" data-index="2" role="tab" aria-selected="false" aria-controls="slide-2">Course Design</button>
           <button class="carousel-tab" data-index="3" role="tab" aria-selected="false" aria-controls="slide-3">Assessments</button>
           <button class="carousel-tab" data-index="4" role="tab" aria-selected="false" aria-controls="slide-4">Custom Apps</button>
@@ -960,10 +956,8 @@
         <div class="carousel-track-wrap">
           <div class="carousel-track" id="carouselTrack">
 
-            <!-- SLIDE 0: ROSe -->
             <div class="carousel-slide" id="slide-0" role="tabpanel">
               <div class="slide-media">
-                <!-- Poster shown until slide is active; Vimeo loads on goTo(0) -->
                 <img src="rose-poster.png" alt="ROSe demo preview" class="slide-poster" id="poster-0">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-0" style="display:none;">
                   <iframe src="https://player.vimeo.com/video/1169432149?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
@@ -982,10 +976,9 @@
               </div>
             </div>
 
-            <!-- SLIDE 1: PonchOS -->
             <div class="carousel-slide" id="slide-1" role="tabpanel">
               <div class="slide-media">
-                <img src="ponch-poster.png" alt="RayOS demo preview" class="slide-poster" id="poster-1">
+                <img src="ponch-poster.png" alt="PonchOS demo preview" class="slide-poster" id="poster-1">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-1" style="display:none;">
                   <iframe src="https://player.vimeo.com/video/1169432140?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
                     frameborder="0"
@@ -997,13 +990,12 @@
               </div>
               <div class="slide-content">
                 <div class="slide-number">02 / 06</div>
-                <div class="slide-title">RayOS: Linux Familiarity and Command Mastery</div>
-                <p class="slide-desc">RayOS gives students a genuine Linux environment to explore inside their browser. The focus is granular: understanding how the OS works, building comfort with the command line, and developing the instincts that come from actually living inside a Linux system. No setup, no hardware requirements, unlimited access.</p>
+                <div class="slide-title">PonchOS: Linux Familiarity and Command Mastery</div>
+                <p class="slide-desc">PonchOS gives students a genuine Linux environment to explore inside their browser. The focus is granular: understanding how the OS works, building comfort with the command line, and developing the instincts that come from actually living inside a Linux system. No setup, no hardware requirements, unlimited access.</p>
                 <button class="btn-secondary" style="margin-top:28px; align-self:flex-start;" onclick="openSlideDetail(1)">View Details</button>
               </div>
             </div>
 
-            <!-- SLIDE 2: Course Design -->
             <div class="carousel-slide" id="slide-2" role="tabpanel">
               <div class="slide-media">
                 <img src="module-poster.png" alt="Course design demo preview" class="slide-poster" id="poster-2">
@@ -1024,7 +1016,6 @@
               </div>
             </div>
 
-            <!-- SLIDE 3: Assessments -->
             <div class="carousel-slide" id="slide-3" role="tabpanel">
               <div class="slide-media">
                 <img src="assignment-poster.png" alt="Assessments demo preview" class="slide-poster" id="poster-3">
@@ -1045,7 +1036,6 @@
               </div>
             </div>
 
-            <!-- SLIDE 4: Custom Apps -->
             <div class="carousel-slide" id="slide-4" role="tabpanel">
               <div class="slide-media">
                 <img src="barracuda-poster.png" alt="Custom apps demo preview" class="slide-poster" id="poster-4">
@@ -1066,7 +1056,6 @@
               </div>
             </div>
 
-            <!-- SLIDE 5: Gamification -->
             <div class="carousel-slide" id="slide-5" role="tabpanel">
               <div class="slide-media">
                 <img src="jeopardy-poster.png" alt="Gamification demo preview" class="slide-poster" id="poster-5">
@@ -1291,7 +1280,6 @@
     <div class="footer-copy">2026 Tenneri. All rights reserved.</div>
   </footer>
 
-  <!-- Demo video request modal -->
   <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal" id="modal">
       <div class="modal-header">
@@ -1313,7 +1301,6 @@
     </div>
   </div>
 
-  <!-- Slide detail modal -->
   <div class="modal-overlay" id="slideModalOverlay" role="dialog" aria-modal="true" aria-labelledby="slideModalTitle">
     <div class="modal modal-wide" id="slideModal">
       <div class="modal-header">
@@ -1323,13 +1310,11 @@
         </div>
         <button class="modal-close" onclick="closeSlideDetail()" aria-label="Close">&#215;</button>
       </div>
-      <!-- 16:9 video container; JS injects iframe here -->
       <div class="modal-video-wrap" id="slideModalVideo"></div>
       <div class="modal-detail-body" id="slideModalBody"></div>
     </div>
   </div>
 
-  <!-- Case study modal -->
   <div class="modal-overlay" id="csModalOverlay" role="dialog" aria-modal="true" aria-labelledby="csModalTitle">
     <div class="cs-modal" id="csModal">
       <div class="cs-modal-header">
@@ -1346,26 +1331,21 @@
   </div>
 
   <script>
-    // ── Intersection observer for fade-ins ──────────────────────────────
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ── Mobile nav ───────────────────────────────────────────────────────
     const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
     function closeMobile() { mobileMenu.classList.remove('open'); }
 
-    // ── Demo video request modal ─────────────────────────────────────────
     const modalOverlay = document.getElementById('modalOverlay');
     function openModal()  { modalOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
     function closeModal() { modalOverlay.classList.remove('open'); document.body.style.overflow = ''; }
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 
-    // ── Slide detail data ────────────────────────────────────────────────
-    // vimeoId is used to build the detail-modal embed URL
     const slideDetails = [
       {
         kicker:  'Scenario-Based Technical Training',
@@ -1382,9 +1362,9 @@
       },
       {
         kicker:  'Linux Familiarity and Command Mastery',
-        title:   'RayOS: Linux Learning Environment',
+        title:   'PonchOS: Linux Learning Environment',
         vimeoId: '1169432140',
-        desc:    'RayOS gives students a genuine Linux environment to explore inside their browser. The focus is granular: understanding how the OS works, building comfort with the command line, and developing the instincts that come from actually living inside a Linux system.',
+        desc:    'PonchOS gives students a genuine Linux environment to explore inside their browser. The focus is granular: understanding how the OS works, building comfort with the command line, and developing the instincts that come from actually living inside a Linux system.',
         features: [
           'Full terminal with real command execution and file system',
           'No setup, no hardware requirements, unlimited access',
@@ -1447,7 +1427,6 @@
       }
     ];
 
-    // ── Slide detail modal ───────────────────────────────────────────────
     const slideModalOverlay = document.getElementById('slideModalOverlay');
 
     function openSlideDetail(index) {
@@ -1455,7 +1434,6 @@
       document.getElementById('slideModalKicker').textContent = d.kicker;
       document.getElementById('slideModalTitle').textContent  = d.title;
 
-      // Build a proper Vimeo iframe inside the 16:9 wrapper
       const videoWrap = document.getElementById('slideModalVideo');
       videoWrap.innerHTML = `
         <iframe
@@ -1490,7 +1468,6 @@
       if (e.target === slideModalOverlay) closeSlideDetail();
     });
 
-    // ── Case study modal ─────────────────────────────────────────────────
     const caseStudyData = {
       datacamp: {
         kicker: 'Course Design / Cost Reduction',
@@ -1590,7 +1567,6 @@
       });
     });
 
-    // ── Stats counter ────────────────────────────────────────────────────
     function animateCount(el) {
       const target   = parseInt(el.dataset.target);
       const prefix   = el.dataset.prefix || '';
@@ -1628,7 +1604,6 @@
     const proofSection = document.getElementById('proof');
     if (proofSection) statsObserver.observe(proofSection);
 
-    // ── Carousel ─────────────────────────────────────────────────────────
     const track   = document.getElementById('carouselTrack');
     const tabs    = document.querySelectorAll('.carousel-tab');
     const dots    = document.querySelectorAll('.carousel-dot');
@@ -1655,7 +1630,6 @@
       prevBtn.disabled = current === 0;
       nextBtn.disabled = current === total - 1;
 
-      // Show video for active slide, hide poster
       const newWrap   = document.getElementById('vimeo-wrap-' + current);
       const newPoster = document.getElementById('poster-' + current);
       if (newWrap)   { newWrap.style.display = 'block'; }
@@ -1667,7 +1641,6 @@
     prevBtn.addEventListener('click', () => goTo(current - 1));
     nextBtn.addEventListener('click', () => goTo(current + 1));
 
-    // ── Keyboard nav ─────────────────────────────────────────────────────
     document.addEventListener('keydown', (e) => {
       const anyOpen = modalOverlay.classList.contains('open') ||
                       slideModalOverlay.classList.contains('open') ||
@@ -1682,7 +1655,6 @@
       }
     });
 
-    // ── Touch swipe ──────────────────────────────────────────────────────
     let touchStartX = 0;
     track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     track.addEventListener('touchend', e => {
@@ -1690,7 +1662,6 @@
       if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
     });
 
-    // Initialise — slide 0 shows its video immediately
     goTo(0);
   </script>
 
@@ -1698,4 +1669,3 @@
 
 </body>
 </html>
-
