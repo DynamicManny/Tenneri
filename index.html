@@ -980,11 +980,13 @@
               <div class="slide-media">
                 <img src="ponch-poster.png" alt="RayOS demo preview" class="slide-poster" id="poster-1">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-1" style="display:none;">
-                  <iframe src="https://player.vimeo.com/video/1169432140?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+                  <iframe 
+                    src="https://player.vimeo.com/video/1169432140?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
                     frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
-                    title="ponch-demo">
+                    title="rayos-demo"
+                    loading="lazy">
                   </iframe>
                 </div>
               </div>
@@ -1000,11 +1002,13 @@
               <div class="slide-media">
                 <img src="module-poster.png" alt="Course design demo preview" class="slide-poster" id="poster-2">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-2" style="display:none;">
-                  <iframe src="https://player.vimeo.com/video/1169432122?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+                  <iframe 
+                    src="https://player.vimeo.com/video/1169432122?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
                     frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
-                    title="module-demo">
+                    title="module-demo"
+                    loading="lazy">
                   </iframe>
                 </div>
               </div>
@@ -1020,11 +1024,13 @@
               <div class="slide-media">
                 <img src="assignment-poster.png" alt="Assessments demo preview" class="slide-poster" id="poster-3">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-3" style="display:none;">
-                  <iframe src="https://player.vimeo.com/video/1169432083?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+                  <iframe 
+                    src="https://player.vimeo.com/video/1169432083?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
                     frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
-                    title="assignment-demo">
+                    title="assignment-demo"
+                    loading="lazy">
                   </iframe>
                 </div>
               </div>
@@ -1040,11 +1046,13 @@
               <div class="slide-media">
                 <img src="barracuda-poster.png" alt="Custom apps demo preview" class="slide-poster" id="poster-4">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-4" style="display:none;">
-                  <iframe src="https://player.vimeo.com/video/1169432096?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+                  <iframe 
+                    src="https://player.vimeo.com/video/1169432096?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
                     frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
-                    title="barracuda-demo">
+                    title="barracuda-demo"
+                    loading="lazy">
                   </iframe>
                 </div>
               </div>
@@ -1060,11 +1068,13 @@
               <div class="slide-media">
                 <img src="jeopardy-poster.png" alt="Gamification demo preview" class="slide-poster" id="poster-5">
                 <div class="slide-vimeo-wrap" id="vimeo-wrap-5" style="display:none;">
-                  <iframe src="https://player.vimeo.com/video/1169432107?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+                  <iframe 
+                    src="https://player.vimeo.com/video/1169432107?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
                     frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
-                    title="jeopardy-demo">
+                    title="jeopardy-demo"
+                    loading="lazy">
                   </iframe>
                 </div>
               </div>
@@ -1346,86 +1356,92 @@
     function closeModal() { modalOverlay.classList.remove('open'); document.body.style.overflow = ''; }
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 
-    const slideDetails = [
-      {
-        kicker:  'Scenario-Based Technical Training',
-        title:   'ROSe: Simulated OS Environment',
-        vimeoId: '1169432149',
-        desc:    'ROSe is a fully functional operating system built to run entirely inside your LMS. Students get real cybersecurity scenarios, terminal access, file system navigation, and multi-application environments without virtual machines, infrastructure, or per-seat costs.',
-        features: [
-          'Complete OS functionality: authentication, multitasking, window management',
-          'Runs on any device with a browser, including Chromebooks',
-          'No backend, no virtual machines, no per-seat licensing',
-          'Unlimited student access at zero ongoing cost',
-          'Scalable architecture supports custom applications built on top'
-        ]
-      },
-      {
-        kicker:  'Linux Familiarity and Command Mastery',
-        title:   'RayOS: Linux Learning Environment',
-        vimeoId: '1169432140',
-        desc:    'RayOS gives students a genuine Linux environment to explore inside their browser. The focus is granular: understanding how the OS works, building comfort with the command line, and developing the instincts that come from actually living inside a Linux system.',
-        features: [
-          'Full terminal with real command execution and file system',
-          'No setup, no hardware requirements, unlimited access',
-          'Structured exercises alongside open exploration mode',
-          'Progress tracking and gradebook integration',
-          'Runs entirely in the browser with no external dependencies'
-        ]
-      },
-      {
-        kicker:  'Course Design',
-        title:   'Module Architecture and Course Structure',
-        vimeoId: '1169432122',
-        desc:    'Course structures designed so students move through complex material without losing momentum. Tabbed layouts, embedded activities, and native video interactions keep the entire learning experience inside the LMS.',
-        features: [
-          'Tabbed layouts for quick navigation through dense content',
-          'Video pop-ups that preserve learning flow without leaving the page',
-          'Embedded flashcards for self-testing and spaced retrieval',
-          'Interactive activities built directly into content pages',
-          'Designed for asynchronous delivery without losing engagement'
-        ]
-      },
-      {
-        kicker:  'Adaptive Assessments',
-        title:   'FAR-Powered Assignments',
-        vimeoId: '1169432083',
-        desc:    'Built on Fluid Adaptive Runtime (FAR), these assignments generate unique scenarios per student, save progress automatically, and connect directly to the gradebook. No two students see the same assessment. No external tools required.',
-        features: [
-          'Adaptive scenarios generating unique content per student',
-          'Automatic progress saving during connectivity interruptions',
-          'Personalized to student name, history, and performance',
-          'Direct gradebook integration via SCORM',
-          'No external dependencies, no licensing, no infrastructure'
-        ]
-      },
-      {
-        kicker:  'Custom Applications',
-        title:   'Native LMS Tools',
-        vimeoId: '1169432096',
-        desc:    'Training applications built natively inside your platform and wired directly to your gradebook. Whatever your program needs, it can be built, owned, and maintained without a vendor relationship or ongoing subscription.',
-        features: [
-          'Purpose-built for your curriculum and learning objectives',
-          'Direct gradebook integration, scores sync automatically',
-          'Owned outright by your institution after delivery',
-          'No vendor relationship, no renewal risk, no pricing surprises',
-          'Tested in live courses before handoff'
-        ]
-      },
-      {
-        kicker:  'Games and Gamification',
-        title:   'Engagement by Design',
-        vimeoId: '1169432107',
-        desc:    'Game-based learning built natively and embedded directly in your LMS. Students play because they want to. Completion rates for optional game-based activities average 25 to 40 percent above non-gamified equivalents.',
-        features: [
-          'Jeopardy, Wordle-style challenges, trivia, and memory games',
-          'Automated content refresh: set once, runs all semester',
-          'Optional leaderboards and timed competitive modes',
-          'Mastery-focused design with variable difficulty',
-          'Zero external tools, embedded directly in course content'
-        ]
-      }
-    ];
+     const slideDetails = [
+        {
+          kicker:  'Scenario-Based Technical Training',
+          title:   'ROSe: Simulated OS Environment',
+          vimeoId: '1169432149',
+          lazy: false, 
+          desc:    'ROSe is a fully functional operating system built to run entirely inside your LMS. Students get real cybersecurity scenarios, terminal access, file system navigation, and multi-application environments without virtual machines, infrastructure, or per-seat costs.',
+          features: [
+            'Complete OS functionality: authentication, multitasking, window management',
+            'Runs on any device with a browser, including Chromebooks',
+            'No backend, no virtual machines, no per-seat licensing',
+            'Unlimited student access at zero ongoing cost',
+            'Scalable architecture supports custom applications built on top'
+          ]
+        },
+        {
+          kicker:  'Linux Familiarity and Command Mastery',
+          title:   'RayOS: Linux Learning Environment',
+          vimeoId: '1169432140',
+          lazy: true, 
+          desc:    'RayOS gives students a genuine Linux environment to explore inside their browser. The focus is granular: understanding how the OS works, building comfort with the command line, and developing the instincts that come from actually living inside a Linux system.',
+          features: [
+            'Full terminal with real command execution and file system',
+            'No setup, no hardware requirements, unlimited access',
+            'Structured exercises alongside open exploration mode',
+            'Progress tracking and gradebook integration',
+            'Runs entirely in the browser with no external dependencies'
+          ]
+        },
+        {
+          kicker:  'Course Design',
+          title:   'Module Architecture and Course Structure',
+          vimeoId: '1169432122',
+          lazy: true, 
+          desc:    'Course structures designed so students move through complex material without losing momentum. Tabbed layouts, embedded activities, and native video interactions keep the entire learning experience inside the LMS.',
+          features: [
+            'Tabbed layouts for quick navigation through dense content',
+            'Video pop-ups that preserve learning flow without leaving the page',
+            'Embedded flashcards for self-testing and spaced retrieval',
+            'Interactive activities built directly into content pages',
+            'Designed for asynchronous delivery without losing engagement'
+          ]
+        },
+        {
+          kicker:  'Adaptive Assessments',
+          title:   'FAR-Powered Assignments',
+          vimeoId: '1169432083',
+          lazy: true, 
+          desc:    'Built on Fluid Adaptive Runtime (FAR), these assignments generate unique scenarios per student, save progress automatically, and connect directly to the gradebook. No two students see the same assessment. No external tools required.',
+          features: [
+            'Adaptive scenarios generating unique content per student',
+            'Automatic progress saving during connectivity interruptions',
+            'Personalized to student name, history, and performance',
+            'Direct gradebook integration via SCORM',
+            'No external dependencies, no licensing, no infrastructure'
+          ]
+        },
+        {
+          kicker:  'Custom Applications',
+          title:   'Native LMS Tools',
+          vimeoId: '1169432096',
+          lazy: true,
+          desc:    'Training applications built natively inside your platform and wired directly to your gradebook. Whatever your program needs, it can be built, owned, and maintained without a vendor relationship or ongoing subscription.',
+          features: [
+            'Purpose-built for your curriculum and learning objectives',
+            'Direct gradebook integration, scores sync automatically',
+            'Owned outright by your institution after delivery',
+            'No vendor relationship, no renewal risk, no pricing surprises',
+            'Tested in live courses before handoff'
+          ]
+        },
+        {
+          kicker:  'Games and Gamification',
+          title:   'Engagement by Design',
+          vimeoId: '1169432107',
+          lazy: true, 
+          desc:    'Game-based learning built natively and embedded directly in your LMS. Students play because they want to. Completion rates for optional game-based activities average 25 to 40 percent above non-gamified equivalents.',
+          features: [
+            'Jeopardy, Wordle-style challenges, trivia, and memory games',
+            'Automated content refresh: set once, runs all semester',
+            'Optional leaderboards and timed competitive modes',
+            'Mastery-focused design with variable difficulty',
+            'Zero external tools, embedded directly in course content'
+          ]
+        }
+      ];
 
     const slideModalOverlay = document.getElementById('slideModalOverlay');
 
@@ -1434,15 +1450,18 @@
       document.getElementById('slideModalKicker').textContent = d.kicker;
       document.getElementById('slideModalTitle').textContent  = d.title;
 
-      const videoWrap = document.getElementById('slideModalVideo');
-      videoWrap.innerHTML = `
-        <iframe
-          src="https://player.vimeo.com/video/${d.vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          title="${d.title}">
-        </iframe>`;
+     const videoWrap = document.getElementById('slideModalVideo');
+        const lazyAttr = d.lazy ? 'loading="lazy"' : '';
+        
+        videoWrap.innerHTML = `
+          <iframe
+            src="https://player.vimeo.com/video/${d.vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+            frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            title="${d.title}"
+            ${lazyAttr}>
+          </iframe>`;
 
       document.getElementById('slideModalBody').innerHTML = `
         <span class="modal-detail-label">About This Capability</span>
@@ -1667,4 +1686,5 @@
 
 </body>
 </html>
+
 
