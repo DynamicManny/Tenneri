@@ -8,7 +8,7 @@
   <meta name="keywords" content="LMS custom development, native LMS learning environments, interactive LMS simulation, custom LMS lab, replace DataCamp LMS, native eLearning development, LMS gamification, adaptive assessment LMS, higher education LMS development, custom learning tools">
   <meta name="author" content="Tenneri">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Projects | Tenneri — Custom Interactive Learning Environments">
+  <meta property="og:title" content="Projects | Tenneri: Custom Interactive Learning Environments">
   <meta property="og:description" content="Custom simulations, OS environments, adaptive assessments, and gamified tools built natively inside your LMS. No external platforms. No licensing surprises.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tenneri.com/projects">
@@ -165,40 +165,14 @@
       opacity: 0; animation: fadeUp 0.8s ease 0.75s forwards;
     }
 
-    /* ── FILTER BAR ── */
-    .filter-section {
-      padding: 0 60px 60px;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .filter-inner { max-width: var(--max-w); margin: 0 auto; }
-
-    .filter-label {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--navy); display: block; margin-bottom: 16px;
-    }
-
-    .filter-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .filter-pill {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--muted); border: 1px solid var(--rule);
-      padding: 8px 18px; cursor: pointer;
-      transition: all 0.2s; background: none;
-    }
-    .filter-pill:hover  { border-color: var(--navy); color: var(--navy); }
-    .filter-pill.active { background: var(--navy); color: var(--paper); border-color: var(--navy); }
-
     /* ── PROJECTS SECTION ── */
-    .projects-section { padding: 72px 60px 110px; }
+    .projects-section { padding: 56px 60px 110px; }
     .projects-inner   { max-width: var(--max-w); margin: 0 auto; }
 
     .results-count {
       font-family: 'DM Mono', monospace; font-size: 10px;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 40px; display: block;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--navy); margin-bottom: 40px; display: block;
     }
 
     .projects-grid {
@@ -278,6 +252,9 @@
 
     .pill-sim    { color: #1b2d4f; border-color: rgba(27,45,79,0.25);  background: rgba(27,45,79,0.04); }
     .pill-cyber  { color: #8a1f1f; border-color: rgba(138,31,31,0.25); background: rgba(138,31,31,0.04); }
+    .pill-ai     { color: #8a6b2a; border-color: rgba(138,107,42,0.25); background: rgba(138,107,42,0.04); }
+    .pill-game   { color: #1f5e1f; border-color: rgba(31,94,31,0.25);  background: rgba(31,94,31,0.04); }
+    .pill-module { color: #2a4270; border-color: rgba(42,66,112,0.20);  background: rgba(42,66,112,0.03); }
 
     .card-footer {
       display: flex; justify-content: space-between; align-items: center;
@@ -290,6 +267,11 @@
     }
 
     .card-arrow { font-size: 14px; color: var(--navy); transition: transform 0.2s; }
+
+    /* Demo cards open directly -- style the card-client as a hint */
+    .project-card[data-demo] .card-client {
+      color: var(--navy); opacity: 0.7;
+    }
 
     /* ── MODAL ── */
     .modal-overlay {
@@ -494,7 +476,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1280px) {
-      nav, .page-hero, .filter-section, .projects-section,
+      nav, .page-hero, .projects-section,
       .cta-band, .divider, footer {
         padding-left: 40px; padding-right: 40px;
       }
@@ -508,7 +490,7 @@
       .nav-hamburger { display: flex; }
       .page-hero { padding: 130px 24px 60px; }
       .ghost-word { font-size: 80px; right: -60px; letter-spacing: 14px; }
-      .filter-section, .projects-section, .cta-band, .divider, footer {
+      .projects-section, .cta-band, .divider, footer {
         padding-left: 24px; padding-right: 24px;
       }
       .projects-grid  { grid-template-columns: 1fr; }
@@ -518,6 +500,18 @@
       .modal-header   { padding: 24px 24px 18px; }
       .modal-body     { padding: 24px; }
     }
+    .modal-demo-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: var(--ink);
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 15px 30px; text-decoration: none;
+      transition: background 0.25s; white-space: nowrap;
+      border: none; cursor: pointer; margin-top: 28px;
+      font-weight: 500;
+    }
+    .modal-demo-btn:hover { background: var(--gold-light); }
+
   </style>
 
   <script type="application/ld+json">
@@ -576,6 +570,7 @@
   <div class="hero-mesh" aria-hidden="true"></div>
   <div class="ghost-word" aria-hidden="true">PROJECTS</div>
   <div class="page-hero-inner">
+    <span class="page-kicker">Work</span>
     <h1 class="page-title">
       Built inside the platform<br>
       you <em>already own.</em>
@@ -589,25 +584,11 @@
   </div>
 </header>
 
-<!-- FILTER BAR -->
-<section class="filter-section" aria-label="Filter projects by type">
-  <div class="filter-inner">
-    <span class="filter-label">Filter by type</span>
-    <div class="filter-pills" role="group" aria-label="Project type filters">
-      <button class="filter-pill active" data-filter="all">All Projects</button>
-      <button class="filter-pill" data-filter="simulation">Simulation</button>
-      <button class="filter-pill" data-filter="cybersecurity">Cybersecurity</button>
-      <button class="filter-pill" data-filter="os">OS Environment</button>
-      <button class="filter-pill" data-filter="gamification">Gamification</button>
-      <button class="filter-pill" data-filter="assessment">Assessment</button>
-    </div>
-  </div>
-</section>
 
 <!-- PROJECTS GRID -->
 <main class="projects-section">
   <div class="projects-inner">
-    <span class="results-count" id="results-count">1 Project</span>
+    <span class="results-count">Work</span>
 
     <div class="projects-grid" id="projects-grid">
 
@@ -651,6 +632,48 @@
           </div>
         </div>
       </article>
+
+      <!-- PROJECT 02: AI Communication Demo -->
+      <article
+        class="project-card fade-in"
+        data-tags="gamification,module,ai"
+        data-demo="ai-communication/"
+        role="button"
+        tabindex="0"
+        aria-label="Open AI-Assisted Communication live demo"
+      >
+        <div class="card-thumb">
+          <img
+            class="thumb-screenshot"
+            src="ai-communication/AIdemo-thumb.png"
+            alt="AI-Assisted Communication module design"
+            onerror="this.style.display='none'"
+          >
+          <div class="card-thumb-overlay">
+            <span class="overlay-cta">Open Demo</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <span class="card-number">02</span>
+          <h2 class="card-title">Module Design: <em>AI-Assisted Communication</em></h2>
+          <p class="card-desc">
+            One unit from a larger AI literacy module. Five navigable tabs, a live prompt sandbox,
+            interactive editing exercises, and a scored knowledge check -- built as a single native
+            LMS content page. Imagine what a full module looks like.
+          </p>
+          <div class="card-pills">
+            <span class="card-pill pill-ai">AI Literacy</span>
+            <span class="card-pill pill-game">Gamification</span>
+            <span class="card-pill pill-module">Module Design</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-client">Live demo -- opens in new tab</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
+          </div>
+        </div>
+      </article>
+
 
     </div>
   </div>
@@ -764,6 +787,7 @@
   </div>
 </div>
 
+
 <!-- JAVASCRIPT -->
 <script>
   // Scroll fade in
@@ -780,26 +804,7 @@
     hamburger.setAttribute('aria-expanded', open);
   });
 
-  // Filter
-  const pills   = document.querySelectorAll('.filter-pill');
-  const cards   = document.querySelectorAll('.project-card');
-  const countEl = document.getElementById('results-count');
-
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      const filter = pill.dataset.filter;
-      let visible  = 0;
-      cards.forEach(card => {
-        const tags = card.dataset.tags.split(',');
-        const show = filter === 'all' || tags.includes(filter);
-        card.dataset.hidden = show ? 'false' : 'true';
-        if (show) visible++;
-      });
-      countEl.textContent = visible === 1 ? '1 Project' : `${visible} Projects`;
-    });
-  });
+  // Filter bar removed -- reintroduce when 5+ projects
 
   // Modal
   const projectMap = { soc: 'modal-soc' };
@@ -818,11 +823,20 @@
   }
 
   cards.forEach(card => {
-    const handler = () => openModal(projectMap[card.dataset.project]);
-    card.addEventListener('click', handler);
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
-    });
+    // Cards with data-demo open a URL directly in a new tab
+    if (card.dataset.demo) {
+      const handler = () => window.open(card.dataset.demo, '_blank', 'noopener');
+      card.addEventListener('click', handler);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
+      });
+    } else {
+      const handler = () => openModal(projectMap[card.dataset.project]);
+      card.addEventListener('click', handler);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
+      });
+    }
   });
 
   document.querySelectorAll('.modal-close').forEach(btn => {
