@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | Tenneri: Custom Interactive Learning Environments</title>
+  <title>Projects | Tenneri — Custom Interactive Learning Environments</title>
   <meta name="description" content="Tenneri builds custom interactive labs, simulations, OS environments, and gamified learning tools natively inside your LMS. No external platforms. No per-seat licensing. Built for higher education.">
   <meta name="keywords" content="LMS custom development, native LMS learning environments, interactive LMS simulation, custom LMS lab, replace DataCamp LMS, native eLearning development, LMS gamification, adaptive assessment LMS, higher education LMS development, custom learning tools">
   <meta name="author" content="Tenneri">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Projects | Tenneri: Custom Interactive Learning Environments">
+  <meta property="og:title" content="Projects | Tenneri — Custom Interactive Learning Environments">
   <meta property="og:description" content="Custom simulations, OS environments, adaptive assessments, and gamified tools built natively inside your LMS. No external platforms. No licensing surprises.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tenneri.com/projects">
@@ -537,7 +537,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav role="navigation" aria-label="Main navigation">
   <a href="/" class="nav-logo">
     <img src="../Ten-Logo.png" alt="Tenneri" class="logo-img" onerror="this.style.display='none'">
@@ -565,7 +564,6 @@
   <a href="/#contact">Contact</a>
 </div>
 
-<!-- PAGE HERO -->
 <header class="page-hero">
   <div class="hero-mesh" aria-hidden="true"></div>
   <div class="ghost-word" aria-hidden="true">PROJECTS</div>
@@ -584,8 +582,6 @@
   </div>
 </header>
 
-
-<!-- PROJECTS GRID -->
 <main class="projects-section">
   <div class="projects-inner">
     <span class="results-count">Work</span>
@@ -601,7 +597,7 @@
         aria-label="View SENTINEL SOC Training Simulation project details"
       >
         <div class="card-thumb">
-          <!-- Thumbnail: add Sentinelthumb.png (or .jpg) to your repo root -->
+          
           <img
             class="thumb-screenshot"
             src="Sentinelthumb.png"
@@ -633,7 +629,7 @@
         </div>
       </article>
 
-      <!-- PROJECT 02: AI Communication Demo -->
+      
       <article
         class="project-card fade-in"
         data-tags="gamification,module,ai"
@@ -643,12 +639,6 @@
         aria-label="Open AI-Assisted Communication live demo"
       >
         <div class="card-thumb">
-          <img
-            class="thumb-screenshot"
-            src="ai-communication/AIdemo-thumb.png"
-            alt="AI-Assisted Communication module design"
-            onerror="this.style.display='none'"
-          >
           <div class="card-thumb-overlay">
             <span class="overlay-cta">Open Demo</span>
           </div>
@@ -674,19 +664,16 @@
         </div>
       </article>
 
-
     </div>
   </div>
 </main>
 
-<!-- DIVIDER -->
 <div class="divider" aria-hidden="true">
   <div class="divider-line"></div>
   <span class="divider-mark">Tenneri</span>
   <div class="divider-line"></div>
 </div>
 
-<!-- CTA BAND -->
 <section class="cta-band" aria-labelledby="cta-heading">
   <div class="cta-band-inner">
     <div>
@@ -703,16 +690,14 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-brand">
-    <img src="Ten-Logo.png" alt="" class="footer-logo-img" onerror="this.style.display='none'">
+    <img src="../Ten-Logo.png" alt="" class="footer-logo-img" onerror="this.style.display='none'">
     <span class="footer-wordmark">Tenneri</span>
   </div>
   <span class="footer-copy">2026 Tenneri. All rights reserved.</span>
 </footer>
 
-<!-- MODAL: SENTINEL -->
 <div class="modal-overlay" id="modal-soc" role="dialog" aria-modal="true" aria-labelledby="modal-soc-title">
   <div class="modal">
 
@@ -724,11 +709,7 @@
       <button class="modal-close" aria-label="Close modal">&#215;</button>
     </div>
 
-    <!--
-      Video: add Sentinelvid.mp4 (or .webm) to your repo root.
-      Both src attributes point to the same file -- browser picks the format it supports.
-      If you have both formats, keep both lines. If only one, remove the other.
-    -->
+    
     <div class="modal-video">
       <video autoplay muted loop playsinline>
         <source src="Sentinelvid.webm" type="video/webm">
@@ -787,8 +768,6 @@
   </div>
 </div>
 
-
-<!-- JAVASCRIPT -->
 <script>
   // Scroll fade in
   const observer = new IntersectionObserver(entries => {
@@ -821,6 +800,8 @@
     overlay.classList.remove('open');
     document.body.style.overflow = '';
   }
+
+  const cards = document.querySelectorAll('.project-card');
 
   cards.forEach(card => {
     // Cards with data-demo open a URL directly in a new tab
