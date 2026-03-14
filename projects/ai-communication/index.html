@@ -8,14 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════════
-   RESET + ROOT
-═══════════════════════════════════════════════════════ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 :root {
-  /* Tenneri brand */
   --gold:          #b8933f;
   --gold-light:    #d4ad5a;
   --gold-dim:      #8a6b2a;
@@ -23,8 +19,6 @@ html { scroll-behavior: smooth; }
   --navy-light:    #2a4270;
   --ink:           #0f0e0c;
   --paper:         #f8f6f1;
-
-  /* Semantic surface — Tenneri paper tones */
   --bg:    #f8f6f1;
   --card:  #ffffff;
   --card-2: #f8f6f1;
@@ -46,8 +40,6 @@ html { scroll-behavior: smooth; }
   --red:       #a3362a;
   --purple:    #5c3d7a;
   --amber:     var(--gold);
-
-  /* Terminal (stays dark) */
   --mono-bg:     #100e0b;
   --mono-surface: #1a1714;
   --mono-border: rgba(184,147,63,0.15);
@@ -98,9 +90,6 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* ═══════════════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════════════ */
 .hero {
   position: relative;
   background: linear-gradient(145deg, #080706 0%, #0f0e0c 25%, #1b2d4f 60%, #12203a 85%, #0a0c10 100%);
@@ -231,9 +220,6 @@ body {
 
 .theme-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
 
-/* ═══════════════════════════════════════════════════════
-   STICKY TAB BAR
-═══════════════════════════════════════════════════════ */
 .tab-bar-wrap {
   position: sticky;
   top: 0;
@@ -306,9 +292,6 @@ body {
 
 .tab-star.lit { opacity: 1; }
 
-/* ═══════════════════════════════════════════════════════
-   MAIN LAYOUT
-═══════════════════════════════════════════════════════ */
 .main {
   max-width: 1100px;
   margin: 0 auto;
@@ -323,9 +306,6 @@ body {
   to   { opacity: 1; transform: none; }
 }
 
-/* ═══════════════════════════════════════════════════════
-   TYPOGRAPHY SYSTEM
-═══════════════════════════════════════════════════════ */
 .panel-title {
   font-family: 'Fraunces', Georgia, serif;
   font-size: clamp(1.4rem, 3vw, 1.9rem);
@@ -351,9 +331,6 @@ body {
 }
 .section-sub { font-size: 0.88rem; color: var(--muted); margin: 0; }
 
-/* ═══════════════════════════════════════════════════════
-   CARDS + BLOCKS
-═══════════════════════════════════════════════════════ */
 .card {
   background: var(--card);
   border: 1px solid var(--b1);
@@ -401,9 +378,6 @@ body {
 .callout p { font-size: 0.9rem; color: var(--dim); line-height: 1.75; margin: 0; }
 .callout strong { color: var(--txt); }
 
-/* ═══════════════════════════════════════════════════════
-   FIXED BACK TO TOP
-═══════════════════════════════════════════════════════ */
 #back-to-top {
   position: fixed;
   bottom: 28px;
@@ -430,9 +404,7 @@ body {
 #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 #back-to-top:hover { background: #12203a; transform: translateY(-2px); }
 
-/* ═══════════════════════════════════════════════════════
-   TAB 1: OVERVIEW
-═══════════════════════════════════════════════════════ */
+
 .distinction-grid {
   display: grid;
   grid-template-columns: 1fr 56px 1fr;
@@ -593,9 +565,7 @@ body {
   margin-right: 6px;
 }
 
-/* ═══════════════════════════════════════════════════════
-   TAB 2: PROMPT SANDBOX
-═══════════════════════════════════════════════════════ */
+
 .sandbox-layout {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -819,9 +789,6 @@ body {
 
 .suggestion-pill:hover { border-color: var(--navy); color: var(--navy); background: var(--card); }
 
-/* ═══════════════════════════════════════════════════════
-   CHAT TERMINAL
-═══════════════════════════════════════════════════════ */
 .terminal-wrap {
   background: var(--mono-bg);
   border-radius: var(--r-2xl);
@@ -869,7 +836,6 @@ body {
   text-align: center;
 }
 
-/* Demo mode badge */
 .demo-badge {
   font-family: 'DM Mono', monospace;
   font-size: 0.65rem;
@@ -1127,7 +1093,6 @@ body {
   margin-left: auto;
 }
 
-/* Streaming cursor */
 .streaming-cursor {
   display: inline-block;
   width: 2px;
@@ -1144,9 +1109,6 @@ body {
   50%       { opacity: 0; }
 }
 
-/* ═══════════════════════════════════════════════════════
-   TAB 3: REVIEW AND EDIT
-═══════════════════════════════════════════════════════ */
 .review-passes {
   background: var(--card);
   border: 1px solid var(--b1);
@@ -1300,9 +1262,6 @@ body {
 
 .tell-replace { font-size: 0.83rem; color: var(--dim); line-height: 1.6; }
 
-/* ═══════════════════════════════════════════════════════
-   TAB 4: IN PRACTICE
-═══════════════════════════════════════════════════════ */
 .diag-card {
   background: var(--card);
   border: 1px solid var(--b1);
@@ -1443,9 +1402,6 @@ body {
 }
 .reset-btn:hover { border-color: var(--navy); color: var(--navy); }
 
-/* ═══════════════════════════════════════════════════════
-   TAB 5: KNOWLEDGE CHECK
-═══════════════════════════════════════════════════════ */
 .quiz-progress-wrap {
   background: var(--card);
   border: 1px solid var(--b1);
@@ -1656,9 +1612,6 @@ body {
   .ing-num { width: 44px; font-size: 1.4rem; }
 }
 
-/* ═══════════════════════════════════════════════════════
-   ANIMATIONS
-═══════════════════════════════════════════════════════ */
 .hero-eyebrow,
 .hero h1,
 .hero-tagline,
@@ -1742,9 +1695,6 @@ body {
   pointer-events: none;
 }
 
-/* ═══════════════════════════════════════════════════════
-   TENNERI FOOTER BADGE
-═══════════════════════════════════════════════════════ */
 .tenneri-footer {
   text-align: center;
   padding: 32px 24px 48px;
@@ -1797,7 +1747,6 @@ body {
 
 <div id="app">
 
-  <!-- HERO -->
   <header class="hero">
     <div class="hero-mesh"></div>
     <div class="hero-grain"></div>
@@ -1823,7 +1772,6 @@ body {
     </div>
   </header>
 
-  <!-- STICKY TAB BAR -->
   <nav class="tab-bar-wrap" id="tab-bar-top">
     <div class="tab-bar">
       <div class="tab-indicator" id="tab-indicator"></div>
@@ -1857,7 +1805,6 @@ body {
 
   <main class="main" id="main-top">
 
-    <!-- TAB 1: OVERVIEW -->
     <div class="tab-panel active" id="panel-t1">
       <div class="section-head">
         <h2 class="panel-title">What AI-Assisted Communication Actually Means</h2>
@@ -1881,7 +1828,7 @@ body {
           <div class="dist-icon">🚫</div>
           <h3 class="dist-title">AI-Generated</h3>
           <p class="dist-desc">You copy AI output directly without review, editing, or verification and submit it as your own work. You have not engaged with the content. You cannot defend or explain it. This is academic dishonesty.</p>
-          <span class="dist-tag no">Not permitted — academic dishonesty</span>
+          <span class="dist-tag no">Not permitted. This is academic dishonesty</span>
         </div>
       </div>
 
@@ -1981,7 +1928,6 @@ body {
       </div>
     </div>
 
-    <!-- TAB 2: PROMPT SANDBOX -->
     <div class="tab-panel" id="panel-t2">
       <div class="section-head">
         <h2 class="panel-title">Prompt Sandbox</h2>
@@ -2118,7 +2064,6 @@ body {
 
           </div>
 
-          <!-- TERMINAL -->
           <div class="terminal-wrap">
             <div class="terminal-bar">
               <div class="t-dots">
@@ -2126,7 +2071,7 @@ body {
                 <div class="t-dot t-dot-y"></div>
                 <div class="t-dot t-dot-g"></div>
               </div>
-              <div class="terminal-title">AI Writing Assistant — Prompt Sandbox</div>
+              <div class="terminal-title">AI Writing Assistant Sandbox</div>
               <span class="demo-badge">Demo mode</span>
               <div class="terminal-actions">
                 <span class="token-badge" id="token-badge">0 tokens</span>
@@ -2159,7 +2104,6 @@ body {
       </div>
     </div>
 
-    <!-- TAB 3: REVIEW AND EDIT -->
     <div class="tab-panel" id="panel-t3">
       <div class="section-head">
         <h2 class="panel-title">Review and Edit</h2>
@@ -2251,7 +2195,7 @@ body {
 
       <div class="tells-grid">
         <div class="tell-card"><div class="tell-phrase">"I hope this message finds you well"</div><div class="tell-replace">Just start with what you need to say.</div></div>
-        <div class="tell-card"><div class="tell-phrase">"Please do not hesitate to reach out"</div><div class="tell-replace">"Feel free to message me" or nothing — it is implied.</div></div>
+        <div class="tell-card"><div class="tell-phrase">"Please do not hesitate to reach out"</div><div class="tell-replace">"Feel free to message me" or nothing. It is implied.</div></div>
         <div class="tell-card"><div class="tell-phrase">"I wanted to circle back"</div><div class="tell-replace">"Following up on..." or "Just confirming..."</div></div>
         <div class="tell-card"><div class="tell-phrase">"As per my previous email"</div><div class="tell-replace">Summarize the relevant point directly instead.</div></div>
         <div class="tell-card"><div class="tell-phrase">"I am writing to you today to..."</div><div class="tell-replace">Remove entirely. Just start writing.</div></div>
@@ -2261,7 +2205,6 @@ body {
       </div>
     </div>
 
-    <!-- TAB 4: IN PRACTICE -->
     <div class="tab-panel" id="panel-t4">
       <div class="section-head">
         <h2 class="panel-title">In Practice</h2>
@@ -2348,7 +2291,6 @@ body {
       </div>
     </div>
 
-    <!-- TAB 5: KNOWLEDGE CHECK -->
     <div class="tab-panel" id="panel-t5">
       <div class="section-head">
         <h2 class="panel-title">Knowledge Check</h2>
@@ -2388,7 +2330,7 @@ body {
 
       <div class="quiz-card">
         <div class="quiz-qnum">Question 3 of 5</div>
-        <p class="quiz-q">During your accuracy review of an AI-drafted email, you notice it included a project deadline of "the 20th" — but you never mentioned a deadline in your prompt. What should you do?</p>
+        <p class="quiz-q">During your accuracy review of an AI-drafted email, you notice it included a project deadline of "the 20th", but you never mentioned a deadline in your prompt. What should you do?</p>
         <div class="quiz-opts" data-q="3">
           <button class="quiz-opt" data-correct="false">Leave it in. The AI has more information than you do and the date is probably correct.</button>
           <button class="quiz-opt" data-correct="true">Remove or correct it. The AI fabricated this detail. Sending a specific date you cannot verify would be unprofessional and potentially harmful.</button>
@@ -2453,7 +2395,7 @@ body {
       <span class="tenneri-badge-dot"></span>
       Built by Tenneri
     </a>
-    <span class="tenneri-caption">Interactive learning environment — native LMS development</span>
+    <span class="tenneri-caption">Interactive learning environment & native LMS development</span>
   </footer>
 
 </div>
@@ -2499,7 +2441,6 @@ function $(id) { return document.getElementById(id); }
 function on(el, ev, fn) { if (el) el.addEventListener(ev, fn); }
 function countWords(str) { return str.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length; }
 
-// Theme
 on($('theme-btn'), 'click', function() {
   state.theme = state.theme === 'light' ? 'dark' : 'light';
   document.body.setAttribute('data-theme', state.theme === 'dark' ? 'dark' : '');
@@ -2507,7 +2448,6 @@ on($('theme-btn'), 'click', function() {
   $('theme-label').textContent = state.theme === 'dark' ? 'Light Mode' : 'Dark Mode';
 });
 
-// Sliding indicator
 function updateIndicator(btn) {
   var ind = $('tab-indicator');
   if (!ind || !btn) return;
@@ -2540,7 +2480,6 @@ document.querySelectorAll('.tab-btn').forEach(function(btn){
 
 switchTab('t1');
 
-// Scroll reveal
 function addRevealClasses() {
   var targets = document.querySelectorAll(
     '.prose-block, .distinction-card, .tool-card, .ingredients, .callout, ' +
@@ -2562,14 +2501,12 @@ addRevealClasses();
 window.addEventListener('scroll', triggerReveal, { passive: true });
 setTimeout(triggerReveal, 100);
 
-// Back to top
 var btt = $('back-to-top');
 window.addEventListener('scroll', function(){
   btt.classList.toggle('visible', window.scrollY > 200);
 });
 on(btt, 'click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-// Word counts
 ['1','2','3'].forEach(function(n){
   var el = $('sp-' + n);
   if (el) {
@@ -2581,7 +2518,6 @@ on(btt, 'click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); })
   }
 });
 
-// Task progress
 function updateTaskUI(taskNum) {
   for (var i = 1; i <= 4; i++) {
     var step = $('tstep-' + i);
@@ -2605,7 +2541,6 @@ function advanceTask(completedNum) {
 
 updateTaskUI(1);
 
-// Token badge
 function updateTokenBadge() {
   var badge = $('token-badge');
   if (badge) badge.textContent = Math.round(state.totalTokens).toLocaleString() + ' tokens';
@@ -2613,7 +2548,6 @@ function updateTokenBadge() {
 
 function estimateTokens(text) { return Math.ceil(text.length / 4); }
 
-// Streaming text
 function streamText(bubble, text, onDone) {
   var cursor = document.createElement('span');
   cursor.className = 'streaming-cursor';
@@ -2635,7 +2569,6 @@ function streamText(bubble, text, onDone) {
   requestAnimationFrame(tick);
 }
 
-// Chat
 function appendMsg(role, text, stream) {
   var log = $('chat-log');
   if (!log) return null;
@@ -2734,7 +2667,7 @@ function updateCharCount() {
   counter.className = 'char-counter' + (len > 400 ? ' hot' : len > 200 ? ' warm' : '');
 }
 
-// Pre-programmed responses
+
 var TASK_RESPONSES = {
   1: "Subject: Request for Access to Shared Project Folder\n\nHi [IT contact's name],\n\nI recently joined the team and need access to the shared project folder on OneDrive to get started with my work.\n\nCould you help set that up when you get a chance? Happy to provide any details you need.\n\nThanks,\n[Your name]",
   2: "Subject: Friday Project Debrief — Details Confirmed\n\nHi team,\n\nJust confirming our project debrief is set for Friday at 2pm on Zoom. The session runs for one hour.\n\nI will send the Zoom link closer to the time. Let me know if anything has changed on your end.\n\nSee you Friday,\n[Your name]",
@@ -2861,7 +2794,6 @@ if (chatInput) {
   chatInput.addEventListener('input', updateCharCount);
 }
 
-// Before/After flags
 document.querySelectorAll('.ba-flag').forEach(function(flag){
   on(flag, 'click', function(){
     var idx = parseInt(flag.getAttribute('data-flag'));
@@ -2874,7 +2806,6 @@ document.querySelectorAll('.ba-flag').forEach(function(flag){
   });
 });
 
-// Tell spotter
 document.querySelectorAll('.ts-span').forEach(function(span){
   on(span, 'click', function(){
     if (state.spotterChecked) return;
@@ -2920,7 +2851,6 @@ on($('btn-reset-spotter'), 'click', function(){
   if (resetBtn) resetBtn.style.display = 'none';
 });
 
-// Diagnosis
 document.querySelectorAll('.diag-opts').forEach(function(container){
   var dNum = container.getAttribute('data-diag');
   container.querySelectorAll('.diag-opt').forEach(function(opt){
@@ -2936,7 +2866,6 @@ document.querySelectorAll('.diag-opts').forEach(function(container){
   });
 });
 
-// Quiz
 function updateQuizProgress() {
   var n = Object.keys(state.quizAnswered).length;
   var fill = $('quiz-fill'); var label = $('quiz-label');
@@ -2962,7 +2891,6 @@ document.querySelectorAll('.quiz-opts').forEach(function(container){
   });
 });
 
-// Confetti
 function launchConfetti() {
   var canvas = $('confetti-canvas');
   if (!canvas) return;
@@ -3016,7 +2944,6 @@ function showScore() {
   block.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Init indicator
 setTimeout(function() {
   var activeBtn = document.querySelector('.tab-btn.active');
   if (activeBtn) updateIndicator(activeBtn);
