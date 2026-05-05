@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You are booked | Tenneri</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://tenneri.com/thank-you">
+<link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Google Ads conversion event fires when this page loads -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'G-B434BEBM7D');
+/* Fire conversion event — replace AW-XXXXXXXXX/YYYYYYY with your Google Ads conversion ID */
+gtag('event', 'conversion', { 'send_to': 'AW-XXXXXXXXX/YYYYYYY' });
+</script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --ink:     #0f0e0c;
+  --body:    #3d3a36;
+  --muted:   #6b6560;
+  --rule:    #ddd8ce;
+  --paper:   #f8f5f0;
+  --white:   #ffffff;
+  --gold:    #b8913c;
+  --gold-lt: #d4ac58;
+  --navy:    #1b2d4f;
+  --navy-lt: #2a4270;
+  --f-d: 'Cormorant Garamond', Georgia, serif;
+  --f-b: 'Instrument Sans', system-ui, sans-serif;
+  --f-m: 'DM Mono', monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body {
+  font-family: var(--f-b);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+nav {
+  height: 62px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 52px;
+  background: rgba(250,248,244,0.95);
+  border-bottom: 1px solid var(--rule);
+}
+.n-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.n-logo img { height: 24px; width: auto; }
+.n-logo-name { font-family: var(--f-d); font-size: 1.2rem; font-weight: 600; color: var(--navy); }
+.n-back { font-family: var(--f-m); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.n-back:hover { color: var(--navy); }
+
+/* MAIN */
+main {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 52px;
+  position: relative; overflow: hidden;
+}
+
+/* Background grid */
+main::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(27,45,79,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,45,79,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* Gold accent line top */
+main::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--navy) 60%, transparent 100%);
+}
+
+.ty-inner {
+  max-width: 580px;
+  text-align: center;
+  position: relative; z-index: 1;
+  animation: rise 0.8s var(--ease) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Check circle */
+.ty-check {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(27,45,79,0.06);
+  border: 1px solid rgba(27,45,79,0.18);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 32px;
+  animation: pop 0.6s var(--ease) 0.3s both;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.ty-check svg { width: 30px; height: 30px; color: var(--navy); }
+
+/* Eyebrow */
+.ty-eyebrow {
+  font-family: var(--f-m); font-size: 0.62rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 16px;
+}
+.ty-eyebrow::before, .ty-eyebrow::after {
+  content: ''; width: 20px; height: 1px; background: var(--gold);
+}
+
+/* Heading */
+.ty-heading {
+  font-family: var(--f-d);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 300; line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+.ty-heading em { font-style: italic; color: var(--navy); }
+
+/* Body */
+.ty-body {
+  font-size: 0.95rem; color: var(--body);
+  line-height: 1.85; margin-bottom: 36px;
+  max-width: 440px; margin-left: auto; margin-right: auto;
+}
+
+/* Divider */
+.ty-divider {
+  width: 40px; height: 1px;
+  background: var(--gold);
+  margin: 0 auto 36px;
+}
+
+/* What happens next box */
+.ty-next {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 28px 32px;
+  text-align: left;
+  margin-bottom: 36px;
+}
+
+.ty-next-label {
+  font-family: var(--f-m); font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px;
+}
+.ty-next-label::before { content: ''; width: 12px; height: 1px; background: var(--gold); }
+
+.ty-steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+.ty-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-size: 0.88rem; color: var(--body); line-height: 1.65;
+}
+
+.ty-step-num {
+  font-family: var(--f-m); font-size: 0.6rem; letter-spacing: 0.08em;
+  color: var(--gold); background: rgba(184,145,60,0.1);
+  border: 1px solid rgba(184,145,60,0.25);
+  border-radius: 100px; padding: 2px 8px;
+  flex-shrink: 0; margin-top: 2px;
+}
+
+.ty-step strong { color: var(--ink); font-weight: 600; }
+
+/* Buttons */
+.ty-btns {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+}
+
+.btn-nv {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; background: var(--navy); color: #fff;
+  border-radius: 3px; text-decoration: none;
+  font-family: var(--f-m); font-size: 0.68rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-nv:hover { background: var(--navy-lt); transform: translateY(-1px); }
+
+.btn-ln {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border: 1px solid var(--rule); color: var(--ink);
+  border-radius: 3px; text-decoration: none;
+  font-family: var(--f-m); font-size: 0.68rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ln:hover { border-color: var(--navy); color: var(--navy); }
+
+/* Footer */
+footer {
+  padding: 24px 52px;
+  border-top: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+.foot-copy { font-family: var(--f-m); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.06em; }
+.foot-contact { font-family: var(--f-m); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.06em; }
+.foot-contact a { color: var(--navy); text-decoration: none; }
+
+@media (max-width: 640px) {
+  nav { padding: 0 24px; }
+  main { padding: 60px 24px; }
+  footer { padding: 20px 24px; flex-direction: column; align-items: flex-start; }
+  .ty-next { padding: 20px 20px; }
+  .ty-btns { flex-direction: column; }
+  .ty-btns a { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://tenneri.com" class="n-logo">
+    <img src="https://tenneri.com/Ten-Logo.png" alt="Tenneri" onerror="this.style.display='none'">
+    <span class="n-logo-name" translate="no">Tenneri</span>
+  </a>
+  <a href="https://tenneri.com" class="n-back">← Back to site</a>
+</nav>
+
+<main>
+  <div class="ty-inner">
+
+    <div class="ty-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+    </div>
+
+    <div class="ty-eyebrow">Message received</div>
+
+    <h1 class="ty-heading">
+     <em>We will be in touch.</em>
+    </h1>
+
+    <p class="ty-body">Your message is with us. We will get back to you within one business day to continue the conversation. In the meantime the live demo is always available if you want to see the work up close.</p>
+
+    <div class="ty-divider"></div>
+
+    <div class="ty-next">
+      <div class="ty-next-label">What happens next</div>
+      <ul class="ty-steps">
+        <li class="ty-step">
+          <span class="ty-step-num">01</span>
+          <span><strong>We review your message.</strong> We read every enquiry before responding so the reply is actually useful to your situation.</span>
+        </li>
+        <li class="ty-step">
+          <span class="ty-step-num">02</span>
+          <span><strong>You will hear back within one business day.</strong> If a call makes sense we will suggest a time. If not we will answer directly by email.</span>
+        </li>
+        <li class="ty-step">
+          <span class="ty-step-num">03</span>
+          <span><strong>No commitment required at this stage.</strong> The conversation exists to figure out whether there is a fit, not to close a deal.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ty-btns">
+      <a href="https://tenneri.com/projects/ai-communication/" target="_blank" class="btn-nv">Try a live demo while you wait →</a>
+      <a href="https://tenneri.com" class="btn-ln">Back to home</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <span class="foot-copy">© 2026 Tenneri</span>
+  <span class="foot-contact">
+    Want to reach us directly?
+    <a href="mailto:ramano@tenneri.com">ramano@tenneri.com</a>
+  </span>
+</footer>
+
+</body>
+</html>
