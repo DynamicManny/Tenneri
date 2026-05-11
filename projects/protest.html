@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Tenneri: Custom Interactive Learning Environments</title>
-  <meta name="description" content="Tenneri builds custom interactive labs, simulations, OS environments, and gamified learning tools natively inside your LMS. No external platforms. No per-seat licensing.">
-  <meta name="keywords" content="LMS custom development, native LMS learning environments, interactive LMS simulation, custom LMS lab, native eLearning development, LMS gamification, adaptive assessment LMS, higher education LMS development, K-12 learning tools, business simulation LMS">
+  <meta name="description" content="Tenneri builds custom interactive labs, simulations, and training environments natively inside your LMS. No external platforms. No per-seat licensing.">
   <meta name="author" content="Tenneri">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Projects | Tenneri: Custom Interactive Learning Environments">
-  <meta property="og:description" content="Custom simulations, labs, and interactive tools built natively inside your LMS. No external platforms. No licensing surprises.">
+  <meta property="og:description" content="Custom simulations and labs built natively inside your LMS. No external platforms. No licensing surprises.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tenneri.com/projects">
   <link rel="canonical" href="https://tenneri.com/projects">
@@ -29,7 +28,6 @@
     html{scroll-behavior:smooth}
     body{background:var(--paper);color:var(--ink);font-family:'Cormorant Garamond',serif;overflow-x:hidden}
 
-    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:rgba(248,246,241,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
     .nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
     .logo-img{width:36px;height:36px;object-fit:contain;display:block}
@@ -44,7 +42,6 @@
     .mobile-menu.open{display:flex}
     .mobile-menu a{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none}
 
-    /* PAGE HERO */
     .page-hero{padding:160px 60px 80px;position:relative;overflow:hidden;isolation:isolate}
     .page-hero-inner{max-width:var(--max-w);margin:0 auto;position:relative;z-index:1}
     .hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(27,45,79,0.06) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(184,147,63,0.05) 0%,transparent 70%)}
@@ -55,36 +52,24 @@
     .page-sub{font-size:clamp(19px,2.1vw,24px);font-weight:400;color:var(--muted);max-width:580px;margin-top:36px;line-height:1.8;opacity:0;animation:fadeUp .8s ease .6s forwards}
     .page-rule{width:48px;height:2px;background:linear-gradient(90deg,var(--navy),var(--gold));margin-top:48px;opacity:0;animation:fadeUp .8s ease .75s forwards}
 
-    /* FILTER BAR */
     .filter-bar{padding:0 60px 40px;max-width:var(--max-w);margin:0 auto}
     .filter-wrap{display:flex;gap:8px;flex-wrap:wrap}
     .filter-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border:1px solid var(--rule);background:var(--paper);color:var(--muted);cursor:pointer;transition:all .2s}
     .filter-btn:hover{border-color:var(--navy);color:var(--navy)}
     .filter-btn.active{border-color:var(--navy);background:var(--navy);color:var(--paper)}
 
-    /* PROJECTS SECTION */
     .projects-section{padding:0 60px 110px}
     .projects-inner{max-width:var(--max-w);margin:0 auto}
     .results-count{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--navy);margin-bottom:40px;display:block}
     .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 
-    /* PROJECT CARD */
     .project-card{border:1px solid var(--rule);background:var(--paper);display:flex;flex-direction:column;transition:background .2s;cursor:pointer;position:relative;overflow:hidden}
     .project-card[data-hidden="true"]{display:none}
     .project-card:hover{background:rgba(27,45,79,0.025)}
     .project-card:hover .card-arrow{transform:translateX(4px)}
     .project-card:hover .card-thumb-overlay{opacity:1}
 
-    /* COMING SOON CARD */
-    .project-card.coming-soon{opacity:.7;cursor:default}
-    .project-card.coming-soon:hover{background:var(--paper)}
-    .project-card.coming-soon .card-thumb-overlay{display:none}
-    .coming-badge{position:absolute;top:12px;right:12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;background:var(--navy);color:var(--paper);z-index:3}
-
     .card-thumb{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#0d1828}
-    .card-thumb-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0d1828,#1b2d4f)}
-    .card-thumb-placeholder-icon{font-size:2rem;opacity:.5}
-    .card-thumb-placeholder-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,241,.3)}
     .card-thumb img.thumb-screenshot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
     .card-thumb-overlay{position:absolute;inset:0;background:rgba(27,45,79,0.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;z-index:2}
     .overlay-cta{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--paper);border:1px solid rgba(255,255,255,0.4);padding:10px 22px}
@@ -102,15 +87,13 @@
     .pill-game{color:#1f5e1f;border-color:rgba(31,94,31,0.25);background:rgba(31,94,31,0.04)}
     .pill-module{color:#2a4270;border-color:rgba(42,66,112,0.20);background:rgba(42,66,112,0.03)}
     .pill-biz{color:#5c3d8f;border-color:rgba(92,61,143,0.25);background:rgba(92,61,143,0.04)}
-    .pill-sci{color:#1a5c4a;border-color:rgba(26,92,74,0.25);background:rgba(26,92,74,0.04)}
-    .pill-k12{color:#7a3b0a;border-color:rgba(122,59,10,0.25);background:rgba(122,59,10,0.04)}
     .pill-psych{color:#4a2060;border-color:rgba(74,32,96,0.25);background:rgba(74,32,96,0.04)}
+    .pill-corp{color:#1a3d2e;border-color:rgba(26,61,46,0.25);background:rgba(26,61,46,0.04)}
     .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--rule)}
     .card-client{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
     .card-arrow{font-size:14px;color:var(--navy);transition:transform .2s}
     .project-card[data-demo] .card-client{color:var(--navy);opacity:.7}
 
-    /* MODAL */
     .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(15,14,12,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px}
     .modal-overlay.open{display:flex}
     .modal{background:var(--paper);width:100%;max-width:900px;max-height:92vh;overflow-y:auto;position:relative;animation:modalIn .3s ease}
@@ -121,10 +104,7 @@
     .modal-close{background:var(--paper);border:1px solid var(--rule);cursor:pointer;font-size:20px;color:var(--muted);width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:color .2s,border-color .2s;margin-left:20px}
     .modal-close:hover{color:var(--ink);border-color:var(--navy)}
     .modal-video{width:100%;padding-top:56.25%;position:relative;background:#040608;overflow:hidden}
-    .modal-video video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
-    .modal-thumb-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#0d1828,#1b2d4f)}
-    .modal-thumb-placeholder-icon{font-size:3rem;opacity:.4}
-    .modal-thumb-placeholder-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,241,.3)}
+    .modal-video video,.modal-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border:none}
     .modal-body{padding:48px}
     .modal-two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:40px}
     .modal-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--navy);margin-bottom:12px;display:block}
@@ -138,43 +118,39 @@
     .modal-outcome-text{font-size:20px;font-weight:300;line-height:1.75;color:var(--paper)}
     .modal-outcome-text strong{color:var(--gold-light);font-weight:400}
     .modal-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:32px}
-    .modal-demo-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:15px 30px;text-decoration:none;transition:background .25s;white-space:nowrap;border:none;cursor:pointer;margin-top:28px;font-weight:500}
-    .modal-demo-btn:hover{background:var(--gold-light)}
 
-    /* DIVIDER */
     .divider{display:flex;align-items:center;gap:20px;padding:0 60px;background:var(--paper)}
     .divider-line{flex:1;height:1px;background:var(--rule)}
     .divider-mark{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--navy)}
 
-    /* CTA BAND */
     .cta-band{background:var(--navy);color:var(--paper);padding:80px 60px}
     .cta-band-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap}
     .cta-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,173,90,0.8);margin-bottom:12px;display:block}
     .cta-heading{font-size:clamp(28px,3.5vw,44px);font-weight:300;line-height:1.2;max-width:520px}
     .cta-heading em{font-style:italic;color:var(--gold-light)}
 
-    /* BUTTONS */
     .btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:var(--paper);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:15px 30px;text-decoration:none;transition:background .25s,color .25s;white-space:nowrap;border:none;cursor:pointer}
     .btn-primary:hover{background:var(--gold);color:var(--ink)}
     .btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,0.3);color:rgba(248,246,241,0.8);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:15px 30px;text-decoration:none;transition:all .25s;white-space:nowrap;background:none;cursor:pointer}
     .btn-ghost:hover{border-color:var(--gold-light);color:var(--gold-light)}
 
-    /* FOOTER */
     footer{padding:32px 60px;border-top:1px solid rgba(255,255,255,0.1);background:#111d2e;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
     .footer-brand{display:flex;align-items:center;gap:10px}
     .footer-logo-img{width:22px;height:22px;object-fit:contain;opacity:.5}
     .footer-wordmark{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(248,246,241,0.4)}
     .footer-copy{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(248,246,241,0.3)}
 
-    /* ANIMATIONS */
+    .back-top{position:fixed;bottom:32px;right:32px;z-index:190;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s,background .2s;pointer-events:none;box-shadow:0 4px 20px rgba(27,45,79,.3);font-size:18px}
+    .back-top.show{opacity:1;transform:none;pointer-events:auto}
+    .back-top:hover{background:var(--navy-light)}
+
     @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
     @keyframes modalIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     .fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
     .fade-in.visible{opacity:1;transform:translateY(0)}
 
-    /* RESPONSIVE */
     @media(max-width:1280px){nav,.page-hero,.projects-section,.cta-band,.divider,.filter-bar,footer{padding-left:40px;padding-right:40px}.modal-body{padding:36px}.modal-header{padding:32px 36px 24px}}
-    @media(max-width:900px){nav{padding:16px 24px}.nav-links{display:none}.nav-hamburger{display:flex}.page-hero{padding:130px 24px 60px}.ghost-word{font-size:80px;right:-60px;letter-spacing:14px}.projects-section,.cta-band,.divider,.filter-bar,footer{padding-left:24px;padding-right:24px}.projects-grid{grid-template-columns:1fr}.modal-two-col{grid-template-columns:1fr;gap:28px}.cta-band-inner{flex-direction:column;align-items:flex-start}.modal{max-height:95vh}.modal-header{padding:24px 24px 18px}.modal-body{padding:24px}}
+    @media(max-width:900px){nav{padding:16px 24px}.nav-links{display:none}.nav-hamburger{display:flex}.page-hero{padding:130px 24px 60px}.ghost-word{font-size:80px;right:-60px;letter-spacing:14px}.projects-section,.cta-band,.divider,.filter-bar,footer{padding-left:24px;padding-right:24px}.projects-grid{grid-template-columns:1fr}.modal-two-col{grid-template-columns:1fr;gap:28px}.cta-band-inner{flex-direction:column;align-items:flex-start}.modal{max-height:95vh}.modal-header{padding:24px 24px 18px}.modal-body{padding:24px}.back-top{bottom:20px;right:20px}}
   </style>
 </head>
 <body>
@@ -218,23 +194,20 @@
 <div class="filter-bar">
   <div class="filter-wrap">
     <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="simulation">Simulation</button>
     <button class="filter-btn" data-filter="cybersecurity">Cybersecurity</button>
     <button class="filter-btn" data-filter="business">Business</button>
-    <button class="filter-btn" data-filter="science">Science</button>
-    <button class="filter-btn" data-filter="k12">K-12</button>
     <button class="filter-btn" data-filter="psychology">Psychology</button>
+    <button class="filter-btn" data-filter="corporate">Corporate</button>
   </div>
 </div>
 
 <main class="projects-section">
   <div class="projects-inner">
-    <span class="results-count" id="results-count">8 projects</span>
+    <span class="results-count" id="results-count">6 projects</span>
     <div class="projects-grid" id="projects-grid">
 
-
       <!-- 01: SENTINEL -->
-      <article class="project-card fade-in" data-tags="simulation,cybersecurity" data-project="soc" role="button" tabindex="0" aria-label="View SENTINEL SOC Training Simulation">
+      <article class="project-card fade-in" data-tags="cybersecurity,simulation" data-project="soc" role="button" tabindex="0" aria-label="View SENTINEL SOC Training Simulation">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="Sentinelthumb.png" alt="SENTINEL SOC Training Simulation" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
@@ -242,141 +215,86 @@
         <div class="card-body">
           <span class="card-number">01</span>
           <h2 class="card-title">SENTINEL: <em>SOC Training Simulation</em></h2>
-          <p class="card-desc">A fully operational Security Operations Center simulation built natively inside an LMS. Analysts triage live alerts, investigate escalating incidents, and make real-time response decisions inside a professional-grade interface without leaving the platform.</p>
+          <p class="card-desc">Analysts triage live alerts, escalate incidents, and make real-time response decisions inside a professional-grade Security Operations Center. The institution owns it outright. The vendor contract does not exist.</p>
           <div class="card-pills"><span class="card-pill pill-cyber">Cybersecurity</span><span class="card-pill pill-sim">Simulation</span></div>
-          <div class="card-footer"><span class="card-client">Commissioned: Cybersecurity Training Provider</span><span class="card-arrow">&#8594;</span></div>
+          <div class="card-footer"><span class="card-client">Commissioned · Cybersecurity Training Provider</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
-
-      <!-- 02: AI Communication Module -->
+      <!-- 02: AI Communication -->
       <article class="project-card fade-in" data-tags="simulation" data-demo="ai-communication/" role="button" tabindex="0" aria-label="Open AI-Assisted Communication live demo">
         <div class="card-thumb">
+          <img class="thumb-screenshot" src="AIthumb.png" alt="AI-Assisted Communication Module" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">Open Demo</span></div>
         </div>
         <div class="card-body">
           <span class="card-number">02</span>
           <h2 class="card-title">Module Design: <em>AI-Assisted Communication</em></h2>
-          <p class="card-desc">One unit from a larger AI literacy module. Five navigable tabs, a live prompt sandbox, interactive editing exercises, and a scored knowledge check. Built as a single native LMS content page.</p>
+          <p class="card-desc">One unit of a complete AI literacy programme. Five navigable tabs, a live prompt sandbox, and a scored knowledge check. This is what a single page inside your LMS can do. Imagine a full course built the same way.</p>
           <div class="card-pills"><span class="card-pill pill-ai">AI Literacy</span><span class="card-pill pill-game">Gamification</span><span class="card-pill pill-module">Module Design</span></div>
           <div class="card-footer"><span class="card-client">Live demo — opens in new tab</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
-
-      <!-- 03: VENTURE Supply Chain -->
+      <!-- 03: VENTURE -->
       <article class="project-card fade-in" data-tags="business,simulation" data-project="venture" role="button" tabindex="0" aria-label="View VENTURE Supply Chain Decision Lab">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder">
-            <div class="card-thumb-placeholder-icon">📦</div>
-            <div class="card-thumb-placeholder-label">Screenshot pending</div>
-          </div>
+          <img class="thumb-screenshot" src="Venturethumb.png" alt="VENTURE Supply Chain Decision Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
         </div>
         <div class="card-body">
           <span class="card-number">03</span>
           <h2 class="card-title">VENTURE: <em>Supply Chain Decision Lab</em></h2>
-          <p class="card-desc">A business simulation where a disruption occurs upstream and students must make sourcing, logistics, and cost decisions in sequence. Every decision compounds into the next, mirroring the real consequence structure of supply chain management in a way no case study can.</p>
+          <p class="card-desc">A supplier goes dark. Costs are climbing. Delivery windows are closing. Students make sourcing and logistics decisions in sequence and watch every choice cascade into the next. Case studies describe this. VENTURE puts students inside it.</p>
           <div class="card-pills"><span class="card-pill pill-biz">Business</span><span class="card-pill pill-sim">Simulation</span></div>
           <div class="card-footer"><span class="card-client">Business Administration</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
-
-      <!-- 04: CAMPAIGN Marketing Lab -->
-      <article class="project-card fade-in" data-tags="business,simulation" data-project="campaign" role="button" tabindex="0" aria-label="View CAMPAIGN Marketing Lab">
+      <!-- 04: CAMPAIGN -->
+      <article class="project-card fade-in" data-tags="business,simulation" data-project="campaign" role="button" tabindex="0" aria-label="View CAMPAIGN Marketing Decision Lab">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder">
-            <div class="card-thumb-placeholder-icon">📣</div>
-            <div class="card-thumb-placeholder-label">Screenshot pending</div>
-          </div>
+          <img class="thumb-screenshot" src="Campaignthumb.png" alt="CAMPAIGN Marketing Decision Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
         </div>
         <div class="card-body">
           <span class="card-number">04</span>
           <h2 class="card-title">CAMPAIGN: <em>Marketing Decision Lab</em></h2>
-          <p class="card-desc">Students receive a client brief and a fixed budget. They allocate spend across channels, define the target audience, and launch. A simulated audience responds dynamically based on their choices, making the relationship between strategy and outcome visible in real time.</p>
+          <p class="card-desc">A fixed budget. A real brief. Four channels. Students allocate spend, define the audience, and launch. A simulated market responds to every decision. The graph either climbs or it does not. There is no grade for a plan that never ran.</p>
           <div class="card-pills"><span class="card-pill pill-biz">Business</span><span class="card-pill pill-sim">Simulation</span></div>
           <div class="card-footer"><span class="card-client">Marketing Programs</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
-
-      <!-- 05: INTAKE Psychology Lab -->
-      <article class="project-card fade-in" data-tags="psychology,simulation" data-project="intake" role="button" tabindex="0" aria-label="View INTAKE Clinical Interview Simulation">
+      <!-- 05: IRB -->
+      <article class="project-card fade-in" data-tags="psychology,simulation" data-project="irb" role="button" tabindex="0" aria-label="View IRB Ethics Review Lab">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder">
-            <div class="card-thumb-placeholder-icon">🧠</div>
-            <div class="card-thumb-placeholder-label">Screenshot pending</div>
-          </div>
+          <img class="thumb-screenshot" src="IRBthumb.png" alt="IRB Ethics Review Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
         </div>
         <div class="card-body">
           <span class="card-number">05</span>
-          <h2 class="card-title">INTAKE: <em>Social Dynamics Lab</em></h2>
-          <p class="card-desc">Scenario-based exercises where students are presented with real social situations, a workplace conflict, a group under pressure, a persuasion attempt, and have to identify the psychological mechanisms at play. Not diagnosing. Recognising. Bridging the gap between theory and the field experience that comes later.</p>
+          <h2 class="card-title">IRB: <em>Ethics Review Lab</em></h2>
+          <p class="card-desc">Research ethics is not theoretical until something goes wrong. This lab puts students inside the review process before they ever submit a real proposal. They find the lines by testing them in a space where the stakes are educational, not professional.</p>
           <div class="card-pills"><span class="card-pill pill-psych">Psychology</span><span class="card-pill pill-sim">Simulation</span></div>
-          <div class="card-footer"><span class="card-client">Undergraduate Programs</span><span class="card-arrow">&#8594;</span></div>
+          <div class="card-footer"><span class="card-client">Psych 420 · Research Methods &amp; Ethics</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
-
-      <!-- 06: ELEMENT Science Lab -->
-      <article class="project-card fade-in" data-tags="science,simulation" data-project="element" role="button" tabindex="0" aria-label="View ELEMENT Virtual Science Lab">
+      <!-- 06: THRESHOLD -->
+      <article class="project-card fade-in" data-tags="corporate,simulation" data-project="threshold" role="button" tabindex="0" aria-label="View THRESHOLD Corporate Compliance Lab">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder">
-            <div class="card-thumb-placeholder-icon">⚗️</div>
-            <div class="card-thumb-placeholder-label">Screenshot pending</div>
-          </div>
+          <div style="position:absolute;inset:0;background:#040608"></div>
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
         </div>
         <div class="card-body">
           <span class="card-number">06</span>
-          <h2 class="card-title">ELEMENT: <em>Virtual Science Lab</em></h2>
-          <p class="card-desc">A physics and chemistry simulation environment where students adjust variables and observe outcomes in real time. Force, mass, projectile motion, titration. Students arrive at the real lab having already run the experiment, which means in-person time is spent on understanding, not following steps.</p>
-          <div class="card-pills"><span class="card-pill pill-sci">Science</span><span class="card-pill pill-sim">Simulation</span></div>
-          <div class="card-footer"><span class="card-client">Science Programs</span><span class="card-arrow">&#8594;</span></div>
+          <h2 class="card-title">THRESHOLD: <em>Compliance Training Lab</em></h2>
+          <p class="card-desc">Mandatory training that employees actually remember. Not because it was gamified. Because it showed them exactly what happens when the wrong decision gets made. The consequence is visible before it is real.</p>
+          <div class="card-pills"><span class="card-pill pill-corp">Corporate</span><span class="card-pill pill-sim">Simulation</span></div>
+          <div class="card-footer"><span class="card-client">GRC · Corporate Training</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
-
-
-      <!-- 07: NUMERICS Math Lab -->
-      <article class="project-card fade-in" data-tags="k12,simulation" data-project="numerics" role="button" tabindex="0" aria-label="View NUMERICS Math Manipulatives Lab">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder">
-            <div class="card-thumb-placeholder-icon">📐</div>
-            <div class="card-thumb-placeholder-label">Screenshot pending</div>
-          </div>
-          <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
-        </div>
-        <div class="card-body">
-          <span class="card-number">07</span>
-          <h2 class="card-title">NUMERICS: <em>Math Manipulatives Lab</em></h2>
-          <p class="card-desc">Interactive visual tools for fractions, geometry, and probability. Students run virtual coin flips, watch distributions form, manipulate shapes, and see abstract relationships become concrete. Designed for the concepts that consistently fall flat when taught through equations alone.</p>
-          <div class="card-pills"><span class="card-pill pill-k12">K-12</span><span class="card-pill pill-sim">Interactive</span></div>
-          <div class="card-footer"><span class="card-client">Mathematics Programs</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-
-      <!-- 08: SIGNAL Reading Lab -->
-      <article class="project-card fade-in" data-tags="k12" data-project="signal" role="button" tabindex="0" aria-label="View SIGNAL Reading Comprehension Lab">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder">
-            <div class="card-thumb-placeholder-icon">📖</div>
-            <div class="card-thumb-placeholder-label">Screenshot pending</div>
-          </div>
-          <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
-        </div>
-        <div class="card-body">
-          <span class="card-number">08</span>
-          <h2 class="card-title">SIGNAL: <em>Reading Comprehension Lab</em></h2>
-          <p class="card-desc">A literacy tool built around inference rather than recall. Students read a passage and answer questions that require them to read between the lines. Feedback explains the reasoning behind each answer, not just whether it was right. Designed for the gap between decoding and understanding.</p>
-          <div class="card-pills"><span class="card-pill pill-k12">K-12</span><span class="card-pill pill-module">Literacy</span></div>
-          <div class="card-footer"><span class="card-client">English Language Arts</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
 
     </div>
   </div>
@@ -409,6 +327,8 @@
   <span class="footer-copy">2026 Tenneri. All rights reserved.</span>
 </footer>
 
+<button class="back-top" id="back-top" aria-label="Back to top">↑</button>
+
 
 <!-- MODAL: SENTINEL -->
 <div class="modal-overlay" id="modal-soc" role="dialog" aria-modal="true" aria-labelledby="modal-soc-title">
@@ -429,26 +349,26 @@
     <div class="modal-body">
       <div class="modal-two-col">
         <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Cybersecurity training programs need analysts to experience realistic SOC environments before they encounter one on the job. Traditional approaches depend on expensive simulation platforms, dedicated lab infrastructure, or external tools that add per-seat costs to every cohort.</p>
+          <span class="modal-label">The situation</span>
+          <p class="modal-text">Cybersecurity programmes need analysts to experience a real SOC before they encounter one professionally. The default solution is an expensive third-party platform with per-seat costs, a vendor contract, and an IT security review every renewal cycle.</p>
         </div>
         <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">SENTINEL is a full SOC dashboard built entirely in HTML, CSS, and JavaScript and deployed as a native LMS content page. No external platforms, no integration work, no additional licensing. It runs on the system the institution already operates.</p>
+          <span class="modal-label">What changed</span>
+          <p class="modal-text">SENTINEL runs entirely inside the institution's existing LMS. The SOC is not a link to somewhere else. It is a native content page. The institution owns it outright. The vendor relationship does not exist. The per-seat cost does not apply.</p>
         </div>
       </div>
-      <span class="modal-label">What it includes</span>
+      <span class="modal-label">Inside the environment</span>
       <ul class="modal-feature-list">
         <li>Live alert queue with triage workflow, severity classification, and escalation logic</li>
-        <li>Real-time network traffic chart with sliding UTC timestamps and animated data simulation</li>
-        <li>Threat category breakdown with animated detection coverage indicators across six categories</li>
+        <li>Real-time network traffic chart with animated data and sliding UTC timestamps</li>
+        <li>Threat category breakdown with detection coverage indicators across six categories</li>
         <li>Analyst workload management with case redistribution and narrative-driven team events</li>
         <li>Suspicious connection table, IOC confidence scoring, and critical asset status panel</li>
-        <li>All data layers interconnected: resolved cases, open alerts, and analyst load move together</li>
+        <li>Every data layer interconnected: resolved cases, open alerts, and analyst load move together</li>
       </ul>
       <div class="modal-outcome">
-        <span class="modal-outcome-label">The result</span>
-        <p class="modal-outcome-text">A single build replaces a <strong>per-seat simulation platform subscription</strong> for the full duration of the program. The environment is owned outright by the institution, version-controlled, and fully customisable without any vendor relationship.</p>
+        <span class="modal-outcome-label">The outcome</span>
+        <p class="modal-outcome-text">One build. No subscription. No renewal. <strong>No dependency.</strong> The environment is version-controlled and fully customisable without touching a vendor.</p>
       </div>
       <div class="modal-pills"><span class="card-pill pill-cyber">Cybersecurity</span><span class="card-pill pill-sim">Simulation</span></div>
     </div>
@@ -467,33 +387,32 @@
       <button class="modal-close" aria-label="Close modal">&#215;</button>
     </div>
     <div class="modal-video">
-      <div class="modal-thumb-placeholder">
-        <div class="modal-thumb-placeholder-icon">📦</div>
-        <div class="modal-thumb-placeholder-label">Demo coming soon</div>
-      </div>
+      <video autoplay muted loop playsinline>
+        <source src="Venturevid.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="modal-body">
       <div class="modal-two-col">
         <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Business students spend their programs reading about supply chains that belong to other companies. When a disruption actually happens, the theoretical knowledge does not transfer because they have never had to make a consequential decision under pressure.</p>
+          <span class="modal-label">The situation</span>
+          <p class="modal-text">Business students spend years reading case studies about disruptions that happened to someone else's supply chain. The knowledge is there. The instinct is not. Theoretical understanding does not transfer to a decision made under pressure with real consequences attached.</p>
         </div>
         <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">VENTURE drops students into a live disruption. A supplier goes dark. Costs are climbing. Delivery windows are closing. Every decision they make changes the landscape for the next one. The consequence chain is visible and immediate.</p>
+          <span class="modal-label">What changed</span>
+          <p class="modal-text">VENTURE puts students inside the disruption. A supplier goes dark. Every decision they make changes the cost tracker, the delivery window, and the satisfaction score in real time. The cascade is visible before the student fully understands why it is happening. That is the point.</p>
         </div>
       </div>
-      <span class="modal-label">What it includes</span>
+      <span class="modal-label">Inside the environment</span>
       <ul class="modal-feature-list">
-        <li>Multi-stage disruption scenario with branching decision paths</li>
-        <li>Live cost, timeline, and customer satisfaction indicators that respond to every choice</li>
-        <li>Alternative supplier negotiation simulation with risk and cost trade-offs</li>
+        <li>Multi-stage disruption scenario with branching decision paths that compound forward</li>
+        <li>Live cost, timeline, and customer satisfaction indicators responding to every choice</li>
+        <li>Alternative supplier negotiation simulation with visible risk and cost trade-offs</li>
         <li>Post-scenario debrief with annotated decision review and industry benchmark comparison</li>
         <li>Instructor dashboard showing each student's decision path and outcome</li>
       </ul>
       <div class="modal-outcome">
-        <span class="modal-outcome-label">Who it is for</span>
-        <p class="modal-outcome-text">Business Administration, Logistics, and Operations Management programs where <strong>case studies are not enough</strong> and a live consequence environment would change what students retain.</p>
+        <span class="modal-outcome-label">The outcome</span>
+        <p class="modal-outcome-text">Students leave knowing what a wrong sourcing decision <strong>feels like</strong> before they make one with a real client's money. That is not something a case study teaches.</p>
       </div>
       <div class="modal-pills"><span class="card-pill pill-biz">Business</span><span class="card-pill pill-sim">Simulation</span></div>
     </div>
@@ -512,34 +431,33 @@
       <button class="modal-close" aria-label="Close modal">&#215;</button>
     </div>
     <div class="modal-video">
-      <div class="modal-thumb-placeholder">
-        <div class="modal-thumb-placeholder-icon">📣</div>
-        <div class="modal-thumb-placeholder-label">Demo coming soon</div>
-      </div>
+      <video autoplay muted loop playsinline>
+        <source src="Campaignvid.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="modal-body">
       <div class="modal-two-col">
         <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Marketing courses teach strategy in the abstract. Students write campaign plans that never run and never fail. Without seeing a real audience respond to real choices, the relationship between targeting decisions and outcomes stays theoretical.</p>
+          <span class="modal-label">The situation</span>
+          <p class="modal-text">Marketing programmes teach strategy through plans that never run and campaigns that never fail. Students learn the language of performance marketing without ever seeing an audience not respond. The gap between the plan and the result stays theoretical until it is someone else's budget on the line.</p>
         </div>
         <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">Students receive a brief, a budget, and three channels. They define the audience, allocate spend, and launch. A simulated market responds dynamically. Over-invest in one channel and watch diminishing returns set in. Miss the demographic and watch the conversion rate drop.</p>
+          <span class="modal-label">What changed</span>
+          <p class="modal-text">CAMPAIGN gives students a brief, a budget, and a market that responds. Allocate too heavily in one channel and watch diminishing returns set in. Miss the demographic and watch the conversion rate flatline. The feedback is immediate and the debrief is built in.</p>
         </div>
       </div>
-      <span class="modal-label">What it includes</span>
+      <span class="modal-label">Inside the environment</span>
       <ul class="modal-feature-list">
         <li>Client brief with defined product, audience profile, and campaign objective</li>
-        <li>Budget allocation tool across social, search, and display channels</li>
-        <li>Dynamic audience response engine that reacts to targeting and spend decisions</li>
-        <li>Live performance dashboard showing reach, engagement, and conversion in real time</li>
+        <li>Budget allocation across social, search, display, and influencer channels</li>
+        <li>Dynamic audience response engine reacting to targeting and spend decisions</li>
+        <li>Live performance dashboard showing reach, engagement, and conversion building week by week</li>
         <li>Post-campaign analysis with optimised scenario comparison</li>
-        <li>Instructor view showing each student's allocation strategy and result</li>
+        <li>Instructor view showing each student's allocation strategy and outcome</li>
       </ul>
       <div class="modal-outcome">
-        <span class="modal-outcome-label">Who it is for</span>
-        <p class="modal-outcome-text">Marketing, Communications, and Business programs where students need to <strong>see their decisions fail and succeed</strong> before they do it with a real client's money.</p>
+        <span class="modal-outcome-label">The outcome</span>
+        <p class="modal-outcome-text">Students arrive at their first real campaign knowing what failure looks like and <strong>why it happens</strong>. That is the education. The grade is secondary.</p>
       </div>
       <div class="modal-pills"><span class="card-pill pill-biz">Business</span><span class="card-pill pill-sim">Simulation</span></div>
     </div>
@@ -547,44 +465,43 @@
 </div>
 
 
-<!-- MODAL: INTAKE -->
-<div class="modal-overlay" id="modal-intake" role="dialog" aria-modal="true" aria-labelledby="modal-intake-title">
+<!-- MODAL: IRB -->
+<div class="modal-overlay" id="modal-irb" role="dialog" aria-modal="true" aria-labelledby="modal-irb-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Psychology · Scenario Lab · Native LMS</span>
-        <h2 class="modal-title" id="modal-intake-title">INTAKE: <em>Social Dynamics Lab</em></h2>
+        <span class="modal-kicker">Psych 420 · Research Methods &amp; Ethics · Native LMS</span>
+        <h2 class="modal-title" id="modal-irb-title">IRB: <em>Ethics Review Lab</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
     </div>
     <div class="modal-video">
-      <div class="modal-thumb-placeholder">
-        <div class="modal-thumb-placeholder-icon">🧠</div>
-        <div class="modal-thumb-placeholder-label">Demo coming soon</div>
-      </div>
+      <video autoplay muted loop playsinline>
+        <source src="IRBvid.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="modal-body">
       <div class="modal-two-col">
         <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Psychology programs are heavy on theory and light on application until field experience arrives at the end. Students learn about conformity, persuasion, and group dynamics in lecture, but have no structured opportunity to recognise those mechanisms in motion before clinical placement.</p>
+          <span class="modal-label">The situation</span>
+          <p class="modal-text">Research ethics is typically taught through readings and case studies about violations that happened decades ago. Students understand the principles in the abstract. They do not understand where the lines are until they submit a real proposal and discover they crossed one. By then the learning has a cost attached.</p>
         </div>
         <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">INTAKE presents students with real social scenarios drawn from workplace, academic, and community contexts. The goal is not diagnosis. It is recognition. Students identify the psychological mechanism at play, consider the variables driving it, and reflect on what a well-informed response would look like.</p>
+          <span class="modal-label">What changed</span>
+          <p class="modal-text">The IRB Ethics Review Lab puts students inside the review process before they submit anything real. They work through research scenarios, identify ethical concerns, make recommendations, and see the consequences of each call. They find the lines by testing them where the stakes are educational, not professional.</p>
         </div>
       </div>
-      <span class="modal-label">What it includes</span>
+      <span class="modal-label">Inside the environment</span>
       <ul class="modal-feature-list">
-        <li>Scenario library spanning conformity, cognitive bias, persuasion, group dynamics, and attribution</li>
-        <li>Multi-choice identification exercises with explanatory feedback grounded in theory</li>
-        <li>Context variation: each scenario has workplace, social, and academic versions</li>
-        <li>Reflection prompts that connect observable behaviour to course concepts</li>
-        <li>Scored completion that syncs to the LMS gradebook</li>
+        <li>Research scenario library spanning informed consent, participant risk, data privacy, and deception</li>
+        <li>Review workflow mirroring a real IRB process: flag, assess, recommend, approve or reject</li>
+        <li>Consequence mapping showing how each decision affects the study's ethics standing</li>
+        <li>Reflection prompts connecting each scenario to the Belmont Report and APA guidelines</li>
+        <li>Scored completion syncing directly to the Psych 420 gradebook</li>
       </ul>
       <div class="modal-outcome">
-        <span class="modal-outcome-label">Who it is for</span>
-        <p class="modal-outcome-text">Undergraduate Psychology programs where <strong>the gap between theory and field experience</strong> is where students struggle most. This fills that gap without overreaching into clinical territory.</p>
+        <span class="modal-outcome-label">The outcome</span>
+        <p class="modal-outcome-text">Students submit their first real research proposals having already made the mistakes. <strong>In the lab, not in the field.</strong> That distinction is the education.</p>
       </div>
       <div class="modal-pills"><span class="card-pill pill-psych">Psychology</span><span class="card-pill pill-sim">Simulation</span></div>
     </div>
@@ -592,187 +509,80 @@
 </div>
 
 
-<!-- MODAL: ELEMENT -->
-<div class="modal-overlay" id="modal-element" role="dialog" aria-modal="true" aria-labelledby="modal-element-title">
+<!-- MODAL: THRESHOLD -->
+<div class="modal-overlay" id="modal-threshold" role="dialog" aria-modal="true" aria-labelledby="modal-threshold-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Science Education · Virtual Lab · Native LMS</span>
-        <h2 class="modal-title" id="modal-element-title">ELEMENT: <em>Virtual Science Lab</em></h2>
+        <span class="modal-kicker">Corporate Training · GRC · Native LMS</span>
+        <h2 class="modal-title" id="modal-threshold-title">THRESHOLD: <em>Compliance Training Lab</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
     </div>
     <div class="modal-video">
-      <div class="modal-thumb-placeholder">
-        <div class="modal-thumb-placeholder-icon">⚗️</div>
-        <div class="modal-thumb-placeholder-label">Demo coming soon</div>
-      </div>
+      <iframe src="https://player.vimeo.com/video/1191231377?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="THRESHOLD Compliance Training Lab"></iframe>
     </div>
     <div class="modal-body">
       <div class="modal-two-col">
         <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Wet labs and physical science equipment are expensive, time-limited, and inaccessible outside of scheduled class hours. Students arrive at the real lab having only read about the experiment, which means the first run is always spent following steps rather than building understanding.</p>
+          <span class="modal-label">The situation</span>
+          <p class="modal-text">Most employees have completed mandatory compliance training multiple times and remember almost none of it. When training presents rules without consequences, people process it the same way they process terms and conditions. They click through and move on.</p>
         </div>
         <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">ELEMENT lets students run the experiment before they run the experiment. Adjust variables, observe outcomes, make predictions, and arrive at the real lab with the conceptual groundwork already laid. Physics and chemistry modules are built around the relationships between variables, not just the procedures.</p>
+          <span class="modal-label">What changed</span>
+          <p class="modal-text">THRESHOLD does not ask employees to memorise rules. It asks them to understand why the rules exist. Every scenario presents a realistic workplace situation where the wrong choice produces a visible, detailed consequence cascade. The cost of a bad decision becomes real before it is real.</p>
         </div>
       </div>
-      <span class="modal-label">What it includes</span>
+      <span class="modal-label">Inside the environment</span>
       <ul class="modal-feature-list">
-        <li>Physics modules: projectile motion, force and acceleration, pendulum dynamics, optics</li>
-        <li>Chemistry modules: titration, reaction rates, gas laws, and acid-base equilibrium</li>
-        <li>Variable adjustment controls with real-time visual output</li>
-        <li>Prediction prompts before each run, reinforcing the hypothesis-test cycle</li>
-        <li>Data recording and graphing built into the lab environment</li>
-        <li>No installation, no external platform, runs inside the LMS content page</li>
+        <li>Scenario-based GRC situations drawn from data breach, reporting, and escalation contexts</li>
+        <li>Consequence timeline that builds itself after each decision, showing regulatory and financial impact</li>
+        <li>Decision mapping across GDPR, SOC 2, and ISO 27001 frameworks where relevant</li>
+        <li>Reading timer on consequence panels ensuring employees cannot skip the outcome</li>
+        <li>Completion record syncing automatically to HR and compliance tracking systems</li>
       </ul>
       <div class="modal-outcome">
-        <span class="modal-outcome-label">Who it is for</span>
-        <p class="modal-outcome-text">K-12 and undergraduate science programs where <strong>pre-lab preparation is weak</strong> and in-person lab time is too valuable to spend on orientation.</p>
+        <span class="modal-outcome-label">The outcome</span>
+        <p class="modal-outcome-text">Employees do not finish THRESHOLD because they have to. They finish it because <strong>they want to know what happens next.</strong> That is the first time most of them have felt that way about compliance training.</p>
       </div>
-      <div class="modal-pills"><span class="card-pill pill-sci">Science</span><span class="card-pill pill-sim">Simulation</span></div>
-    </div>
-  </div>
-</div>
-
-
-<!-- MODAL: NUMERICS -->
-<div class="modal-overlay" id="modal-numerics" role="dialog" aria-modal="true" aria-labelledby="modal-numerics-title">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <span class="modal-kicker">K-12 Education · Interactive Tool · Native LMS</span>
-        <h2 class="modal-title" id="modal-numerics-title">NUMERICS: <em>Math Manipulatives Lab</em></h2>
-      </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
-    </div>
-    <div class="modal-video">
-      <div class="modal-thumb-placeholder">
-        <div class="modal-thumb-placeholder-icon">📐</div>
-        <div class="modal-thumb-placeholder-label">Demo coming soon</div>
-      </div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Fractions, probability, and geometric reasoning are consistently among the most misunderstood concepts in K-12 mathematics. They are almost always taught through equations and diagrams on a page. The abstract representation does not match how the underlying relationships actually work.</p>
-        </div>
-        <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">NUMERICS makes the abstract visible. Students run probability simulations and watch distributions form across hundreds of trials. They manipulate fraction bars and see equivalence without being told it. They build geometric proofs by dragging and connecting rather than writing. The concept arrives through doing rather than reading.</p>
-        </div>
-      </div>
-      <span class="modal-label">What it includes</span>
-      <ul class="modal-feature-list">
-        <li>Probability simulator: coin flips, dice rolls, and custom events with real-time distribution graphs</li>
-        <li>Fraction manipulatives: visual bars, equivalent fraction matching, and operation demonstrations</li>
-        <li>Geometry tools: area, perimeter, angle relationships, and proof construction</li>
-        <li>Each tool paired with a guided discovery activity and a scored reflection check</li>
-        <li>Teacher view showing class-wide engagement and common error patterns</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">Who it is for</span>
-        <p class="modal-outcome-text">Middle and high school mathematics teachers who need tools that <strong>work inside their existing LMS</strong> without adding another login, another subscription, or another platform to manage.</p>
-      </div>
-      <div class="modal-pills"><span class="card-pill pill-k12">K-12</span><span class="card-pill pill-sim">Interactive</span></div>
-    </div>
-  </div>
-</div>
-
-
-<!-- MODAL: SIGNAL -->
-<div class="modal-overlay" id="modal-signal" role="dialog" aria-modal="true" aria-labelledby="modal-signal-title">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <span class="modal-kicker">K-12 Education · Literacy Tool · Native LMS</span>
-        <h2 class="modal-title" id="modal-signal-title">SIGNAL: <em>Reading Comprehension Lab</em></h2>
-      </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
-    </div>
-    <div class="modal-video">
-      <div class="modal-thumb-placeholder">
-        <div class="modal-thumb-placeholder-icon">📖</div>
-        <div class="modal-thumb-placeholder-label">Demo coming soon</div>
-      </div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The Problem</span>
-          <p class="modal-text">Most reading comprehension tools test recall. Students find the sentence that contains the answer and copy it back. That is not comprehension. Inference, tone, implication, and authorial intent are the skills that actually matter and they are almost never assessed with meaningful feedback.</p>
-        </div>
-        <div>
-          <span class="modal-label">The Approach</span>
-          <p class="modal-text">SIGNAL is built around questions that cannot be answered by scanning for keywords. Students read, then reason. When they get something wrong, the feedback does not just give them the correct answer. It walks through the reasoning process so they understand why the wrong choice seemed plausible and what distinguishes it from the right one.</p>
-        </div>
-      </div>
-      <span class="modal-label">What it includes</span>
-      <ul class="modal-feature-list">
-        <li>Passage library spanning fiction, non-fiction, argument, and narrative across reading levels</li>
-        <li>Inference, tone, implication, and authorial purpose question types</li>
-        <li>Explanatory feedback for every answer choice, not just the correct one</li>
-        <li>Annotation tool allowing students to mark and comment before answering</li>
-        <li>Progress tracking by question type so teachers can see where inference breaks down</li>
-        <li>Gradebook sync for scored sessions</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">Who it is for</span>
-        <p class="modal-outcome-text">Middle and high school English Language Arts teachers who want a tool that <strong>teaches comprehension rather than testing recall</strong>, with feedback that actually explains the thinking.</p>
-      </div>
-      <div class="modal-pills"><span class="card-pill pill-k12">K-12</span><span class="card-pill pill-module">Literacy</span></div>
+      <div class="modal-pills"><span class="card-pill pill-corp">Corporate</span><span class="card-pill pill-sim">Simulation</span></div>
     </div>
   </div>
 </div>
 
 
 <script>
-  /* Scroll fade */
   const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
   document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 
-  /* Hamburger */
   const hamburger=document.getElementById('hamburger');
   const mobileMenu=document.getElementById('mobileMenu');
   hamburger.addEventListener('click',()=>{const open=mobileMenu.classList.toggle('open');hamburger.setAttribute('aria-expanded',open);});
+  document.addEventListener('click',function(e){if(!hamburger.contains(e.target)&&!mobileMenu.contains(e.target)){mobileMenu.classList.remove('open');hamburger.setAttribute('aria-expanded','false');}});
 
-  /* Project map */
-  const projectMap={soc:'modal-soc',venture:'modal-venture',campaign:'modal-campaign',intake:'modal-intake',element:'modal-element',numerics:'modal-numerics',signal:'modal-signal'};
-
-  /* Open/close modal */
+  const projectMap={soc:'modal-soc',venture:'modal-venture',campaign:'modal-campaign',irb:'modal-irb',threshold:'modal-threshold'};
   function openModal(id){const o=document.getElementById(id);if(!o)return;o.classList.add('open');document.body.style.overflow='hidden';o.querySelector('.modal-close').focus();}
   function closeModal(o){o.classList.remove('open');document.body.style.overflow='';}
 
-  /* Card clicks */
   document.querySelectorAll('.project-card').forEach(card=>{
-    if(card.classList.contains('coming-soon')){
-      const handler=()=>{const id=projectMap[card.dataset.project];if(id)openModal(id);};
-      card.addEventListener('click',handler);
-      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});
-    } else if(card.dataset.demo){
-      const handler=()=>window.open(card.dataset.demo,'_blank','noopener');
-      card.addEventListener('click',handler);
-      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});
+    if(card.dataset.demo){
+      const h=()=>window.open(card.dataset.demo,'_blank','noopener');
+      card.addEventListener('click',h);
+      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();h();}});
     } else {
-      const handler=()=>{const id=projectMap[card.dataset.project];if(id)openModal(id);};
-      card.addEventListener('click',handler);
-      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});
+      const h=()=>{const id=projectMap[card.dataset.project];if(id)openModal(id);};
+      card.addEventListener('click',h);
+      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();h();}});
     }
   });
 
-  /* Modal close */
   document.querySelectorAll('.modal-close').forEach(btn=>{btn.addEventListener('click',()=>closeModal(btn.closest('.modal-overlay')));});
   document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)closeModal(o);});});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(closeModal);});
 
-  /* Filter */
   const filterBtns=document.querySelectorAll('.filter-btn');
   const cards=document.querySelectorAll('.project-card');
   const countEl=document.getElementById('results-count');
-
   filterBtns.forEach(btn=>{
     btn.addEventListener('click',()=>{
       filterBtns.forEach(b=>b.classList.remove('active'));
@@ -788,6 +598,10 @@
       countEl.textContent=visible+' project'+(visible===1?'':'s');
     });
   });
+
+  const bt=document.getElementById('back-top');
+  window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>600);},{passive:true});
+  bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 </script>
 </body>
 </html>
