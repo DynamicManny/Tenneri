@@ -84,15 +84,12 @@
     .pill-sim{color:#1b2d4f;border-color:rgba(27,45,79,0.25);background:rgba(27,45,79,0.04)}
     .pill-cyber{color:#8a1f1f;border-color:rgba(138,31,31,0.25);background:rgba(138,31,31,0.04)}
     .pill-ai{color:#8a6b2a;border-color:rgba(138,107,42,0.25);background:rgba(138,107,42,0.04)}
-    .pill-game{color:#1f5e1f;border-color:rgba(31,94,31,0.25);background:rgba(31,94,31,0.04)}
-    .pill-module{color:#2a4270;border-color:rgba(42,66,112,0.20);background:rgba(42,66,112,0.03)}
+    .pill-edu{color:#1f5e1f;border-color:rgba(31,94,31,0.25);background:rgba(31,94,31,0.04)}
     .pill-biz{color:#5c3d8f;border-color:rgba(92,61,143,0.25);background:rgba(92,61,143,0.04)}
-    .pill-psych{color:#4a2060;border-color:rgba(74,32,96,0.25);background:rgba(74,32,96,0.04)}
     .pill-corp{color:#1a3d2e;border-color:rgba(26,61,46,0.25);background:rgba(26,61,46,0.04)}
     .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--rule)}
     .card-client{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
     .card-arrow{font-size:14px;color:var(--navy);transition:transform .2s}
-    .project-card[data-demo] .card-client{color:var(--navy);opacity:.7}
 
     .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(15,14,12,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px}
     .modal-overlay.open{display:flex}
@@ -196,18 +193,18 @@
     <button class="filter-btn active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="cybersecurity">Cybersecurity</button>
     <button class="filter-btn" data-filter="business">Business</button>
-    <button class="filter-btn" data-filter="psychology">Psychology</button>
+    <button class="filter-btn" data-filter="education">Education</button>
     <button class="filter-btn" data-filter="corporate">Corporate</button>
   </div>
 </div>
 
 <main class="projects-section">
   <div class="projects-inner">
-    <span class="results-count" id="results-count">6 projects</span>
+    <span class="results-count" id="results-count">7 projects</span>
     <div class="projects-grid" id="projects-grid">
 
       <!-- 01: SENTINEL -->
-      <article class="project-card fade-in" data-tags="cybersecurity,simulation" data-project="soc" role="button" tabindex="0" aria-label="View SENTINEL SOC Training Simulation">
+      <article class="project-card fade-in" data-tags="cybersecurity" data-project="soc" role="button" tabindex="0" aria-label="View SENTINEL SOC Training Simulation">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="Sentinelthumb.png" alt="SENTINEL SOC Training Simulation" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
@@ -222,7 +219,7 @@
       </article>
 
       <!-- 02: AI Communication -->
-      <article class="project-card fade-in" data-tags="simulation" data-demo="ai-communication/" role="button" tabindex="0" aria-label="Open AI-Assisted Communication live demo">
+      <article class="project-card fade-in" data-tags="education" data-demo="ai-communication/" role="button" tabindex="0" aria-label="Open AI-Assisted Communication live demo">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="AIthumb.png" alt="AI-Assisted Communication Module" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">Open Demo</span></div>
@@ -231,13 +228,13 @@
           <span class="card-number">02</span>
           <h2 class="card-title">Module Design: <em>AI-Assisted Communication</em></h2>
           <p class="card-desc">One unit of a complete AI literacy programme. Five navigable tabs, a live prompt sandbox, and a scored knowledge check. This is what a single page inside your LMS can do. Imagine a full course built the same way.</p>
-          <div class="card-pills"><span class="card-pill pill-ai">AI Literacy</span><span class="card-pill pill-game">Gamification</span><span class="card-pill pill-module">Module Design</span></div>
+          <div class="card-pills"><span class="card-pill pill-edu">Education</span><span class="card-pill pill-ai">AI Literacy</span></div>
           <div class="card-footer"><span class="card-client">Live demo — opens in new tab</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
       <!-- 03: VENTURE -->
-      <article class="project-card fade-in" data-tags="business,simulation" data-project="venture" role="button" tabindex="0" aria-label="View VENTURE Supply Chain Decision Lab">
+      <article class="project-card fade-in" data-tags="business" data-project="venture" role="button" tabindex="0" aria-label="View VENTURE Supply Chain Decision Lab">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="Venturethumb.png" alt="VENTURE Supply Chain Decision Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
@@ -252,7 +249,7 @@
       </article>
 
       <!-- 04: CAMPAIGN -->
-      <article class="project-card fade-in" data-tags="business,simulation" data-project="campaign" role="button" tabindex="0" aria-label="View CAMPAIGN Marketing Decision Lab">
+      <article class="project-card fade-in" data-tags="business" data-project="campaign" role="button" tabindex="0" aria-label="View CAMPAIGN Marketing Decision Lab">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="Campaignthumb.png" alt="CAMPAIGN Marketing Decision Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
@@ -267,7 +264,7 @@
       </article>
 
       <!-- 05: IRB -->
-      <article class="project-card fade-in" data-tags="psychology,simulation" data-project="irb" role="button" tabindex="0" aria-label="View IRB Ethics Review Lab">
+      <article class="project-card fade-in" data-tags="education" data-project="irb" role="button" tabindex="0" aria-label="View IRB Ethics Review Lab">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="IRBthumb.png" alt="IRB Ethics Review Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
@@ -276,13 +273,13 @@
           <span class="card-number">05</span>
           <h2 class="card-title">IRB: <em>Ethics Review Lab</em></h2>
           <p class="card-desc">Research ethics is not theoretical until something goes wrong. This lab puts students inside the review process before they ever submit a real proposal. They find the lines by testing them in a space where the stakes are educational, not professional.</p>
-          <div class="card-pills"><span class="card-pill pill-psych">Psychology</span><span class="card-pill pill-sim">Simulation</span></div>
+          <div class="card-pills"><span class="card-pill pill-edu">Education</span><span class="card-pill pill-sim">Simulation</span></div>
           <div class="card-footer"><span class="card-client">Psych 420 · Research Methods &amp; Ethics</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
       <!-- 06: THRESHOLD -->
-      <article class="project-card fade-in" data-tags="corporate,simulation" data-project="threshold" role="button" tabindex="0" aria-label="View THRESHOLD Corporate Compliance Lab">
+      <article class="project-card fade-in" data-tags="corporate" data-project="threshold" role="button" tabindex="0" aria-label="View THRESHOLD Corporate Compliance Lab">
         <div class="card-thumb">
           <img class="thumb-screenshot" src="Thresholdthumb.png" alt="THRESHOLD Compliance Training Lab" onerror="this.style.display='none'">
           <div class="card-thumb-overlay"><span class="overlay-cta">View Project</span></div>
@@ -293,6 +290,21 @@
           <p class="card-desc">Mandatory training that employees actually remember. Not because it was gamified. Because it showed them exactly what happens when the wrong decision gets made. The consequence is visible before it is real.</p>
           <div class="card-pills"><span class="card-pill pill-corp">Corporate</span><span class="card-pill pill-sim">Simulation</span></div>
           <div class="card-footer"><span class="card-client">GRC · Corporate Training</span><span class="card-arrow">&#8594;</span></div>
+        </div>
+      </article>
+
+      <!-- 07: STRATOS -->
+      <article class="project-card fade-in" data-tags="cybersecurity,corporate" data-demo="stratos/" role="button" tabindex="0" aria-label="Open Stratos Cloud Console live demo">
+        <div class="card-thumb">
+          <img class="thumb-screenshot" src="Stratosthumb.png" alt="Stratos Cloud Integration Capstone" onerror="this.style.display='none'">
+          <div class="card-thumb-overlay"><span class="overlay-cta">Open Demo</span></div>
+        </div>
+        <div class="card-body">
+          <span class="card-number">07</span>
+          <h2 class="card-title">STRATOS: <em>Cloud Integration Capstone</em></h2>
+          <p class="card-desc">A working cloud console where analysts design a live network on a real US map, debug a Python API pipeline, fix security policy violations, and write a deployment spec. Runs in the browser. SCORM compliant. No authoring tool was involved.</p>
+          <div class="card-pills"><span class="card-pill pill-cyber">Cybersecurity</span><span class="card-pill pill-corp">Corporate</span></div>
+          <div class="card-footer"><span class="card-client">Live demo — opens in new tab</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
@@ -503,7 +515,7 @@
         <span class="modal-outcome-label">The outcome</span>
         <p class="modal-outcome-text">Students submit their first real research proposals having already made the mistakes. <strong>In the lab, not in the field.</strong> That distinction is the education.</p>
       </div>
-      <div class="modal-pills"><span class="card-pill pill-psych">Psychology</span><span class="card-pill pill-sim">Simulation</span></div>
+      <div class="modal-pills"><span class="card-pill pill-edu">Education</span><span class="card-pill pill-sim">Simulation</span></div>
     </div>
   </div>
 </div>
