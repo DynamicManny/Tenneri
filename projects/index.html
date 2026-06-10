@@ -19,15 +19,9 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --ink:#0f0e0c;--paper:#f8f6f1;
-      --gold:#b8933f;--gold-light:#d4ad5a;
-      --navy:#1b2d4f;--navy-light:#2a4270;
-      --muted:#1a1917;--rule:#ddd8ce;--max-w:1200px;
-    }
+    :root{--ink:#0f0e0c;--paper:#f8f6f1;--gold:#b8933f;--gold-light:#d4ad5a;--navy:#1b2d4f;--navy-light:#2a4270;--muted:#1a1917;--rule:#ddd8ce;--max-w:1200px;}
     html{scroll-behavior:smooth}
     body{background:var(--paper);color:var(--ink);font-family:'Cormorant Garamond',serif;overflow-x:hidden}
-
     nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:rgba(248,246,241,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
     .nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
     .logo-img{width:36px;height:36px;object-fit:contain;display:block}
@@ -41,7 +35,6 @@
     .mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;background:rgba(248,246,241,0.98);border-bottom:1px solid var(--rule);padding:24px;z-index:199;flex-direction:column;gap:20px}
     .mobile-menu.open{display:flex}
     .mobile-menu a{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none}
-
     .page-hero{padding:160px 60px 80px;position:relative;overflow:hidden;isolation:isolate}
     .page-hero-inner{max-width:var(--max-w);margin:0 auto;position:relative;z-index:1}
     .hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(27,45,79,0.06) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(184,147,63,0.05) 0%,transparent 70%)}
@@ -51,29 +44,24 @@
     .page-title em{font-style:italic;color:var(--gold)}
     .page-sub{font-size:clamp(19px,2.1vw,24px);font-weight:400;color:var(--muted);max-width:580px;margin-top:36px;line-height:1.8;opacity:0;animation:fadeUp .8s ease .6s forwards}
     .page-rule{width:48px;height:2px;background:linear-gradient(90deg,var(--navy),var(--gold));margin-top:48px;opacity:0;animation:fadeUp .8s ease .75s forwards}
-
     .filter-bar{padding:0 60px 40px;max-width:var(--max-w);margin:0 auto}
     .filter-wrap{display:flex;gap:8px;flex-wrap:wrap}
     .filter-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border:1px solid var(--rule);background:var(--paper);color:var(--muted);cursor:pointer;transition:all .2s}
     .filter-btn:hover{border-color:var(--navy);color:var(--navy)}
     .filter-btn.active{border-color:var(--navy);background:var(--navy);color:var(--paper)}
-
     .projects-section{padding:0 60px 110px}
     .projects-inner{max-width:var(--max-w);margin:0 auto}
     .results-count{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--navy);margin-bottom:40px;display:block}
     .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-
     .project-card{border:1px solid var(--rule);background:var(--paper);display:flex;flex-direction:column;transition:background .2s;cursor:pointer;position:relative;overflow:hidden}
     .project-card[data-hidden="true"]{display:none}
     .project-card:hover{background:rgba(27,45,79,0.025)}
     .project-card:hover .card-arrow{transform:translateX(4px)}
     .project-card:hover .card-thumb-overlay{opacity:1}
-
     .card-thumb{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#0d1828}
     .card-thumb img.thumb-screenshot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
     .card-thumb-overlay{position:absolute;inset:0;background:rgba(27,45,79,0.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;z-index:2}
     .overlay-cta{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--paper);border:1px solid rgba(255,255,255,0.4);padding:10px 22px}
-
     .card-body{padding:28px 28px 24px;flex:1;display:flex;flex-direction:column}
     .card-number{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--navy);margin-bottom:10px;display:block}
     .card-title{font-size:clamp(20px,2vw,26px);font-weight:400;line-height:1.2;margin-bottom:12px;color:var(--ink)}
@@ -90,7 +78,6 @@
     .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--rule)}
     .card-client{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
     .card-arrow{font-size:14px;color:var(--navy);transition:transform .2s}
-
     .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(15,14,12,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px}
     .modal-overlay.open{display:flex}
     .modal{background:var(--paper);width:100%;max-width:900px;max-height:92vh;overflow-y:auto;position:relative;animation:modalIn .3s ease}
@@ -115,37 +102,30 @@
     .modal-outcome-text{font-size:20px;font-weight:300;line-height:1.75;color:var(--paper)}
     .modal-outcome-text strong{color:var(--gold-light);font-weight:400}
     .modal-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:32px}
-
     .divider{display:flex;align-items:center;gap:20px;padding:0 60px;background:var(--paper)}
     .divider-line{flex:1;height:1px;background:var(--rule)}
     .divider-mark{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--navy)}
-
     .cta-band{background:var(--navy);color:var(--paper);padding:80px 60px}
     .cta-band-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap}
     .cta-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,173,90,0.8);margin-bottom:12px;display:block}
     .cta-heading{font-size:clamp(28px,3.5vw,44px);font-weight:300;line-height:1.2;max-width:520px}
     .cta-heading em{font-style:italic;color:var(--gold-light)}
-
     .btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:var(--paper);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:15px 30px;text-decoration:none;transition:background .25s,color .25s;white-space:nowrap;border:none;cursor:pointer}
     .btn-primary:hover{background:var(--gold);color:var(--ink)}
     .btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,0.3);color:rgba(248,246,241,0.8);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:15px 30px;text-decoration:none;transition:all .25s;white-space:nowrap;background:none;cursor:pointer}
     .btn-ghost:hover{border-color:var(--gold-light);color:var(--gold-light)}
-
     footer{padding:32px 60px;border-top:1px solid rgba(255,255,255,0.1);background:#111d2e;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
     .footer-brand{display:flex;align-items:center;gap:10px}
     .footer-logo-img{width:22px;height:22px;object-fit:contain;opacity:.5}
     .footer-wordmark{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(248,246,241,0.4)}
     .footer-copy{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(248,246,241,0.3)}
-
     .back-top{position:fixed;bottom:32px;right:32px;z-index:190;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s,background .2s;pointer-events:none;box-shadow:0 4px 20px rgba(27,45,79,.3);font-size:18px}
     .back-top.show{opacity:1;transform:none;pointer-events:auto}
     .back-top:hover{background:var(--navy-light)}
-
     @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
     @keyframes modalIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     .fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
     .fade-in.visible{opacity:1;transform:translateY(0)}
-
     @media(max-width:1280px){nav,.page-hero,.projects-section,.cta-band,.divider,.filter-bar,footer{padding-left:40px;padding-right:40px}.modal-body{padding:36px}.modal-header{padding:32px 36px 24px}}
     @media(max-width:900px){nav{padding:16px 24px}.nav-links{display:none}.nav-hamburger{display:flex}.page-hero{padding:130px 24px 60px}.ghost-word{font-size:80px;right:-60px;letter-spacing:14px}.projects-section,.cta-band,.divider,.filter-bar,footer{padding-left:24px;padding-right:24px}.projects-grid{grid-template-columns:1fr}.modal-two-col{grid-template-columns:1fr;gap:28px}.cta-band-inner{flex-direction:column;align-items:flex-start}.modal{max-height:95vh}.modal-header{padding:24px 24px 18px}.modal-body{padding:24px}.back-top{bottom:20px;right:20px}}
   </style>
@@ -200,7 +180,7 @@
 
 <main class="projects-section">
   <div class="projects-inner">
-    <span class="results-count" id="results-count">7 projects</span>
+    <span class="results-count" id="results-count">8 projects</span>
     <div class="projects-grid" id="projects-grid">
 
       <!-- 01: SENTINEL -->
@@ -229,7 +209,7 @@
           <h2 class="card-title">Module Design: <em>AI-Assisted Communication</em></h2>
           <p class="card-desc">One unit of a complete AI literacy programme. Five navigable tabs, a live prompt sandbox, and a scored knowledge check. This is what a single page inside your LMS can do. Imagine a full course built the same way.</p>
           <div class="card-pills"><span class="card-pill pill-edu">Education</span><span class="card-pill pill-ai">AI Literacy</span></div>
-          <div class="card-footer"><span class="card-client">Live demo — opens in new tab</span><span class="card-arrow">&#8594;</span></div>
+          <div class="card-footer"><span class="card-client">Live demo | opens in new tab</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
@@ -304,7 +284,22 @@
           <h2 class="card-title">STRATOS: <em>Cloud Integration Capstone</em></h2>
           <p class="card-desc">A working cloud console where analysts design a live network on a real US map, debug a Python API pipeline, fix security policy violations, and write a deployment spec. Runs in the browser. SCORM compliant. No authoring tool was involved.</p>
           <div class="card-pills"><span class="card-pill pill-cyber">Cybersecurity</span><span class="card-pill pill-corp">Corporate</span></div>
-          <div class="card-footer"><span class="card-client">Live demo — opens in new tab</span><span class="card-arrow">&#8594;</span></div>
+          <div class="card-footer"><span class="card-client">Live demo &#8212; opens in new tab</span><span class="card-arrow">&#8594;</span></div>
+        </div>
+      </article>
+
+      <!-- 08: THINK BEFORE YOU POST -->
+      <article class="project-card fade-in" data-tags="cybersecurity,corporate" data-demo="ai-communication/Awareness.html" role="button" tabindex="0" aria-label="Open Think Before You Post live demo">
+        <div class="card-thumb">
+          <img class="thumb-screenshot" src="Awarenessthumb.png" alt="Think Before You Post Digital Awareness Module" onerror="this.style.display='none'">
+          <div class="card-thumb-overlay"><span class="overlay-cta">Open Demo</span></div>
+        </div>
+        <div class="card-body">
+          <span class="card-number">08</span>
+          <h2 class="card-title">Think Before You Post: <em>Digital Awareness</em></h2>
+          <p class="card-desc">An employee awareness module that does not talk down to people. Real scenarios, real trade-offs, and a personalised check-in that surfaces only the tips relevant to each learner. Built for any organisation where people use social media and handle sensitive information.</p>
+          <div class="card-pills"><span class="card-pill pill-cyber">Cybersecurity</span><span class="card-pill pill-corp">Corporate</span></div>
+          <div class="card-footer"><span class="card-client">Live demo | opens in new tab</span><span class="card-arrow">&#8594;</span></div>
         </div>
       </article>
 
@@ -339,15 +334,14 @@
   <span class="footer-copy">2026 Tenneri. All rights reserved.</span>
 </footer>
 
-<button class="back-top" id="back-top" aria-label="Back to top">↑</button>
-
+<button class="back-top" id="back-top" aria-label="Back to top">&#8593;</button>
 
 <!-- MODAL: SENTINEL -->
 <div class="modal-overlay" id="modal-soc" role="dialog" aria-modal="true" aria-labelledby="modal-soc-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Cybersecurity Training · Simulation · Native LMS</span>
+        <span class="modal-kicker">Cybersecurity Training &#183; Simulation &#183; Native LMS</span>
         <h2 class="modal-title" id="modal-soc-title">SENTINEL: <em>SOC Training Simulation</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
@@ -387,13 +381,12 @@
   </div>
 </div>
 
-
 <!-- MODAL: VENTURE -->
 <div class="modal-overlay" id="modal-venture" role="dialog" aria-modal="true" aria-labelledby="modal-venture-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Business Education · Simulation · Native LMS</span>
+        <span class="modal-kicker">Business Education &#183; Simulation &#183; Native LMS</span>
         <h2 class="modal-title" id="modal-venture-title">VENTURE: <em>Supply Chain Decision Lab</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
@@ -431,13 +424,12 @@
   </div>
 </div>
 
-
 <!-- MODAL: CAMPAIGN -->
 <div class="modal-overlay" id="modal-campaign" role="dialog" aria-modal="true" aria-labelledby="modal-campaign-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Marketing Education · Simulation · Native LMS</span>
+        <span class="modal-kicker">Marketing Education &#183; Simulation &#183; Native LMS</span>
         <h2 class="modal-title" id="modal-campaign-title">CAMPAIGN: <em>Marketing Decision Lab</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
@@ -476,13 +468,12 @@
   </div>
 </div>
 
-
 <!-- MODAL: IRB -->
 <div class="modal-overlay" id="modal-irb" role="dialog" aria-modal="true" aria-labelledby="modal-irb-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Psych 420 · Research Methods &amp; Ethics · Native LMS</span>
+        <span class="modal-kicker">Psych 420 &#183; Research Methods &amp; Ethics &#183; Native LMS</span>
         <h2 class="modal-title" id="modal-irb-title">IRB: <em>Ethics Review Lab</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
@@ -520,13 +511,12 @@
   </div>
 </div>
 
-
 <!-- MODAL: THRESHOLD -->
 <div class="modal-overlay" id="modal-threshold" role="dialog" aria-modal="true" aria-labelledby="modal-threshold-title">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <span class="modal-kicker">Corporate Training · GRC · Native LMS</span>
+        <span class="modal-kicker">Corporate Training &#183; GRC &#183; Native LMS</span>
         <h2 class="modal-title" id="modal-threshold-title">THRESHOLD: <em>Compliance Training Lab</em></h2>
       </div>
       <button class="modal-close" aria-label="Close modal">&#215;</button>
@@ -561,7 +551,6 @@
     </div>
   </div>
 </div>
-
 
 <script>
   const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
