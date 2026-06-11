@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>BarracudaGuard - Phishing Response Simulator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;height:100dvh;}body{height:100%;height:100dvh;overflow:hidden;}
+body{font-family:'Inter',sans-serif;font-size:clamp(14px,1.6vh,16px);line-height:1.65;background:#0d1117;color:#e2e8f0;height:100%;height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
+
+:root{
+  --bg:#0d1117;--bg2:#161b24;--bg3:#1c2333;--bg4:#222d3e;--bg5:#263142;
+  --bdr:rgba(255,255,255,0.07);--bdr2:rgba(255,255,255,0.11);--bdr3:rgba(255,255,255,0.17);
+  --txt:#e2e8f0;--txt2:#b0bec5;--txt3:#6b7e94;
+  --blue:#3b82f6;--blue2:#60a5fa;--blue-dim:rgba(59,130,246,0.1);--blue-bdr:rgba(59,130,246,0.28);
+  --grn:#10b981;--grn2:#34d399;--grn-dim:rgba(16,185,129,0.1);--grn-bdr:rgba(16,185,129,0.28);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.1);--amber-bdr:rgba(245,158,11,0.28);
+  --red:#ef4444;--red-dim:rgba(239,68,68,0.1);--red-bdr:rgba(239,68,68,0.28);
+  --purple:#8b5cf6;--purple-dim:rgba(139,92,246,0.1);--purple-bdr:rgba(139,92,246,0.28);
+  --top-h:52px;
+}
+
+/* ── LOADING ── */
+#loading-screen{
+  position:fixed;inset:0;z-index:2000;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+.load-logo{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--txt);}
+.load-logo span{color:var(--blue);}
+.load-bar-wrap{width:240px;height:2px;background:var(--bdr2);border-radius:1px;overflow:hidden;}
+.load-bar{height:100%;background:var(--blue);border-radius:1px;width:0%;transition:width 0.3s ease;}
+.load-msg{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--txt3);letter-spacing:1px;}
+
+/* ── LOGIN ── */
+#login-screen{
+  position:fixed;inset:0;z-index:1000;background:var(--bg);
+  display:none;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(ellipse 70% 60% at 20% 60%,rgba(59,130,246,0.06) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 70% at 80% 25%,rgba(139,92,246,0.04) 0%,transparent 55%),var(--bg);
+}
+.login-card{
+  width:100%;max-width:420px;background:var(--bg2);
+  border:1px solid var(--bdr2);border-radius:16px;
+  padding:36px 36px 32px;box-shadow:0 0 0 1px rgba(59,130,246,0.06),0 32px 64px rgba(0,0,0,0.6);
+  animation:rise 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+.lc-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.lc-logo{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--txt);letter-spacing:-0.02em;margin-bottom:4px;}
+.lc-logo span{color:var(--blue);}
+.lc-sub{font-size:0.82rem;color:var(--txt2);margin-bottom:22px;}
+.lf{margin-bottom:12px;}
+.lf label{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;color:var(--txt2);display:block;margin-bottom:5px;}
+.lf input{width:100%;font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:500;color:var(--txt);background:rgba(255,255,255,0.04);border:1px solid var(--bdr2);border-radius:7px;padding:10px 13px;outline:none;transition:all 0.18s;box-sizing:border-box;}
+.lf input::placeholder{color:var(--txt3);}
+.lf input:focus{border-color:var(--blue-bdr);box-shadow:0 0 0 3px var(--blue-dim);}
+.lc-btn{width:100%;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:700;color:#fff;background:var(--blue);border:none;border-radius:7px;padding:11px;cursor:pointer;transition:all 0.18s;letter-spacing:0.2px;}
+.lc-btn:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,130,246,0.25);}
+.lc-err{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--red);text-align:center;margin-top:8px;display:none;}
+
+/* ── APP SHELL ── */
+#app{display:none;flex-direction:column;height:100%;height:100dvh;min-height:0;overflow:hidden;}
+#app.show{display:flex;height:100%;height:100dvh;min-height:0;}
+
+/* TOP BAR */
+.topbar{
+  height:var(--top-h);flex-shrink:0;
+  background:var(--bg2);border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+  position:relative;z-index:100;
+}
+.tb-brand{display:flex;align-items:center;gap:8px;}
+.tb-mark{width:28px;height:28px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:0.85rem;font-weight:900;color:#fff;}
+.tb-name{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:700;color:var(--txt);}
+.tb-sep{width:1px;height:16px;background:var(--bdr2);}
+.tb-module{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--txt2);letter-spacing:1px;text-transform:uppercase;}
+.tb-spacer{flex:1;}
+.tb-right{display:flex;align-items:center;gap:10px;}
+.tb-score{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--txt2);}
+.tb-score span{color:var(--blue);}
+.tb-user{display:flex;align-items:center;gap:7px;padding:4px 10px;background:var(--bg3);border:1px solid var(--bdr);border-radius:6px;}
+.tb-av{width:22px;height:22px;border-radius:50%;background:var(--blue-dim);border:1px solid var(--blue-bdr);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:0.68rem;font-weight:700;color:var(--blue);}
+.tb-uname{font-size:0.78rem;font-weight:600;color:var(--txt);}
+
+/* MODE TABS */
+.mode-tabs{
+  height:40px;flex-shrink:0;background:var(--bg2);border-bottom:1px solid var(--bdr);
+  display:flex;align-items:stretch;padding:0 20px;gap:0;
+}
+.mode-tab{
+  display:flex;align-items:center;gap:7px;padding:0 16px;
+  font-family:'IBM Plex Mono',monospace;font-size:0.64rem;font-weight:500;
+  color:var(--txt2);border-bottom:2px solid transparent;
+  cursor:pointer;transition:all 0.15s;letter-spacing:0.5px;user-select:none;
+}
+.mode-tab:hover{color:var(--txt2);}
+.mode-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.mt-num{font-size:0.58rem;background:var(--bg3);border:1px solid var(--bdr2);border-radius:100px;padding:1px 6px;color:var(--txt2);}
+.mode-tab.active .mt-num{background:var(--blue-dim);border-color:var(--blue-bdr);color:var(--blue);}
+
+/* MAIN CONTENT */
+.main-content{flex:1;overflow:hidden;display:flex;min-height:0;position:relative;}
+.view-panel{display:none;flex:1;overflow-y:auto;padding:20px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.view-panel.active{display:block;}
+
+/* AUTOSAVE FLASH */
+.sb-save{color:var(--grn);opacity:0;transition:opacity 0.3s;}
+.sb-save.show{opacity:1;}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:20px 22px;margin-bottom:16px;}
+.card-h{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--txt);margin-bottom:4px;}
+.card-sub{font-size:0.82rem;color:var(--txt2);margin-bottom:16px;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+
+/* EMAIL LIST */
+.email-item{
+  background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid transparent;
+  border-radius:9px;padding:16px 18px;margin-bottom:10px;cursor:pointer;
+  transition:all 0.15s;display:flex;justify-content:space-between;align-items:flex-start;
+}
+.email-item:hover{border-color:var(--blue-bdr);border-left-color:var(--blue);background:var(--bg3);}
+.email-item.done{border-left-color:var(--grn);opacity:0.65;}
+.email-from{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;color:var(--txt2);margin-bottom:3px;}
+.email-subj{font-size:0.92rem;font-weight:600;color:var(--txt);margin-bottom:2px;}
+.email-time{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--txt2);margin-top:3px;}
+
+/* DIFFICULTY BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.5px;}
+.badge-easy    {background:var(--grn-dim);color:var(--grn);border:1px solid var(--grn-bdr);}
+.badge-moderate{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-bdr);}
+.badge-advanced{background:var(--red-dim);color:var(--red);border:1px solid var(--red-bdr);}
+
+/* ANALYSIS MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);
+  align-items:stretch;justify-content:flex-end;z-index:500;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--bg2);border-left:1px solid var(--bdr2);
+  width:min(680px, 100%);height:100%;max-height:100%;overflow-y:auto;
+  box-shadow:-8px 0 40px rgba(0,0,0,0.5);
+  animation:slideIn 0.28s cubic-bezier(0.4,0,0.2,1);flex-shrink:0;
+}
+@keyframes slideIn{from{transform:translateX(100%);}to{transform:translateX(0);}}
+@media(max-width:640px){
+  .modal-overlay{align-items:flex-end;justify-content:center;}
+  .modal-box{width:100%;height:90%;border-left:none;border-top:1px solid var(--bdr2);border-radius:16px 16px 0 0;animation:slideUp 0.28s cubic-bezier(0.4,0,0.2,1);}
+  @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+}
+.modal-head{
+  padding:16px 20px;border-bottom:1px solid var(--bdr);
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;background:var(--bg2);z-index:10;
+}
+.modal-title{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--txt);}
+.modal-body{padding:22px 24px;font-size:clamp(14px,1.6vh,15px);}
+
+/* EMAIL ARTIFACT */
+.email-artifact{
+  background:var(--bg);border:1px solid var(--bdr);border-radius:8px;
+  padding:0;margin-bottom:16px;overflow:hidden;
+}
+/* Email client-style header */
+.ea-meta{display:flex;align-items:flex-start;gap:12px;padding:16px 16px 12px;}
+.ea-avatar{
+  width:38px;height:38px;border-radius:50%;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.ea-meta-right{flex:1;min-width:0;}
+.ea-meta-name{font-weight:600;color:var(--txt);font-size:0.88rem;}
+.ea-meta-addr{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--txt2);margin-top:2px;}
+.ea-meta-date{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--txt2);flex-shrink:0;padding-top:3px;}
+.ea-subject{font-size:0.92rem;font-weight:600;color:var(--txt);padding:0 16px 12px;}
+.ea-divider{height:1px;background:var(--bdr);margin:0 16px;}
+.ea-body{padding:16px;font-size:clamp(0.86rem,1.5vh,0.95rem);color:var(--txt);line-height:1.9;}
+.ea-body br{display:block;margin-bottom:2px;}
+
+/* FORM ELEMENTS */
+.field-group{margin-bottom:16px;}
+.field-label{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt2);display:block;margin-bottom:8px;}
+.fsel{
+  width:100%;background:var(--bg3);border:1px solid var(--bdr2);border-radius:7px;
+  padding:9px 12px;color:var(--txt);font-family:'Inter',sans-serif;font-size:0.85rem;
+  outline:none;cursor:pointer;
+}
+.fsel:focus{border-color:var(--blue-bdr);box-shadow:0 0 0 3px var(--blue-dim);}
+option{background:var(--bg3);color:var(--txt);}
+
+/* INDICATOR CHIPS */
+.ind-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;background:var(--bg3);border:1px solid var(--bdr2);
+  border-radius:6px;margin:3px;cursor:pointer;transition:all 0.15s;
+  font-size:0.78rem;color:var(--txt2);
+}
+.ind-chip:hover{border-color:var(--blue-bdr);color:var(--txt);}
+.ind-chip.selected{background:var(--blue-dim);border-color:var(--blue-bdr);color:var(--blue2);}
+.ind-chip .ic-icon{font-size:0.8rem;}
+
+/* RESPONSE OPTIONS */
+.resp-option{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;background:var(--bg3);border:1px solid var(--bdr2);
+  border-radius:7px;margin-bottom:6px;cursor:pointer;transition:all 0.15s;
+  font-size:0.84rem;color:var(--txt2);
+}
+.resp-option:hover{border-color:var(--blue-bdr);color:var(--txt);}
+.resp-option.selected{background:var(--blue-dim);border-color:var(--blue-bdr);color:var(--blue2);}
+.resp-icon{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--txt3);}
+
+/* FEEDBACK */
+.feedback{border-radius:8px;padding:14px 16px;margin-top:14px;border:1px solid;}
+.feedback.correct  {background:var(--grn-dim);border-color:var(--grn-bdr);}
+.feedback.partial  {background:var(--amber-dim);border-color:var(--amber-bdr);}
+.feedback.incorrect{background:var(--red-dim);border-color:var(--red-bdr);}
+.fb-score{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:8px;}
+.fb-row{display:flex;gap:8px;font-size:0.8rem;color:var(--txt2);margin-bottom:4px;line-height:1.5;}
+.fb-ok{color:var(--grn);}
+.fb-err{color:var(--red);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:7px;padding:8px 16px;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.18s;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:var(--blue2);transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--txt2);border:1px solid var(--bdr2);}
+.btn-ghost:hover{border-color:var(--bdr3);color:var(--txt);}
+.btn-grn{background:var(--grn);color:#fff;}
+.btn-grn:hover{background:var(--grn2);}
+.btn-lg{width:100%;justify-content:center;padding:11px 20px;font-size:0.9rem;}
+
+/* PERFORMANCE TABLE */
+.perf-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.perf-table th{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);padding:8px 12px;border-bottom:1px solid var(--bdr);text-align:left;}
+.perf-table td{padding:10px 12px;border-bottom:1px solid var(--bdr);color:var(--txt2);vertical-align:top;}
+.perf-table tr.correct td{background:rgba(16,185,129,0.04);}
+.perf-table tr.incorrect td{background:rgba(239,68,68,0.04);}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:16px;}
+.stat-card{background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:14px 16px;}
+.stat-val{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:var(--txt);margin-bottom:2px;}
+.stat-lbl{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--txt2);text-transform:uppercase;letter-spacing:1px;}
+
+/* TIMER */
+#timer-badge{
+  display:none;position:fixed;top:60px;right:16px;
+  background:var(--bg3);border:1px solid var(--bdr2);border-radius:7px;
+  padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--txt2);
+  z-index:200;
+}
+
+/* TOOLTIP */
+.tooltip-box{
+  background:var(--bg3);border:1px solid var(--blue-bdr);border-radius:7px;
+  padding:8px 12px;font-size:0.78rem;color:var(--txt2);margin-top:8px;line-height:1.6;
+  display:none;
+}
+.tooltip-box.show{display:block;}
+
+/* PROGRESS BAR */
+.prog-wrap{height:2px;background:var(--bdr2);border-radius:1px;overflow:hidden;margin-bottom:10px;}
+.prog-fill{height:100%;background:var(--blue);border-radius:1px;transition:width 0.4s ease;}
+
+/* TIER STRIP */
+.tier-strip{border-radius:7px;padding:10px 14px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;font-weight:600;letter-spacing:1px;margin-bottom:14px;}
+.tier-ready   {background:var(--grn-dim);color:var(--grn);border:1px solid var(--grn-bdr);}
+.tier-review  {background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-bdr);}
+.tier-risk    {background:var(--red-dim);color:var(--red);border:1px solid var(--red-bdr);}
+
+/* REFERENCE GRID */
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.ref-item{border-left:3px solid;padding-left:12px;}
+.ref-item .ri-name{font-size:0.82rem;font-weight:600;color:var(--txt);margin-bottom:2px;}
+.ref-item .ri-desc{font-size:0.78rem;color:var(--txt2);line-height:1.6;}
+
+/* OVERVIEW MODE SELECTOR */
+.mode-selector{display:flex;gap:10px;margin-bottom:20px;}
+.ms-card{
+  flex:1;padding:14px;background:var(--bg3);border:1px solid var(--bdr2);
+  border-radius:9px;cursor:pointer;transition:all 0.15s;text-align:center;
+}
+.ms-card:hover{border-color:var(--blue-bdr);}
+.ms-card.active{background:var(--blue-dim);border-color:var(--blue-bdr);}
+.ms-icon{font-size:1.4rem;margin-bottom:6px;}
+.ms-name{font-size:0.82rem;font-weight:600;color:var(--txt);margin-bottom:2px;}
+.ms-desc{font-size:0.72rem;color:var(--txt3);}
+
+/* FRAMEWORK BOX */
+.framework-box{background:var(--bg3);border:1px solid var(--bdr);border-radius:9px;padding:16px;margin-bottom:16px;}
+.fw-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:0.82rem;}
+.fw-num{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;font-weight:600;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue-bdr);border-radius:4px;padding:2px 6px;flex-shrink:0;margin-top:1px;}
+.fw-txt{color:var(--txt2);line-height:1.6;}
+.fw-txt strong{color:var(--txt);}
+
+/* TOAST */
+#toast{
+  display:none;position:fixed;top:20px;right:20px;z-index:2000;
+  background:var(--bg2);border:1px solid var(--blue-bdr);border-radius:8px;
+  padding:10px 18px;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;
+  color:var(--blue);box-shadow:0 8px 24px rgba(0,0,0,0.5);
+}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+/* ── COMPLETION SCREEN ── */
+#completion-screen{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:var(--bg);
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:0;
+}
+#completion-screen.show{display:flex;}
+.cs-ring{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--grn-dim);border:2px solid var(--grn-bdr);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;margin-bottom:24px;
+  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.cs-title{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--txt);margin-bottom:6px;text-align:center;}
+.cs-sub{font-size:0.9rem;color:var(--txt2);margin-bottom:32px;text-align:center;max-width:360px;line-height:1.7;}
+.cs-score{
+  font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--txt3);margin-bottom:8px;
+}
+.cs-pts{
+  font-family:'Fraunces',serif;font-size:3rem;font-weight:900;color:var(--blue);
+  line-height:1;margin-bottom:4px;
+  animation:countUp 0.6s ease-out 0.3s both;
+}
+@keyframes countUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+.cs-max{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--txt3);margin-bottom:32px;}
+.cs-tier{
+  padding:8px 20px;border-radius:100px;
+  font-family:'IBM Plex Mono',monospace;font-size:0.7rem;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;
+}
+.cs-tier.excellent{background:var(--grn-dim);color:var(--grn);border:1px solid var(--grn-bdr);}
+.cs-tier.developing{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-bdr);}
+.cs-tier.atrisk{background:var(--red-dim);color:var(--red);border:1px solid var(--red-bdr);}
+.cs-actions{display:flex;gap:12px;}
+/* confetti dots */
+.confetti-dot{
+  position:absolute;width:7px;height:7px;border-radius:50%;
+  animation:confettiFall linear forwards;
+  pointer-events:none;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0;}
+}
+
+/* ATTACHMENT CHIP */
+.att-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--blue-dim);border:1px solid var(--blue-bdr);
+  border-radius:6px;padding:6px 12px;margin:4px 0;
+  font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--blue2);
+  cursor:default;
+}
+.att-chip svg{flex-shrink:0;}
+
+/* ── INLINE CONFIRM ── */
+#confirm-bar{
+  display:none;position:fixed;bottom:36px;left:50%;transform:translateX(-50%);
+  background:var(--bg2);border:1px solid var(--red-bdr);border-radius:9px;
+  padding:12px 18px;z-index:600;box-shadow:0 8px 32px rgba(0,0,0,0.6);
+  display:none;align-items:center;gap:14px;white-space:nowrap;
+  font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--txt);
+}
+#confirm-bar.show{display:flex;}
+#confirm-bar button{border:none;border-radius:6px;padding:5px 14px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:'IBM Plex Mono',monospace;}
+#confirm-yes{background:var(--red-dim);color:var(--red);border:1px solid var(--red-bdr);}
+#confirm-yes:hover{background:var(--red);color:#fff;}
+#confirm-no{background:var(--bg3);color:var(--txt2);border:1px solid var(--bdr2);}
+#confirm-no:hover{color:var(--txt);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .topbar{padding:0 12px;gap:8px;}
+  .tb-name{display:none;}
+  .mode-tabs{padding:0 8px;}
+  .mode-tab{padding:0 10px;font-size:0.6rem;}
+  .login-card{padding:28px 22px;}
+  .modal-body{padding:14px;}
+  .modal-head{padding:12px 14px;}
+  .ea-meta{padding:12px 12px 8px;}
+  .ea-body{padding:12px;}
+  .card{padding:16px;}
+}
+@media(max-width:400px){
+  .mode-tab span:not(.mt-num){display:none;}
+  .mode-tab{padding:0 12px;}
+}
+/* Minimum touch target size for interactive elements */
+.ind-chip,.resp-option,.mode-tab{min-height:36px;}
+button,.lc-btn,.btn{min-height:36px;}
+
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="load-logo">Barracuda<span>Guard</span></div>
+  <div class="load-bar-wrap"><div class="load-bar" id="load-bar"></div></div>
+  <div class="load-msg" id="load-msg">Initialising threat analysis engine...</div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <!-- Product mark -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:32px;">
+      <div style="width:38px;height:38px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 38 38" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="17" cy="21" rx="10" ry="6" fill="white" opacity="0.95"/>
+          <path d="M17 15 L20.5 9.5 L23 15 Z" fill="white" opacity="0.95"/>
+          <path d="M27 18.5 L32 15 L32 24 L27 22.5 Z" fill="white" opacity="0.85"/>
+          <circle cx="10.5" cy="20" r="1.3" fill="#1e40af"/>
+          <path d="M7 22.5 Q10 25.5 15 24" stroke="#1e40af" stroke-width="1" stroke-linecap="round" fill="none"/>
+          <path d="M18 23 L14.5 28 L21 26 Z" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
+      <div>
+        <div style="font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;color:var(--txt);letter-spacing:-0.02em;line-height:1.1;">Barracuda<span style="color:var(--blue);">Guard</span></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.57rem;color:var(--txt3);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;text-align:center;">by Tenneri</div>
+      </div>
+    </div>
+
+    <!-- Client co-brand -->
+    <div style="border:1px solid var(--bdr);border-radius:8px;padding:10px 14px;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+      <div style="width:28px;height:28px;border-radius:6px;background:var(--bg4);border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:0.8rem;font-weight:700;color:var(--txt2);flex-shrink:0;">N</div>
+      <div>
+        <div style="font-size:0.8rem;font-weight:600;color:var(--txt);">Navarro Solutions</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--txt3);">Security awareness training</div>
+      </div>
+    </div>
+
+    <!-- Field -->
+    <div class="lf"><label>Your name</label><input id="l-name" type="text" placeholder="Enter your full name" autocomplete="off"></div>
+    <button class="lc-btn" onclick="doLogin()">Sign in</button>
+    <div class="lc-err" id="l-err">Please enter your name to continue.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="tb-brand">
+      <div class="tb-mark" style="background:var(--blue);padding:0;overflow:hidden;" title="BarracudaGuard">
+  <svg viewBox="0 0 28 28" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Shark body -->
+    <ellipse cx="13" cy="15" rx="9" ry="5.5" fill="white" opacity="0.95"/>
+    <!-- Dorsal fin -->
+    <path d="M13 9.5 L16 5 L18 9.5 Z" fill="white" opacity="0.95"/>
+    <!-- Tail fin -->
+    <path d="M22 13 L26 10 L26 18 L22 17 Z" fill="white" opacity="0.85"/>
+    <!-- Eye -->
+    <circle cx="8.5" cy="14" r="1.1" fill="#0d1117"/>
+    <!-- Mouth line -->
+    <path d="M5 16 Q8 18.5 12 17" stroke="#0d1117" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- Pectoral fin -->
+    <path d="M14 17 L11 21 L17 19.5 Z" fill="white" opacity="0.7"/>
+  </svg>
+</div>
+      <div class="tb-name">BarracudaGuard</div>
+    </div>
+    <div class="tb-sep"></div>
+    <div class="tb-module">Email Security Training</div>
+    <div class="tb-spacer"></div>
+    <div class="tb-right">
+      <div class="tb-user">
+        <div class="tb-av" id="tb-av">?</div>
+        <div class="tb-uname" id="tb-uname">-</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mode-tabs">
+    <div class="mode-tab active" data-view="overview" onclick="showView('overview')">
+      <span>Home</span>
+    </div>
+    <div class="mode-tab" data-view="emails" onclick="showView('emails')">
+      <span>Inbox</span><span class="mt-num" id="mt-emails-count">5</span>
+    </div>
+    <div class="mode-tab" data-view="results" onclick="showView('results')">
+      <span>Results</span><span class="mt-num" id="mt-results-count">0</span>
+    </div>
+    <div class="mode-tab" data-view="export" onclick="showView('export')">
+      <span>Report</span>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- OVERVIEW VIEW -->
+    <div class="view-panel active" id="view-overview">
+      <div style="max-width:860px;margin:0 auto;">
+
+        <div class="card" style="margin-top:4px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="flex:1;">
+              <div class="eyebrow" style="margin-bottom:2px;">Security Awareness Training</div>
+              <div class="card-h" style="margin-bottom:0;">Welcome to your inbox simulation</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--txt3);text-align:right;line-height:1.6;">Powered by<br><span style="color:var(--blue);font-weight:600;">BarracudaGuard</span></div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:14px 16px;margin-bottom:16px;font-size:0.84rem;color:var(--txt2);line-height:1.8;">
+            You are an employee at <strong style="color:var(--txt);">Navarro Solutions</strong>. Your company email domain is <code style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--blue);background:var(--blue-dim);padding:1px 5px;border-radius:3px;">navarro-solutions.com</code>.<br><br>
+            Five emails have landed in your inbox this morning. Your job is to read each one carefully and decide what to do with them.
+          </div>
+
+          <div class="framework-box">
+            <div class="fw-row"><span class="fw-num">Step 1</span><span class="fw-txt"><strong>Read the email carefully.</strong> Pay attention to who sent it, what they are asking for, and how they phrase it.</span></div>
+            <div class="fw-row"><span class="fw-num">Step 2</span><span class="fw-txt"><strong>Identify warning signs</strong> by clicking the indicators that match what you see in the email.</span></div>
+            <div class="fw-row" style="margin-bottom:0;"><span class="fw-num">Step 3</span><span class="fw-txt"><strong>Choose your response:</strong> report it to your security team, report as spam and delete, or leave it alone.</span></div>
+          </div>
+
+          <div class="eyebrow" style="margin-top:18px;">Warning Signs to Watch For</div>
+          <div class="ref-grid">
+            <div class="ref-item" style="border-color:var(--red);">
+              <div class="ri-name">Spoofed Sender</div>
+              <div class="ri-desc">The address looks like a real company but the domain is slightly off (paypa1.com, not paypal.com)</div>
+            </div>
+            <div class="ref-item" style="border-color:#f97316;">
+              <div class="ri-name">Suspicious Link</div>
+              <div class="ri-desc">A link that leads somewhere unexpected or asks you to log in</div>
+            </div>
+            <div class="ref-item" style="border-color:var(--grn);">
+              <div class="ri-name">Pressure to Act Fast</div>
+              <div class="ri-desc">Language that creates urgency: "your account will be closed," "respond within 24 hours"</div>
+            </div>
+            <div class="ref-item" style="border-color:var(--blue);">
+              <div class="ri-name">Unexpected Attachment</div>
+              <div class="ri-desc">A file you weren't expecting, especially .exe, .zip, or .js formats</div>
+            </div>
+            <div class="ref-item" style="border-color:var(--purple);">
+              <div class="ri-name">Too Good to Be True</div>
+              <div class="ri-desc">You've won something you didn't enter, or someone's offering an unexpected reward</div>
+            </div>
+            <div class="ref-item" style="border-color:var(--amber);">
+              <div class="ri-name">Impersonation</div>
+              <div class="ri-desc">Someone posing as a colleague, your bank, or a service you use</div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <button class="btn btn-blue btn-lg" onclick="showView('emails')">Start Training &#8594;</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EMAIL TRIAGE VIEW -->
+    <div class="view-panel" id="view-emails">
+      <div style="max-width:900px;margin:0 auto;">
+        <div style="margin-bottom:18px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+            <div class="eyebrow" style="margin-bottom:0;">Inbox</div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--txt2);">
+                <span id="emails-analyzed">0</span><span style="color:var(--txt3);">/5</span>
+              </span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--blue);font-weight:600;">
+                <span id="score-inline">0</span> pts
+              </span>
+              <span id="performance-tier-badge" style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;"></span>
+            </div>
+          </div>
+          <div class="prog-wrap" style="margin-bottom:0;"><div class="prog-fill" id="progress-fill" style="width:0%;"></div></div>
+        </div>
+        <div id="email-list"></div>
+      </div>
+    </div>
+
+    <!-- RESULTS VIEW -->
+    <div class="view-panel" id="view-results">
+      <div style="max-width:900px;margin:0 auto;">
+        <div class="eyebrow">Performance Analysis</div>
+        <div id="performance-summary"></div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:10px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;">Filter:</span>
+          <select id="results-filter" class="fsel" style="width:auto;font-size:0.78rem;padding:5px 10px;">
+            <option value="all">All</option>
+            <option value="phishing">Phishing Only</option>
+            <option value="non-phishing">Legitimate Only</option>
+            <option value="incorrect">Incorrect Only</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="perf-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Subject</th><th>Your Call</th><th>Actual</th><th>Response</th><th>Score</th><th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="results-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORT VIEW -->
+    <div class="view-panel" id="view-export">
+      <div style="max-width:480px;margin:0 auto;">
+        <div class="card">
+          <div class="eyebrow">Export</div>
+          <div class="card-h">Performance Report</div>
+          <div class="card-sub">Download a full audit of your phishing analysis session, including scores, classifications, and response decisions.</div>
+          <button class="btn btn-blue" id="download-btn" onclick="downloadPDF()">
+            &#8595; Export PDF Report
+          </button>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Session</div>
+          <div class="card-h">Reset Training</div>
+          <div class="card-sub">Clear all progress and start a new session. Your name will be remembered.</div>
+          <button class="btn btn-ghost" onclick="resetSession()">Reset Session</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+
+  <!-- autosave flash only -->
+  <div style="height:0;overflow:visible;position:relative;">
+    <div id="sb-save" style="position:absolute;bottom:6px;right:16px;font-family:'IBM Plex Mono',monospace;font-size:0.58rem;color:var(--grn);opacity:0;transition:opacity 0.3s;pointer-events:none;">&#10003; saved</div>
+  </div>
+</div><!-- /app -->
+
+<!-- ANALYSIS MODAL -->
+<div class="modal-overlay" id="analysis-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="modal-title">Email Analysis</div>
+        <div id="email-difficulty-badge"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="timer-badge" style="position:static;display:block;background:none;border:none;padding:0;"></div>
+        <button onclick="closeModal()" aria-label="Close" style="background:none;border:none;color:var(--txt3);cursor:pointer;font-size:1.1rem;padding:4px 6px;border-radius:5px;line-height:1;display:flex;align-items:center;" onmouseenter="this.style.color='var(--txt)'" onmouseleave="this.style.color='var(--txt3)'">&#10005;</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div id="email-details" class="email-artifact"></div>
+
+      <div class="field-group">
+        <label class="field-label">1. Classification</label>
+        <select id="phishing-select" class="fsel">
+          <option value="">Select...</option>
+          <option value="true">Phishing</option>
+          <option value="false">Legitimate</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">2. Evidence &mdash; select all that apply</label>
+        <div id="indicator-options"></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--txt3);margin-top:6px;">Click an indicator to highlight matching text in the email above.</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">3. What would you do?</label>
+        <div id="response-options"></div>
+      </div>
+
+      <div id="feedback-panel" style="display:none;"></div>
+
+      <div id="action-buttons" style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;">
+        <button class="btn btn-blue" onclick="handleAnalysis()">Submit Analysis</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      </div>
+      <div id="continue-button" style="display:none;margin-top:12px;">
+        <button class="btn btn-blue btn-lg" onclick="closeModal()">Continue to Next Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INLINE CONFIRM BAR -->
+<div id="confirm-bar" role="alertdialog" aria-label="Confirm reset">
+  <span>Reset all progress?</span>
+  <button id="confirm-yes" onclick="doReset()">Yes, reset</button>
+  <button id="confirm-no" onclick="hideConfirm()">Cancel</button>
+</div>
+
+<!-- COMPLETION SCREEN -->
+<div id="completion-screen">
+  <div class="cs-ring">&#127881;</div>
+  <div class="cs-title">All done.</div>
+  <div class="cs-sub" id="cs-sub">You reviewed every email in your inbox.</div>
+  <div class="cs-score">Your score</div>
+  <div class="cs-pts" id="cs-pts">0</div>
+  <div class="cs-max">out of 60</div>
+  <div class="cs-tier" id="cs-tier"></div>
+  <div class="cs-actions">
+    <button class="btn btn-blue" onclick="showView('results');hideCompletion();">See Full Results</button>
+    <button class="btn btn-ghost" onclick="downloadPDF();hideCompletion();">Export Report</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><span id="toast-message"></span></div>
+
+<script>
+// ═══ STATE ═══
+let currentUser = null;
+let emails = [];
+let selectedEmails = [];
+let score = 0;
+let analysisResults = [];
+let currentMode = 'beginner';
+let currentEmail = null;
+let selectedIndicators = [];
+let selectedResponse = null;
+let analysisStartTime = null;
+let timerInterval = null;
+let confidenceMetrics = { timesSpent: [], changes: 0 };
+
+const LS_NAME = 'bg-username';
+function lsKey(){ return 'bg_session_'+(currentUser||'').replace(new RegExp('\\s+','g'),'_').toLowerCase(); }
+
+function saveLS(){
+  if(!currentUser) return;
+  localStorage.setItem(LS_NAME, currentUser);
+  try{
+    localStorage.setItem(lsKey(), JSON.stringify({
+      score, mode: currentMode, results: analysisResults, savedAt: Date.now()
+    }));
+    flashSave();
+  }catch(e){}
+}
+
+function restoreLS(){
+  let raw; try{ raw = localStorage.getItem(lsKey()); }catch(e){ return; }
+  if(!raw) return;
+  try{
+    const data = JSON.parse(raw);
+    if(data.score)   score = data.score;
+    if(data.mode)    currentMode = data.mode;
+    if(data.results) analysisResults = data.results;
+    document.getElementById('score').textContent = score;
+    updateStatusBar();
+    showBanner('Session restored');
+  }catch(e){}
+}
+
+function clearLS(){ try{ localStorage.removeItem(lsKey()); }catch(e){} }
+
+function flashSave(){
+  const el = document.getElementById('sb-save');
+  if(el){ el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 1400); }
+}
+
+function showBanner(msg, color){
+  const b = document.createElement('div');
+  b.style.cssText = `position:fixed;top:98px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid ${color||'var(--blue-bdr)'};border-radius:7px;padding:8px 18px;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;color:${color||'var(--blue)'};z-index:999;box-shadow:0 4px 16px rgba(0,0,0,0.5);pointer-events:none;white-space:nowrap;`;
+  b.textContent = msg;
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), 2800);
+}
+
+function showToast(msg, duration=3000){
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-message').textContent = msg;
+  toast.style.display = 'block';
+  setTimeout(()=> toast.style.display = 'none', duration);
+}
+
+// ═══ LOADING SEQUENCE ═══
+function runLoading(){
+  const bar = document.getElementById('load-bar');
+  const msg = document.getElementById('load-msg');
+  const steps = [
+    [15, 'Loading threat database...'],
+    [35, 'Calibrating indicator engine...'],
+    [60, 'Preparing email corpus...'],
+    [80, 'Running sandbox checks...'],
+    [95, 'Almost ready...'],
+    [100,'Ready'],
+  ];
+  let i = 0;
+  function next(){
+    if(i >= steps.length){
+      setTimeout(()=>{
+        document.getElementById('loading-screen').style.display = 'none';
+        const savedName = localStorage.getItem(LS_NAME);
+        if(savedName) document.getElementById('l-name').value = savedName;
+        document.getElementById('login-screen').style.display = 'flex';
+      }, 300);
+      return;
+    }
+    const [pct, text] = steps[i++];
+    bar.style.width = pct + '%';
+    msg.textContent = text;
+    setTimeout(next, 340 + Math.random()*180);
+  }
+  next();
+}
+
+// ═══ LOGIN ═══
+function doLogin(){
+  const name = document.getElementById('l-name').value.trim();
+  if(!name){ document.getElementById('l-err').style.display = 'block'; return; }
+  currentUser = name;
+  document.getElementById('tb-av').textContent = name.charAt(0).toUpperCase();
+  document.getElementById('tb-uname').textContent = name;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('show');
+  fetchRepository().then(data=>{
+    emails = data;
+    restoreLS();
+    loadEmails(data, name);
+    showView('overview');
+    setTimeout(fitToViewport, 50);
+  }).catch(()=>{
+    emails = getMockEmails();
+    restoreLS();
+    loadEmails(emails, name);
+    showView('overview');
+    setTimeout(fitToViewport, 50);
+  });
+}
+document.getElementById('l-name').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+// ═══ VIEW NAVIGATION ═══
+function showView(id){
+  document.querySelectorAll('.view-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelector(`[data-view="${id}"]`).classList.add('active');
+  if(id==='results') renderResults();
+}
+
+
+
+// ═══ STATUS BAR ═══
+function updateStatusBar(){
+  const analyzed = analysisResults.length;
+  // Update results tab badge
+  const mtR = document.getElementById('mt-results-count');
+  if(mtR) mtR.textContent = analyzed;
+}
+
+function updateProgress(){
+  const analyzed = analysisResults.length;
+  const pct = (analyzed/5)*100;
+  const eaEl = document.getElementById('emails-analyzed'); if(eaEl) eaEl.textContent = analyzed;
+  const pfEl = document.getElementById('progress-fill'); if(pfEl) pfEl.style.width = pct+'%';
+  const scEl = document.getElementById('score'); if(scEl) scEl.textContent = score;
+  const siEl = document.getElementById('score-inline'); if(siEl) siEl.textContent = score;
+  // tier badge in triage
+  const badge = document.getElementById('performance-tier-badge');
+  if(score>=55) badge.innerHTML='<span style="color:var(--grn);font-weight:600;">EXCELLENT</span>';
+  else if(score>=35) badge.innerHTML='<span style="color:var(--amber);font-weight:600;">DEVELOPING</span>';
+  else if(analyzed>0) badge.innerHTML='<span style="color:var(--red);font-weight:600;">AT RISK</span>';
+  updateStatusBar();
+  saveLS();
+}
+
+// ═══ REPOSITORY FETCH ═══
+async function fetchRepository(){
+  return new Promise((resolve, reject)=>{
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET','BGrepository.html',true);
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState===4){
+        if(xhr.status===200){
+          const doc = new DOMParser().parseFromString(xhr.responseText,'text/html');
+          const ta  = doc.querySelector('textarea#data');
+          if(ta){
+            try{
+              const data = JSON.parse(ta.textContent);
+              resolve(data.map((e,i)=>({
+                id:e.id||i+1, from:e.from, subject:e.subject, received:e.received,
+                body:e.body, isPhishing:e.isPhishing, isSpearPhishing:e.isSpearPhishing,
+                indicators:e.indicators||[], difficulty:e.difficulty||'beginner',
+                correctResponse:e.correctResponse||'report', contextData:e.contextData||{}
+              })));
+            }catch(e){ resolve(getMockEmails()); }
+          }else{ resolve(getMockEmails()); }
+        }else{ resolve(getMockEmails()); }
+      }
+    };
+    xhr.onerror=()=>resolve(getMockEmails());
+    xhr.send();
+  });
+}
+
+function getMockEmails(){
+  return [
+
+    // 1. Phishing: PayPal credential harvest
+    {
+      id:1,
+      from:'noreply@paypa1-secure.com',
+      fromName:'PayPal Security',
+      subject:'Your account access has been limited',
+      timeShort:'8:47 AM',
+      received:'Monday, March 9, 2026',
+      preview:'We noticed unusual activity on your account...',
+      body:'Dear Customer,\n\nWe have detected unusual sign-in activity on your PayPal account and have temporarily limited your access as a precaution.\n\nTo restore full access to your account, please verify your identity by clicking the link below:\n\nhttp://paypa1-secure.com/verify/account?token=xR92kL\n\nIf you do not verify within 24 hours, your account will be permanently suspended.\n\nThank you for helping us keep your account secure.\n\nPayPal Security Team\nnoreply@paypa1-secure.com',
+      isPhishing:true,
+      isSpearPhishing:false,
+      indicators:['Spoofed sender','Suspicious link','Pressure to act fast','Impersonation'],
+      difficulty:'medium',
+      correctResponse:'report'
+    },
+
+    // 2. Legitimate: IT maintenance notice
+    {
+      id:2,
+      from:'it-support@navarro-solutions.com',
+      fromName:'IT Support',
+      subject:'Scheduled maintenance this Saturday, 2:00 AM - 4:00 AM',
+      timeShort:'11:15 AM',
+      received:'Monday, March 9, 2026',
+      preview:'No action required. Services will be briefly unavailable...',
+      body:'Hi everyone,\n\nWe have a scheduled maintenance window this Saturday, March 14, from 2:00 AM to 4:00 AM EST.\n\nThe following services will be temporarily unavailable during this window:\n\n- VPN access\n- Internal file shares (\\\\server01)\n- Email archiving\n\nNo action is required on your part. If you are working late Friday night, please save your work and log off before 2:00 AM.\n\nIf you have any questions, contact the helpdesk at extension 4400 or helpdesk@navarro-solutions.com.\n\nIT Operations',
+      isPhishing:false,
+      isSpearPhishing:false,
+      indicators:[],
+      difficulty:'medium',
+      correctResponse:'ignore'
+    },
+
+    // 3. Marketing email (unsolicited)
+    {
+      id:3,
+      from:'deals@shopnow-weekly.com',
+      fromName:'ShopNow Weekly',
+      subject:'This week only: 60% off everything storewide',
+      timeShort:'9:02 AM',
+      received:'Tuesday, March 10, 2026',
+      preview:'Flash sale ends Sunday. Thousands of items marked down...',
+      body:'Hi there,\n\nOur biggest sale of the year is here. For this week only, enjoy 60% off everything across our entire store.\n\nShop thousands of items across fashion, electronics, homeware, and more. New arrivals added daily.\n\nUse code FLASH60 at checkout.\n\nhttps://shopnow-weekly.com/flash-sale\n\nOffer valid through Sunday, March 15. Cannot be combined with other offers.\n\nYou are receiving this email because you are subscribed to ShopNow Weekly deals. To unsubscribe, click here.\n\nShopNow Weekly\n123 Commerce Street, Suite 400, New York, NY 10001',
+      isPhishing:false,
+      isSpearPhishing:false,
+      indicators:[],
+      difficulty:'medium',
+      correctResponse:'spam'
+    },
+
+    // 4. Spear phishing: impersonating internal HR
+    {
+      id:4,
+      from:'hr-benefits@navarro-soluti0ns.net',
+      fromName:'HR Benefits Team',
+      subject:'Action required: 2026 benefits enrolment closing [DEADLINE_DATE]',
+      timeShort:'7:58 AM',
+      received:'Wednesday, March 11, 2026',
+      preview:'Open enrolment closes at end of month. Your selections have not been confirmed...',
+      body:'Dear [analystName],\n\nThis is a reminder that open enrolment for 2026 employee benefits closes on [DEADLINE_DATE].\n\nOur records show that your selections have not yet been confirmed for the new plan year. If you do not complete enrolment before the deadline, you will be automatically enrolled in the default plan.\n\nACTION REQUIRED: Download and submit the attached form before the deadline:\n\nBenefits_Enrolment_2026.exe\n\nAlternatively, log in at: https://navarro-soluti0ns.net/benefits/enrol\n\nHR Benefits Administration\nhr-benefits@navarro-soluti0ns.net',
+      isPhishing:true,
+      isSpearPhishing:true,
+      indicators:['Spoofed sender','Unexpected attachment','Suspicious link','Impersonation','Pressure to act fast'],
+      difficulty:'medium',
+      correctResponse:'report'
+    },
+
+    // 5. Phishing: Microsoft prize scam
+    {
+      id:5,
+      from:'rewards@microsoft-awards-centre.net',
+      fromName:'Microsoft Rewards',
+      subject:'You have been selected: claim your $500 Microsoft gift card',
+      timeShort:'2:14 PM',
+      received:'Thursday, March 12, 2026',
+      preview:'Your account was randomly selected for our annual appreciation award...',
+      body:'Congratulations!\n\nYour Microsoft account has been randomly selected as part of our 2026 Customer Appreciation Programme.\n\nYou are eligible to claim a $500 Microsoft Gift Card as a thank-you for being a valued Microsoft user.\n\nTo claim your reward, confirm your delivery address within 48 hours:\n\nhttps://microsoft-awards-centre.net/claim?ref=MS-2026-88421\n\nThis offer expires in 48 hours and cannot be reissued.\n\nMicrosoft Customer Rewards Team\nOne Microsoft Way, Redmond, WA 98052',
+      isPhishing:true,
+      isSpearPhishing:false,
+      indicators:['Spoofed sender','Suspicious link','Pressure to act fast','Too good to be true','Impersonation'],
+      difficulty:'medium',
+      correctResponse:'report'
+    },
+
+  ];
+}
+
+// ═══ LOAD + RENDER EMAILS ═══
+function loadEmails(emailData, username){
+  // Use all emails; shuffle so order varies each session
+  // Compute a deadline 2 weeks from today
+  const dl = new Date(); dl.setDate(dl.getDate()+14);
+  const dlStr = dl.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  selectedEmails = [...emailData]
+    .sort(()=>Math.random()-0.5)
+    .map((e,i)=>({...e,
+      subject: e.subject.replace('[analystName]',username).replace('[DEADLINE_DATE]',dlStr),
+      body:    e.body.replace('[analystName]',username).replace('[DEADLINE_DATE]',dlStr)
+    }));
+  renderEmails();
+}
+
+const indicatorOptions = [
+  { id:'Spoofed sender',        label:'Spoofed sender',        icon:'⚠️',  color:'var(--red)',    re: new RegExp('([a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}|paypa1|microsoft-awards|navarro-soluti0ns)','gi') },
+  { id:'Suspicious link',       label:'Suspicious link',       icon:'🔗', color:'#f97316',       re: new RegExp('https?://[^\\s<]+','gi') },
+  { id:'Pressure to act fast',  label:'Pressure to act fast',  icon:'⏰',       color:'var(--amber)',  re: new RegExp('(urgent|immediately|act now|verify|suspend\\w*|expir\\w+|limited time|within \\d+ hours?|account.*closed|respond.*today|before the deadline|action required|closing \\w+ \\d+|closes on)','gi') },
+  { id:'Unexpected attachment', label:'Unexpected attachment', icon:'📎', color:'var(--blue)',   re: new RegExp('[\\w.-]+\\.(exe|zip|rar|js|vbs|scr|docm|xlsm)','gi') },
+  { id:'Too good to be true',   label:'Too good to be true',   icon:'🎁', color:'var(--purple)', re: new RegExp('(gift card|prize|reward|winner|congratulations|selected|claim|you have won|free)','gi') },
+  { id:'Impersonation',         label:'Impersonation',         icon:'🕵', color:'var(--grn)',    re: new RegExp('(microsoft|paypal|amazon|apple|google|your bank|hr benefits|hr department|it support|security team|navarro)','gi') },
+];
+const responseOptions = [
+  { id:'report',  text:'Report to security team',  desc:'Forward to IT security for investigation' },
+  { id:'spam',    text:'Report as spam and delete', desc:'Mark as junk and remove from inbox'       },
+  { id:'ignore',  text:'Ignore and close',          desc:'Leave it alone, no action needed'         },
+];
+
+function renderEmails(){
+  const list = document.getElementById('email-list');
+  list.innerHTML = '';
+  selectedEmails.forEach(email=>{
+    const done = analysisResults.find(r=>r.emailId===email.id);
+    // Derive a sender-initial and color for the avatar
+    const initials = email.from.charAt(0).toUpperCase();
+    const avatarColors = ['#1e40af','#065f46','#5b21b6','#92400e','#1e3a5f'];
+    const avatarBg = avatarColors[email.id % avatarColors.length];
+    const el = document.createElement('div');
+    el.className = 'email-item'+(done?' done':'');
+    el.innerHTML = `
+      <div style="width:36px;height:36px;border-radius:50%;background:${avatarBg};display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:0.85rem;font-weight:700;color:#fff;flex-shrink:0;">${initials}</div>
+      <div style="flex:1;min-width:0;margin-left:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+          <div class="email-from" style="font-weight:600;">${email.fromName||email.from}</div>
+          <div class="email-time" style="flex-shrink:0;">${email.timeShort||email.received}</div>
+        </div>
+        <div class="email-subj">${email.subject}</div>
+        <div class="email-time" style="margin-top:2px;">${email.preview||''}</div>
+      </div>
+      ${done?'<div style="width:8px;height:8px;border-radius:50%;background:var(--grn);flex-shrink:0;margin-left:8px;margin-top:6px;"></div>':'<div style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-left:8px;margin-top:6px;"></div>'}`;
+    if(!done) el.addEventListener('click',()=>openModal(email));
+    list.appendChild(el);
+  });
+  updateProgress();
+}
+
+// ═══ BODY RENDERER ═══
+function renderBody(raw){
+  // Escape HTML
+  let s = raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Wrap file attachments in a visual chip
+  s = s.replace(/\S+\.(exe|zip|rar|js|vbs|scr|docm|xlsm)/gi, function(match){
+    return '<span class="att-chip">'
+      + '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+      + '<path d="M13.5 6.5L7 13C5.89 14.11 4.11 14.11 3 13C1.89 11.89 1.89 10.11 3 9L9.5 2.5C10.33 1.67 11.67 1.67 12.5 2.5C13.33 3.33 13.33 4.67 12.5 5.5L6 12C5.45 12.55 4.55 12.55 4 12C3.45 11.45 3.45 10.55 4 10L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '</svg>'
+      + match + '</span>';
+  });
+  // Newlines to breaks
+  s = s.replace(/\n/g,'<br>');
+  return s;
+}
+
+// ═══ ANALYSIS MODAL ═══
+function openModal(email){
+  currentEmail       = email;
+  selectedIndicators = [];
+  selectedResponse   = null;
+  analysisStartTime  = Date.now();
+  confidenceMetrics.changes = 0;
+
+  // Email artifact display
+  const bodyHtml = renderBody(email.body||'');
+  document.getElementById('email-details').innerHTML = `
+    <div class="ea-meta">
+      <div class="ea-avatar">${(email.fromName||email.from).charAt(0).toUpperCase()}</div>
+      <div class="ea-meta-right">
+        <div class="ea-meta-name">${email.fromName||email.from}</div>
+        <div class="ea-meta-addr" id="ea-from-addr">${email.from}</div>
+      </div>
+      <div class="ea-meta-date">${email.received}</div>
+    </div>
+    <div class="ea-subject">${email.subject}</div>
+    <div class="ea-divider"></div>
+    <div class="ea-body" id="body-content" data-raw="${encodeURIComponent(email.body||'')||''}">${bodyHtml}</div>`;
+
+  // No difficulty badge in user-facing mode
+  document.getElementById('email-difficulty-badge').innerHTML = '';
+
+  // Reset
+  document.getElementById('phishing-select').value    = '';
+  document.getElementById('feedback-panel').style.display = 'none';
+  document.getElementById('action-buttons').style.display = 'flex';
+  document.getElementById('continue-button').style.display = 'none';
+
+  // Indicator chips
+  document.getElementById('indicator-options').innerHTML = indicatorOptions.map(opt=>`
+    <span class="ind-chip" data-indicator="${opt.id}" onclick="toggleIndicator(this)">
+      <span class="ic-icon" style="color:${opt.color};">${opt.icon}</span>${opt.id}
+    </span>`).join('');
+
+  // Response options
+  document.getElementById('response-options').innerHTML = responseOptions.map(opt=>`
+    <div class="resp-option" data-response="${opt.id}" onclick="selectResponse(this)">
+      <div>
+        <div style="font-weight:600;color:var(--txt);font-size:0.84rem;">${opt.text}</div>
+        <div style="font-size:0.74rem;color:var(--txt3);margin-top:2px;">${opt.desc}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('analysis-modal').classList.add('open');
+  startTimer();
+}
+
+function applyHighlights(){
+  if(!currentEmail) return;
+  const el = document.getElementById('body-content');
+  if(!el) return;
+  // Always re-render from raw body to preserve <br> formatting
+  const raw = currentEmail.body || '';
+  const active = indicatorOptions.filter(o=>selectedIndicators.includes(o.id));
+  if(!active.length){
+    el.innerHTML = renderBody(raw);
+    const fromEl2 = document.getElementById('ea-from-addr');
+    if(fromEl2){ fromEl2.style.background=''; fromEl2.style.color=''; fromEl2.style.padding=''; }
+    return;
+  }
+  // Work on plain text for range finding, then reconstruct with renderBody formatting
+  // Strategy: find ranges in plain text, map them through the escape+format pipeline
+  const escaped = raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const ranges = [];
+  active.forEach(opt=>{
+    const p = new RegExp(opt.re.source, 'gi');
+    let m;
+    while((m=p.exec(escaped))!==null){
+      ranges.push({start:m.index, end:m.index+m[0].length, text:m[0]});
+    }
+  });
+  ranges.sort((a,b)=>a.start-b.start);
+  let result='', cursor=0;
+  ranges.forEach(r=>{
+    if(r.start < cursor) return;
+    result += escaped.slice(cursor, r.start);
+    result += `<mark style="background:rgba(245,158,11,0.22);color:var(--amber);padding:1px 4px;border-radius:3px;font-weight:600;">${r.text}</mark>`;
+    cursor = r.end;
+  });
+  result += escaped.slice(cursor);
+  // Now apply attachment chips and newline-to-br on the highlighted string
+  // Use [\w.-]+ (not \S+) so we never consume HTML markup greedily
+  result = result.replace(/[\w.-]+\.(exe|zip|rar|js|vbs|scr|docm|xlsm)/gi, function(match, _ext, offset, str){
+    // Skip if this match is already inside a <mark> tag
+    const before = str.slice(0, offset);
+    const openMarks  = (before.match(/<mark/g)||[]).length;
+    const closeMarks = (before.match(/<\/mark>/g)||[]).length;
+    if(openMarks > closeMarks) return match; // inside a highlight
+    return '<span class="att-chip">'
+      + '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+      + '<path d="M13.5 6.5L7 13C5.89 14.11 4.11 14.11 3 13C1.89 11.89 1.89 10.11 3 9L9.5 2.5C10.33 1.67 11.67 1.67 12.5 2.5C13.33 3.33 13.33 4.67 12.5 5.5L6 12C5.45 12.55 4.55 12.55 4 12C3.45 11.45 3.45 10.55 4 10L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '</svg>'
+      + match + '</span>';
+  });
+  result = result.replace(/\n/g,'<br>');
+  el.innerHTML = result;
+  // Also highlight the from address in the header if Spoofed sender is selected
+  const fromEl = document.getElementById('ea-from-addr');
+  if(fromEl){
+    if(selectedIndicators.includes('Spoofed sender')){
+      fromEl.style.background = 'rgba(245,158,11,0.22)';
+      fromEl.style.color = 'var(--amber)';
+      fromEl.style.borderRadius = '3px';
+      fromEl.style.padding = '1px 4px';
+    } else {
+      fromEl.style.background = '';
+      fromEl.style.color = '';
+      fromEl.style.padding = '';
+    }
+  }
+}
+
+function toggleIndicator(el){
+  if(!currentEmail) return; // email already submitted
+  const ind = el.dataset.indicator;
+  const idx = selectedIndicators.indexOf(ind);
+  if(idx>-1){
+    selectedIndicators.splice(idx,1);
+    el.classList.remove('selected');
+  }else{
+    selectedIndicators.push(ind);
+    el.classList.add('selected');
+  }
+  applyHighlights();
+  confidenceMetrics.changes++;
+}
+
+function selectResponse(el){
+  document.querySelectorAll('.resp-option').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedResponse = el.dataset.response;
+}
+
+function startTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  const display = document.getElementById('timer-badge');
+  display.style.display = 'block';
+  display.style.fontFamily = "'IBM Plex Mono',monospace";
+  display.style.fontSize   = '0.65rem';
+  display.style.color      = 'var(--txt3)';
+  timerInterval = setInterval(()=>{
+    if(!currentEmail){ clearInterval(timerInterval); display.style.display='none'; return; }
+    const s = Math.floor((Date.now()-analysisStartTime)/1000);
+    display.textContent = Math.floor(s/60)+':'+(String(s%60).padStart(2,'0'));
+  }, 1000);
+}
+
+function closeModal(){
+  document.getElementById('analysis-modal').classList.remove('open');
+  if(timerInterval) clearInterval(timerInterval);
+  currentEmail = null;
+  renderEmails();
+  renderResults();
+}
+
+// ═══ SUBMIT ANALYSIS ═══
+function handleAnalysis(){
+  const isPhishingRaw = document.getElementById('phishing-select').value;
+  if(isPhishingRaw===''){  showToast('Select a classification.'); return; }
+  if(!selectedResponse){   showToast('Select a response action.'); return; }
+
+  const isPhishing = isPhishingRaw==='true';
+  const email      = currentEmail;
+  let pts = 0;
+  const fb = { cls:'', ind:'', thr:'', res:'' };
+
+  // Classification: 4 pts
+  if(email.isPhishing===isPhishing){ pts+=4; fb.cls='pass'; }
+  else fb.cls = email.isPhishing
+    ? 'This is a phishing email. The sender address and request are not legitimate.'
+    : 'This is not a phishing attempt. No malicious intent is present.';
+
+  // Indicators: 3 pts
+  // Only score indicators when classification is correct — wrong classification
+  // means the user was not reading the email with the right frame of reference
+  const correctInds = email.indicators;
+  if(fb.cls !== 'pass'){
+    // Classification was wrong — don't reward or penalise indicator picks
+    fb.ind = 'Revisit the warning signs once you know what type of email this is.';
+  } else {
+    const missed = correctInds.filter(i=>!selectedIndicators.includes(i));
+    const extra  = selectedIndicators.filter(i=>!correctInds.includes(i));
+    if(!missed.length&&!extra.length){ pts+=3; fb.ind='pass'; }
+    else if(!missed.length&&extra.length===1){ pts+=2; fb.ind='Almost. One indicator selected does not apply here.'; }
+    else if(missed.length===1&&!extra.length){ pts+=2; fb.ind='Almost. You missed one indicator.'; }
+    else if(!correctInds.length&&!selectedIndicators.length){ pts+=3; fb.ind='pass'; }
+    else{
+      pts+=Math.max(0,1);
+      let m='';
+      if(missed.length) m+='Missed: '+missed.join(', ')+'. ';
+      if(extra.length)  m+='Does not apply: '+extra.join(', ')+'.';
+      fb.ind=m.trim();
+    }
+  }
+
+  // Response: 5 pts
+  if(selectedResponse===email.correctResponse){ pts+=5; fb.res='pass'; }
+  else{
+    const correct = responseOptions.find(r=>r.id===email.correctResponse);
+    fb.res = 'Best response: '+( correct?correct.text:email.correctResponse)+'. ';
+    if(email.correctResponse==='report'&&selectedResponse==='spam')
+      fb.res+='This email is a security threat, not just spam. Your IT team needs to investigate.';
+    else if(email.correctResponse==='spam'&&selectedResponse==='ignore')
+      fb.res+='Marking as spam helps your mail filter learn and protects other people in your organisation.';
+    else if(email.correctResponse==='ignore'&&selectedResponse!=='ignore')
+      fb.res+='This is a legitimate email. Reporting it would create unnecessary work for your IT team.';
+  }
+  const fb_thr = null; // no threat level in user mode
+
+  const timeSpent = Math.floor((Date.now()-analysisStartTime)/1000);
+  confidenceMetrics.timesSpent.push(timeSpent);
+  score += pts;
+  analysisResults.push({
+    emailId:email.id, from:email.from, subject:email.subject,
+    userClassification:isPhishing, actualClassification:email.isPhishing,
+    indicators:selectedIndicators, response:selectedResponse,
+    score:pts, timeSpent
+  });
+
+  displayFeedback(fb, pts);
+  document.getElementById('action-buttons').style.display = 'none';
+  document.getElementById('continue-button').style.display = 'block';
+  if(timerInterval) clearInterval(timerInterval);
+  currentEmail = null;
+  selectedEmails = selectedEmails.filter(e=>e.id!==email.id);
+  updateProgress();
+  // Show completion screen after a beat if all emails are done
+  if(analysisResults.length >= 5){
+    setTimeout(()=>{ closeModal(); setTimeout(showCompletion, 400); }, 1200);
+  }
+}
+
+function displayFeedback(fb, pts){
+  const cls = pts>=10?'correct':pts>=7?'partial':'incorrect';
+  const rows = [
+    ['Was this phishing?',   fb.cls],
+    ['Warning signs',        fb.ind],
+    ['Your response',        fb.res],
+  ].map(([label,result])=>`
+    <div class="fb-row">
+      <span class="${result==='pass'?'fb-ok':'fb-err'}">${result==='pass'?'✓':'✗'}</span>
+      <span><strong>${label}:</strong> ${result==='pass'?'Correct.':result}</span>
+    </div>`).join('');
+
+  const panel = document.getElementById('feedback-panel');
+  panel.className = 'feedback '+cls;
+  panel.innerHTML = `<div class="fb-score">${pts} / 12 &nbsp; ${pts>=10?'★★★':pts>=7?'★★':'★'}</div>${rows}`;
+  panel.style.display = 'block';
+}
+
+function getResponseText(id){ return (responseOptions.find(r=>r.id===id)||{}).text||id; }
+
+// ═══ RESULTS ═══
+function renderResults(filter='all'){
+  const tbody = document.getElementById('results-table-body');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+
+  const filtered = analysisResults.filter(r=>{
+    if(filter==='phishing')    return r.actualClassification;
+    if(filter==='non-phishing')return !r.actualClassification;
+    if(filter==='incorrect')   return r.userClassification!==r.actualClassification;
+    return true;
+  });
+
+  filtered.forEach(r=>{
+    const correct = r.userClassification===r.actualClassification;
+    const tr = document.createElement('tr');
+    tr.className = correct?'correct':'incorrect';
+    tr.innerHTML = `
+      <td>${r.emailId}</td>
+      <td style="color:var(--txt);">${r.subject}</td>
+      <td>${r.userClassification?'Phishing':'Legitimate'}</td>
+      <td>${r.actualClassification?'Phishing':'Legitimate'}</td>
+      <td>${getResponseText(r.response)}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;color:${r.score>=12?'var(--grn)':r.score>=8?'var(--amber)':'var(--red)'};">${r.score}/15</td>
+      <td style="color:var(--txt3);">${r.timeSpent}s</td>`;
+    tbody.appendChild(tr);
+  });
+
+  if(analysisResults.length>0){
+    const sum   = document.getElementById('performance-summary');
+    const fp    = analysisResults.filter(r=>!r.actualClassification&&r.userClassification).length;
+    const fn    = analysisResults.filter(r=>r.actualClassification&&!r.userClassification).length;
+    const avg   = (analysisResults.reduce((s,r)=>s+r.score,0)/analysisResults.length).toFixed(1);
+    const tier  = score>=55?'tier-ready':score>=35?'tier-review':'tier-risk';
+    const tText = score>=55?'EXCELLENT':score>=35?'DEVELOPING':'NEEDS IMPROVEMENT';
+    sum.innerHTML = `
+      <div class="tier-strip ${tier}">${tText} &nbsp;&middot;&nbsp; ${score} points</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-val" style="color:var(--amber);">${fp}</div><div class="stat-lbl">False Positives</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--red);">${fn}</div><div class="stat-lbl">False Negatives</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--blue);">${avg}</div><div class="stat-lbl">Avg Score / Email</div></div>
+      </div>`;
+  }
+}
+
+document.getElementById('results-filter').addEventListener('change', e=>renderResults(e.target.value));
+
+// ═══ THREAT TOOLTIP ═══
+// ═══ PDF EXPORT ═══
+function downloadPDF(){
+  if(!analysisResults.length){ showToast('No results to export yet.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const tier = score>=160?'Analyst Ready':score>=120?'Needs Review':'High Risk';
+  const fp   = analysisResults.filter(r=>!r.actualClassification&&r.userClassification).length;
+  const fn   = analysisResults.filter(r=>r.actualClassification&&!r.userClassification).length;
+  doc.setFontSize(18); doc.text('BarracudaGuard Performance Report',20,20);
+  doc.setFontSize(11);
+  doc.text('Analyst: '+currentUser,20,30);
+  doc.text('Date: '+new Date().toLocaleDateString(),20,36);
+  doc.text('Mode: '+currentMode.charAt(0).toUpperCase()+currentMode.slice(1),20,42);
+  doc.setFontSize(14); doc.text('Performance Tier: '+tier,20,52);
+  doc.setFontSize(11); doc.text('Total Score: '+score+'/60',20,60);
+  doc.text('False Positives: '+fp+' | False Negatives: '+fn,20,68);
+  doc.autoTable({
+    startY:76,
+    head:[['ID','Subject','Classification','Response','Score','Time']],
+    body:analysisResults.map(r=>[
+      r.emailId, r.subject.slice(0,28),
+      r.userClassification===r.actualClassification?'Correct':'Incorrect',
+      getResponseText(r.response).slice(0,18),
+      r.score+'/12', r.timeSpent+'s'
+    ]),
+    theme:'grid', styles:{fontSize:8}, headStyles:{fillColor:[37,99,235]}
+  });
+  doc.save('BarracudaGuard_'+currentUser+'_'+new Date().toISOString().split('T')[0]+'.pdf');
+  showToast('Report exported.');
+}
+
+function resetSession(){
+  const bar = document.getElementById('confirm-bar');
+  if(bar) bar.classList.add('show');
+}
+function hideConfirm(){
+  const bar = document.getElementById('confirm-bar');
+  if(bar) bar.classList.remove('show');
+}
+function doReset(){
+  hideConfirm();
+  clearLS();
+  score=0; analysisResults=[]; selectedEmails=[];
+  if(emails.length) loadEmails(emails, currentUser);
+  renderResults('all');
+  updateProgress();
+  showView('emails');
+  showBanner('Session cleared. Starting fresh.');
+}
+
+// ═══ COMPLETION ═══
+function showCompletion(){
+  const pts = score;
+  const tierCls = pts>=50?'excellent':pts>=35?'developing':'atrisk';
+  const tierTxt = pts>=50?'Excellent':pts>=35?'Good start':'Keep at it';
+  document.getElementById('cs-pts').textContent = pts;
+  document.getElementById('cs-tier').textContent = tierTxt;
+  document.getElementById('cs-tier').className = 'cs-tier '+tierCls;
+  // sub message
+  const correct = analysisResults.filter(r=>r.userClassification===r.actualClassification).length;
+  let subMsg;
+  if(pts>=50){
+    subMsg = correct+' of 5 correctly classified. Sharp instincts.';
+  } else if(pts>=35){
+    subMsg = correct+' of 5 correctly classified. Solid start — the results will show you where to focus.';
+  } else if(correct>=3){
+    subMsg = correct+' of 5 correctly classified. You are developing the right instincts. Review the results to see the patterns you missed.';
+  } else {
+    subMsg = 'Phishing emails are designed to fool people — that is literally their job. Check the results to see the specific signs to look for next time.';
+  }
+  document.getElementById('cs-sub').textContent = subMsg;
+  document.getElementById('completion-screen').classList.add('show');
+  spawnConfetti();
+}
+function hideCompletion(){
+  document.getElementById('completion-screen').classList.remove('show');
+}
+function spawnConfetti(){
+  const colors = ['var(--blue)','var(--grn)','var(--amber)','var(--purple)','#f97316'];
+  const screen = document.getElementById('completion-screen');
+  for(let i=0;i<28;i++){
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    dot.style.left = Math.random()*100+'%';
+    dot.style.background = colors[Math.floor(Math.random()*colors.length)];
+    dot.style.animationDuration = (1.8+Math.random()*2)+'s';
+    dot.style.animationDelay = (Math.random()*0.8)+'s';
+    screen.appendChild(dot);
+    dot.addEventListener('animationend',()=>dot.remove());
+  }
+}
+
+// ═══ ESCAPE KEY ═══
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeModal();
+});
+
+
+// ── VIEWPORT SCALE: Fit app to any screen size ──
+function fitToViewport(){
+  const app = document.getElementById('app');
+  if(!app || !app.classList.contains('show')) return;
+  // Reset first
+  app.style.transform = '';
+  app.style.transformOrigin = '';
+  app.style.width = '';
+  app.style.height = '';
+  const vw = window.innerWidth;
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  const minW = 320; // minimum design width
+  if(vw < minW){
+    const scale = vw / minW;
+    app.style.transformOrigin = 'top left';
+    app.style.transform = 'scale('+scale+')';
+    app.style.width = minW+'px';
+    app.style.height = (vh/scale)+'px';
+  } else {
+    app.style.height = vh+'px';
+  }
+}
+window.addEventListener('resize', fitToViewport);
+window.addEventListener('orientationchange', function(){ setTimeout(fitToViewport, 150); });
+
+// ═══ INIT ═══
+document.addEventListener('DOMContentLoaded',()=>{ runLoading(); });
+</script>
+</body>
+</html>
