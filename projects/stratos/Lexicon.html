@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexicon - Word Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #0f3460;
+            color: #e8e8e8;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .settings-btn, .help-btn {
+            position: absolute;
+            top: 0;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+        .help-btn    { left: 0; }
+        .settings-btn { right: 0; }
+        .settings-btn:hover { transform: rotate(90deg); }
+        .help-btn:hover,
+        .settings-btn:hover { transform: scale(1.1); }
+        body.dark-mode .settings-btn,
+        body.dark-mode .help-btn { color: #e8e8e8; }
+        .logo { font-size: 48px; margin-bottom: 10px; }
+        h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        body.dark-mode h1 { color: #a8b5ff; }
+        .user-info {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .user-info {
+            background: #16213e;
+            color: #b8b8b8;
+        }
+
+        .game-board { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .guess-row   { display: flex; gap: 8px; justify-content: center; }
+        .letter-box {
+            width: 60px; height: 60px;
+            border: 2px solid #d1d5db; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: bold; text-transform: uppercase;
+            background: white; transition: border-color 0.2s ease;
+        }
+        .letter-box.filled { border-color: #667eea; animation: pop 0.1s ease; }
+        body.dark-mode .letter-box {
+            background: #1a1a2e; border-color: #4a5568; color: #e8e8e8;
+        }
+        body.dark-mode .letter-box.filled { border-color: #a8b5ff; }
+        @keyframes pop { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .letter-box.evaluated { border-color: transparent; }
+        .letter-box.correct  { background: #10b981; border-color: #10b981; color: white; }
+        .letter-box.present  { background: #f59e0b; border-color: #f59e0b; color: white; }
+        .letter-box.absent   { background: #6b7280; border-color: #6b7280; color: white; }
+        body.high-contrast .letter-box.correct { background: #0066ff; }
+        body.high-contrast .letter-box.present { background: #ff8800; }
+        .letter-box.flip { animation: flip 0.6s ease forwards; }
+        @keyframes flip {
+            0%   { transform: rotateX(0); }
+            50%  { transform: rotateX(90deg); }
+            100% { transform: rotateX(0); }
+        }
+
+        /* Contextual Definition Component */
+        .definition-card {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+            position: relative;
+            animation: slideDown 0.4s ease;
+        }
+        body.dark-mode .definition-card {
+            background: #1a2342;
+            border-left-color: #a8b5ff;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .def-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #312e81;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        body.dark-mode .def-title { color: #c7d2fe; }
+        .tts-btn {
+            position: absolute; right: 20px; top: 20px;
+            background: #e0e7ff; border: none; font-size: 18px;
+            width: 36px; height: 36px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        body.dark-mode .tts-btn { background: #2e3b6e; color: #c7d2fe; }
+        .def-meta {
+            font-size: 13px;
+            font-style: italic;
+            color: #4f46e5;
+            margin-bottom: 10px;
+        }
+        body.dark-mode .def-meta { color: #93c5fd; }
+        .def-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #1f2937;
+        }
+        body.dark-mode .def-text { color: #e5e7eb; }
+
+        .button-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        button {
+            padding: 12px; font-size: 16px; font-weight: 600;
+            border: none; border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .previous-btn {
+            flex: 1; background: #8b5cf6; color: white;
+        }
+        .previous-btn:hover {
+            background: #7c3aed; transform: translateY(-2px);
+        }
+        body.dark-mode .previous-btn { background: #6d28d9; }
+        .message {
+            text-align: center; padding: 15px; border-radius: 10px;
+            margin-bottom: 20px; font-weight: 600; display: none;
+        }
+        .message.success { background: #d1fae5; color: #065f46; display: block; }
+        .message.error   { background: #fee2e2; color: #991b1b; display: block; }
+        .message.info    { background: #dbeafe; color: #1e40af; display: block; }
+        body.dark-mode .message.success { background: #064e3b; color: #6ee7b7; }
+        body.dark-mode .message.error   { background: #7f1d1d; color: #fca5a5; }
+        body.dark-mode .message.info    { background: #1e3a8a; color: #93c5fd; }
+        .stats {
+            background: #f8f9fa; padding: 15px; border-radius: 10px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            text-align: center; margin-bottom: 20px;
+        }
+        body.dark-mode .stats { background: #16213e; }
+        .stat-item { padding: 10px; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #667eea; }
+        body.dark-mode .stat-value { color: #a8b5ff; }
+        .stat-label { font-size: 12px; color: #6b7280; margin-top: 5px; }
+        body.dark-mode .stat-label { color: #9ca3af; }
+        .stats-note {
+            font-size: 12px; color: #6b7280; text-align: center; margin-top: 5px;
+        }
+        body.dark-mode .stats-note { color: #9ca3af; }
+        .keyboard { display: flex; flex-direction: column; gap: 8px; }
+        .keyboard-row { display: flex; gap: 6px; justify-content: center; }
+        .key {
+            min-width: 32px; height: 50px; padding: 0 12px;
+            border: none; border-radius: 6px; background: #d1d5db;
+            color: black; font-weight: 600; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        body.dark-mode .key { background: #4a5568; color: #e8e8e8; }
+        .key:hover { background: #9ca3af; }
+        body.dark-mode .key:hover { background: #6b7280; }
+        .key.correct { background: #10b981; color: white; }
+        .key.present { background: #f59e0b; color: white; }
+        .key.absent  { background: #6b7280; color: white; }
+        body.high-contrast .key.correct { background: #0066ff; }
+        body.high-contrast .key.present { background: #ff8800; }
+        .key.wide { min-width: 60px; font-size: 14px; }
+        .modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7); z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white; border-radius: 20px; padding: 30px;
+            max-width: 440px; width: 90%; max-height: 80vh; overflow-y: auto;
+        }
+        body.dark-mode .modal-content {
+            background: #0f3460; color: #e8e8e8;
+        }
+        .modal-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            font-size: 24px; color: #667eea;
+        }
+        body.dark-mode .modal-header h2 { color: #a8b5ff; }
+        .close-btn {
+            background: none; border: none; font-size: 28px;
+            cursor: pointer; color: #6b7280; padding: 0;
+            width: 30px; height: 30px;
+        }
+        body.dark-mode .close-btn { color: #9ca3af; }
+        .setting-item {
+            padding: 15px 0; border-bottom: 1px solid #e5e7eb;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        body.dark-mode .setting-item { border-bottom-color: #4a5568; }
+        .setting-item:last-child { border-bottom: none; }
+        .setting-item.vertical { flex-direction: column; align-items: flex-start; gap: 8px; }
+        .setting-info h3 { font-size: 16px; margin-bottom: 5px; }
+        .setting-info p  { font-size: 12px; color: #6b7280; line-height: 1.4; }
+        body.dark-mode .setting-info p { color: #9ca3af; }
+
+        .voice-dropdown {
+            width: 100%; padding: 8px 12px; border-radius: 8px;
+            border: 2px solid #667eea; background: white;
+            color: #111827; font-size: 13px; font-weight: 600; cursor: pointer;
+        }
+        body.dark-mode .voice-dropdown {
+            background: #1a1a2e; border-color: #a8b5ff; color: #e8e8e8;
+        }
+        .compatibility-notice {
+            width: 100%; background: #f3f4f6; border-left: 4px solid #f59e0b;
+            padding: 10px; border-radius: 6px; font-size: 11.5px;
+            color: #4b5563; line-height: 1.4; margin-top: 4px;
+        }
+        body.dark-mode .compatibility-notice {
+            background: #16213e; color: #9ca3af;
+        }
+        .compatibility-notice strong { color: #d97706; }
+        body.dark-mode .compatibility-notice strong { color: #fbbf24; }
+
+        .toggle-switch {
+            position: relative; width: 50px; height: 26px; flex-shrink: 0;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; inset: 0;
+            background-color: #ccc; transition: .4s; border-radius: 26px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px;
+            left: 4px; bottom: 4px; background-color: white;
+            transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #667eea; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .date-picker {
+            margin-top: 20px; padding: 15px;
+            background: #f8f9fa; border-radius: 10px;
+        }
+        body.dark-mode .date-picker { background: #16213e; }
+        .date-picker label { display: block; margin-bottom: 10px; font-weight: 600; }
+        .date-picker input {
+            width: 100%; padding: 10px; border: 2px solid #d1d5db;
+            border-radius: 8px; font-size: 16px;
+        }
+        body.dark-mode .date-picker input {
+            background: #1a1a2e; border-color: #4a5568; color: #e8e8e8;
+        }
+        .date-picker button {
+            width: 100%; margin-top: 10px;
+            background: #667eea; color: white;
+        }
+        .date-picker button:hover { background: #5568d3; }
+        /* Instructions modal extras */
+        .instructions-content { max-width: 500px; }
+        .instructions-content h3 {
+            color: #667eea; margin: 20px 0 10px; font-size: 18px;
+        }
+        body.dark-mode .instructions-content h3 { color: #a8b5ff; }
+        .instructions-content p,
+        .instructions-content ul {
+            color: #4b5563; line-height: 1.6; margin-bottom: 10px;
+        }
+        body.dark-mode .instructions-content p,
+        body.dark-mode .instructions-content ul { color: #d1d5db; }
+        .instructions-content ul { padding-left: 20px; }
+        .example-grid {
+            display: flex; gap: 5px; margin: 10px 0;
+        }
+        .example-box {
+            width: 40px; height: 40px; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: white; font-size: 20px;
+        }
+        .dont-show-again {
+            margin-top: 20px; padding: 12px;
+            background: #f3f4f6; border-radius: 8px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        body.dark-mode .dont-show-again { background: #1f2937; }
+        .dont-show-again input[type="checkbox"] {
+            width: 18px; height: 18px; cursor: pointer;
+        }
+        .dont-show-again label { cursor: pointer; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="help-btn" id="helpBtn">❓</button>
+            <button class="settings-btn" id="settingsBtn">⚙️</button>
+            <div class="logo">📚</div>
+            <h1>Lexicon</h1>
+        </div>
+        <div class="user-info">
+            <span id="username">Loading...</span>
+            <span id="dateDisplay"></span>
+            <span id="playingDate" style="display: none;"></span>
+        </div>
+        <div id="message" class="message"></div>
+        
+        <div id="definitionCard" class="definition-card">
+            <button class="tts-btn" id="ttsBtn" title="Speak complete definition metrics">🔊</button>
+            <div class="def-title" id="defWord">WORD</div>
+            <div class="def-meta" id="defMeta">noun • /pronunciation/ • Literature</div>
+            <div class="def-text" id="defText">Definition description layout metrics.</div>
+        </div>
+
+        <div class="game-board" id="gameBoard"></div>
+        <div class="button-group">
+            <button class="previous-btn" id="previousBtn">📅 Historical Archives</button>
+        </div>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="gamesPlayed">0</div>
+                <div class="stat-label">Played</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="winRate">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="currentStreak">0</div>
+                <div class="stat-label">Streak</div>
+            </div>
+        </div>
+        <div class="stats-note">Stats persist across sessions • Weekends don't break streaks</div>
+        <div class="keyboard" id="keyboard"></div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" id="closeSettings">×</button>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Demo Evaluation Mode</h3>
+                    <p>Bypass the 1-play-per-day restriction for infinite rapid context review</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="demoModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item vertical">
+                <div class="setting-info">
+                    <h3>Voice Profile Engine</h3>
+                    <p>Select an auditory profile to read definition text metrics aloud.</p>
+                </div>
+                <select id="voiceDropdown" class="voice-dropdown">
+                    <option value="">Scanning System Profiles...</option>
+                </select>
+                <div class="compatibility-notice">
+                    ℹ️ <strong>Audio Quality Notice:</strong> Text-to-speech audio quality varies based on your browser engine. For a premium, natural experience, we recommend using <strong>Microsoft Edge</strong>, <strong>Google Chrome</strong>, or <strong>Apple Safari</strong>. Privacy-centric configurations (such as Brave) or generic system profiles may produce a more robotic audio output due to strict browser sandboxing rules.
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Hard Mode</h3>
+                    <p>Any revealed hints must be used in subsequent guesses</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="hardModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Dark Mode</h3>
+                    <p>Reduce eye strain with darker colors</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>High Contrast Mode</h3>
+                    <p>Improved contrast for colorblindness</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="highContrastToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="previousModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Play Historical Archive</h2>
+                <button class="close-btn" id="closePrevious">×</button>
+            </div>
+            <div class="date-picker">
+                <label for="dateSelect">Select an archived date:</label>
+                <input type="date" id="dateSelect">
+                <button id="loadPreviousGame">Load Activity</button>
+                <button id="playTodayBtn">Play Today</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="instructionsModal">
+        <div class="modal-content instructions-content">
+            <div class="modal-header">
+                <h2>How to Play</h2>
+                <button class="close-btn" id="closeInstructions">×</button>
+            </div>
+            <p>Guess the hidden 5-letter word in up to 6 tries.</p>
+            <h3>Examples</h3>
+            <div class="example-grid">
+                <div class="example-box" style="background: #10b981;">W</div>
+                <div class="example-box" style="background: #10b981;">E</div>
+                <div class="example-box" style="background: #10b981;">A</div>
+                <div class="example-box" style="background: #10b981;">R</div>
+                <div class="example-box" style="background: #10b981;">Y</div>
+            </div>
+            <p><strong>W</strong>, <strong>E</strong>, <strong>A</strong>, <strong>R</strong>, and <strong>Y</strong> are in the word and in the correct position.</p>
+            <div class="example-grid">
+                <div class="example-box" style="background: #f59e0b;">P</div>
+                <div class="example-box" style="background: white; color: black;">I</div>
+                <div class="example-box" style="background: white; color: black;">L</div>
+                <div class="example-box" style="background: #f59e0b;">L</div>
+                <div class="example-box" style="background: white; color: black;">S</div>
+            </div>
+            <p><strong>P</strong> and <strong>L</strong> are in the word but in the wrong position.</p>
+            <div class="example-grid">
+                <div class="example-box" style="background: #6b7280;">V</div>
+                <div class="example-box" style="background: #6b7280;">O</div>
+                <div class="example-box" style="background: #6b7280;">I</div>
+                <div class="example-box" style="background: #6b7280;">D</div>
+                <div class="example-box" style="background: #6b7280;">S</div>
+            </div>
+            <p><strong>V</strong>, <strong>O</strong>, <strong>I</strong>, <strong>D</strong>, and <strong>S</strong> are not in the word.</p>
+            <div class="dont-show-again">
+                <input type="checkbox" id="dontShowInstructions">
+                <label for="dontShowInstructions">Don't show again</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Core Static Repository (Guaranteed local definitions)
+        const fallbackRepository = [
+            { word: "PRISM", type: "noun", pron: "ˈprɪzəm", subject: "Physics", def: "A solid geometric figure whose two end faces are similar, equal, and parallel rectilinear figures, and whose sides are parallelograms; used to refract light into a spectrum." },
+            { word: "PROSE", type: "noun", pron: "proʊz", subject: "Literature", def: "Written or spoken language in its ordinary form, without metrical structure." },
+            { word: "AMBER", type: "noun", pron: "ˈæmbər", subject: "Geology", def: "Fossilized tree resin, translucent and yellowish-brown, often containing preserved ancient insects or botanical remnants." },
+            { word: "VAPOR", type: "noun", pron: "ˈveɪpər", subject: "Chemistry", def: "A substance diffused or suspended in the air, especially one normally liquid or solid at ordinary temperatures." },
+            { word: "TROPE", type: "noun", pron: "troʊp", subject: "Literature", def: "A figurative or metaphorical use of a word or expression; a significant or recurrent theme, motif, or device." },
+            { word: "OXIDE", type: "noun", pron: "ˈɒksaɪd", subject: "Chemistry", def: "A binary compound of oxygen with another element or radical." },
+            { word: "GENUS", type: "noun", pron: "ˈdʒiːnəs", subject: "Biology", def: "A principal taxonomic category that ranks above species and below family, denoted by a capitalized Latin name." },
+            { word: "FOCUS", type: "noun", pron: "ˈfoʊkəs", subject: "Physics", def: "The point at which rays or waves meet after reflection or refraction, or the point from which diverging rays or waves appear to proceed." },
+            { word: "LYRIC", type: "adjective", pron: "ˈlɪrɪk", subject: "Literature", def: "Relating to the deep expression of feelings or a writer's emotions, usually brief and stanzaic." },
+            { word: "ATOLL", type: "noun", pron: "ˈætɒl", subject: "Geography", def: "A ring-shaped reef, island, or chain of islands formed of coral surrounding a central lagoon." },
+            { word: "GRAPH", type: "noun", pron: "ɡræf", subject: "Mathematics", def: "A diagram showing the relation between variable quantities, typically of two variables, each measured along one of a pair of axes." },
+            { word: "IONIC", type: "adjective", pron: "aɪˈɒnɪk", subject: "Chemistry", def: "Relating to, composed of, or using ions; a structural chemical bond formed by the electrostatic attraction of oppositely charged ions." },
+            { word: "LOGIC", type: "noun", pron: "ˈlɒdʒɪk", subject: "Philosophy", def: "Reasoning conducted according to strict principles of validity; a system or set of principles underlying an arrangement." }
+        ];
+
+        // State
+        let targetEntry = null;
+        let targetWord = '';
+        let currentGuess = '';
+        let guesses = [];
+        const maxGuesses = 6;
+        let gameOver = false;
+        let keyboardState = {};
+        let wordList = [];
+        let currentDate = new Date();
+        let playingPreviousDay = false;
+        let hardwareVoices = [];
+
+        let settings = {
+            demoMode: true,
+            hardMode: false,
+            darkMode: false,
+            highContrast: false,
+            hideInstructions: false,
+            preferredVoiceName: ''
+        };
+
+        let stats = {
+            played: 0,
+            won: 0,
+            streak: 0,
+            lastPlayedDate: null,
+            completedDates: {}
+        };
+
+        // Date Helpers
+        function parseDateInput(value) {
+            const [y, m, d] = value.split('-').map(Number);
+            return new Date(y, m - 1, d, 12, 0, 0);
+        }
+
+        function normalizeDate(d) {
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0);
+        }
+
+        function formatLongDate(d) {
+            return d.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function getDateKey(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        // Initialization Pipeline
+        document.addEventListener('DOMContentLoaded', async () => {
+            await fetchUserInfo();
+            displayDate();
+            loadSettings();
+            loadStats();
+            initVoiceRegistry();
+            
+            // Prime target immediately with fallback items so word is NEVER empty
+            useFallbackWords();
+            selectDailyWord();
+            
+            // Asynchronously try to fetch from external repository if it exists
+            await loadWordRepository();
+            
+            checkDailyStatus();
+            createGameBoard();
+            createKeyboard();
+            setupEventListeners();
+            showInstructionsIfNeeded();
+        });
+
+        async function fetchUserInfo() {
+            try {
+                const res = await fetch('/d2l/api/lp/1.0/users/whoami');
+                const data = await res.json();
+                document.getElementById('username').textContent = 
+                    `${data.FirstName || ''} ${data.LastName || ''}`.trim() || 'Student';
+            } catch {
+                document.getElementById('username').textContent = 'Student';
+            }
+        }
+
+        function displayDate() {
+            const today = normalizeDate(new Date());
+            document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            if (playingPreviousDay) {
+                document.getElementById('playingDate').textContent = ` (Playing Archive: ${formatLongDate(currentDate)})`;
+                document.getElementById('playingDate').style.display = 'inline';
+            } else {
+                document.getElementById('playingDate').style.display = 'none';
+            }
+        }
+
+        // Word Acquisition Engine
+        async function loadWordRepository() {
+            return new Promise(resolve => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'lexiconrepo.html', true);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const doc = new DOMParser().parseFromString(xhr.responseText, 'text/html');
+                            const ta = doc.querySelector('textarea#wordlist');
+                            if (ta) {
+                                try {
+                                    const parsed = JSON.parse(ta.textContent).words.map(w => w.toUpperCase());
+                                    if (parsed && parsed.length > 0) {
+                                        wordList = parsed;
+                                        selectDailyWord(); // Re-select with formal list
+                                        return resolve();
+                                    }
+                                } catch {}
+                            }
+                        }
+                        resolve();
+                    }
+                };
+                xhr.onerror = () => resolve();
+                xhr.send();
+            });
+        }
+
+        const holidays = [
+            '2026-01-01','2026-01-19','2026-02-16','2026-05-25',
+            '2026-07-03','2026-07-04','2026-09-07','2026-10-12',
+            '2026-11-11','2026-11-26','2026-11-27','2026-12-25'
+        ];
+
+        function isSkipDay(d) {
+            const normalized = normalizeDate(d);
+            const dow = normalized.getDay();
+            const dateKey = getDateKey(normalized);
+            return (dow === 0 || dow === 6) || holidays.includes(dateKey);
+        }
+
+        function getPreviousValidDay(d) {
+            let date = new Date(d);
+            date.setDate(date.getDate() - 1);
+            while (isSkipDay(date)) date.setDate(date.getDate() - 1);
+            return normalizeDate(date);
+        }
+
+        function getNextValidDay(d) {
+            let date = new Date(d);
+            date.setDate(date.getDate() + 1);
+            while (isSkipDay(date)) date.setDate(date.getDate() + 1);
+            return normalizeDate(date);
+        }
+
+        function selectDailyWord() {
+            let date = playingPreviousDay ? normalizeDate(currentDate) : normalizeDate(new Date());
+
+            if (isSkipDay(date)) {
+                date = getPreviousValidDay(date);
+            }
+
+            const startDate = new Date(2026, 0, 1, 12); 
+            let dayCount = 0;
+            let current = new Date(startDate);
+
+            while (current < date) {
+                if (!isSkipDay(current)) dayCount++;
+                current.setDate(current.getDate() + 1);
+            }
+
+            // Absolute sanity check safeguard if word list array is vacant or zero during initialization loops
+            if (!wordList || wordList.length === 0) {
+                useFallbackWords();
+            }
+            
+            let index = dayCount;
+            if (settings.demoMode && playingPreviousDay) {
+                // Incorporate day-specific seed variances safely using the safe length count bounds
+                index = (dayCount + date.getDate() + date.getMonth()) % wordList.length;
+            } else {
+                index = dayCount % wordList.length;
+            }
+
+            const selectedWord = wordList[index].toUpperCase();
+            
+            // Map structured text properties from target definitions
+            targetEntry = fallbackRepository.find(e => e.word === selectedWord) || {
+                word: selectedWord,
+                type: "noun",
+                pron: "wɜːrd",
+                subject: "Academic",
+                def: "Core vocabulary term validated through dynamic validation schemas."
+            };
+            
+            targetWord = targetEntry.word;
+            document.getElementById('definitionCard').style.display = 'none';
+        }
+
+        function useFallbackWords() {
+            wordList = fallbackRepository.map(item => item.word);
+        }
+
+        // Game Play Execution Loops
+        function checkDailyStatus() {
+            if (settings.demoMode) return;
+
+            const today = normalizeDate(new Date());
+            if (isSkipDay(today) && !playingPreviousDay) {
+                const next = getNextValidDay(today);
+                const type = (today.getDay() === 0 || today.getDay() === 6) ? 'weekend' : 'holiday';
+                showMessage(`Enjoy your ${type}! Next activity: ${next.toLocaleDateString('en-US', {weekday:'long',month:'long',day:'numeric'})}`, 'info');
+                gameOver = true;
+                return;
+            }
+
+            const key = getDateKey(today);
+            if (!playingPreviousDay && stats.completedDates[key]) {
+                gameOver = true;
+                showMessage("You've already completed today's activity! Come back tomorrow or play an archived day.", 'info');
+                revealDefinitionCard();
+            }
+        }
+
+        function createGameBoard() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+            for (let r = 0; r < maxGuesses; r++) {
+                const row = document.createElement('div');
+                row.className = 'guess-row';
+                for (let c = 0; c < 5; c++) {
+                    const box = document.createElement('div');
+                    box.className = 'letter-box';
+                    box.dataset.row = r;
+                    box.dataset.col = c;
+                    row.appendChild(box);
+                }
+                board.appendChild(row);
+            }
+        }
+
+        function clearKeyboardStyles() {
+            document.querySelectorAll('.key').forEach(key => {
+                key.classList.remove('correct', 'present', 'absent');
+            });
+        }
+
+        function createKeyboard() {
+            const kb = document.getElementById('keyboard');
+            const layout = [
+                ['Q','W','E','R','T','Y','U','I','O','P'],
+                ['A','S','D','F','G','H','J','K','L'],
+                ['↵','Z','X','C','V','B','N','M','⌫']
+            ];
+            kb.innerHTML = '';
+            layout.forEach(keys => {
+                const div = document.createElement('div');
+                div.className = 'keyboard-row';
+                keys.forEach(k => {
+                    const btn = document.createElement('button');
+                    btn.className = 'key' + ((k==='↵'||k==='⌫')?' wide':'');
+                    btn.textContent = k;
+                    btn.dataset.key = k;
+                    btn.addEventListener('click', handleKeyboardClick);
+                    div.appendChild(btn);
+                });
+                kb.appendChild(div);
+            });
+        }
+
+        function handleKeyboardClick(e) {
+            if (gameOver) return;
+            const k = e.target.dataset.key;
+            if (k === '↵')      submitGuess();
+            else if (k === '⌫') {
+                currentGuess = currentGuess.slice(0,-1);
+                updateCurrentRow();
+            }
+            else if (currentGuess.length < 5) {
+                currentGuess += k;
+                updateCurrentRow();
+            }
+        }
+
+        document.addEventListener('keydown', e => {
+            if (gameOver) return;
+            const k = e.key.toUpperCase();
+            if      (k === 'ENTER')    submitGuess();
+            else if (k === 'BACKSPACE') {
+                currentGuess = currentGuess.slice(0,-1);
+                updateCurrentRow();
+            }
+            else if (/^[A-Z]$/.test(k) && currentGuess.length < 5) {
+                currentGuess += k;
+                updateCurrentRow();
+            }
+        });
+
+        function updateCurrentRow() {
+            const rowIdx = guesses.length;
+            for (let i = 0; i < 5; i++) {
+                const box = document.querySelector(`[data-row="${rowIdx}"][data-col="${i}"]`);
+                if (!box) continue;
+                box.textContent = currentGuess[i] || '';
+                box.classList.toggle('filled', i < currentGuess.length);
+            }
+        }
+
+        function evaluateGuessArray(guess) {
+            const res = Array(5).fill('absent');
+            const t = targetWord.split('');
+            const g = guess.split('');
+
+            for (let i = 0; i < 5; i++) {
+                if (g[i] === t[i]) { res[i] = 'correct'; t[i] = null; }
+            }
+            for (let i = 0; i < 5; i++) {
+                if (res[i] === 'correct') continue;
+                const idx = t.indexOf(g[i]);
+                if (idx !== -1) { res[i] = 'present'; t[idx] = null; }
+            }
+            return res;
+        }
+
+        function evaluateGuess(guess, row) {
+            const result = evaluateGuessArray(guess);
+            const letters = guess.split('');
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const box = document.querySelector(`[data-row="${row}"][data-col="${i}"]`);
+                    if (!box) return;
+                    box.classList.add('flip');
+                    setTimeout(() => box.classList.add('evaluated', result[i]), 300);
+                    updateKeyboard(letters[i], result[i]);
+                }, i * 300);
+            }
+        }
+
+        function updateKeyboard(letter, state) {
+            if (keyboardState[letter] === 'correct') return;
+            if (keyboardState[letter] === 'present' && state === 'absent') return;
+            keyboardState[letter] = state;
+            const key = document.querySelector(`[data-key="${letter}"]`);
+            if (key) {
+                key.classList.remove('correct','present','absent');
+                key.classList.add(state);
+            }
+        }
+
+        function validateHardMode(guess) {
+            if (!settings.hardMode || guesses.length === 0) return true;
+            const prev = guesses[guesses.length-1];
+            const evalPrev = evaluateGuessArray(prev);
+
+            for (let i = 0; i < 5; i++) {
+                if (evalPrev[i] === 'correct' && guess[i] !== prev[i]) {
+                    showMessage(`Position ${i+1} must be ${prev[i]}`, 'error');
+                    return false;
+                }
+            }
+
+            const required = prev.split('').filter((_,i) => evalPrev[i] === 'present');
+            for (const l of required) {
+                if (!guess.includes(l)) {
+                    showMessage(`Guess must contain ${l}`, 'error');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function submitGuess() {
+            if (gameOver || currentGuess.length !== 5) {
+                if (currentGuess.length !== 5) showMessage('Please enter a 5-letter word', 'error');
+                return;
+            }
+
+            if (!validateHardMode(currentGuess)) return;
+
+            guesses.push(currentGuess);
+            evaluateGuess(currentGuess, guesses.length - 1);
+
+            const isWin = currentGuess === targetWord;
+
+            setTimeout(() => {
+                if (isWin) {
+                    gameOver = true;
+                    stats.won++;
+                    stats.streak++;
+                    showMessage(`🎉 Correct! The word was ${targetWord}`, 'success');
+                } else if (guesses.length >= maxGuesses) {
+                    gameOver = true;
+                    showMessage(`Evaluation concluded. The word was ${targetWord}`, 'error');
+                }
+
+                if (gameOver) {
+                    const todayKey = getDateKey(playingPreviousDay ? currentDate : normalizeDate(new Date()));
+                    stats.completedDates[todayKey] = true;
+                    stats.lastPlayedDate = todayKey;
+                    stats.played++;
+                    saveStats();
+                    updateStats();
+                    revealDefinitionCard();
+                }
+
+                currentGuess = '';
+                updateCurrentRow();
+            }, 600 * 5 + 200);
+        }
+
+        function showMessage(text, type) {
+            const el = document.getElementById('message');
+            el.textContent = text;
+            el.className = `message ${type}`;
+            if (type === 'error') setTimeout(() => {
+                if(el.classList.contains('error')) el.className = 'message';
+            }, 2200);
+        }
+
+        function revealDefinitionCard() {
+            if (!targetEntry) return;
+            const card = document.getElementById('definitionCard');
+            document.getElementById('defWord').textContent = targetEntry.word;
+            document.getElementById('defMeta').textContent = `${targetEntry.type} • /${targetEntry.pron}/ • ${targetEntry.subject}`;
+            document.getElementById('defText').textContent = targetEntry.def;
+            card.style.display = 'block';
+        }
+
+        // Auditory Voice Engineering Interfaces
+        function initVoiceRegistry() {
+            if (!('speechSynthesis' in window)) return;
+
+            const updateDropdown = () => {
+                hardwareVoices = window.speechSynthesis.getVoices();
+                const select = document.getElementById('voiceDropdown');
+                if(!select) return;
+                select.innerHTML = '';
+
+                const englishProfiles = hardwareVoices.filter(v => v.lang.startsWith('en'));
+
+                if(englishProfiles.length === 0) {
+                    const opt = document.createElement('option');
+                    opt.textContent = "Default System Profile";
+                    opt.value = "";
+                    select.appendChild(opt);
+                    return;
+                }
+
+                englishProfiles.sort((a, b) => {
+                    const premium = str => str.includes('Google') || str.includes('Natural') || str.includes('Aria');
+                    return premium(b.name) - premium(a.name);
+                });
+
+                englishProfiles.forEach(voice => {
+                    const opt = document.createElement('option');
+                    opt.value = voice.name;
+                    let badge = (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Aria')) ? '✨ [Premium] ' : '';
+                    opt.textContent = `${badge}${voice.name} (${voice.lang})`;
+                    if (settings.preferredVoiceName === voice.name) {
+                        opt.selected = true;
+                    }
+                    select.appendChild(opt);
+                });
+
+                if (!settings.preferredVoiceName && select.options.length > 0) {
+                    settings.preferredVoiceName = select.options[0].value;
+                    saveSettings();
+                }
+            };
+
+            updateDropdown();
+            if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                window.speechSynthesis.onvoiceschanged = updateDropdown;
+            }
+        }
+
+        function executeSpeechEngine() {
+            if (!targetEntry || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel(); 
+            
+            const cleanTextToSpeak = `${targetEntry.word}. ${targetEntry.type}. Learning subject: ${targetEntry.subject}. ${targetEntry.def}`;
+            const utterance = new SpeechSynthesisUtterance(cleanTextToSpeak);
+            
+            if (hardwareVoices.length === 0) hardwareVoices = window.speechSynthesis.getVoices();
+            
+            const chosenProfile = hardwareVoices.find(v => v.name === settings.preferredVoiceName);
+            if (chosenProfile) utterance.voice = chosenProfile;
+
+            utterance.rate = 0.95; 
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // State System Management
+        function loadSettings() {
+            const saved = localStorage.getItem('lexiconSettings');
+            if (saved) {
+                Object.assign(settings, JSON.parse(saved));
+                document.getElementById('demoModeToggle').checked    = settings.demoMode;
+                document.getElementById('hardModeToggle').checked    = settings.hardMode;
+                document.getElementById('darkModeToggle').checked    = settings.darkMode;
+                document.getElementById('highContrastToggle').checked = settings.highContrast;
+
+                document.body.classList.toggle('dark-mode',     settings.darkMode);
+                document.body.classList.toggle('high-contrast', settings.highContrast);
+            }
+        }
+
+        function saveSettings() {
+            localStorage.setItem('lexiconSettings', JSON.stringify(settings));
+        }
+
+        function loadStats() {
+            const saved = localStorage.getItem('lexiconStats');
+            if (saved) {
+                Object.assign(stats, JSON.parse(saved));
+                if (!stats.completedDates) stats.completedDates = {};
+            }
+            updateStats();
+        }
+
+        function saveStats() {
+            localStorage.setItem('lexiconStats', JSON.stringify(stats));
+        }
+
+        function updateStats() {
+            document.getElementById('gamesPlayed').textContent = stats.played;
+            const wr = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;
+            document.getElementById('winRate').textContent = wr + '%';
+            document.getElementById('currentStreak').textContent = stats.streak;
+        }
+
+        function showInstructionsIfNeeded() {
+            if (settings.hideInstructions) return;
+            const modal = document.getElementById('instructionsModal');
+            modal.classList.add('active');
+
+            document.getElementById('dontShowInstructions').addEventListener('change', e => {
+                settings.hideInstructions = e.target.checked;
+                saveSettings();
+            });
+        }
+
+        // Interface Binder Handlers
+        function setupEventListeners() {
+            const els = {
+                helpBtn:        document.getElementById('helpBtn'),
+                settingsBtn:    document.getElementById('settingsBtn'),
+                closeSettings:  document.getElementById('closeSettings'),
+                settingsModal:  document.getElementById('settingsModal'),
+                previousBtn:    document.getElementById('previousBtn'),
+                closePrevious:  document.getElementById('closePrevious'),
+                previousModal:  document.getElementById('previousModal'),
+                loadPrevious:   document.getElementById('loadPreviousGame'),
+                dateSelect:     document.getElementById('dateSelect'),
+                closeInst:      document.getElementById('closeInstructions'),
+                instModal:      document.getElementById('instructionsModal'),
+                playTodayBtn:   document.getElementById('playTodayBtn'),
+                voiceSelect:    document.getElementById('voiceDropdown'),
+                ttsBtn:         document.getElementById('ttsBtn')
+            };
+
+            let today = new Date();
+            els.dateSelect.max = today.toISOString().split('T')[0];
+            
+            let yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            els.dateSelect.value = yesterday.toISOString().split('T')[0];
+
+            els.helpBtn.addEventListener('click',        () => els.instModal.classList.add('active'));
+            els.closeInst.addEventListener('click',      () => els.instModal.classList.remove('active'));
+            els.settingsBtn.addEventListener('click',    () => els.settingsModal.classList.add('active'));
+            els.closeSettings.addEventListener('click',  () => els.settingsModal.classList.remove('active'));
+            els.previousBtn.addEventListener('click',    () => els.previousModal.classList.add('active'));
+            els.closePrevious.addEventListener('click',  () => els.previousModal.classList.remove('active'));
+
+            els.loadPrevious.addEventListener('click', () => {
+                if (!els.dateSelect.value) return;
+
+                const selectedDate = parseDateInput(els.dateSelect.value);
+                const todayNorm = normalizeDate(new Date());
+
+                if (selectedDate > todayNorm) {
+                    showMessage('Cannot play future dates', 'error');
+                    return;
+                }
+
+                if (!settings.demoMode && !playingPreviousDay && isSkipDay(selectedDate)) {
+                    showMessage('Cannot play archives of weekends or holidays.', 'error');
+                    return;
+                }
+
+                loadPreviousDay(selectedDate);
+                els.previousModal.classList.remove('active');
+            });
+
+            els.playTodayBtn.addEventListener('click', () => {
+                resetToToday();
+                els.previousModal.classList.remove('active');
+            });
+
+            els.voiceSelect.addEventListener('change', e => {
+                settings.preferredVoiceName = e.target.value;
+                saveSettings();
+                if ('speechSynthesis' in window && settings.preferredVoiceName) {
+                    window.speechSynthesis.cancel();
+                    const auditUtterance = new SpeechSynthesisUtterance("Audio sync verification.");
+                    const chosenProfile = hardwareVoices.find(v => v.name === settings.preferredVoiceName);
+                    if (chosenProfile) auditUtterance.voice = chosenProfile;
+                    window.speechSynthesis.speak(auditUtterance);
+                }
+            });
+
+            els.ttsBtn.addEventListener('click', executeSpeechEngine);
+
+            document.getElementById('demoModeToggle').addEventListener('change', e => {
+                settings.demoMode = e.target.checked; saveSettings();
+            });
+            document.getElementById('hardModeToggle').addEventListener('change', e => {
+                settings.hardMode = e.target.checked; saveSettings();
+            });
+            document.getElementById('darkModeToggle').addEventListener('change', e => {
+                settings.darkMode = e.target.checked;
+                document.body.classList.toggle('dark-mode', settings.darkMode);
+                saveSettings();
+            });
+            document.getElementById('highContrastToggle').addEventListener('change', e => {
+                settings.highContrast = e.target.checked;
+                document.body.classList.toggle('high-contrast', settings.highContrast);
+                saveSettings();
+            });
+
+            window.addEventListener('click', e => {
+                if (e.target === els.settingsModal) els.settingsModal.classList.remove('active');
+                if (e.target === els.previousModal) els.previousModal.classList.remove('active');
+                if (e.target === els.instModal)     els.instModal.classList.remove('active');
+            });
+        }
+
+        function loadPreviousDay(date) {
+            playingPreviousDay = true;
+            currentDate = normalizeDate(date);
+
+            guesses = [];
+            currentGuess = '';
+            gameOver = false;
+            keyboardState = {};
+
+            selectDailyWord();
+            displayDate();
+            createGameBoard();
+            clearKeyboardStyles();
+
+            document.getElementById('message').className = 'message';
+            
+            const dayKey = getDateKey(currentDate);
+            if (!settings.demoMode && stats.completedDates[dayKey]) {
+                gameOver = true;
+                showMessage(`Reviewing completed archive from ${formatLongDate(currentDate)}`, 'info');
+                revealDefinitionCard();
+            } else {
+                showMessage(`Playing historical archive from ${formatLongDate(currentDate)}`, 'info');
+            }
+        }
+
+        function resetToToday() {
+            playingPreviousDay = false;
+            guesses = [];
+            currentGuess = '';
+            gameOver = false;
+            keyboardState = {};
+            
+            const today = normalizeDate(new Date());
+            currentDate = today;
+            
+            if (!settings.demoMode && isSkipDay(today)) {
+                const next = getNextValidDay(today);
+                const type = (today.getDay() === 0 || today.getDay() === 6) ? 'weekend' : 'holiday';
+                showMessage(`Enjoy your ${type}! Next activity: ${next.toLocaleDateString('en-US', {weekday:'long',month:'long',day:'numeric'})}`, 'info');
+                gameOver = true;
+            } else {
+                const todayKey = getDateKey(today);
+                if (!settings.demoMode && stats.completedDates[todayKey]) {
+                    showMessage("You've already completed today's activity!", 'info');
+                    gameOver = true;
+                }
+            }
+            
+            selectDailyWord();
+            displayDate();
+            createGameBoard();
+            clearKeyboardStyles();
+            document.getElementById('message').className = 'message';
+            
+            if (gameOver && !settings.demoMode && stats.completedDates[getDateKey(today)]) {
+                revealDefinitionCard();
+            }
+        }
+    </script>
+</body>
+</html>
