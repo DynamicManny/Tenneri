@@ -119,9 +119,11 @@
     .footer-logo-img{width:22px;height:22px;object-fit:contain;opacity:.5}
     .footer-wordmark{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(248,246,241,0.4)}
     .footer-copy{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(248,246,241,0.3)}
-    .back-top{position:fixed;bottom:32px;right:32px;z-index:190;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s,background .2s;pointer-events:none;box-shadow:0 4px 20px rgba(27,45,79,.3);font-size:18px}
+    .back-top{position:fixed;bottom:32px;right:32px;z-index:190;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s,background .25s;pointer-events:none;box-shadow:0 4px 20px rgba(27,45,79,.3);font-size:18px}
     .back-top.show{opacity:1;transform:none;pointer-events:auto}
     .back-top:hover{background:var(--navy-light)}
+    .back-top.on-dark{background:var(--gold)}
+    .back-top.on-dark:hover{background:var(--gold-light)}
     @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
     @keyframes modalIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     .fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
@@ -180,7 +182,7 @@
 
 <main class="projects-section">
   <div class="projects-inner">
-    <span class="results-count" id="results-count">10 projects</span>
+    <span class="results-count" id="results-count">11 projects</span>
     <div class="projects-grid" id="projects-grid">
 
       <!-- 01: SENTINEL -->
@@ -358,7 +360,7 @@
   <div class="divider-line"></div>
 </div>
 
-<section class="cta-band" aria-labelledby="cta-heading">
+<section class="cta-band" aria-labelledby="cta-heading" id="cta-band">
   <div class="cta-band-inner">
     <div>
       <span class="cta-sub">Start a project</span>
@@ -371,7 +373,7 @@
   </div>
 </section>
 
-<footer>
+<footer id="site-footer">
   <div class="footer-brand">
     <img src="../Ten-Logo.png" alt="" class="footer-logo-img" onerror="this.style.display='none'">
     <span class="footer-wordmark">Tenneri</span>
@@ -646,7 +648,24 @@
   });
 
   const bt=document.getElementById('back-top');
-  window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>600);},{passive:true});
+  const darkSections=[document.getElementById('cta-band'),document.getElementById('site-footer')].filter(Boolean);
+
+  function isOverDarkSection(){
+    const btRect=bt.getBoundingClientRect();
+    const probeY=btRect.top+btRect.height/2;
+    for(const section of darkSections){
+      const r=section.getBoundingClientRect();
+      if(probeY>=r.top&&probeY<=r.bottom)return true;
+    }
+    return false;
+  }
+
+  function updateBackTop(){
+    bt.classList.toggle('show',window.scrollY>600);
+    bt.classList.toggle('on-dark',isOverDarkSection());
+  }
+  window.addEventListener('scroll',updateBackTop,{passive:true});
+  window.addEventListener('resize',updateBackTop);
   bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 </script>
 </body>
