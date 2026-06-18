@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Fundamentals: A Tenneri Module Design Demo</title>
+<meta name="description" content="An interactive eLearning module teaching API fundamentals through a live simulated request and response environment, built natively in HTML, CSS, and JavaScript with no authoring tool or third-party platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="page-top"></div>
+<div class="app" id="app" data-theme="light">
+
+  <header class="hero">
+    <div class="hero-texture"></div>
+    <div class="hero-inner">
+      <div class="hero-controls">
+        <button class="theme-btn" id="theme-btn">
+          <span id="theme-icon">🌙</span><span id="theme-label">Dark Mode</span>
+        </button>
+      </div>
+      <div class="hero-kicker">Module Design Demo &nbsp;·&nbsp; Interactive eLearning &nbsp;·&nbsp; Built Natively, No Authoring Tool</div>
+      <h1 class="hero-title">What is<br><em>an API?</em></h1>
+      <p class="hero-lead">This unit teaches API fundamentals through a fictional client, Solebound, a Caribbean footwear retailer whose business already runs on APIs. Every Shopify order, every WhatsApp message, every Google Calendar invite. This unit shows you what is actually happening under the hood, by letting you make your own API calls.</p>
+      <div class="hero-stats">
+        <div class="hs-item"><span class="hs-num">5</span><span class="hs-label">concepts</span></div>
+        <div class="hs-divider"></div>
+        <div class="hs-item"><span class="hs-num">1</span><span class="hs-label">live simulator</span></div>
+        <div class="hs-divider"></div>
+        <div class="hs-item"><span class="hs-num">3</span><span class="hs-label">real Solebound APIs</span></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab active" data-tab="t1"><span class="tab-n">01</span><span class="tab-name">APIs All Around You</span></button>
+      <button class="tab" data-tab="t2"><span class="tab-n">02</span><span class="tab-name">Anatomy of a Request</span></button>
+      <button class="tab" data-tab="t3"><span class="tab-n">03</span><span class="tab-name">Try It: API Simulator</span></button>
+      <button class="tab" data-tab="t4"><span class="tab-n">04</span><span class="tab-name">Auth and Keys</span></button>
+      <button class="tab" data-tab="t5"><span class="tab-n">05</span><span class="tab-name">Reading API Docs</span></button>
+      <button class="tab" data-tab="t6"><span class="tab-n">06</span><span class="tab-name">Reinforcement</span></button>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ══ TAB 1: APIS ALL AROUND YOU ════════════════════════════ -->
+    <div class="panel active" id="panel-t1">
+      <div class="editorial-header">
+        <div class="eh-label">Start here</div>
+        <h2 class="eh-title">APIs are already running Solebound</h2>
+        <p class="eh-sub">An API is a defined way for two software systems to talk to each other. You do not need to know how the other system works internally. You just need to know what to ask for and how to ask for it.</p>
+      </div>
+
+      <div class="prose-card">
+        <p>When a customer places an order on Solebound's Shopify store, Shopify does not email Amara manually. It calls an API. Specifically, it sends an HTTP request to a URL that Amara's Cloud Function is listening on, with the order details packaged as JSON. The function receives the request, reads the data, and does something with it. That exchange is an API call.</p>
+        <p>APIs are how the modern internet works. Every app you have used today has made dozens of them. They are not a developer-only concept. They are the language that connected systems speak to each other, and understanding them is the first step to building those connections.</p>
+      </div>
+
+      <div class="section-label">Solebound's APIs: already in use</div>
+
+      <div class="api-map" id="api-map"></div>
+
+      <div class="section-label" style="margin-top:28px">The restaurant analogy</div>
+
+      <div class="analogy-card">
+        <div class="an-col">
+          <div class="an-item">
+            <div class="an-icon">🍽️</div>
+            <div class="an-label">You (the customer)</div>
+            <div class="an-desc">Your application. You know what you want but you do not go into the kitchen to get it.</div>
+          </div>
+          <div class="an-arrow">→</div>
+          <div class="an-item">
+            <div class="an-icon">📋</div>
+            <div class="an-label">The menu</div>
+            <div class="an-desc">The API documentation. It tells you exactly what you can order and how to order it.</div>
+          </div>
+          <div class="an-arrow">→</div>
+          <div class="an-item">
+            <div class="an-icon">🧑‍🍳</div>
+            <div class="an-label">The waiter</div>
+            <div class="an-desc">The API itself. Takes your order to the kitchen and brings back the result.</div>
+          </div>
+          <div class="an-arrow">→</div>
+          <div class="an-item">
+            <div class="an-icon">👨‍🍳</div>
+            <div class="an-label">The kitchen</div>
+            <div class="an-desc">The server. You never see it. You just get what you ordered.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout blue-callout">
+        <span class="callout-icon">💡</span>
+        <div><strong>The key insight:</strong> You never need to know how the kitchen works. The Shopify API gives you order data without you understanding Shopify's database architecture. The WhatsApp API sends messages without you knowing anything about Meta's infrastructure. APIs are designed so you do not need to.</div>
+      </div>
+
+      <div class="tab-nav-hint">
+        <button class="hint-next" data-goto="t2">Next: Anatomy of a Request →</button>
+      </div>
+    </div>
+
+
+    <!-- ══ TAB 2: ANATOMY OF A REQUEST ═══════════════════════════ -->
+    <div class="panel" id="panel-t2">
+      <div class="editorial-header">
+        <div class="eh-label">The mechanics</div>
+        <h2 class="eh-title">Anatomy of an API request</h2>
+        <p class="eh-sub">Every API call has the same four parts. Click each part of this real Shopify API request to see what it does and why it matters.</p>
+      </div>
+
+      <div class="request-anatomy" id="request-anatomy"></div>
+
+      <div class="response-anatomy" id="response-anatomy"></div>
+
+      <div class="section-label" style="margin-top:8px">HTTP methods: the four verbs</div>
+      <div class="verb-grid" id="verb-grid"></div>
+
+      <div class="section-label" style="margin-top:8px">Status codes: what the server is telling you</div>
+      <div class="status-codes" id="status-codes"></div>
+
+      <div class="tab-nav-hint">
+        <button class="hint-next" data-goto="t3">Next: Try It →</button>
+      </div>
+    </div>
+
+
+    <!-- ══ TAB 3: API SIMULATOR ════════════════════════════════ -->
+    <div class="panel" id="panel-t3">
+      <div class="editorial-header">
+        <div class="eh-label">Hands on</div>
+        <h2 class="eh-title">The Solebound API simulator</h2>
+        <p class="eh-sub">A live simulated API for Solebound. Select an endpoint, configure the request, and send it. Watch the HTTP exchange happen in real time. This is exactly what your Cloud Functions do every time Shopify sends a webhook.</p>
+      </div>
+
+      <div class="simulator" id="simulator">
+        <div class="sim-left">
+          <div class="sim-section-label">Choose an endpoint</div>
+          <div class="endpoint-list" id="endpoint-list"></div>
+
+          <div class="sim-section-label" style="margin-top:16px">Request headers</div>
+          <div class="headers-display" id="headers-display"></div>
+
+          <div class="sim-section-label" style="margin-top:16px">Request body</div>
+          <div class="body-display" id="body-display"><div class="body-placeholder">Select an endpoint to see the request body</div></div>
+
+          <button class="send-btn" id="send-btn" disabled>
+            <span class="send-icon">▶</span>
+            <span id="send-label">Send request</span>
+          </button>
+        </div>
+
+        <div class="sim-right">
+          <div class="terminal" id="terminal">
+            <div class="term-bar">
+              <div class="term-dots"><span class="td td-r"></span><span class="td td-a"></span><span class="td td-g"></span></div>
+              <span class="term-title">solebound-api · terminal</span>
+            </div>
+            <div class="term-body" id="term-body">
+              <div class="term-line dim">$ Ready. Select an endpoint and send a request.</div>
+              <div class="term-line dim">$ The exchange will appear here.</div>
+              <div class="term-cursor">▊</div>
+            </div>
+          </div>
+
+          <div class="response-panel" id="response-panel" style="display:none">
+            <div class="rp-header">
+              <span class="rp-status" id="rp-status"></span>
+              <span class="rp-time" id="rp-time"></span>
+            </div>
+            <div class="rp-tabs">
+              <button class="rp-tab active" data-rp="body">Response body</button>
+              <button class="rp-tab" data-rp="headers">Response headers</button>
+              <button class="rp-tab" data-rp="explain">What happened</button>
+            </div>
+            <div class="rp-content" id="rp-body"></div>
+            <div class="rp-content hidden" id="rp-headers"></div>
+            <div class="rp-content hidden" id="rp-explain"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-nav-hint">
+        <button class="hint-next" data-goto="t4">Next: Auth and Keys →</button>
+      </div>
+    </div>
+
+
+    <!-- ══ TAB 4: AUTH AND KEYS ════════════════════════════════ -->
+    <div class="panel" id="panel-t4">
+      <div class="editorial-header">
+        <div class="eh-label">The security layer</div>
+        <h2 class="eh-title">Authentication and API keys</h2>
+        <p class="eh-sub">APIs are publicly accessible URLs. Without authentication, anyone who knows the URL could call them. Auth is how an API knows you are allowed to be there.</p>
+      </div>
+
+      <div class="auth-methods" id="auth-methods"></div>
+
+      <div class="section-label" style="margin-top:8px">The API key rules every practitioner lives by</div>
+
+      <div class="key-rules" id="key-rules"></div>
+
+      <div class="callout amber-callout">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>The most common mistake:</strong> Putting an API key directly in code that gets committed to a public GitHub repository. It happens constantly. API keys exposed in public repositories are found and exploited within minutes by automated scanners. Always use environment variables. Always.</div>
+      </div>
+
+      <div class="tab-nav-hint">
+        <button class="hint-next" data-goto="t5">Next: Reading API Docs →</button>
+      </div>
+    </div>
+
+
+    <!-- ══ TAB 5: READING API DOCS ════════════════════════════ -->
+    <div class="panel" id="panel-t5">
+      <div class="editorial-header">
+        <div class="eh-label">The practical skill</div>
+        <h2 class="eh-title">Reading API documentation</h2>
+        <p class="eh-sub">Every API has documentation. Reading it well is the skill that separates someone who can use any API from someone who can only use APIs they have been taught. Here is a real Shopify endpoint. Decode it.</p>
+      </div>
+
+      <div class="doc-reader" id="doc-reader"></div>
+
+      <div class="section-label" style="margin-top:20px">The five things to find in any API doc</div>
+
+      <div class="doc-checklist" id="doc-checklist"></div>
+
+      <div class="tab-nav-hint">
+        <button class="hint-next" data-goto="t6">Next: Reinforcement →</button>
+      </div>
+    </div>
+
+
+    <!-- ══ TAB 6: REINFORCEMENT ═══════════════════════════════ -->
+    <div class="panel" id="panel-t6">
+      <div class="editorial-header">
+        <div class="eh-label">Consolidation</div>
+        <h2 class="eh-title">Reinforcement</h2>
+        <p class="eh-sub">Six questions on API concepts, HTTP mechanics, authentication, and documentation. Some ask you to read a request and predict the outcome.</p>
+      </div>
+      <div class="quiz-progress-wrap">
+        <div class="qp-bar"><div class="qp-fill" id="qp-fill"></div></div>
+        <span class="qp-label" id="qp-label">0 of 6 answered</span>
+      </div>
+      <div class="quiz-cards" id="quiz-cards"></div>
+      <div class="score-reveal" id="score-reveal" style="display:none"></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ══════ DATA ════════════════════════════════════════════════════ */
+
+var API_MAP_ITEMS = [
+  {icon:'🛒', system:'Shopify', api:'Shopify Admin API + Webhooks', what:'Order data, inventory levels, product catalogue, customer records. Every online order Amara processes goes through this API.', calls_per_day:'~50–200', already_using:true},
+  {icon:'📱', system:'WhatsApp Business', api:'WhatsApp Business API (Meta)', what:'Sending automated messages to customers. Order confirmations, delivery updates, promotional messages.', calls_per_day:'~20–100', already_using:true},
+  {icon:'📧', system:'Google Workspace', api:'Gmail API, Calendar API, Drive API', what:'Reading and sending email, scheduling, document access. The Cloud Function offboarding workflow uses the Admin SDK.', calls_per_day:'~10–50', already_using:true},
+  {icon:'💳', system:'Stripe', api:'Stripe Payments API', what:'Processing card payments on the e-commerce store. Every card transaction is an API call to Stripe.', calls_per_day:'~20–100', already_using:true},
+  {icon:'🗄️', system:'Cloud SQL', api:'Cloud SQL Admin API', what:'The management API for Solebound\'s database. Used by Cloud Functions to read and write data programmatically.', calls_per_day:'~500–2000', already_using:false}
+];
+
+var ANATOMY_PARTS = [
+  {id:'method', label:'HTTP Method', value:'GET', color:'var(--teal)', position:'method',
+   what:'The verb. Tells the server what you want to do. GET = retrieve data. POST = send data. PUT = update. DELETE = remove.',
+   why:'Every API request must declare its intent upfront. The server uses the method to decide how to handle the request.'},
+  {id:'url', label:'Endpoint URL', value:'https://solebound.myshopify.com/admin/api/2024-01/orders.json', color:'var(--blue)', position:'url',
+   what:'The address of the resource you are requesting. Like a postal address for data. The path after the domain tells the server which specific resource you want.',
+   why:'Different paths return different data. /orders.json returns orders. /products.json returns products. /customers.json returns customers.'},
+  {id:'headers', label:'Headers', value:'X-Shopify-Access-Token: shpat_abc123\nContent-Type: application/json\nAccept: application/json', color:'var(--amber)', position:'headers',
+   what:'Metadata sent alongside the request. Authentication tokens, content type declarations, accepted response formats.',
+   why:'Headers are how you prove who you are (authentication) and tell the server what format you can handle. Without the right headers, most API calls fail immediately.'},
+  {id:'body', label:'Request Body', value:'(empty for GET requests)', color:'var(--muted)', position:'body',
+   what:'The data payload sent with the request. Only relevant for POST and PUT requests where you are sending data to the server.',
+   why:'For GET requests, all parameters go in the URL. For POST requests, the body contains the data you want to create or process.'}
+];
+
+var RESPONSE_PARTS = [
+  {id:'status', label:'Status Code', value:'200 OK', color:'var(--ok-txt)',
+   what:'A three-digit number telling you what happened. 200 = success. 404 = not found. 401 = unauthorized. 429 = rate limited. 500 = server error.',
+   why:'Status codes are the first thing you check when an API call returns. They tell you whether to parse the body as data or as an error message.'},
+  {id:'resp-headers', label:'Response Headers', value:'Content-Type: application/json\nX-Request-Id: f4a3b2c1\nX-Shopify-Shop-Api-Call-Limit: 2/40', color:'var(--blue)',
+   what:'Metadata from the server. Content type of the response, rate limit status, request tracking IDs.',
+   why:'The X-Shopify-Shop-Api-Call-Limit header tells you how many of your 40 allowed calls per minute you have used. Ignoring this leads to 429 rate limit errors.'},
+  {id:'resp-body', label:'Response Body', value:'{"orders": [{"id": 5001, "created_at": "2025-04-22T09:14:32Z", "total_price": "210.00", "line_items": [...]}]}', color:'var(--teal)',
+   what:'The actual data returned by the server, almost always in JSON format for modern APIs.',
+   why:'This is what you parse to get the information you need. Every Cloud Function that processes Shopify webhooks is reading a response body like this.'}
+];
+
+var VERB_ITEMS = [
+  {verb:'GET', color:'var(--teal)', desc:'Retrieve data. Does not change anything on the server.', example:'GET /orders.json — fetch the order list'},
+  {verb:'POST', color:'var(--blue)', desc:'Send data to create something new.', example:'POST /orders.json — create a new order'},
+  {verb:'PUT', color:'var(--amber)', desc:'Update an existing resource completely.', example:'PUT /products/123.json — replace product data'},
+  {verb:'DELETE', color:'var(--red)', desc:'Remove a resource.', example:'DELETE /customers/456.json — delete customer'}
+];
+
+var STATUS_ITEMS = [
+  {code:'2xx', label:'Success', color:'var(--ok-txt)', examples:['200 OK: request succeeded','201 Created: new resource created','204 No Content: success, nothing to return']},
+  {code:'4xx', label:'Client error', color:'var(--warn-txt)', examples:['400 Bad Request: malformed request','401 Unauthorized: missing or invalid auth','403 Forbidden: authenticated but not allowed','404 Not Found: resource does not exist','429 Too Many Requests: rate limited']},
+  {code:'5xx', label:'Server error', color:'var(--purple)', examples:['500 Internal Server Error: something broke on the server','502 Bad Gateway: upstream service failed','503 Service Unavailable: server is down or overloaded']}
+];
+
+/* ══════ SIMULATOR ENDPOINTS ════════════════════════════════════ */
+var ENDPOINTS = [
+  {
+    id:'get-orders',
+    method:'GET', color:'var(--teal)',
+    path:'/api/solebound/orders',
+    label:'Get recent orders',
+    desc:'Retrieve the last 5 confirmed orders from Solebound\'s e-commerce store.',
+    headers:{'Authorization':'Bearer shpat_sb_demo_key_abc123','Content-Type':'application/json','Accept':'application/json'},
+    body:null,
+    params:'?limit=5&status=confirmed',
+    delay:820,
+    response:{
+      status:200, statusText:'OK',
+      headers:{'Content-Type':'application/json','X-RateLimit-Remaining':'38/40','X-Request-Id':'req_7f3a2b'},
+      body:{orders:[
+        {id:'SB-5001',created_at:'2025-04-22T09:14:32Z',customer:'Alicia Brewster',total:'210.00',currency:'BBD',status:'confirmed',items:[{sku:'SB-RUN-042',name:'ProRun Elite',qty:1,price:'210.00'}]},
+        {id:'SB-5002',created_at:'2025-04-22T11:32:08Z',customer:'Marcus Walcott',total:'140.00',currency:'BBD',status:'confirmed',items:[{sku:'SB-CAS-018',name:'Court Classic',qty:1,price:'95.00'},{sku:'SB-SAN-031',name:'Island Flip',qty:1,price:'45.00'}]},
+        {id:'SB-5003',created_at:'2025-04-22T14:05:44Z',customer:'Walk-in',total:'175.00',currency:'BBD',status:'confirmed',items:[{sku:'SB-BOO-007',name:'TrailBlazer Boot',qty:1,price:'175.00'}]},
+        {id:'SB-5004',created_at:'2025-04-22T16:20:11Z',customer:'Renata Clarke',total:'55.00',currency:'BBD',status:'confirmed',items:[{sku:'SB-SAN-044',name:'Sport Slide',qty:1,price:'55.00'}]},
+        {id:'SB-5005',created_at:'2025-04-22T18:44:29Z',customer:'Devon Parris',total:'195.00',currency:'BBD',status:'confirmed',items:[{sku:'SB-FOR-055',name:'Executive Oxford',qty:1,price:'195.00'}]}
+      ]},
+      explain:'The server returned 5 confirmed orders. Notice the X-RateLimit-Remaining header: you have used 2 of your 40 allowed calls this minute. The response body is JSON: a key "orders" containing an array of order objects. Your Cloud Function would iterate over this array and write each order to Cloud SQL.'
+    }
+  },
+  {
+    id:'get-inventory',
+    method:'GET', color:'var(--teal)',
+    path:'/api/solebound/inventory',
+    label:'Get inventory levels',
+    desc:'Check current stock levels for all products at all branches.',
+    headers:{'Authorization':'Bearer shpat_sb_demo_key_abc123','Content-Type':'application/json','Accept':'application/json'},
+    body:null,
+    params:'?branch=all&low_stock=false',
+    delay:640,
+    response:{
+      status:200, statusText:'OK',
+      headers:{'Content-Type':'application/json','X-RateLimit-Remaining':'37/40','X-Request-Id':'req_9c1d4e'},
+      body:{inventory:[
+        {product_id:'P-01',product_name:'ProRun Elite',branch_id:'BR-01',units_on_hand:8,reorder_threshold:20,status:'LOW'},
+        {product_id:'P-02',product_name:'Court Classic',branch_id:'BR-01',units_on_hand:34,reorder_threshold:15,status:'OK'},
+        {product_id:'P-03',product_name:'TrailBlazer Boot',branch_id:'BR-01',units_on_hand:5,reorder_threshold:12,status:'LOW'},
+        {product_id:'P-04',product_name:'Island Flip',branch_id:'BR-01',units_on_hand:62,reorder_threshold:25,status:'OK'},
+        {product_id:'P-06',product_name:'Canvas Junior',branch_id:'BR-02',units_on_hand:2,reorder_threshold:18,status:'CRITICAL'}
+      ]},
+      explain:'The response includes a "status" field on each inventory record. Your Cloud Function can filter for records where status is LOW or CRITICAL and trigger the reorder alert. Notice that P-06 Canvas Junior at Christ Church is CRITICAL: only 2 units against an 18-unit threshold.'
+    }
+  },
+  {
+    id:'post-message',
+    method:'POST', color:'var(--blue)',
+    path:'/api/solebound/messages/whatsapp',
+    label:'Send WhatsApp message',
+    desc:'Send an automated WhatsApp message to Amara about a low stock alert.',
+    headers:{'Authorization':'Bearer wa_demo_token_xyz789','Content-Type':'application/json','Accept':'application/json'},
+    body:{to:'+12461234567',template:'inventory_alert',parameters:{product_name:'Canvas Junior',branch:'Christ Church',units_remaining:2,reorder_threshold:18}},
+    params:null,
+    delay:1100,
+    response:{
+      status:201, statusText:'Created',
+      headers:{'Content-Type':'application/json','X-Request-Id':'req_msg_4f2a','X-Message-Id':'wamid.HBgLMTI0Njg3OQ=='},
+      body:{success:true,message_id:'wamid.HBgLMTI0Njg3OQ==',status:'sent',recipient:'+12461234567',timestamp:'2025-04-22T19:01:44Z'},
+      explain:'Status 201 Created means the message was successfully queued. Notice the difference from a GET request: this time the request had a body (the message template and parameters) and the response is 201, not 200. POST requests that create something new return 201. The X-Message-Id header gives you a tracking ID to check delivery status later.'
+    }
+  },
+  {
+    id:'post-bad-auth',
+    method:'GET', color:'var(--teal)',
+    path:'/api/solebound/orders',
+    label:'Try with bad auth token',
+    desc:'See what happens when you send a request with an invalid API key.',
+    headers:{'Authorization':'Bearer wrong_token_here','Content-Type':'application/json','Accept':'application/json'},
+    body:null,
+    params:'?limit=5',
+    delay:310,
+    response:{
+      status:401, statusText:'Unauthorized',
+      headers:{'Content-Type':'application/json','X-Request-Id':'req_err_aa1b','WWW-Authenticate':'Bearer realm="Solebound API"'},
+      body:{error:'Unauthorized',message:'Invalid or expired API token. Check your Authorization header.',docs:'https://docs.solebound.api/authentication'},
+      explain:'401 Unauthorized. The server recognised the request but rejected it because the token is invalid. Notice the WWW-Authenticate header: the server is telling you what kind of authentication it expects. Your Cloud Function should handle this by checking for 401 responses and alerting you if an API key has expired or been revoked.'
+    }
+  },
+  {
+    id:'post-rate-limit',
+    method:'GET', color:'var(--teal)',
+    path:'/api/solebound/orders',
+    label:'Hit the rate limit',
+    desc:'See what a rate limit error looks like and what the headers tell you.',
+    headers:{'Authorization':'Bearer shpat_sb_demo_key_abc123','Content-Type':'application/json','Accept':'application/json'},
+    body:null,
+    params:'?limit=50',
+    delay:180,
+    response:{
+      status:429, statusText:'Too Many Requests',
+      headers:{'Content-Type':'application/json','X-RateLimit-Remaining':'0/40','X-RateLimit-Reset':'2025-04-22T19:15:00Z','Retry-After':'23'},
+      body:{error:'Rate limit exceeded',message:'You have exceeded the 40 requests per minute limit.','retry_after_seconds':23},
+      explain:'429 Too Many Requests. The Retry-After header tells you to wait 23 seconds before trying again. The X-RateLimit-Reset header tells you when the limit resets. Well-designed Cloud Functions read these headers and implement exponential backoff: wait, then retry, then wait longer, then retry. Never loop without a delay when you see a 429.'
+    }
+  }
+];
+
+/* ══════ AUTH METHODS ════════════════════════════════════════════ */
+var AUTH_METHODS = [
+  {
+    icon:'🗝️', color:'var(--blue)', name:'API Keys',
+    what:'A unique string that identifies your application. Sent in a request header on every call.',
+    example:'Authorization: Bearer shpat_abc123def456\nX-API-Key: sk_live_abc123',
+    when:'Most common. Shopify, Stripe, WhatsApp Business all use API keys. Simple but must be kept secret.',
+    risk:'If exposed, anyone with the key has your access level. No user identity attached.'
+  },
+  {
+    icon:'🔐', color:'var(--teal)', name:'OAuth 2.0',
+    what:'A protocol where users grant your application permission to act on their behalf. You get a time-limited access token.',
+    example:'Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...\n(Token expires in 3600 seconds)',
+    when:'Google APIs, Meta APIs. Required when acting on behalf of a specific user account.',
+    risk:'More complex to implement. Tokens expire and need refreshing. But no long-lived secret to protect.'
+  },
+  {
+    icon:'📝', color:'var(--amber)', name:'Webhook Signatures',
+    what:'Not for calling an API, but for verifying that an incoming webhook was sent by the right system.',
+    example:'X-Shopify-Hmac-Sha256: abc123...\n(HMAC hash of the request body)',
+    when:'Shopify webhooks, Stripe webhooks. Your Cloud Function validates this before processing.',
+    risk:'Without signature validation, anyone can send fake webhook payloads to your function URL.'
+  }
+];
+
+var KEY_RULES = [
+  {icon:'🚫', rule:'Never put API keys in code', detail:'Code gets committed to version control. Version control gets shared. Keys in code become public secrets. Use environment variables instead: the key lives in the runtime environment, not in the code.'},
+  {icon:'🔄', rule:'Rotate keys regularly', detail:'An API key that has never been rotated is a key that might have been compromised without you knowing. Set a reminder. Rotate quarterly for production keys. Immediately if you suspect exposure.'},
+  {icon:'🎯', rule:'Use the minimum permission scope', detail:'Most APIs let you create keys with limited permissions. A key that can only read order data cannot be used to create refunds. Generate keys with only the permissions your integration actually needs.'},
+  {icon:'📊', rule:'Monitor usage', detail:'Sudden spikes in API call volume using your key may mean someone else is using it. Set up alerts on your API dashboard. Investigate anomalies.'},
+  {icon:'🗑️', rule:'Revoke keys you no longer need', detail:'Unused keys are attack surface. When a developer leaves, revoke their keys. When an integration is decommissioned, revoke its keys. Active keys should be active for a reason.'}
+];
+
+/* ══════ DOC READER DATA ════════════════════════════════════════ */
+var DOC_ENDPOINT = {
+  title:'GET /admin/api/2024-01/orders.json',
+  description:'Retrieves a list of orders. Results are sorted by created_at descending.',
+  params:[
+    {name:'limit', type:'integer', required:false, default:'50', desc:'Maximum number of results to return. Maximum: 250.'},
+    {name:'status', type:'string', required:false, default:'open', desc:'Filter orders by status. Values: open, closed, cancelled, any.'},
+    {name:'created_at_min', type:'string', required:false, default:'none', desc:'Return orders created at or after this ISO 8601 date. Example: 2025-01-01T00:00:00Z'},
+    {name:'fields', type:'string', required:false, default:'all', desc:'Comma-separated list of fields to include. Reduces response size. Example: id,created_at,total_price'},
+    {name:'financial_status', type:'string', required:false, default:'any', desc:'Filter by payment status. Values: pending, paid, refunded, voided, partially_paid.'}
+  ],
+  auth:'Required. X-Shopify-Access-Token header with a valid access token.',
+  rate_limit:'40 requests per minute per app per store.',
+  example_response:'{"orders":[{"id":5001,"created_at":"2025-04-22T09:14:32Z","total_price":"210.00","financial_status":"paid","line_items":[...]}]}'
+};
+
+var DOC_CHECKLIST_ITEMS = [
+  {num:'1', item:'The endpoint URL and HTTP method', why:'You cannot call it without these. Note the full path and whether it is GET, POST, PUT, or DELETE.'},
+  {num:'2', item:'Required vs optional parameters', why:'Required parameters missing = 400 error. Optional parameters = useful for filtering. Know which is which before you build the call.'},
+  {num:'3', item:'Authentication requirements', why:'What header, what token format, what scope of permission do you need? Check before applying for a key.'},
+  {num:'4', item:'Rate limits', why:'How many calls per minute? Per day? What happens when you exceed them? Design your retry logic before you hit the limit in production.'},
+  {num:'5', item:'The response structure', why:'What keys does the response JSON have? Is the data nested? Is it paginated? You need to know this to parse the response correctly in your Cloud Function.'}
+];
+
+/* ══════ QUIZ ════════════════════════════════════════════════════ */
+var QUIZ = [
+  {q:'A Cloud Function receives a Shopify webhook. Before doing anything with the payload, it should:',
+    opts:[{t:'Log the payload to Cloud Storage for later analysis',c:false},{t:'Validate the X-Shopify-Hmac-Sha256 webhook signature to confirm the request came from Shopify',c:true},{t:'Return a 200 response immediately to avoid timeouts',c:false},{t:'Parse the JSON body and check the order total',c:false}],
+    fb:'Signature validation is the first step, always. An unvalidated webhook could be a fake payload from any attacker who knows the function URL. Returning 200 before validation is dangerous: you are acknowledging a request before confirming it is legitimate. Validation first, then processing, then 200.'
+  },
+  {q:'Your Cloud Function calls the Shopify API and receives a 429 response. What does this mean and what should the function do?',
+    opts:[{t:'429 means authentication failed. The function should regenerate the API key and retry.',c:false},{t:'429 means Too Many Requests. The function should read the Retry-After header and wait that many seconds before retrying.',c:true},{t:'429 means the order was not found. The function should log an error and exit.',c:false},{t:'429 means the server is down. The function should alert Amara immediately.',c:false}],
+    fb:'429 Too Many Requests means you have hit the rate limit. The Retry-After header tells you exactly how long to wait. A well-designed function implements exponential backoff: wait the suggested time, retry, if you get 429 again wait longer. Never loop immediately on a 429 or you will keep hitting the limit.'
+  },
+  {q:'What is the difference between a 401 and a 403 response?',
+    opts:[{t:'401 means the server is unavailable. 403 means the request was malformed.',c:false},{t:'401 means unauthenticated: the server does not know who you are. 403 means unauthorized: the server knows who you are but you are not allowed to do that.',c:true},{t:'401 and 403 are both rate limit errors.',c:false},{t:'401 means the resource does not exist. 403 means it has been deleted.',c:false}],
+    fb:'Authentication and authorization are different things. 401 means you have not proved your identity (missing or invalid token). 403 means you have proved your identity but your permissions do not cover this action. A Cloud Function with a read-only API key trying to create an order would get 403, not 401.'
+  },
+  {q:'Amara\'s developer commits code to a public GitHub repository with an API key written directly in the code. What is the likely consequence within hours?',
+    opts:[{t:'Nothing. GitHub is private by default.',c:false},{t:'The API key will be found by automated scanners and could be used to access Solebound\'s order data, customer records, and potentially process fraudulent refunds.',c:true},{t:'Shopify will automatically rotate the key and send Amara a new one.',c:false},{t:'The code will not deploy until the key is removed.',c:false}],
+    fb:'Automated bots scan public GitHub repositories continuously for API keys, credentials, and secrets. A key exposed in a public repository is typically exploited within minutes to hours. The correct approach is environment variables: the key is stored in the deployment environment, not in the code. If a key is ever accidentally committed, treat it as compromised and rotate it immediately.'
+  },
+  {q:'When reading API documentation, you notice an endpoint has a "limit" parameter with a maximum value of 250 and a default of 50. You need to retrieve 400 orders. What does this mean for your implementation?',
+    opts:[{t:'You cannot retrieve more than 250 orders from this API.',c:false},{t:'You need to implement pagination: make multiple requests using the page or cursor parameter, collecting results until you have all 400 orders.',c:true},{t:'Set limit=400 in the request and the API will return all 400.',c:false},{t:'Use a different endpoint that does not have a limit.',c:false}],
+    fb:'Most APIs paginate large result sets. A maximum of 250 per request means you need at least two calls to retrieve 400 orders. Look for pagination parameters in the documentation: page numbers, cursors, or next page tokens. Your Cloud Function needs to loop: make a call, collect results, check if there are more, repeat until done.'
+  },
+  {q:'Which HTTP method should you use to update an existing product\'s price in Shopify?',
+    opts:[{t:'GET, since you are retrieving the product to update it',c:false},{t:'POST, since you are sending new data',c:false},{t:'PUT, since you are updating an existing resource',c:true},{t:'DELETE, then POST to recreate the product with the new price',c:false}],
+    fb:'PUT is for updating an existing resource. GET retrieves without changing. POST creates new resources. DELETE removes. The REST convention maps these verbs to CRUD operations: Create = POST, Read = GET, Update = PUT, Delete = DELETE. Most well-designed APIs follow this convention, making the right method predictable once you know the pattern.'
+  }
+];
+
+/* ══════ CSS ═════════════════════════════════════════════════════ */
+var st = document.createElement('style');
+st.textContent = [
+  '*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}',
+  '.app{font-family:"Source Sans 3",system-ui,sans-serif;font-size:17px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s}',
+  '.app[data-theme="light"]{background:#f5f0e8;color:#1a1a2e;--card:#fff;--card2:#faf7f2;--txt:#1a1a2e;--dim:#3d3d5c;--muted:#7a7a9a;--b1:#e0d8cc;--b2:#c8bfb0;--blue:#1e3a5f;--teal:#0a5c52;--amber:#c67c00;--red:#8b2a2a;--green:#0a5c3a;--purple:#5b2d8e;--sh1:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 12px rgba(0,0,0,.08);--sh3:0 12px 32px rgba(0,0,0,.12);--ok-bg:rgba(10,92,58,.07);--ok-border:rgba(10,92,58,.28);--ok-txt:#0a5c3a;--warn-bg:rgba(139,42,42,.06);--warn-border:rgba(139,42,42,.28);--warn-txt:#8b2a2a;--term:#0d1f1a}',
+  '.app[data-theme="dark"]{background:#0f1923;color:#e8f4f0;--card:#182430;--card2:#1c2d3a;--txt:#e8f4f0;--dim:#b8d4cc;--muted:#7fa89a;--b1:#263545;--b2:#334455;--blue:#4a9eda;--teal:#3dbfa0;--amber:#f0a832;--red:#e08888;--green:#3dba8a;--purple:#9b6dd9;--sh1:0 1px 3px rgba(0,0,0,.2);--sh2:0 4px 12px rgba(0,0,0,.3);--sh3:0 12px 32px rgba(0,0,0,.4);--ok-bg:rgba(61,186,138,.08);--ok-border:rgba(61,186,138,.28);--ok-txt:#3dba8a;--warn-bg:rgba(224,136,136,.07);--warn-border:rgba(224,136,136,.28);--warn-txt:#e08888;--term:#060e0c}',
+  // HERO
+  '.hero{position:relative;overflow:hidden;text-align:center;padding:64px 20px 56px;background:linear-gradient(145deg,#0a0a2e 0%,#1a1a4e 35%,#0d2240 70%,#061a30 100%);box-shadow:0 4px 24px rgba(0,0,0,.3)}',
+  '.hero-texture{position:absolute;inset:0;pointer-events:none;opacity:.55;background-image:radial-gradient(circle at 20% 80%,rgba(100,100,255,.06) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(100,200,255,.05) 0%,transparent 50%),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:auto,auto,48px 48px,48px 48px}',
+  '.hero-inner{position:relative;z-index:1;max-width:860px;margin:0 auto}',
+  '.hero-controls{margin-bottom:24px}',
+  '.theme-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:999px;cursor:pointer;font-family:"Source Sans 3",sans-serif;font-size:.82rem;font-weight:600;color:rgba(255,255,255,.9);transition:all .2s;backdrop-filter:blur(4px)}',
+  '.theme-btn:hover{background:rgba(255,255,255,.16)}',
+  '.hero-kicker{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.76rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:20px}',
+  '.hero-title{font-family:"Playfair Display",Georgia,serif;font-size:clamp(3rem,7vw,5rem);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.03em;margin:0 0 22px}',
+  '.hero-title em{font-style:italic;font-weight:500;color:#93c5fd}',
+  '.hero-lead{font-size:1.12rem;color:rgba(255,255,255,.82);line-height:1.75;max-width:640px;margin:0 auto 34px}',
+  '.hero-stats{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:0}',
+  '.hs-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 24px}',
+  '.hs-num{font-family:"Playfair Display",serif;font-size:2.3rem;font-weight:700;line-height:1;color:#93c5fd}',
+  '.hs-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:1px;color:rgba(255,255,255,.58)}',
+  '.hs-divider{width:1px;height:46px;background:rgba(255,255,255,.14)}',
+  // TABS
+  '.tabs-wrap{background:var(--card);border-bottom:2px solid var(--b1);box-shadow:var(--sh1)}',
+  '.tabs{display:flex;justify-content:center;max-width:1100px;margin:0 auto;overflow-x:auto;scrollbar-width:none}',
+  '.tabs::-webkit-scrollbar{display:none}',
+  '.tab{display:flex;flex-direction:column;align-items:center;padding:13px 18px;cursor:pointer;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--muted);background:none;font-family:"Source Sans 3",sans-serif;transition:all .2s;flex-shrink:0;gap:2px;outline:none;-webkit-appearance:none;appearance:none}',
+  '.tab:hover{color:var(--blue);background:var(--card2)}',
+  '.tab.active{color:var(--blue);border-bottom-color:var(--blue)}',
+  '.tab-n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;opacity:.7;letter-spacing:1px}',
+  '.tab-name{font-size:.85rem;font-weight:600;white-space:nowrap}',
+  '.main{max-width:1100px;margin:0 auto;padding:40px 28px 100px}',
+  '.panel{display:none}.panel.active{display:block;animation:slideIn .35s ease}',
+  '@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}',
+  '@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}',
+  '.editorial-header{margin-bottom:28px}',
+  '.eh-label{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:10px}',
+  '.eh-title{font-family:"Playfair Display",serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;color:var(--txt);line-height:1.2;margin-bottom:10px}',
+  '.eh-sub{font-size:1rem;color:var(--muted);line-height:1.7;max-width:640px}',
+  '.section-label{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;margin-top:24px}',
+  '.prose-card{background:var(--card);border:1px solid var(--b1);border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:var(--sh1)}',
+  '.prose-card p{color:var(--dim);line-height:1.9;margin-bottom:12px}.prose-card p:last-child{margin-bottom:0}',
+  '.callout{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;border-radius:10px;margin-bottom:20px;font-size:.95rem;line-height:1.75;color:var(--dim)}',
+  '.callout strong{color:var(--txt)}.callout-icon{font-size:1rem;flex-shrink:0;padding-top:3px}',
+  '.blue-callout{background:rgba(30,58,95,.06);border:1px solid rgba(30,58,95,.22);border-left:4px solid var(--blue)}',
+  '.amber-callout{background:rgba(198,124,0,.06);border:1px solid rgba(198,124,0,.22);border-left:4px solid var(--amber)}',
+  '.tab-nav-hint{text-align:center;margin-top:36px}',
+  '.hint-next{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:"Source Sans 3",sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s}',
+  '.hint-next:hover{opacity:.9;transform:translateX(2px)}',
+  // API MAP
+  '.api-map{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}',
+  '.am-item{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--b1);border-radius:11px;padding:13px 16px;box-shadow:var(--sh1)}',
+  '.am-icon{font-size:1.3rem;flex-shrink:0;padding-top:2px}',
+  '.am-system{font-weight:700;font-size:.95rem;color:var(--txt);margin-bottom:2px}',
+  '.am-api{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--blue);margin-bottom:4px}',
+  '.am-what{font-size:.88rem;color:var(--muted);line-height:1.55}',
+  '.am-badge{margin-left:auto;flex-shrink:0;font-family:"IBM Plex Mono",monospace;font-size:.72rem;padding:3px 9px;border-radius:100px;font-weight:600;align-self:flex-start}',
+  '.am-badge-yes{background:var(--ok-bg);color:var(--ok-txt);border:1px solid var(--ok-border)}',
+  '.am-badge-no{background:var(--card2);color:var(--muted);border:1px solid var(--b2)}',
+  // ANALOGY
+  '.analogy-card{background:var(--card);border:1px solid var(--b1);border-radius:12px;padding:20px 22px;margin-bottom:20px;box-shadow:var(--sh2)}',
+  '.an-col{display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:8px}',
+  '.an-item{flex:1;min-width:120px;text-align:center;padding:12px 8px}',
+  '.an-icon{font-size:1.8rem;margin-bottom:6px}',
+  '.an-label{font-family:"Playfair Display",serif;font-size:.88rem;font-weight:700;color:var(--txt);margin-bottom:4px}',
+  '.an-desc{font-size:.82rem;color:var(--muted);line-height:1.5}',
+  '.an-arrow{font-size:1.4rem;color:var(--b2);flex-shrink:0}',
+  // ANATOMY
+  '.request-anatomy{background:var(--card);border:1px solid var(--b1);border-radius:14px;overflow:hidden;box-shadow:var(--sh2);margin-bottom:16px}',
+  '.ra-header{padding:10px 18px;background:var(--card2);border-bottom:1px solid var(--b1);font-family:"IBM Plex Mono",monospace;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}',
+  '.ra-request{padding:16px 18px;font-family:"IBM Plex Mono",monospace;font-size:.85rem;line-height:1.9;background:var(--card)}',
+  '.ra-part{cursor:pointer;border-radius:4px;padding:2px 4px;transition:all .2s;display:inline}',
+  '.ra-part:hover{filter:brightness(1.2)}',
+  '.ra-detail{border-top:1px solid var(--b1);overflow:hidden;max-height:0;transition:max-height .35s ease}',
+  '.ra-detail.open{max-height:200px}',
+  '.ra-detail-inner{padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}',
+  '.ra-d-section{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}',
+  '.ra-d-text{font-size:.9rem;color:var(--dim);line-height:1.65}',
+  // VERB GRID
+  '.verb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}',
+  '.vg-item{background:var(--card);border:1px solid var(--b1);border-radius:10px;padding:12px 14px;box-shadow:var(--sh1)}',
+  '.vg-verb{font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:600;margin-bottom:6px}',
+  '.vg-desc{font-size:.85rem;color:var(--dim);line-height:1.55;margin-bottom:6px}',
+  '.vg-example{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--muted);line-height:1.5}',
+  // STATUS CODES
+  '.status-codes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}',
+  '.sc-group{background:var(--card);border:1px solid var(--b1);border-radius:10px;overflow:hidden;box-shadow:var(--sh1)}',
+  '.sc-head{padding:10px 14px;font-family:"IBM Plex Mono",monospace;font-size:.88rem;font-weight:600;border-bottom:1px solid var(--b1)}',
+  '.sc-items{padding:10px 14px;display:flex;flex-direction:column;gap:5px}',
+  '.sc-item{font-size:.85rem;color:var(--dim);line-height:1.5}',
+  // SIMULATOR
+  '.simulator{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;align-items:start}',
+  '.sim-section-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}',
+  '.endpoint-list{display:flex;flex-direction:column;gap:6px}',
+  '.ep-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:2px solid var(--b1);border-radius:8px;cursor:pointer;transition:all .2s}',
+  '.ep-item:hover{border-color:var(--blue)}',
+  '.ep-item.selected{border-color:var(--blue);background:rgba(30,58,95,.06)}',
+  '.ep-method{font-family:"IBM Plex Mono",monospace;font-size:.75rem;font-weight:700;padding:2px 7px;border-radius:4px;color:#fff;flex-shrink:0}',
+  '.ep-info{flex:1}',
+  '.ep-label{font-size:.9rem;font-weight:600;color:var(--txt)}',
+  '.ep-desc{font-size:.8rem;color:var(--muted);line-height:1.4;margin-top:1px}',
+  '.headers-display{background:var(--card2);border:1px solid var(--b1);border-radius:8px;padding:10px 12px;font-family:"IBM Plex Mono",monospace;font-size:.78rem;line-height:1.8;color:var(--dim);min-height:60px}',
+  '.hd-key{color:var(--blue)}.hd-val{color:var(--teal)}',
+  '.body-display{background:var(--card2);border:1px solid var(--b1);border-radius:8px;padding:10px 12px;font-family:"IBM Plex Mono",monospace;font-size:.78rem;line-height:1.8;color:var(--dim);min-height:60px;white-space:pre-wrap}',
+  '.body-placeholder{color:var(--muted);font-style:italic}',
+  '.send-btn{display:flex;align-items:center;gap:10px;padding:11px 22px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:"Source Sans 3",sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:14px;width:100%;justify-content:center;transition:all .2s}',
+  '.send-btn:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}',
+  '.send-btn:disabled{opacity:.35;cursor:not-allowed}',
+  '.send-btn.loading{background:var(--teal)}',
+  '.send-icon{font-size:1rem}',
+  // TERMINAL
+  '.terminal{background:#0d1117;border-radius:12px;overflow:hidden;box-shadow:var(--sh3);margin-bottom:14px}',
+  '.term-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#161b22;border-bottom:1px solid #30363d}',
+  '.term-dots{display:flex;gap:6px}',
+  '.td{width:10px;height:10px;border-radius:50%}',
+  '.td-r{background:#ff5f56}.td-a{background:#febc2e}.td-g{background:#28c840}',
+  '.term-title{font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:#6e7681;flex:1;text-align:center}',
+  '.term-body{padding:14px 16px;min-height:120px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;line-height:1.8}',
+  '.term-line{color:#e6edf3;animation:termFade .2s ease}',
+  '.term-line.dim{color:#6e7681}',
+  '.term-line.cmd{color:#79c0ff}',
+  '.term-line.ok{color:#3fb950}',
+  '.term-line.err{color:#f85149}',
+  '.term-line.warn{color:#d29922}',
+  '.term-line.data{color:#a5f3fc}',
+  '.term-cursor{display:inline-block;width:8px;height:14px;background:#6e7681;vertical-align:middle;animation:blink 1s infinite}',
+  '@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}',
+  '@keyframes termFade{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}',
+  // RESPONSE PANEL
+  '.response-panel{background:var(--card);border:1px solid var(--b1);border-radius:12px;overflow:hidden;box-shadow:var(--sh2)}',
+  '.rp-header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--card2);border-bottom:1px solid var(--b1)}',
+  '.rp-status{font-family:"IBM Plex Mono",monospace;font-size:.9rem;font-weight:600}',
+  '.rp-time{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--muted)}',
+  '.rp-tabs{display:flex;border-bottom:1px solid var(--b1);background:var(--card2)}',
+  '.rp-tab{padding:8px 14px;border:none;background:none;font-family:"Source Sans 3",sans-serif;font-size:.84rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}',
+  '.rp-tab:hover{color:var(--blue)}',
+  '.rp-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--card)}',
+  '.rp-content{padding:14px 16px;font-family:"IBM Plex Mono",monospace;font-size:.8rem;line-height:1.8;color:var(--dim);max-height:260px;overflow-y:auto;white-space:pre-wrap;animation:popIn .2s ease}',
+  '.rp-content.hidden{display:none}',
+  '.rp-explain-text{font-family:"Source Sans 3",sans-serif;font-size:.92rem;line-height:1.75;color:var(--dim)}',
+  // AUTH METHODS
+  '.auth-methods{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}',
+  '.auth-card{background:var(--card);border:1px solid var(--b1);border-radius:12px;overflow:hidden;box-shadow:var(--sh1)}',
+  '.auth-head{display:flex;align-items:center;gap:12px;padding:13px 18px;background:var(--card2);border-bottom:1px solid var(--b1)}',
+  '.auth-icon{font-size:1.2rem}',
+  '.auth-name{font-family:"Playfair Display",serif;font-size:1rem;font-weight:700;color:var(--txt)}',
+  '.auth-body{padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}',
+  '.auth-col-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}',
+  '.auth-col-text{font-size:.9rem;color:var(--dim);line-height:1.65}',
+  '.auth-example{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--teal);background:var(--card2);border-radius:6px;padding:8px 10px;white-space:pre;line-height:1.7}',
+  // KEY RULES
+  '.key-rules{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}',
+  '.kr-item{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--b1);border-radius:10px;padding:13px 16px;box-shadow:var(--sh1)}',
+  '.kr-icon{font-size:1.1rem;flex-shrink:0;padding-top:2px}',
+  '.kr-rule{font-weight:700;font-size:.95rem;color:var(--txt);margin-bottom:3px}',
+  '.kr-detail{font-size:.9rem;color:var(--dim);line-height:1.65}',
+  // DOC READER
+  '.doc-reader{background:var(--card);border:1px solid var(--b1);border-radius:14px;overflow:hidden;box-shadow:var(--sh2);margin-bottom:20px}',
+  '.dr-header{padding:14px 18px;background:#0d1117;border-bottom:1px solid #30363d}',
+  '.dr-title{font-family:"IBM Plex Mono",monospace;font-size:1rem;font-weight:600;color:#79c0ff}',
+  '.dr-desc{font-size:.9rem;color:#8b949e;margin-top:4px;line-height:1.55}',
+  '.dr-section{border-bottom:1px solid var(--b1)}',
+  '.dr-section-head{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;cursor:pointer;background:var(--card2);transition:background .2s}',
+  '.dr-section-head:hover{background:rgba(30,58,95,.06)}',
+  '.dr-section-label{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}',
+  '.dr-toggle{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--muted)}',
+  '.dr-section-body{display:none;padding:0 18px 14px}',
+  '.dr-section-body.open{display:block}',
+  '.dr-param{display:grid;grid-template-columns:140px 70px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--b1);font-size:.88rem;align-items:start}',
+  '.dr-param:last-child{border-bottom:none}',
+  '.dr-param-name{font-family:"IBM Plex Mono",monospace;color:var(--blue);font-weight:600}',
+  '.dr-param-type{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--muted)}',
+  '.dr-param-desc{color:var(--dim);line-height:1.55}',
+  '.dr-info-row{padding:10px 0;border-bottom:1px solid var(--b1);font-size:.9rem;color:var(--dim);line-height:1.6}',
+  '.dr-info-row:last-child{border-bottom:none}',
+  '.dr-info-label{font-family:"IBM Plex Mono",monospace;font-size:.75rem;font-weight:600;color:var(--muted);margin-bottom:3px}',
+  // DOC CHECKLIST
+  '.doc-checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}',
+  '.dc-item{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--b1);border-radius:10px;padding:13px 16px;box-shadow:var(--sh1)}',
+  '.dc-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-size:.85rem;font-weight:700;flex-shrink:0;margin-top:1px}',
+  '.dc-item-label{font-weight:700;font-size:.93rem;color:var(--txt);margin-bottom:3px}',
+  '.dc-item-why{font-size:.88rem;color:var(--muted);line-height:1.6}',
+  // QUIZ
+  '.quiz-progress-wrap{background:var(--card);border:1px solid var(--b1);border-radius:10px;padding:12px 16px;margin-bottom:22px;display:flex;align-items:center;gap:14px;box-shadow:var(--sh1)}',
+  '.qp-bar{flex:1;height:5px;background:var(--b1);border-radius:100px;overflow:hidden}',
+  '.qp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:100px;transition:width .4s ease;width:0}',
+  '.qp-label{font-family:"IBM Plex Mono",monospace;font-size:.82rem;font-weight:600;color:var(--muted);white-space:nowrap}',
+  '.quiz-cards{display:flex;flex-direction:column;gap:16px}',
+  '.qz-card{background:var(--card);border:1px solid var(--b1);border-radius:14px;padding:22px;box-shadow:var(--sh1)}',
+  '.qz-num{font-family:"IBM Plex Mono",monospace;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}',
+  '.qz-q{font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:16px;line-height:1.6}',
+  '.qz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}',
+  '.qz-opt{padding:12px 14px;border:2px solid var(--b1);border-radius:8px;font-size:.95rem;color:var(--dim);cursor:pointer;transition:all .2s;text-align:left;font-family:"Source Sans 3",sans-serif;width:100%;background:var(--card2);line-height:1.55;min-height:48px}',
+  '.qz-opt:hover{border-color:var(--blue);color:var(--txt)}',
+  '.qz-opt.qz-ok{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-txt);font-weight:600;pointer-events:none}',
+  '.qz-opt.qz-warn{border-color:var(--warn-border);background:var(--warn-bg);color:var(--warn-txt);pointer-events:none}',
+  '.qz-opt.qz-dim{pointer-events:none;opacity:.35}',
+  '.qz-fb{font-size:.92rem;line-height:1.75;padding:10px 14px;border-radius:8px}',
+  '.qz-fb-ok{background:var(--ok-bg);border:1px solid var(--ok-border);color:var(--dim)}',
+  '.qz-fb-warn{background:var(--warn-bg);border:1px solid var(--warn-border);color:var(--dim)}',
+  '.score-reveal{text-align:center;padding:40px 20px;background:var(--card);border:1px solid var(--b1);border-radius:16px;box-shadow:var(--sh3);animation:slideIn .5s ease;margin-top:20px}',
+  '.sr-ring{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:"Playfair Display",serif;font-size:2rem;font-weight:700;color:#fff;box-shadow:var(--sh2)}',
+  '.sr-msg{font-size:1rem;color:var(--dim);max-width:480px;margin:0 auto;line-height:1.8}',
+  '@media(max-width:900px){.simulator{grid-template-columns:1fr}.verb-grid{grid-template-columns:1fr 1fr}.status-codes{grid-template-columns:1fr}.auth-body{grid-template-columns:1fr}.ra-detail-inner{grid-template-columns:1fr}.an-col{flex-direction:column;align-items:center}.an-arrow{transform:rotate(90deg)}}',
+  '@media(max-width:640px){.main{padding:24px 16px 80px}.tab-name{font-size:.74rem}.verb-grid{grid-template-columns:1fr}.dr-param{grid-template-columns:1fr}}',
+  '.app[data-theme="dark"] .qz-opt,.app[data-theme="dark"] .ep-item{background:var(--card2)}'
+].join('');
+document.head.appendChild(st);
+
+/* ══════ UTILS ═══════════════════════════════════════════════════ */
+function $(id){return document.getElementById(id);}
+function on(el,ev,fn){if(el)el.addEventListener(ev,fn);}
+
+/* ══════ THEME ══════════════════════════════════════════════════ */
+on($('theme-btn'),'click',function(){
+  var app=$('app'),dark=app.getAttribute('data-theme')==='dark';
+  app.setAttribute('data-theme',dark?'light':'dark');
+  $('theme-icon').textContent=dark?'🌙':'☀️';
+  $('theme-label').textContent=dark?'Dark Mode':'Light Mode';
+});
+
+/* ══════ TABS ═══════════════════════════════════════════════════ */
+function switchTab(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+  var panel=$('panel-'+id),btn=document.querySelector('[data-tab="'+id+'"]');
+  if(panel)panel.classList.add('active');
+  if(btn)btn.classList.add('active');
+  $('page-top').scrollIntoView({behavior:'smooth'});
+}
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click',function(){switchTab(btn.getAttribute('data-tab'));});
+});
+document.querySelectorAll('.hint-next').forEach(function(btn){
+  btn.addEventListener('click',function(){switchTab(btn.getAttribute('data-goto'));});
+});
+
+/* ══════ TAB 1: API MAP ═════════════════════════════════════════ */
+function buildAPIMap(){
+  var wrap=$('api-map');if(!wrap)return;
+  API_MAP_ITEMS.forEach(function(item){
+    var div=document.createElement('div');div.className='am-item';
+    div.innerHTML='<span class="am-icon">'+item.icon+'</span>'+
+      '<div style="flex:1">'+
+      '<div class="am-system">'+item.system+'</div>'+
+      '<div class="am-api">'+item.api+'</div>'+
+      '<div class="am-what">'+item.what+'</div>'+
+      '</div>'+
+      '<div class="am-badge '+(item.already_using?'am-badge-yes':'am-badge-no')+'">'+
+      (item.already_using?'✓ in use':'coming soon')+
+      '</div>';
+    wrap.appendChild(div);
+  });
+}
+buildAPIMap();
+
+/* ══════ TAB 2: ANATOMY ════════════════════════════════════════ */
+function buildAnatomy(){
+  var req=$('request-anatomy');if(!req)return;
+
+  var activeDetail=null;
+
+  req.innerHTML='<div class="ra-header">HTTP Request</div>'+
+    '<div class="ra-request" id="ra-req"></div>'+
+    '<div class="ra-detail" id="ra-detail">'+
+    '<div class="ra-detail-inner">'+
+    '<div><div class="ra-d-section" id="ra-what-label">What it is</div><div class="ra-d-text" id="ra-what"></div></div>'+
+    '<div><div class="ra-d-section" id="ra-why-label">Why it matters</div><div class="ra-d-text" id="ra-why"></div></div>'+
+    '</div></div>';
+
+  var reqEl=$('ra-req');
+
+  function renderRequest(){
+    reqEl.innerHTML=
+      '<span class="ra-part" data-part="method" style="background:rgba(10,92,82,.15);color:var(--teal)">GET</span> '+
+      '<span class="ra-part" data-part="url" style="background:rgba(30,58,95,.12);color:var(--blue)">https://solebound.myshopify.com/admin/api/2024-01/orders.json</span>\n'+
+      '<span class="ra-part" data-part="headers" style="background:rgba(198,124,0,.1);color:var(--amber)">X-Shopify-Access-Token: shpat_abc123\nContent-Type: application/json\nAccept: application/json</span>\n'+
+      '<span class="ra-part" data-part="body" style="color:var(--muted)">(no body for GET requests)</span>';
+
+    reqEl.querySelectorAll('.ra-part').forEach(function(part){
+      part.addEventListener('click',function(){
+        var id=part.getAttribute('data-part');
+        var p=ANATOMY_PARTS.find(function(x){return x.id===id;});
+        if(!p)return;
+        var detail=$('ra-detail');
+        if(activeDetail===id){
+          detail.classList.remove('open');activeDetail=null;
+        } else {
+          $('ra-what').textContent=p.what;
+          $('ra-why').textContent=p.why;
+          $('ra-what-label').style.color=p.color;
+          $('ra-why-label').style.color=p.color;
+          detail.classList.add('open');
+          activeDetail=id;
+        }
+      });
+    });
+  }
+  renderRequest();
+
+  var resp=$('response-anatomy');if(!resp)return;
+  resp.innerHTML='<div class="ra-header">HTTP Response</div>'+
+    '<div class="ra-request" id="ra-resp"></div>'+
+    '<div class="ra-detail" id="ra-resp-detail">'+
+    '<div class="ra-detail-inner">'+
+    '<div><div class="ra-d-section" id="ra-resp-what-label">What it is</div><div class="ra-d-text" id="ra-resp-what"></div></div>'+
+    '<div><div class="ra-d-section" id="ra-resp-why-label">Why it matters</div><div class="ra-d-text" id="ra-resp-why"></div></div>'+
+    '</div></div>';
+
+  var respEl=$('ra-resp');
+  var activeResp=null;
+  respEl.innerHTML=
+    '<span class="ra-part" data-rpart="status" style="background:rgba(10,92,58,.15);color:var(--ok-txt)">200 OK</span>\n'+
+    '<span class="ra-part" data-rpart="resp-headers" style="background:rgba(30,58,95,.12);color:var(--blue)">Content-Type: application/json\nX-Request-Id: f4a3b2c1\nX-Shopify-Shop-Api-Call-Limit: 2/40</span>\n'+
+    '<span class="ra-part" data-rpart="resp-body" style="background:rgba(10,92,82,.1);color:var(--teal)">{"orders": [{"id": 5001, "total_price": "210.00", ...}]}</span>';
+
+  respEl.querySelectorAll('.ra-part').forEach(function(part){
+    part.addEventListener('click',function(){
+      var id=part.getAttribute('data-rpart');
+      var p=RESPONSE_PARTS.find(function(x){return x.id===id;});
+      if(!p)return;
+      var detail=$('ra-resp-detail');
+      if(activeResp===id){detail.classList.remove('open');activeResp=null;}
+      else{
+        $('ra-resp-what').textContent=p.what;
+        $('ra-resp-why').textContent=p.why;
+        $('ra-resp-what-label').style.color=p.color;
+        $('ra-resp-why-label').style.color=p.color;
+        detail.classList.add('open');activeResp=id;
+      }
+    });
+  });
+}
+buildAnatomy();
+
+function buildVerbGrid(){
+  var wrap=$('verb-grid');if(!wrap)return;
+  VERB_ITEMS.forEach(function(v){
+    var div=document.createElement('div');div.className='vg-item';
+    div.innerHTML='<div class="vg-verb" style="color:'+v.color+'">'+v.verb+'</div>'+
+      '<div class="vg-desc">'+v.desc+'</div>'+
+      '<div class="vg-example">'+v.example+'</div>';
+    wrap.appendChild(div);
+  });
+}
+buildVerbGrid();
+
+function buildStatusCodes(){
+  var wrap=$('status-codes');if(!wrap)return;
+  STATUS_ITEMS.forEach(function(s){
+    var div=document.createElement('div');div.className='sc-group';
+    var items=s.examples.map(function(e){return '<div class="sc-item">'+e+'</div>';}).join('');
+    div.innerHTML='<div class="sc-head" style="color:'+s.color+'">'+s.code+' — '+s.label+'</div>'+
+      '<div class="sc-items">'+items+'</div>';
+    wrap.appendChild(div);
+  });
+}
+buildStatusCodes();
+
+/* ══════ TAB 3: SIMULATOR ══════════════════════════════════════ */
+var selectedEndpoint=null;
+
+function buildEndpointList(){
+  var wrap=$('endpoint-list');if(!wrap)return;
+  ENDPOINTS.forEach(function(ep){
+    var item=document.createElement('div');item.className='ep-item';item.id='ep-'+ep.id;
+    item.innerHTML='<span class="ep-method" style="background:'+ep.color+'">'+ep.method+'</span>'+
+      '<div class="ep-info">'+
+      '<div class="ep-label">'+ep.label+'</div>'+
+      '<div class="ep-desc">'+ep.desc+'</div>'+
+      '</div>';
+    item.addEventListener('click',function(){
+      document.querySelectorAll('.ep-item').forEach(function(el){el.classList.remove('selected');});
+      item.classList.add('selected');
+      selectEndpoint(ep);
+    });
+    wrap.appendChild(item);
+  });
+}
+buildEndpointList();
+
+function selectEndpoint(ep){
+  selectedEndpoint=ep;
+  var hd=$('headers-display');
+  if(hd){
+    hd.innerHTML=Object.entries(ep.headers).map(function(h){
+      return '<span class="hd-key">'+h[0]+'</span>: <span class="hd-val">'+h[1]+'</span>';
+    }).join('\n');
+  }
+  var bd=$('body-display');
+  if(bd){
+    if(ep.body){
+      bd.textContent=JSON.stringify(ep.body,null,2);
+    } else {
+      bd.innerHTML='<span class="body-placeholder">'+(ep.method==='GET'?'GET requests have no body. Parameters are in the URL: '+ep.path+(ep.params||''):'No body for this request.')+'</span>';
+    }
+  }
+  var sb=$('send-btn');if(sb)sb.disabled=false;
+  $('send-label').textContent='Send '+ep.method+' '+ep.path;
+
+  var tb=$('term-body');if(!tb)return;
+  tb.innerHTML='<div class="term-line dim">$ Endpoint selected: <span style="color:#79c0ff">'+ep.method+' '+ep.path+(ep.params||'')+'</span></div>'+
+    '<div class="term-line dim">$ Ready to send. Press the button below.</div>'+
+    '<div class="term-cursor">▊</div>';
+  $('response-panel').style.display='none';
+}
+
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+async function sendRequest(){
+  if(!selectedEndpoint)return;
+  var ep=selectedEndpoint;
+  var sb=$('send-btn'),sl=$('send-label');
+  sb.disabled=true;sb.classList.add('loading');
+  sl.textContent='Sending...';
+
+  var tb=$('term-body');
+  tb.innerHTML='';
+
+  function addLine(text,cls,delay){
+    return sleep(delay).then(function(){
+      var el=document.createElement('div');el.className='term-line '+(cls||'');
+      el.innerHTML=text;tb.appendChild(el);
+      tb.scrollTop=tb.scrollHeight;
+    });
+  }
+
+  await addLine('$ '+ep.method+' '+ep.path+(ep.params||''),'cmd',0);
+  await addLine('> Connecting to solebound-api.cloud...','dim',200);
+  await addLine('> Sending headers...','dim',400);
+  if(ep.body) await addLine('> Sending request body...','dim',550);
+  await addLine('> Waiting for response...','dim',700);
+  await sleep(ep.delay);
+  var r=ep.response;
+  var isOk=r.status>=200&&r.status<300;
+  var isErr=r.status>=400;
+  await addLine('< HTTP '+r.status+' '+r.statusText,isOk?'ok':isErr?'err':'warn',0);
+  await addLine('< Response received in '+ep.delay+'ms','dim',100);
+  await addLine('$ Done.','dim',200);
+
+  var rp=$('response-panel');
+  rp.style.display='block';
+  var rs=$('rp-status');
+  rs.textContent='HTTP '+r.status+' '+r.statusText;
+  rs.style.color=isOk?'var(--ok-txt)':isErr?'var(--warn-txt)':'var(--amber)';
+  $('rp-time').textContent=ep.delay+'ms';
+
+  var rb=$('rp-body');
+  rb.textContent=JSON.stringify(r.body,null,2);
+  var rh=$('rp-headers');
+  rh.textContent=Object.entries(r.headers).map(function(h){return h[0]+': '+h[1];}).join('\n');
+  var re=$('rp-explain');
+  re.innerHTML='<div class="rp-explain-text">'+r.explain+'</div>';
+
+  sb.disabled=false;sb.classList.remove('loading');
+  sl.textContent='Send '+ep.method+' '+ep.path;
+  rp.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+on($('send-btn'),'click',sendRequest);
+
+document.querySelectorAll('.rp-tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.rp-tab').forEach(function(b){b.classList.remove('active');});
+    document.querySelectorAll('.rp-content').forEach(function(c){c.classList.add('hidden');});
+    btn.classList.add('active');
+    $('rp-'+btn.getAttribute('data-rp')).classList.remove('hidden');
+  });
+});
+
+/* ══════ TAB 4: AUTH METHODS ════════════════════════════════════ */
+function buildAuthMethods(){
+  var wrap=$('auth-methods');if(!wrap)return;
+  AUTH_METHODS.forEach(function(a){
+    var card=document.createElement('div');card.className='auth-card';
+    card.innerHTML='<div class="auth-head" style="border-left:4px solid '+a.color+'">'+
+      '<span class="auth-icon">'+a.icon+'</span>'+
+      '<span class="auth-name">'+a.name+'</span></div>'+
+      '<div class="auth-body">'+
+      '<div>'+
+      '<div class="auth-col-label">What it is</div><div class="auth-col-text">'+a.what+'</div>'+
+      '<div class="auth-col-label" style="margin-top:10px">Best for</div><div class="auth-col-text">'+a.when+'</div>'+
+      '<div class="auth-col-label" style="margin-top:10px">Risk</div><div class="auth-col-text">'+a.risk+'</div>'+
+      '</div>'+
+      '<div>'+
+      '<div class="auth-col-label">Example</div>'+
+      '<div class="auth-example">'+a.example+'</div>'+
+      '</div>'+
+      '</div>';
+    wrap.appendChild(card);
+  });
+}
+buildAuthMethods();
+
+function buildKeyRules(){
+  var wrap=$('key-rules');if(!wrap)return;
+  KEY_RULES.forEach(function(r){
+    var div=document.createElement('div');div.className='kr-item';
+    div.innerHTML='<span class="kr-icon">'+r.icon+'</span>'+
+      '<div><div class="kr-rule">'+r.rule+'</div><div class="kr-detail">'+r.detail+'</div></div>';
+    wrap.appendChild(div);
+  });
+}
+buildKeyRules();
+
+/* ══════ TAB 5: DOC READER ═════════════════════════════════════ */
+function buildDocReader(){
+  var wrap=$('doc-reader');if(!wrap)return;
+  var paramsHtml=DOC_ENDPOINT.params.map(function(p){
+    return '<div class="dr-param">'+
+      '<div class="dr-param-name">'+p.name+(p.required?' <span style="color:var(--warn-txt);font-size:.7rem">required</span>':'')+'</div>'+
+      '<div class="dr-param-type">'+p.type+'</div>'+
+      '<div class="dr-param-desc">'+p.desc+' <span style="color:var(--muted);font-size:.82rem">Default: '+p.default+'</span></div>'+
+      '</div>';
+  }).join('');
+
+  wrap.innerHTML=
+    '<div class="dr-header">'+
+    '<div class="dr-title">'+DOC_ENDPOINT.title+'</div>'+
+    '<div class="dr-desc">'+DOC_ENDPOINT.description+'</div>'+
+    '</div>'+
+    buildDocSection('parameters','Parameters',paramsHtml)+
+    buildDocSection('auth','Authentication','<div class="dr-info-row"><div class="dr-info-label">Required</div>'+DOC_ENDPOINT.auth+'</div>')+
+    buildDocSection('rate','Rate Limiting','<div class="dr-info-row"><div class="dr-info-label">Limit</div>'+DOC_ENDPOINT.rate_limit+'</div>')+
+    buildDocSection('example','Example Response','<div class="dr-info-row"><div style="font-family:\'IBM Plex Mono\',monospace;font-size:.78rem;color:var(--teal);white-space:pre-wrap">'+DOC_ENDPOINT.example_response+'</div></div>');
+
+  wrap.querySelectorAll('.dr-section-head').forEach(function(head){
+    head.addEventListener('click',function(){
+      var body=head.nextElementSibling;
+      var tog=head.querySelector('.dr-toggle');
+      var open=body.classList.toggle('open');
+      tog.textContent=open?'▲':'▼';
+    });
+  });
+}
+
+function buildDocSection(id,label,content){
+  return '<div class="dr-section">'+
+    '<div class="dr-section-head">'+
+    '<span class="dr-section-label">'+label+'</span>'+
+    '<span class="dr-toggle">▼</span>'+
+    '</div>'+
+    '<div class="dr-section-body" id="drs-'+id+'">'+content+'</div>'+
+    '</div>';
+}
+buildDocReader();
+
+function buildDocChecklist(){
+  var wrap=$('doc-checklist');if(!wrap)return;
+  DOC_CHECKLIST_ITEMS.forEach(function(item){
+    var div=document.createElement('div');div.className='dc-item';
+    div.innerHTML='<div class="dc-num">'+item.num+'</div>'+
+      '<div><div class="dc-item-label">'+item.item+'</div><div class="dc-item-why">'+item.why+'</div></div>';
+    wrap.appendChild(div);
+  });
+}
+buildDocChecklist();
+
+/* ══════ QUIZ ═══════════════════════════════════════════════════ */
+var quizAnswered={},quizScore=0;
+function buildQuiz(){
+  var container=$('quiz-cards');if(!container)return;
+  QUIZ.forEach(function(q,qi){
+    var card=document.createElement('div');card.className='qz-card';
+    var h='<div class="qz-num">Question '+(qi+1)+' of '+QUIZ.length+'</div>';
+    h+='<div class="qz-q">'+q.q+'</div><div class="qz-opts">';
+    q.opts.forEach(function(o){h+='<button class="qz-opt" data-c="'+(o.c?'1':'0')+'">'+o.t+'</button>';});
+    h+='</div><div class="qz-fb" id="qfb-'+qi+'"></div>';
+    card.innerHTML=h;
+    card.querySelectorAll('.qz-opt').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        if(quizAnswered[qi])return;quizAnswered[qi]=true;
+        var ok=btn.getAttribute('data-c')==='1';
+        card.querySelectorAll('.qz-opt').forEach(function(o){o.classList.add('qz-dim');});
+        btn.classList.remove('qz-dim');btn.classList.add(ok?'qz-ok':'qz-warn');
+        if(!ok)card.querySelectorAll('.qz-opt').forEach(function(o){if(o.getAttribute('data-c')==='1'){o.classList.remove('qz-dim');o.classList.add('qz-ok');}});
+        var fb=$('qfb-'+qi);
+        if(fb){fb.textContent=q.fb;fb.className='qz-fb '+(ok?'qz-fb-ok':'qz-fb-warn');}
+        if(ok)quizScore++;
+        var n=Object.keys(quizAnswered).length;
+        $('qp-fill').style.width=(n/QUIZ.length*100)+'%';
+        $('qp-label').textContent=n+' of '+QUIZ.length+' answered';
+        if(n===QUIZ.length)showScore();
+      });
+    });
+    container.appendChild(card);
+  });
+}
+buildQuiz();
+
+function showScore(){
+  var reveal=$('score-reveal');if(!reveal)return;
+  reveal.style.display='block';
+  var pct=Math.round(quizScore/QUIZ.length*100);
+  var color=pct>=80?'linear-gradient(135deg,#1e3a5f,#0a5c52)':pct>=60?'#c67c00':'#8b2a2a';
+  var msg=pct===100?'Perfect. You understand APIs at the level needed to build real integrations: request anatomy, authentication, and how to read documentation well enough to act on it.':
+         pct>=60?'Good. Review the questions you missed; the anatomy of a request and the authentication model are the foundations everything else builds on.':
+         'Revisit Tabs 2 and 4. The anatomy of a request and the authentication model are the foundations everything else builds on.';
+  reveal.innerHTML='<div class="sr-ring" style="background:'+color+'">'+quizScore+'/'+QUIZ.length+'</div><p class="sr-msg">'+msg+'</p>';
+  reveal.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+})();
+</script>
+
+</body>
+</html>
