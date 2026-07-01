@@ -87,7 +87,7 @@
 <body>
 
 <div class="card">
-  <div class="badge">SANDBOX DEMO &mdash; TENNERI</div>
+  <div class="badge">SANDBOX DEMO </div>
   <h1>PlacetoPay Integration Test</h1>
   <p class="subtitle">This page creates a real PlacetoPay sandbox session to demonstrate the full checkout flow end to end.</p>
 
@@ -146,8 +146,8 @@ document.getElementById("payBtn").addEventListener("click", async () => {
       locale: "en_US",
       auth,
       payment: {
-        reference: "TENNERI-DEMO-" + Date.now(),
-        description: "Tenneri PlacetoPay sandbox demo",
+        reference: "DEMO-" + Date.now(),
+        description: " PlacetoPay sandbox demo",
         amount: {
           currency: "USD",
           total: amount
