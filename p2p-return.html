@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment Result &mdash;  PlacetoPay Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f1115;
+    color: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+  .card {
+    background: #181b21;
+    border: 1px solid #2a2e37;
+    border-radius: 10px;
+    padding: 32px;
+    max-width: 480px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #2a2e37;
+    font-size: 14px;
+  }
+  .row span:first-child {
+    color: #9aa0ab;
+  }
+  .row span:last-child {
+    font-family: monospace;
+    word-break: break-all;
+    text-align: right;
+    max-width: 60%;
+  }
+  .badge {
+    display: inline-block;
+    background: #2a2e37;
+    color: #9aa0ab;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="badge">SANDBOX DEMO </div>
+  <h1>PlacetoPay Return Result</h1>
+  <div id="resultBox">Reading response...</div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const box = document.getElementById("resultBox");
+
+  if ([...params.keys()].length === 0) {
+    box.textContent = "No parameters were returned. If you arrived here directly, run the demo checkout first.";
+  } else {
+    box.innerHTML = "";
+    for (const [key, value] of params.entries()) {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = "<span>" + key + "</span><span>" + value + "</span>";
+      box.appendChild(row);
+    }
+  }
+</script>
+
+</body>
+</html>
