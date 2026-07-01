@@ -140,7 +140,7 @@ document.getElementById("payBtn").addEventListener("click", async () => {
 
   try {
     const auth = await buildAuth(P2P_LOGIN, P2P_SECRET_KEY);
-    const returnBase = window.location.href.replace("p2pdemo.html", "p2preturn.html");
+    const returnBase = window.location.href.replace("p2pdemo.html", "p2p-return.html");
 
     const payload = {
       locale: "en_US",
