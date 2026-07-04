@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>STORM — Threat Operations and Response Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;height:100%}
+body{font-family:"DM Sans",system-ui,sans-serif;font-size:15px;line-height:1.6;height:100%;background:var(--bg);color:var(--txt)}
+
+:root{
+  --fs:"DM Sans",system-ui,sans-serif;
+  --ff:"Fraunces",Georgia,serif;
+  --fm:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --teal:#2ca9bc;
+  --bg:#080e1a;
+  --surf:#0f1623;
+  --surf2:#1a2235;
+  --brd:#1e2d45;
+  --brd2:#2d3f5c;
+  --txt:#f1f5f9;
+  --dim:#b8cee4;
+  --muted:#5a7290;
+  --red:#ef4444;--amber:#f59e0b;--green:#10b981;--blue:#3b82f6;
+  --sh1:0 1px 4px rgba(0,0,0,.4);
+  --sh2:0 4px 20px rgba(0,0,0,.5);
+  --sh3:0 0 0 1px rgba(44,169,188,.25),0 4px 20px rgba(44,169,188,.12);
+  --r4:4px;--r8:8px;--r12:12px;--r16:16px;
+}
+html[data-theme="light"],
+[data-theme="light"]{
+  --bg:#f1f5f9;--surf:#ffffff;--surf2:#f8fafc;
+  --brd:#e2e8f0;--brd2:#cbd5e1;
+  --txt:#0f172a;--dim:#1e293b;--muted:#64748b;
+  --sh1:0 1px 3px rgba(0,0,0,.07);--sh2:0 4px 16px rgba(0,0,0,.1);
+}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--teal);color:#000;padding:12px 20px;z-index:9999;font-weight:700;text-decoration:none;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hidden{display:none!important}
+button:focus-visible,input:focus-visible,[tabindex="0"]:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:3px}
+
+/* BOOT */
+#boot{position:fixed;inset:0;background:#060a14;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9998;gap:24px}
+.boot-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,169,188,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(44,169,188,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.boot-logo{display:flex;flex-direction:column;align-items:center;gap:10px}
+.boot-svg{width:52px;height:52px}
+.boot-name{font-family:var(--ff);font-size:2.4rem;font-weight:700;letter-spacing:.06em;color:#f1f5f9}
+.boot-sub{font-size:.62rem;color:#1e3a55;letter-spacing:2.5px;text-transform:uppercase}
+.boot-term{background:#0a0f1a;border:1px solid #1a2a3a;border-radius:var(--r8);padding:14px 18px;width:420px;max-width:90vw;min-height:100px;font-family:var(--fm);font-size:.75rem;color:#4a9f8a}
+.boot-term-line{margin-bottom:5px;opacity:0;transition:opacity .3s}
+.boot-term-line.show{opacity:1}
+.boot-term-cursor{display:inline-block;width:8px;height:14px;background:#2ca9bc;animation:cur .8s step-end infinite;vertical-align:text-bottom}
+@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+.boot-prog-wrap{width:420px;max-width:90vw}
+.boot-prog-label{display:flex;justify-content:space-between;font-size:.67rem;color:#1e3a55;margin-bottom:5px;font-family:var(--fm)}
+.boot-prog-track{height:3px;background:#0f1f2f;border-radius:2px;overflow:hidden}
+.boot-prog-fill{height:100%;background:linear-gradient(90deg,#2ca9bc,#3b82f6);border-radius:2px;width:0;transition:width .4s ease}
+@keyframes bootOut{to{opacity:0;transform:scale(.98)}}
+
+/* LOGIN */
+#login{position:fixed;inset:0;background:#080e1a;display:flex;align-items:center;justify-content:center}
+.login-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,169,188,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(44,169,188,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.login-card{position:relative;z-index:1;background:#0d1724;border:1px solid #1e2d45;border-radius:var(--r16);padding:44px 48px;width:100%;max-width:420px;box-shadow:0 0 80px rgba(44,169,188,.08),0 24px 48px rgba(0,0,0,.6)}
+.login-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:30px}
+.login-svg{width:48px;height:48px}
+.login-brand{font-family:var(--ff);font-size:1.85rem;font-weight:700;letter-spacing:.06em;color:#f1f5f9}
+.login-brandsub{font-size:.61rem;color:#1e3a55;letter-spacing:1.8px;text-transform:uppercase;margin-top:2px}
+.login-field-label{display:block;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px}
+.login-input{width:100%;padding:13px 15px;background:rgba(30,45,69,.6);border:1px solid var(--brd);border-radius:var(--r8);color:#f1f5f9;font-size:.95rem;font-family:var(--fs);outline:none;transition:border-color .2s,box-shadow .2s}
+.login-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(44,169,188,.15)}
+.login-input::placeholder{color:#1e3a55}
+.restore-banner{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);border-radius:var(--r8);padding:11px 13px;margin-bottom:13px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+#rmsg{font-size:.79rem;color:#fbbf24;font-weight:600}
+.racts{display:flex;gap:7px}
+.ryes{background:#f59e0b;border:none;border-radius:6px;padding:5px 13px;font-size:.74rem;font-weight:700;color:#000;cursor:pointer;font-family:var(--fs)}
+.rno{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 13px;font-size:.74rem;font-weight:700;color:#64748b;cursor:pointer;font-family:var(--fs)}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,#2ca9bc,#1d8fa0);border:none;border-radius:var(--r8);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:var(--fs);transition:opacity .2s,transform .2s;letter-spacing:.02em}
+.login-btn:hover{opacity:.9;transform:translateY(-1px)}
+.login-err{color:#f87171;font-size:.77rem;min-height:18px;text-align:center;margin-bottom:4px}
+.login-newtab{display:block;text-align:center;font-size:.72rem;color:#2d4a66;cursor:pointer;text-decoration:none;background:none;border:none;font-family:var(--fs);transition:color .2s;width:100%}
+.login-newtab:hover{color:var(--teal)}
+.login-footer{font-size:.65rem;color:#0f1f2f;text-align:center;margin-top:14px}
+
+/* NOTIFICATIONS */
+#notif-stack{position:fixed;top:16px;right:16px;z-index:8000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.notif-card{background:#0f1a2e;border:1px solid #1e2d45;border-left:3px solid var(--teal);border-radius:var(--r12);padding:14px 16px;width:300px;box-shadow:var(--sh2);pointer-events:all;cursor:pointer;display:flex;gap:12px;align-items:flex-start;opacity:0;transform:translateX(24px)}
+.notif-card.in{opacity:1;transform:none;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.notif-card.out{opacity:0;transform:translateX(24px);transition:all .25s ease}
+.notif-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:700;color:#fff}
+.nav-blue{background:linear-gradient(135deg,#2ca9bc,#1d8fa0)}
+.nav-amber{background:linear-gradient(135deg,#f59e0b,#b45309)}
+.notif-body{flex:1;min-width:0}
+.notif-sender{font-size:.82rem;font-weight:700;color:#e2e8f0;margin-bottom:2px}
+.notif-preview{font-size:.74rem;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:7px}
+.notif-read{font-size:.7rem;font-weight:700;color:var(--teal);background:rgba(44,169,188,.1);border:1px solid rgba(44,169,188,.2);border-radius:5px;padding:3px 10px;cursor:pointer;font-family:var(--fs)}
+.notif-read:hover{background:rgba(44,169,188,.18)}
+
+/* MESSAGE MODAL */
+#msg-modal{position:fixed;inset:0;z-index:8500;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.85);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+#msg-modal.open{opacity:1;pointer-events:all}
+.msg-modal-card{background:#0d1724;border:1px solid #1e2d45;border-radius:var(--r16);width:100%;max-width:600px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh2);transform:scale(.95);transition:transform .3s}
+#msg-modal.open .msg-modal-card{transform:none}
+.msg-modal-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #1e2d45;flex-shrink:0}
+.msg-modal-channel{font-size:.7rem;font-weight:700;color:var(--teal);letter-spacing:.5px}
+.msg-modal-close{background:none;border:none;color:#64748b;font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:5px;line-height:1}
+.msg-modal-close:hover{color:#e2e8f0;background:#1a2235}
+.msg-modal-body{padding:24px 24px 0;overflow-y:auto;flex:1}
+.msg-modal-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid #1e2d45}
+.msg-modal-av{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;color:#fff}
+.msg-modal-meta{flex:1}
+.msg-modal-name{font-size:.95rem;font-weight:700;color:#e2e8f0;display:block}
+.msg-modal-role{font-size:.7rem;color:#64748b;margin-top:1px}
+.msg-modal-ts{font-size:.68rem;color:#4a5568;margin-left:auto;white-space:nowrap}
+.msg-modal-text{font-size:.88rem;color:#94a3b8;line-height:1.9;margin-bottom:16px}
+.msg-modal-text strong{color:#e2e8f0}
+.msg-modal-footer{padding:16px 24px 20px;border-top:1px solid #1e2d45;display:flex;justify-content:flex-end;gap:10px;flex-shrink:0}
+.msg-btn-dismiss{background:rgba(255,255,255,.05);border:1px solid #1e2d45;color:#94a3b8;border-radius:var(--r8);padding:9px 18px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:var(--fs)}
+.msg-btn-dismiss:hover{background:rgba(255,255,255,.08)}
+.msg-btn-next{background:linear-gradient(135deg,#2ca9bc,#1d8fa0);border:none;color:#fff;border-radius:var(--r8);padding:9px 20px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--fs)}
+.msg-btn-next:hover{opacity:.9}
+.msg-msg-counter{font-size:.72rem;color:#4a5568;align-self:center;flex:1}
+
+/* APP SHELL */
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:214px;min-width:214px;background:#060a14;display:flex;flex-direction:column;height:100vh;overflow-y:auto;position:sticky;top:0;border-right:1px solid rgba(44,169,188,.08);transition:width .2s}
+.sidebar.col{width:52px;min-width:52px}
+.sidebar.col .nl,.sidebar.col .sb-brand,.sidebar.col .sb-sub,.sidebar.col .sb-bwrap,.sidebar.col .nb-badge,.sidebar.col .cs-pill,.sidebar.col .an-name,.sidebar.col .an-pip,.sidebar.col #tlbl{display:none}
+.sb-top{display:flex;align-items:center;gap:10px;padding:15px 11px;border-bottom:1px solid rgba(44,169,188,.07);flex-shrink:0}
+.sb-tog{background:rgba(44,169,188,.08);border:1px solid rgba(44,169,188,.15);color:#2ca9bc;border-radius:6px;padding:6px 9px;cursor:pointer;font-size:.95rem;flex-shrink:0}
+.sb-bwrap{display:flex;flex-direction:column}
+.sb-brand{font-family:var(--ff);font-weight:700;color:#f1f5f9;font-size:.97rem;line-height:1.2;letter-spacing:.02em}
+.sb-sub{font-size:.57rem;color:rgba(44,169,188,.28);letter-spacing:1.5px;text-transform:uppercase}
+.cs-pill{display:flex;align-items:center;gap:7px;padding:7px 11px;margin:5px 7px;background:rgba(239,68,68,.07);border-left:2px solid #ef4444;border-radius:0 6px 6px 0;font-size:.67rem;font-weight:700;color:#fca5a5;flex-shrink:0}
+.cs-dot{width:5px;height:5px;border-radius:50%;background:#ef4444;flex-shrink:0;box-shadow:0 0 6px #ef4444;animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.sb-nav{list-style:none;padding:5px 6px;margin:0;flex:1}
+.sb-nav li{margin-bottom:1px}
+.nbtn{width:100%;display:flex;align-items:center;gap:8px;background:none;border:none;color:#3d5270;padding:9px 10px;border-radius:6px;cursor:pointer;font-size:.81rem;font-weight:600;text-align:left;transition:all .15s;font-family:var(--fs)}
+.nbtn:hover{background:rgba(44,169,188,.06);color:#94a3b8}
+.nbtn.active{background:rgba(44,169,188,.1);color:#2ca9bc;border-left:2px solid #2ca9bc;padding-left:8px}
+.nl{flex:1;white-space:nowrap}
+.nb-badge{background:rgba(239,68,68,.7);color:#fff;font-size:.59rem;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0}
+.nb-badge.teal{background:rgba(44,169,188,.7)}
+.sb-bot{padding:8px 7px 12px;border-top:1px solid rgba(44,169,188,.07);display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.an-pill{display:flex;align-items:center;gap:6px;padding:6px 8px;background:rgba(16,185,129,.06);border-left:2px solid rgba(16,185,129,.4);border-radius:0 6px 6px 0;font-size:.72rem;color:#6ee7b7}
+.an-pip{width:5px;height:5px;border-radius:50%;background:#10b981;flex-shrink:0;box-shadow:0 0 5px rgba(16,185,129,.7)}
+.an-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.th-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:.76rem;color:#3d5270;text-align:left;width:100%;font-family:var(--fs)}
+.th-btn:hover{color:#94a3b8}
+
+/* MAIN */
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;overflow-y:auto;background:var(--bg)}
+.topbar{background:#0a1120;border-bottom:1px solid rgba(44,169,188,.08);padding:9px 20px;position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.tb-title{font-family:var(--ff);font-size:.95rem;font-weight:700;color:var(--teal)}
+.tb-dot{color:#1e2d45}
+.tb-inc{font-size:.68rem;color:#3d5270;font-weight:600;font-family:var(--fm)}
+.tb-save{margin-left:auto;font-size:.67rem;color:var(--green);font-weight:600}
+
+/* VIEWS */
+.view{display:none;padding:20px 22px;animation:none}
+.view.active{display:block;animation:pfade .2s ease}
+@keyframes pfade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.view{animation:none}*{transition-duration:.01ms!important}}
+
+/* BRIEFING */
+.brief-notice{display:flex;gap:12px;background:rgba(44,169,188,.06);border:1px solid rgba(44,169,188,.15);border-radius:var(--r12);padding:15px 18px;margin-bottom:16px}
+.brief-notice-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.brief-notice-txt{font-size:.82rem;color:var(--dim);line-height:1.7}
+.brief-notice-txt strong{color:var(--teal)}
+.msg-thread{display:flex;flex-direction:column;gap:11px;margin-bottom:15px}
+.mc{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:18px 20px}
+.mc2{background:rgba(44,169,188,.03);border-color:rgba(44,169,188,.1)}
+.mc-head{display:flex;align-items:center;gap:10px;margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid var(--brd);flex-wrap:wrap}
+.mc-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.74rem;color:#fff;flex-shrink:0}
+.mc-meta{flex:1}
+.mc-name{font-weight:700;color:var(--txt);display:block;font-size:.86rem}
+.mc-role{font-size:.67rem;color:var(--muted)}
+.mc-ch{font-size:.63rem;font-weight:700;color:var(--teal);font-family:var(--fm)}
+.mc-ts{font-size:.65rem;color:var(--muted);margin-left:auto}
+.mc-body{font-size:.87rem;color:var(--dim);line-height:1.9;margin-bottom:8px}
+.mc-body:last-of-type{margin-bottom:0}
+.mc-sign{color:var(--muted);font-style:italic}
+.sh-box{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:14px 18px}
+.sh-title{font-weight:700;color:var(--txt);margin-bottom:7px;font-size:.86rem}
+.sh-list{margin:0;padding-left:17px;color:var(--dim);font-size:.8rem;line-height:2.1}
+.sh-list code{background:var(--surf2);border:1px solid var(--brd);border-radius:4px;padding:1px 6px;font-family:var(--fm);font-size:.78rem;color:var(--teal)}
+
+/* DASHBOARD */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin-bottom:15px}
+.sc{background:var(--surf);border:1px solid var(--brd);border-left:2px solid var(--teal);border-radius:var(--r8);padding:16px 18px;position:relative;overflow:hidden}
+.sc.red{border-left-color:var(--red)}.sc.amber{border-left-color:var(--amber)}
+.sc-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:5px}
+.sc-val{font-family:var(--ff);font-size:2rem;font-weight:700;color:var(--teal);line-height:1;letter-spacing:-.02em}
+.sc.red .sc-val{color:var(--red)}.sc.amber .sc-val{color:var(--amber)}
+.sc-sub{font-size:.63rem;color:var(--muted);margin-top:4px}
+.dash-lbl{font-family:var(--ff);font-size:.9rem;font-weight:700;color:var(--txt);margin-bottom:8px;display:flex;align-items:center;gap:9px}
+.dash-hint{font-family:var(--fs);font-size:.67rem;color:var(--muted);font-weight:400}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:10px}
+.chart-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:16px 18px}
+.chart-title{font-size:.82rem;font-weight:700;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.chart-hint{font-size:.63rem;color:var(--muted);font-weight:400}
+.chart-wrap{position:relative}
+
+/* INVESTIGATE */
+.sw{display:flex;gap:7px;margin-bottom:8px}
+#sbox{flex:1;padding:9px 14px;border:1px solid var(--brd);border-radius:var(--r8);font-size:.81rem;font-family:var(--fm);background:var(--surf);color:var(--txt);outline:none;transition:border-color .2s}
+#sbox:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(44,169,188,.1)}
+#sbox::placeholder{color:var(--muted)}
+.sbtn{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r8);padding:8px 13px;font-weight:600;color:var(--dim);cursor:pointer;font-size:.75rem;font-family:var(--fs)}
+.sbtn:hover{border-color:var(--teal);color:var(--teal)}
+.fwrap{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.crow{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.clbl{font-size:.59rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:48px;flex-shrink:0}
+.chip{background:var(--surf);border:1px solid var(--brd);border-radius:4px;padding:4px 10px;font-size:.69rem;font-weight:600;color:var(--dim);cursor:pointer;font-family:var(--fs)}
+.chip:hover{border-color:var(--teal);color:var(--teal)}
+.chip.active{background:rgba(44,169,188,.12);border-color:var(--teal);color:var(--teal)}
+.irow{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.rcnt{font-size:.69rem;color:var(--muted)}
+.fst{font-size:.69rem;color:var(--amber);font-weight:600}
+.ilayout{display:grid;grid-template-columns:1.7fr 1fr;gap:10px;align-items:start}
+.ltwrap{background:#050810;border:1px solid #0f1a2a;border-radius:var(--r12);overflow:hidden;max-height:530px;overflow-y:auto}
+.ltable{width:100%;border-collapse:collapse;font-size:.68rem;font-family:var(--fm);table-layout:fixed}
+.ltable th{background:#080d16;color:#2d4a66;text-align:left;padding:7px 9px;position:sticky;top:0;font-weight:500;border-bottom:1px solid #0f1a2a;font-size:.58rem;text-transform:uppercase;letter-spacing:.5px;overflow:hidden;white-space:nowrap}
+.ltable td{padding:6px 9px;color:#64748b;border-bottom:1px solid rgba(15,26,42,.7);vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ltable tr:hover td{background:rgba(44,169,188,.04);cursor:pointer}
+.ltable tr.sel td{background:rgba(44,169,188,.08);color:#94a3b8}
+.ltable tr.flg td{background:rgba(245,158,11,.04)}
+.tc1{width:62px}.tc2{width:86px}.tc3{width:88px}.tc4{width:72px}.tc5{color:#4a5a7a}.tc6{width:30px;text-align:center}
+.sevtxt{font-size:.64rem;font-weight:700}
+.sevtxt.Critical{color:#ef4444}.sevtxt.Warning{color:#f59e0b}.sevtxt.Info{color:#4a5a7a}
+.flgbtn{background:none;border:none;cursor:pointer;font-size:.82rem;opacity:.22;padding:2px;border-radius:3px;transition:opacity .15s}
+.flgbtn:hover{opacity:.7}.flgbtn.on{opacity:1;color:#f59e0b}
+.clink{cursor:pointer;color:var(--dim);border-bottom:1px solid transparent}
+.clink:hover{color:var(--teal);border-bottom-color:rgba(44,169,188,.3)}
+.dp{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:14px 16px;min-height:180px;position:sticky;top:48px}
+.dp-empty{text-align:center;padding:22px 12px;color:var(--muted)}
+.dp-empty span{font-size:1.5rem;display:block;margin-bottom:7px}
+.dp-empty p{font-size:.77rem;font-style:italic}
+.dpf{margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid var(--brd)}
+.dpf:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.dpfl{font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px;display:flex;justify-content:space-between;align-items:center}
+.dpfv{font-size:.76rem;color:var(--txt);line-height:1.6;word-break:break-word;font-family:var(--fm)}
+.afbtn{font-size:.53rem;background:rgba(44,169,188,.08);border:1px solid rgba(44,169,188,.18);border-radius:3px;padding:1px 5px;cursor:pointer;color:var(--teal);font-family:var(--fs);font-weight:600}
+.afbtn:hover{background:rgba(44,169,188,.18)}
+
+/* ALERTS */
+.alert-intro{display:flex;gap:13px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.12);border-left:2px solid #3b82f6;border-radius:var(--r12);padding:14px 16px;margin-bottom:14px}
+.ai-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+.ai-title{font-weight:700;color:var(--txt);font-size:.85rem;margin-bottom:3px}
+.ai-text{font-size:.8rem;color:var(--dim);line-height:1.75;margin:0}
+.ai-text strong{color:#60a5fa}.ai-text em{color:var(--red);font-style:normal;font-weight:700}
+.atl-wrap{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:16px 20px;margin-bottom:14px}
+.atl-title{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+.atl-track{position:relative;height:4px;background:var(--brd2);border-radius:2px;margin:32px 8px 48px}
+.atl-item{position:absolute;top:50%;transform:translate(-50%,-50%)}
+.atl-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--surf);box-shadow:0 0 0 2px currentColor;margin:0 auto}
+.atl-dot.red{color:#ef4444;background:#ef4444}.atl-dot.amber{color:#f59e0b;background:#f59e0b}
+.atl-ts{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:.54rem;font-family:var(--fm);color:var(--muted);white-space:nowrap}
+.atl-rule{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:.52rem;color:var(--dim);white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;text-align:center;font-weight:500}
+.atl-supp-label{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);font-size:.5rem;color:var(--red);font-weight:700;white-space:nowrap;text-align:center}
+.acard{background:var(--surf);border:1px solid var(--brd);border-left:2px solid transparent;border-radius:var(--r12);padding:16px 18px;margin-bottom:12px}
+.acard.crit{border-left-color:var(--red)}.acard.warn{border-left-color:var(--amber)}
+.acard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:7px}
+.acard-rule{font-family:var(--fm);font-size:.76rem;font-weight:600;color:var(--txt)}
+.acard-sev{font-size:.64rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.4px}
+.acard-sev.warn{color:var(--amber)}
+.acard-supp{font-size:.6rem;font-weight:700;color:var(--red);opacity:.6;text-decoration:line-through;margin-left:6px}
+.acard-tl{font-size:.68rem;color:var(--muted);margin-bottom:9px;font-family:var(--fm);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.atl-ev{color:var(--dim)}
+.atl-ev.supp{color:var(--red);opacity:.7}
+.acard-msg{font-size:.82rem;color:var(--dim);line-height:1.8;margin-bottom:10px}
+.acard-rel{background:#050810;border-radius:6px;padding:9px 12px;margin-bottom:10px}
+.acard-rel-title{font-size:.57rem;font-weight:700;color:#2d4a66;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.acard-rel-row{display:flex;gap:8px;font-size:.63rem;font-family:var(--fm);padding:3px 0;border-bottom:1px solid rgba(15,26,42,.6);color:#64748b}
+.acard-rel-row:last-child{border-bottom:none}
+.acard-rel-ts{color:#2d4a66;flex-shrink:0;width:50px}
+.acard-rel-msg{color:#4a5a7a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acard-ftr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.acard-corr{font-size:.61rem;color:var(--muted);font-family:var(--fm)}
+.ajbtn{background:rgba(44,169,188,.08);border:1px solid rgba(44,169,188,.18);color:var(--teal);border-radius:6px;padding:5px 11px;font-size:.7rem;font-weight:700;cursor:pointer;font-family:var(--fs);transition:all .15s}
+.ajbtn:hover{background:rgba(44,169,188,.16)}
+.acard-note{background:rgba(239,68,68,.04);border-left:2px solid rgba(239,68,68,.3);border-radius:0 6px 6px 0;padding:9px 12px;font-size:.76rem;color:var(--dim);line-height:1.75;margin-top:9px}
+.acard-note strong{color:var(--red)}
+
+/* CHAIN RECONSTRUCTION */
+.chain-header{margin-bottom:18px}
+.chain-title{font-family:var(--ff);font-size:1.15rem;font-weight:700;color:var(--txt);margin-bottom:6px}
+.chain-sub{font-size:.83rem;color:var(--dim);line-height:1.7;max-width:640px}
+.chain-workspace{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-bottom:16px}
+.chain-slots-col{display:flex;flex-direction:column;gap:8px}
+.chain-slot{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r8);padding:12px 14px;display:flex;align-items:center;gap:12px;min-height:68px;transition:border-color .2s,background .2s}
+.chain-slot.drag-over{border-color:var(--teal);background:rgba(44,169,188,.06)}
+.chain-slot.has-card{border-color:rgba(44,169,188,.2)}
+.chain-slot.correct{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.05)}
+.chain-slot.incorrect{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.05)}
+.chain-slot-num{width:28px;height:28px;border-radius:50%;background:rgba(44,169,188,.1);border:1px solid rgba(44,169,188,.2);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;color:var(--teal);flex-shrink:0}
+.chain-slot-hint{flex:1}
+.chain-slot-label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.chain-slot-clue{font-size:.76rem;color:var(--dim)}
+.chain-slot-drop{flex:1;min-height:36px;display:flex;align-items:center}
+.chain-placed{width:100%;background:rgba(44,169,188,.06);border:1px solid rgba(44,169,188,.15);border-radius:5px;padding:6px 10px;font-size:.76rem;color:var(--teal);font-weight:600;cursor:grab}
+.chain-placed:active{cursor:grabbing}
+.chain-pool-col{display:flex;flex-direction:column;gap:0}
+.chain-pool-title{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.chain-pool{display:flex;flex-direction:column;gap:6px;min-height:200px}
+.chain-card{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r8);padding:11px 13px;cursor:grab;transition:border-color .15s,box-shadow .15s,opacity .2s}
+.chain-card:active{cursor:grabbing}
+.chain-card.dragging{opacity:.4}
+.chain-card:hover{border-color:var(--teal);box-shadow:0 0 0 1px rgba(44,169,188,.1)}
+.chain-card-title{font-size:.79rem;font-weight:700;color:var(--txt);margin-bottom:4px}
+.chain-card-meta{font-size:.66rem;color:var(--muted);font-family:var(--fm)}
+.chain-actions{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+.chain-run-btn{background:linear-gradient(135deg,#2ca9bc,#1d8fa0);border:none;color:#fff;border-radius:var(--r8);padding:11px 24px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:var(--fs);transition:opacity .2s}
+.chain-run-btn:hover{opacity:.9}
+.chain-run-btn:disabled{opacity:.4;cursor:not-allowed}
+.chain-reset-btn{background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--dim);border-radius:var(--r8);padding:10px 18px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:var(--fs)}
+.chain-reset-btn:hover{border-color:var(--teal);color:var(--teal)}
+.chain-score{font-size:.82rem;color:var(--dim)}
+.chain-score strong{color:var(--teal)}
+.chain-sim{position:relative;margin-bottom:20px;display:none}
+.chain-sim.visible{display:block}
+.chain-stage-row{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:60px;position:relative}
+.chain-stage-card{flex-shrink:0;width:148px;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r8);padding:12px;text-align:center;position:relative}
+.chain-stage-card.correct-stage{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.06)}
+.chain-stage-card.wrong-stage{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.06)}
+.chain-stage-icon{font-size:1.4rem;margin-bottom:5px}
+.chain-stage-name{font-size:.74rem;font-weight:700;color:var(--txt);margin-bottom:3px}
+.chain-stage-ts{font-size:.61rem;font-family:var(--fm);color:var(--teal)}
+.chain-stage-verdict{font-size:.6rem;font-weight:700;margin-top:5px}
+.chain-stage-verdict.ok{color:var(--green)}.chain-stage-verdict.fail{color:var(--red)}
+.chain-sim-arrow{width:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#1e2d45;font-size:1.2rem;margin-bottom:42px}
+.chain-robber-wrap{position:absolute;bottom:0;left:0;pointer-events:none;transition:none}
+.chain-robber-svg{width:44px;height:44px;filter:drop-shadow(0 0 8px rgba(239,68,68,.7))}
+.chain-path-svg{position:absolute;bottom:22px;left:0;width:100%;height:30px;overflow:visible;pointer-events:none}
+.chain-result-banner{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:18px 22px;display:none}
+.chain-result-banner.visible{display:block}
+.crb-title{font-family:var(--ff);font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.crb-title.pass{color:var(--green)}.crb-title.fail{color:var(--red)}
+.crb-text{font-size:.84rem;color:var(--dim);line-height:1.75}
+.chain-findings{margin-top:20px;display:none}
+.chain-findings.visible{display:block}
+.cf-unlock-title{font-family:var(--ff);font-size:.95rem;font-weight:700;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;gap:9px}
+.cfdoc{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);margin-bottom:12px;overflow:hidden}
+.cfdoc-top{background:#070c17;padding:12px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.cfdoc-ref{font-family:var(--fm);font-size:.7rem;font-weight:500;color:#2ca9bc}
+.cfdoc-phase{font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.cfdoc-body{padding:14px 16px}
+.cfdoc-txt{font-size:.82rem;color:var(--dim);line-height:1.85;margin-bottom:12px}
+.cfdoc-find{border-left:2px solid var(--red);padding-left:12px;font-size:.8rem;color:var(--dim);line-height:1.7}
+.cfdoc-find strong{color:var(--red)}
+
+/* ASSESSMENT */
+.ahdr{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.atitle{font-family:var(--ff);font-size:1.15rem;font-weight:700;color:var(--txt);margin-bottom:4px}
+.asub{font-size:.79rem;color:var(--muted);line-height:1.6}
+.ascore{background:var(--surf);border:1px solid var(--brd);border-radius:6px;padding:7px 15px;font-size:.82rem;font-weight:700;color:var(--txt);white-space:nowrap;font-family:var(--fm)}
+.notes-ref{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r8);margin-bottom:14px}
+.notes-ref-tog{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;font-size:.78rem;font-weight:600;color:var(--dim);width:100%;background:none;border:none;font-family:var(--fs);text-align:left}
+.notes-ref-tog:hover{color:var(--teal)}
+.notes-ref-body{display:none;padding:0 14px 12px;display:flex;flex-direction:column;gap:7px}
+.notes-ref-body.open{display:flex}
+.notes-ref-item{background:var(--surf);border:1px solid var(--brd);border-radius:6px;padding:9px 11px}
+.notes-ref-lbl{font-size:.59rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.notes-ref-txt{font-size:.79rem;color:var(--dim);line-height:1.6;font-style:italic}
+.notes-ref-empty{font-size:.77rem;color:var(--muted);font-style:italic;padding:4px 0}
+.qq{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:15px 17px;margin-bottom:10px}
+.qhdr{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+.qnum{font-size:.61rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-family:var(--fm)}
+.qtag{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.qtag.inv{color:var(--teal)}
+.qtext{font-size:.87rem;font-weight:600;color:var(--txt);line-height:1.6;margin-bottom:10px}
+.qhint{font-size:.7rem;color:var(--teal);font-family:var(--fm);margin-bottom:8px;background:rgba(44,169,188,.06);border-left:2px solid rgba(44,169,188,.3);padding:5px 9px;display:inline-block;border-radius:0 5px 5px 0}
+.qopt{display:block;width:100%;text-align:left;background:var(--surf2);border:1px solid var(--brd);border-radius:6px;padding:9px 13px;margin-bottom:5px;font-size:.83rem;color:var(--dim);cursor:pointer;transition:border-color .15s,color .15s;line-height:1.55;font-family:var(--fs)}
+.qopt:hover{border-color:var(--teal);color:var(--txt)}
+.qopt.ok{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.06);color:var(--txt);font-weight:600}
+.qopt.ok::before{content:"\2713\20";color:var(--green);font-weight:700}
+.qopt.bad{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.04);color:var(--txt)}
+.qopt.bad::before{content:"\2717\20";color:var(--red);font-weight:700}
+.qfb{font-size:.78rem;margin-top:5px;display:none;color:var(--dim);line-height:1.65;padding:8px 11px;background:var(--surf2);border-left:2px solid var(--brd);border-radius:0 5px 5px 0}
+.qfb.show{display:block}
+.qfb.ok{border-left-color:rgba(16,185,129,.5)}.qfb.bad{border-left-color:rgba(239,68,68,.3)}
+.subwrap{padding:14px 0;border-top:1px solid var(--brd);margin-top:4px}
+.subbtn{background:linear-gradient(135deg,#2ca9bc,#1d8fa0);color:#fff;border:none;border-radius:var(--r8);padding:11px 26px;font-weight:700;font-size:.87rem;cursor:pointer;font-family:var(--fs)}
+.subbtn:hover{opacity:.9}
+.subbtn:disabled{opacity:.4;cursor:not-allowed}
+.subst{font-size:.79rem;color:var(--green);margin-top:7px;font-weight:600;line-height:1.6;display:block}
+.scst{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.6;display:block}
+
+/* CASE FILE NOTES */
+.cdnotes-sec{margin-top:11px;padding-top:11px;border-top:1px dashed var(--brd)}
+.cdnotes-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:5px}
+.cdnotes{width:100%;min-height:64px;padding:9px 11px;background:var(--surf2);border:1px solid var(--brd);border-radius:6px;font-size:.8rem;font-family:var(--fs);color:var(--txt);resize:vertical;outline:none;line-height:1.6;transition:border-color .2s}
+.cdnotes:focus{border-color:var(--teal)}
+.cdnotes::placeholder{color:var(--muted)}
+
+
+/* PROGRESS TRACKER */
+.prog-wrap{padding:4px 10px;margin:4px 6px;display:flex;flex-direction:column;gap:3px}
+.prog-item{display:flex;align-items:center;gap:7px;font-size:.67rem;color:#2d4a66;padding:3px 2px}
+.prog-item.done{color:var(--green)}
+.prog-item.done .prog-icon{color:var(--green)}
+.prog-icon{width:14px;font-size:.7rem;flex-shrink:0;text-align:center}
+.prog-label{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* SEARCH HIGHLIGHT */
+mark{background:rgba(245,158,11,.28);color:inherit;border-radius:2px;padding:0 1px}
+
+@keyframes lout{to{opacity:0}}
+@keyframes ain{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+@media(max-width:860px){.ilayout{grid-template-columns:1fr}.dp{position:static}.chain-workspace{grid-template-columns:1fr}}
+@media(max-width:580px){.login-card{padding:28px 20px;margin:12px}.view{padding:13px 14px}}
+
+/* CHAIN SIMULATION MODAL */
+#chain-modal{position:fixed;inset:0;z-index:7500;display:flex;align-items:center;justify-content:center;background:rgba(4,8,18,.92);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .3s}
+#chain-modal.open{opacity:1;pointer-events:all}
+.chm-card{background:#0a1120;border:1px solid rgba(44,169,188,.15);border-radius:var(--r16);width:96vw;max-width:1100px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 80px rgba(44,169,188,.08),0 24px 60px rgba(0,0,0,.8);transform:scale(.95) translateY(10px);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+#chain-modal.open .chm-card{transform:none}
+.chm-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid rgba(44,169,188,.1);background:#060a14;flex-shrink:0}
+.chm-title{font-family:var(--ff);font-size:.95rem;font-weight:700;color:var(--teal);letter-spacing:.02em}
+.chm-meta{font-size:.7rem;color:var(--muted);font-family:var(--fm)}
+.chm-close{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:6px 10px;border-radius:6px;font-family:var(--fs);transition:all .15s}
+.chm-close:hover{color:var(--txt);background:rgba(255,255,255,.06)}
+.chm-body{padding:28px 28px 20px;overflow-y:auto;flex:1}
+.chm-attempt-bar{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--brd)}
+.chm-attempt-label{font-size:.72rem;color:var(--dim);font-weight:600}
+.chm-attempt-dots{display:flex;gap:6px}
+.chm-attempt-dot{width:10px;height:10px;border-radius:50%;background:var(--brd2);transition:background .3s}
+.chm-attempt-dot.used{background:var(--amber)}.chm-attempt-dot.pass{background:var(--green)}.chm-attempt-dot.fail{background:var(--red)}
+.chm-stage-row{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:70px;position:relative;min-height:180px}
+.chm-result{margin-top:16px;padding:18px 20px;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);display:none}
+.chm-result.visible{display:block}
+.chm-result-title{font-family:var(--ff);font-size:1rem;font-weight:700;margin-bottom:6px}
+.chm-result-title.pass{color:var(--green)}.chm-result-title.fail{color:var(--red)}
+.chm-result-text{font-size:.83rem;color:var(--dim);line-height:1.75}
+.chm-footer{padding:14px 24px;border-top:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#060a14}
+.chm-retry-btn{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);border-radius:var(--r8);padding:9px 20px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--fs);transition:all .15s}
+.chm-retry-btn:hover{background:rgba(245,158,11,.18)}.chm-retry-btn:disabled{opacity:.3;cursor:not-allowed}
+.chm-done-btn{background:linear-gradient(135deg,#2ca9bc,#1d8fa0);border:none;color:#fff;border-radius:var(--r8);padding:9px 22px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--fs)}
+.chm-score-display{font-size:.8rem;color:var(--dim);font-family:var(--fm)}
+
+</style>
+</head><body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-grid" aria-hidden="true"></div>
+  <div class="boot-logo">
+    <svg class="boot-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17,4a4.36,4.36,0,0,0-.51,0A6,6,0,0,0,12,2,6,6,0,0,0,6.35,6,4,4,0,1,0,6,14H17A5,5,0,0,0,17,4Z" fill="#2d4a66"/>
+      <path d="M16,14.79a1,1,0,0,0-.52-.61l-1.15-.57V10a1,1,0,0,0-.7-.95,1,1,0,0,0-1.11.36L8.19,15.34a1,1,0,0,0,.5,1.53l1.88.62V21a1,1,0,0,0,.74,1l.26,0a1,1,0,0,0,.87-.5l3.43-5.92A1,1,0,0,0,16,14.79Z" fill="#2ca9bc"/>
+    </svg>
+    <div class="boot-name">STORM</div>
+    <div class="boot-sub">Threat Operations &amp; Response Monitor</div>
+  </div>
+  <div class="boot-term" id="boot-term" role="status" aria-live="polite">
+    <div class="boot-term-line" id="btl0"></div>
+    <div class="boot-term-line" id="btl1"></div>
+    <div class="boot-term-line" id="btl2"></div>
+    <div class="boot-term-line" id="btl3"></div>
+    <div class="boot-term-line" id="btl4"><span class="boot-term-cursor" aria-hidden="true"></span></div>
+  </div>
+  <div class="boot-prog-wrap">
+    <div class="boot-prog-label"><span>Initializing</span><span id="boot-pct">0%</span></div>
+    <div class="boot-prog-track"><div class="boot-prog-fill" id="boot-pfill"></div></div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="hidden">
+  <div class="login-grid" aria-hidden="true"></div>
+  <div class="login-card" role="main">
+    <div class="login-logo">
+      <svg class="login-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17,4a4.36,4.36,0,0,0-.51,0A6,6,0,0,0,12,2,6,6,0,0,0,6.35,6,4,4,0,1,0,6,14H17A5,5,0,0,0,17,4Z" fill="#2d4a66"/>
+        <path d="M16,14.79a1,1,0,0,0-.52-.61l-1.15-.57V10a1,1,0,0,0-.7-.95,1,1,0,0,0-1.11.36L8.19,15.34a1,1,0,0,0,.5,1.53l1.88.62V21a1,1,0,0,0,.74,1l.26,0a1,1,0,0,0,.87-.5l3.43-5.92A1,1,0,0,0,16,14.79Z" fill="#2ca9bc"/>
+      </svg>
+      <div class="login-brand">STORM</div>
+      <div class="login-brandsub">Threat Operations &amp; Response Monitor</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <label for="aname" class="login-field-label">Analyst Name</label>
+      <input type="text" id="aname" class="login-input" placeholder="Enter your full name" autocomplete="name" maxlength="60">
+    </div>
+    <div id="rban" class="restore-banner hidden">
+      <span id="rmsg"></span>
+      <div class="racts">
+        <button id="ryes" class="ryes" type="button">Resume</button>
+        <button id="rno" class="rno" type="button">Start fresh</button>
+      </div>
+    </div>
+    <p class="login-err" id="lerr" role="alert" aria-live="polite"></p>
+    <button class="login-btn" id="loginbtn" type="button">Sign In</button>
+    <button class="login-newtab" id="login-newtab" type="button">&#8599; Open in dedicated window</button>
+    <p class="login-footer" style="color: white;">Authorised access only. All sessions are recorded.</p>
+  </div>
+</div>
+
+<!-- NOTIFICATION STACK -->
+<div id="notif-stack" aria-live="polite" aria-label="New messages"></div>
+
+<!-- MESSAGE MODAL -->
+<div id="msg-modal" role="dialog" aria-modal="true" aria-label="New message">
+  <div class="msg-modal-card">
+    <div class="msg-modal-bar">
+      <span class="msg-modal-channel" id="msg-channel">Slack #soc-incidents</span>
+      <button class="msg-modal-close" id="msg-close" aria-label="Close message">&#10005;</button>
+    </div>
+    <div class="msg-modal-body">
+      <div class="msg-modal-header">
+        <div class="msg-modal-av" id="msg-av"></div>
+        <div class="msg-modal-meta">
+          <span class="msg-modal-name" id="msg-name"></span>
+          <span class="msg-modal-role" id="msg-role"></span>
+        </div>
+        <span class="msg-modal-ts" id="msg-ts"></span>
+      </div>
+      <div id="msg-body-content"></div>
+    </div>
+    <div class="msg-modal-footer">
+      <span class="msg-msg-counter" id="msg-counter"></span>
+      <button class="msg-btn-dismiss" id="msg-dismiss">Dismiss</button>
+      <button class="msg-btn-next" id="msg-next">Next message</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app hidden" id="app" data-theme="dark">
+  <nav class="sidebar" id="sidebar" aria-label="STORM console navigation">
+    <div class="sb-top">
+      <button class="sb-tog" id="sb-tog" aria-label="Toggle sidebar" aria-expanded="true">&#9776;</button>
+      <div class="sb-bwrap"><span class="sb-brand">STORM</span><span class="sb-sub">Threat Ops</span></div>
+    </div>
+    <div class="cs-pill"><span class="cs-dot" aria-hidden="true"></span><span class="nl">INC-55810 Active</span></div>
+    <ul class="sb-nav" id="sb-nav" role="list">
+      <li><button class="nbtn" data-v="briefing" id="nb-briefing">&#128233; <span class="nl">Briefing</span> <span class="nb-badge teal hidden" id="briefbadge">!</span></button></li>
+      <li><button class="nbtn active" data-v="dashboard" id="nb-dashboard">&#128202; <span class="nl">Dashboard</span></button></li>
+      <li><button class="nbtn" data-v="investigate" id="nb-investigate">&#128269; <span class="nl">Investigate</span></button></li>
+      <li><button class="nbtn" data-v="alerts" id="nb-alerts">&#128680; <span class="nl">Alerts</span> <span class="nb-badge" id="abadge">3</span></button></li>
+      <li><button class="nbtn" data-v="chain" id="nb-chain">&#9939; <span class="nl">Quiz 1: Chain Recon</span></button></li>
+      <li><button class="nbtn" data-v="assessment" id="nb-assessment">&#10003; <span class="nl">Quiz 2: Incident Report</span> <span class="nb-badge teal" id="qbadge">0/9</span></button></li>
+    </ul>
+    <div class="prog-wrap" id="prog-wrap" aria-label="Investigation progress">
+      <div class="prog-item" id="prog-brief"><span class="prog-icon">&#9711;</span><span class="prog-label nl">Briefing</span></div>
+      <div class="prog-item" id="prog-dash"><span class="prog-icon">&#9711;</span><span class="prog-label nl">Dashboard</span></div>
+      <div class="prog-item" id="prog-inv"><span class="prog-icon">&#9711;</span><span class="prog-label nl">Investigate</span></div>
+      <div class="prog-item" id="prog-alert"><span class="prog-icon">&#9711;</span><span class="prog-label nl">Alerts</span></div>
+      <div class="prog-item" id="prog-chain"><span class="prog-icon">&#9711;</span><span class="prog-label nl">Chain Recon</span></div>
+    </div>
+    <div class="sb-bot">
+      <div class="an-pill"><span class="an-pip" aria-hidden="true"></span><span class="an-name" id="andisp">Analyst</span></div>
+      <button id="thbtn" class="th-btn"><span id="thicon">&#9728;&#65039;</span> <span class="nl" id="tlbl">Light mode</span></button>
+    </div>
+  </nav>
+
+  <main class="main" id="main-content">
+    <div class="topbar">
+      <span class="tb-title" id="vtitle">Dashboard</span>
+      <span class="tb-dot">&#183;</span>
+      <span class="tb-inc">Solis Commerce &#183; INC-55810 &#183; 2026-03-10</span>
+      <span class="tb-save hidden" id="tsave" aria-live="polite">&#10003; Saved</span>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="v-dashboard" aria-labelledby="nb-dashboard">
+      <div class="stat-grid">
+        <div class="sc"><div class="sc-label">Total Events</div><div class="sc-val" id="st-total">0</div><div class="sc-sub">Breach window 08:00 to 14:05</div></div>
+        <div class="sc red"><div class="sc-label">Critical</div><div class="sc-val" id="st-crit">0</div><div class="sc-sub">Require immediate review</div></div>
+        <div class="sc"><div class="sc-label">Source Systems</div><div class="sc-val" id="st-sys">0</div><div class="sc-sub">Distinct log originators</div></div>
+        <div class="sc amber"><div class="sc-label">Accounts Seen</div><div class="sc-val" id="st-usr">0</div><div class="sc-sub">In authentication logs</div></div>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card"><h3 class="chart-title">Events by Severity <span class="chart-hint">Click to filter</span></h3><div class="chart-wrap" style="max-height:200px"><canvas id="ch-sev" aria-label="Events by severity chart"></canvas></div></div>
+        <div class="chart-card"><h3 class="chart-title">Events by Source System <span class="chart-hint">Click to filter</span></h3><div class="chart-wrap" style="max-height:200px"><canvas id="ch-sys" aria-label="Events by source system chart"></canvas></div></div>
+      </div>
+      <div class="chart-card" style="margin-bottom:10px"><h3 class="chart-title">Incident Timeline</h3><div class="chart-wrap" style="height:110px"><canvas id="ch-tl" aria-label="Incident timeline chart"></canvas></div></div>
+      <div class="chart-card" style="margin-bottom:10px">
+        <h3 class="chart-title">Attack Path <span class="chart-hint">Click a node to investigate</span></h3>
+        <div id="attack-map" style="overflow-x:auto;padding:8px 0"></div>
+      </div>
+    </section>
+
+    <!-- INVESTIGATE -->
+    <section class="view" id="v-investigate" aria-labelledby="nb-investigate">
+      <div class="sw"><label for="sbox" class="vh">Search logs</label><input type="text" id="sbox" placeholder="user:j.alvarez   source:VPN-GW severity:critical   185.220" autocomplete="off"><button id="sclear" class="sbtn" type="button">Clear</button></div>
+      <div class="fwrap">
+        <div class="crow" role="group" aria-label="Filter by severity"><span class="clbl">Severity</span><button class="chip active" data-sev="">All</button><button class="chip" data-sev="Info">Info</button><button class="chip" data-sev="Warning">Warning</button><button class="chip" data-sev="Critical">Critical</button></div>
+        <div class="crow" role="group" aria-label="Filter by source" id="srcchips"></div>
+      </div>
+      <div class="irow"><p class="rcnt" id="rcnt" aria-live="polite"></p><div class="fst" id="fst"></div></div>
+      <div class="ilayout">
+        <div class="ltwrap">
+          <table class="ltable">
+            <caption class="vh">SIEM event log. Click a row to see full details. Click a cell value to add it to the search filter.</caption>
+            <colgroup><col style="width:62px"><col style="width:86px"><col style="width:88px"><col style="width:72px"><col><col style="width:30px"></colgroup>
+            <thead><tr><th scope="col">Time</th><th scope="col">Source</th><th scope="col">User</th><th scope="col">Sev</th><th scope="col">Summary</th><th scope="col" class="tc6" aria-label="Flag">&#9733;</th></tr></thead>
+            <tbody id="ltbody"></tbody>
+          </table>
+        </div>
+        <div class="dp" id="dpanel"><div class="dp-empty"><span aria-hidden="true">&#128269;</span><p>Select an event to see the full entry here.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ALERTS -->
+    <section class="view" id="v-alerts" aria-labelledby="nb-alerts">
+      <div class="alert-intro"><div class="ai-icon" aria-hidden="true">&#127919;</div><div><div class="ai-title">Your objective in this panel</div><p class="ai-text">Three alerts were generated during the breach window. Read each one. Use the <strong>View related events</strong> button to verify the raw log evidence. Pay close attention to <em>Alert 2</em>: it fired correctly, but never reached an analyst. Understanding why is central to this assignment.</p></div></div>
+      <div class="atl-wrap"><div class="atl-title">Alert Timeline</div><div class="atl-track" id="atl-track"></div></div>
+      <div id="alist"></div>
+    </section>
+
+    <!-- CHAIN RECONSTRUCTION -->
+    <section class="view" id="v-chain" aria-labelledby="nb-chain">
+      <div class="chain-header">
+        <h2 class="chain-title">Attack Chain Reconstruction</h2>
+        <p class="chain-sub">The six stages of the breach are listed below in the wrong order. Drag each stage card from the pool on the right into the correct numbered slot. When you are confident in your sequence, run the simulation to see how the attacker moved through the network.</p>
+      </div>
+      <div class="chain-workspace" id="chain-workspace">
+        <div class="chain-slots-col" id="chain-slots"></div>
+        <div class="chain-pool-col">
+          <div class="chain-pool-title">Stage Cards (drag to slots)</div>
+          <div class="chain-pool" id="chain-pool"></div>
+        </div>
+      </div>
+      <div class="chain-actions">
+        <button class="chain-run-btn" id="chain-run" type="button" disabled>Run Attack Simulation</button>
+        <button class="chain-reset-btn" id="chain-reset" type="button">Reset</button>
+        <span class="chain-score" id="chain-score"></span>
+      </div>
+      <div class="chain-sim" id="chain-sim">
+        <div class="chain-stage-row" id="chain-stage-row"></div>
+        <div class="chain-result-banner" id="chain-result"></div>
+      </div>
+      <div class="chain-findings" id="chain-findings">
+        <div class="cf-unlock-title">&#128275; Breach Analysis: What Went Wrong</div>
+        <div id="cf-docs"></div>
+      </div>
+    </section>
+
+    <!-- BRIEFING (reference) -->
+    <section class="view" id="v-briefing" aria-labelledby="nb-briefing">
+      <div class="brief-notice"><div class="brief-notice-icon">&#128233;</div><div class="brief-notice-txt">These messages arrived at the start of your shift. You can return here to re-read them at any time. <strong>The investigation is live.</strong></div></div>
+      <div class="msg-thread" id="brief-thread"></div>
+      <div class="sh-box">
+        <p class="sh-title">Search syntax for Investigate</p>
+        <ul class="sh-list">
+          <li><code>user:j.alvarez</code> filter to a specific account</li>
+          <li><code>src:10.20.14.203</code> or <code>dst:10.40.8.12</code> filter by IP</li>
+          <li><code>source:FW-CORE</code> filter by source system</li>
+          <li><code>severity:critical</code> filter by severity</li>
+          <li>Combine: <code>source:VPN-GW severity:critical</code></li>
+          <li>Plain keywords search all event text. Press <code>/</code> anywhere to jump to search.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ASSESSMENT -->
+    <section class="view" id="v-assessment" aria-labelledby="nb-assessment">
+      <div class="ahdr"><div><h2 class="atitle">Incident Assessment</h2><p class="asub">Five conceptual questions and four that require searching the logs. Answers shuffle on each load and save automatically.</p></div><div class="ascore">Answered: <span id="qans">0</span> / <span id="qtot">9</span></div></div>
+      <div class="notes-ref" id="notes-ref">
+        <button class="notes-ref-tog" id="notes-ref-tog" aria-expanded="false">&#128221; Your Case File Notes <span id="nrchev" style="margin-left:auto;font-size:.75rem;opacity:.5">&#9654;</span></button>
+        <div class="notes-ref-body" id="notes-ref-body"></div>
+      </div>
+      <div id="qlist"></div>
+      <div class="subwrap"><button class="subbtn" id="subbtn" type="button">Submit Attempt</button><p class="subst" id="subst" aria-live="polite"></p><p class="scst" id="scst" aria-live="polite"></p></div>
+    </section>
+  </main>
+  <!-- CHAIN SIMULATION MODAL -->
+  <div id="chain-modal" role="dialog" aria-modal="true" aria-labelledby="chm-title-el">
+    <div class="chm-card">
+      <div class="chm-bar">
+        <div>
+          <span class="chm-title" id="chm-title-el">Attack Simulation</span>
+          <span class="chm-meta" id="chm-meta"></span>
+        </div>
+        <button class="chm-close" id="chm-close" aria-label="Close simulation">&#10005;</button>
+      </div>
+      <div class="chm-body">
+        <div class="chm-attempt-bar">
+          <span class="chm-attempt-label">Attempts used:</span>
+          <div class="chm-attempt-dots" id="chm-dots"></div>
+          <span class="chm-score-display" id="chm-score-disp"></span>
+        </div>
+        <div class="chm-stage-row" id="chm-stage-row"></div>
+        <div class="chm-result" id="chm-result"></div>
+      </div>
+      <div class="chm-footer">
+        <span class="chm-score-display" id="chm-grade-disp"></span>
+        <div style="display:flex;gap:10px">
+          <button class="chm-retry-btn" id="chm-retry" type="button">Try Again</button>
+          <button class="chm-done-btn" id="chm-done" type="button">Continue to Assessment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+
+/* === SCORM === */
+var scorm=(function(){
+  var api=null,ok=false;
+  function fA(w){var n=0;try{while(w.API_1484_11==null&&w.parent!=null&&w.parent!==w){if(++n>500)return null;w=w.parent;}}catch(e){return null;}return w.API_1484_11||null;}
+  function init(){api=fA(window)||(window.opener?fA(window.opener):null);if(!api)return false;try{var r=api.Initialize('');ok=(r==='true'||r===true);return ok;}catch(e){return false;}}
+  function sv(k,v){if(!api||!ok)return;try{api.SetValue(k,String(v));}catch(e){}}
+  function gv(k){if(!api||!ok)return'';try{return api.GetValue(k)||'';}catch(e){return'';}}
+  function cm(){if(api&&ok)try{api.Commit('');}catch(e){}}
+  function tm(){if(api&&ok)try{api.Terminate('');ok=false;}catch(e){}}
+  return{init:init,sv:sv,gv:gv,cm:cm,tm:tm,ready:function(){return ok;}};
+})();
+var SR=scorm.init();
+if(SR){scorm.sv('cmi.completion_status','incomplete');scorm.cm();}
+window.addEventListener('beforeunload',function(){try{scorm.cm();scorm.tm();}catch(e){}});
+
+/* === HASH === */
+function djb2(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h)+s.charCodeAt(i);h=h&h;}return(h>>>0).toString(16);}
+var AH={q1:'4b5ba4fa',q2:'c3d58171',q3:'1bee338f',q4:'ca3070cc',q5:'82e47dd6',q6:'d0558625',q7:'286402a0',q8:'b32fd312',q9:'eb6e9fd9'};
+function chk(id,txt){return djb2(txt)===AH[id];}
+
+/* === UTILS === */
+function $(id){return document.getElementById(id);}
+function on(el,ev,fn){if(el)el.addEventListener(ev,fn);}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function hlText(text,terms){var e=esc(text);if(!terms)return e;try{return e.replace(new RegExp('('+terms+')', 'gi'),'<mark>$1</mark>');}catch(ex){return e;}}
+
+/* === STATE === */
+var fn='Analyst',ans={},flags={},notes={},sevF='',srcF='';
+var chainAttempts=0,chainMaxAttempts=3,chainBestScore=0,chainPassed=false;
+var _charts={};
+var msgIdx=0;
+var notifShown=false;
+
+/* === SAVE/LOAD === */
+function save(){
+  var d=JSON.stringify({name:fn,answers:ans,flagged:flags,notes:notes});
+  if(scorm.ready()){scorm.sv('cmi.suspend_data',d);scorm.cm();}
+  try{localStorage.setItem('storm_v4',d);}catch(e){}
+  var i=$('tsave');if(i){i.classList.remove('hidden');clearTimeout(i._t);i._t=setTimeout(function(){i.classList.add('hidden');},1800);}
+}
+function load(){
+  if(scorm.ready()){var r=scorm.gv('cmi.suspend_data');if(r&&r.length>2){try{return JSON.parse(r);}catch(e){}}}
+  try{var s=localStorage.getItem('storm_v4');if(s)return JSON.parse(s);}catch(e){}
+  return null;
+}
+function clr(){if(scorm.ready()){scorm.sv('cmi.suspend_data','');scorm.cm();}try{localStorage.removeItem('storm_v4');}catch(e){}}
+
+/* === BOOT SEQUENCE === */
+var bootLines=[
+  '> Connecting to SIEM API... OK',
+  '> Loading incident telemetry (59 events)... OK',
+  '> INC-55810: Solis Commerce breach 2026-03-10... LOADED',
+  '> Establishing session... OK',
+  '> Console ready. Analyst authentication required.'
+];
+function runBoot(){
+  var fill=$('boot-pfill'),pct=$('boot-pct');
+  var lineEls=['btl0','btl1','btl2','btl3'];
+  var i=0;
+  function tick(){
+    if(i<bootLines.length){
+      var el=$(lineEls[i%4]);
+      if(el){el.textContent=bootLines[i];el.classList.add('show');}
+      var p=Math.round((i+1)/bootLines.length*92);
+      if(fill)fill.style.width=p+'%';
+      if(pct)pct.textContent=p+'%';
+      i++;
+      setTimeout(tick,i===1?300:420);
+    } else {
+      setTimeout(function(){
+        if(fill)fill.style.width='100%';
+        if(pct)pct.textContent='100%';
+        setTimeout(function(){
+          var boot=$('boot');
+          if(boot)boot.style.animation='lout .5s ease forwards';
+          setTimeout(function(){
+            if(boot)boot.classList.add('hidden');
+            var login=$('login');
+            if(login){login.classList.remove('hidden');login.style.animation='ain .4s ease';}
+            // Check restore
+            var saved=load();
+            if(saved&&saved.name){
+              var rb=$('rban'),rm=$('rmsg');
+              if(rb&&rm){rm.textContent='Saved progress found for '+saved.name+'.';rb.classList.remove('hidden');}
+            }
+          },480);
+        },350);
+      },250);
+    }
+  }
+  setTimeout(tick,700);
+}
+setTimeout(runBoot,400);
+
+/* === RESTORE HANDLERS === */
+on($('ryes'),'click',function(){
+  var saved=load();
+  if(saved){fn=saved.name;ans=saved.answers||{};flags=saved.flagged||{};notes=saved.notes||{};
+    $('aname').value=fn;if($('rban'))$('rban').classList.add('hidden');doLogin(true);}
+});
+on($('rno'),'click',function(){clr();if($('rban'))$('rban').classList.add('hidden');});
+
+/* === LOGIN === */
+on($('loginbtn'),'click',function(){doLogin(false);});
+on($('aname'),'keydown',function(e){if(e.key==='Enter')doLogin(false);});
+on($('login-newtab'),'click',function(){
+  var p=window.open(window.location.href,'_blank');
+  if(!p)alert('Popup blocked. Please allow popups for this site and try again.');
+});
+
+function doLogin(restoring){
+  var v=($('aname').value||'').trim();
+  if(!v){$('lerr').textContent='Please enter your name to continue.';$('aname').focus();return;}
+  if(!restoring){fn=v.split(/\s+/)[0];ans={};flags={};notes={};}
+  $('lerr').textContent='';$('loginbtn').textContent='Verifying...';$('loginbtn').disabled=true;
+  setTimeout(function(){
+    $('login').style.animation='lout .32s ease forwards';
+    setTimeout(function(){
+      $('login').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      $('andisp').textContent=fn;
+      initApp(restoring);
+    },300);
+  },700);
+}
+
+/* === SIDEBAR + THEME + KEYBOARD NAV === */
+on($('sb-tog'),'click',function(){
+  var c=$('sidebar').classList.toggle('col');
+  $('sb-tog').setAttribute('aria-expanded',c?'false':'true');
+});
+on($('thbtn'),'click',function(){
+  var a=$('app'),dark=a.getAttribute('data-theme')==='dark';
+  var next=dark?'light':'dark';
+  a.setAttribute('data-theme',next);
+  document.documentElement.setAttribute('data-theme',next);
+  document.body.setAttribute('data-theme',next);
+  $('thicon').textContent=dark?'\u{1F319}':'\u2600\uFE0F';
+  $('tlbl').textContent=dark?'Light mode':'Dark mode';
+  setTimeout(function(){buildCharts();},50);
+});
+
+// Arrow key nav for sidebar
+var sbnav=$('sb-nav');
+if(sbnav){
+  sbnav.addEventListener('keydown',function(e){
+    var items=[].slice.call(sbnav.querySelectorAll('.nbtn'));
+    var idx=items.indexOf(document.activeElement);
+    if(e.key==='ArrowDown'&&idx<items.length-1){items[idx+1].focus();e.preventDefault();}
+    if(e.key==='ArrowUp'&&idx>0){items[idx-1].focus();e.preventDefault();}
+  });
+}
+
+// Global keyboard shortcuts
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  if(e.key==='/'&&$('v-investigate').classList.contains('active')){
+    e.preventDefault();var sb=$('sbox');if(sb){sb.focus();sb.select();}
+  }
+  if(e.key==='Escape'){closeMsgModal();}
+});
+
+/* === VIEW SWITCHING === */
+var VT={dashboard:'Dashboard',investigate:'Investigate',alerts:'Alerts',chain:'Chain Recon',briefing:'Briefing',assessment:'Assessment'};
+var progMap={briefing:'prog-brief',dashboard:'prog-dash',investigate:'prog-inv',alerts:'prog-alert',chain:'prog-chain'};
+function markProg(v){var id=progMap[v];if(!id)return;var el=$(id);if(el&&!el.classList.contains('done')){el.classList.add('done');el.querySelector('.prog-icon').textContent='\u2713';}}
+function sw(v){
+  document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
+  document.querySelectorAll('.nbtn').forEach(function(x){x.classList.remove('active');});
+  var s=$('v-'+v),b=$('nb-'+v);
+  if(s)s.classList.add('active');if(b)b.classList.add('active');
+  $('vtitle').textContent=VT[v]||v;
+  if(v==='assessment')buildNotesRef();
+  if(v==='chain'&&!chainBuilt)buildChain();
+  markProg(v);
+}
+document.querySelectorAll('.nbtn').forEach(function(b){b.addEventListener('click',function(){sw(b.getAttribute('data-v'));});});
+
+function jumpInv(q){
+  $('sbox').value=q;sevF='';srcF='';
+  document.querySelectorAll('[data-sev]').forEach(function(c){c.classList.remove('active');});
+  document.querySelectorAll('[data-src]').forEach(function(c){c.classList.remove('active');});
+  var a1=document.querySelector('[data-sev=""]'),a2=document.querySelector('[data-src=""]');
+  if(a1)a1.classList.add('active');if(a2)a2.classList.add('active');
+  renderInv();sw('investigate');
+}
+
+/* === MESSAGES + NOTIFICATIONS === */
+var messages=[
+  {av:'MC',avClass:'nav-blue',name:'Maya Chen',role:'Senior Security Analyst',ts:'Today 06:14',
+   paras:[
+     'Hey <strong id="msg-fn-0">Analyst</strong>, I know it\'s your third week. I know that\'s not ideal timing. There\'s something wrong with INC-55810 and I can\'t shake it, but I\'m wheels up in twenty minutes for London. The Tier 1 team auto-ticketed it as a large outbound transfer and dropped it into the backlog. Don\'t let it sit there.',
+     'Pull the full logs. Work it properly. Start with the Dashboard to get the shape of the day. Then go into Investigate and search. The Alerts panel will show you what the system flagged, and I want you to look hard at what happened to one of those alerts. The Case File documents unlock once you complete the Chain Reconstruction.',
+     '<em>Maya</em>'
+   ]},
+  {av:'MB',avClass:'nav-amber',name:'Michael B.',role:'SOC Manager, On-Call',ts:'Today 06:31',
+   paras:[
+     '<strong id="msg-fn-1">Analyst</strong>, full read access to INC-55810 logs granted as of 06:30. Breach window appears to be yesterday, 08:00 to 14:05. Reconstruct the attack chain, document your findings in the Assessment, and sign off before 09:00. Leadership is watching this one.'
+   ]}
+];
+
+function showNotifCard(msgObj,idx,delay){
+  setTimeout(function(){
+    var card=document.createElement('div');
+    card.className='notif-card';
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label','New message from '+msgObj.name+'. Press Enter to read.');
+    var preview=msgObj.paras[0].replace(/<[^>]+>/g,'').substring(0,55)+'...';
+    card.innerHTML='<div class="notif-av '+msgObj.avClass+'">'+msgObj.av+'</div>'
+      +'<div class="notif-body"><div class="notif-sender">'+msgObj.name+'</div>'
+      +'<div class="notif-preview">'+esc(preview)+'</div>'
+      +'<button class="notif-read" data-idx="'+idx+'">Read message</button></div>';
+    $('notif-stack').appendChild(card);
+    requestAnimationFrame(function(){card.classList.add('in');});
+    function openMsg(){openMsgModal(idx);card.classList.add('out');setTimeout(function(){card.remove();},300);}
+    card.querySelector('.notif-read').addEventListener('click',function(e){e.stopPropagation();openMsg();});
+    card.addEventListener('click',openMsg);
+    card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openMsg();}});
+  },delay);
+}
+
+function openMsgModal(idx){
+  msgIdx=idx;
+  var m=messages[idx];
+  $('msg-av').textContent=m.av;$('msg-av').className='msg-modal-av '+m.avClass;
+  $('msg-name').textContent=m.name;$('msg-role').textContent=m.role;$('msg-ts').textContent=m.ts;
+  var bodyEl=$('msg-body-content');
+  bodyEl.innerHTML='';
+  m.paras.forEach(function(p,pi){
+    var el=document.createElement('p');
+    el.className='msg-modal-text'+(pi===m.paras.length-1?' mc-sign':'');
+    el.innerHTML=p;el.style.marginBottom='12px';
+    bodyEl.appendChild(el);
+  });
+  // Personalise first name spans
+  bodyEl.querySelectorAll('[id^="msg-fn-"]').forEach(function(el){el.textContent=fn;});
+  var hasNext=idx<messages.length-1;
+  $('msg-next').style.display=hasNext?'':'none';
+  $('msg-counter').textContent=(idx+1)+' of '+messages.length;
+  $('msg-modal').classList.add('open');
+  $('msg-close').focus();
+}
+
+function closeMsgModal(){
+  $('msg-modal').classList.remove('open');
+  // Clear remaining notifs
+  $('notif-stack').innerHTML='';
+  // Mark briefing as read - show badge
+  var bb=$('briefbadge');if(bb)bb.classList.remove('hidden');
+}
+
+on($('msg-close'),'click',closeMsgModal);
+on($('msg-dismiss'),'click',closeMsgModal);
+on($('msg-next'),'click',function(){
+  if(msgIdx<messages.length-1)openMsgModal(msgIdx+1);
+  else closeMsgModal();
+});
+on($('msg-modal'),'click',function(e){if(e.target===$('msg-modal'))closeMsgModal();});
+
+// Keyboard trap in modal
+$('msg-modal').addEventListener('keydown',function(e){
+  if(e.key!=='Tab')return;
+  var focusable=$('msg-modal').querySelectorAll('button');
+  var first=focusable[0],last=focusable[focusable.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
+
+/* === BRIEFING THREAD (reference view) === */
+function buildBriefThread(){
+  var t=$('brief-thread');if(!t)return;
+  var h='';
+  messages.forEach(function(m){
+    h+='<div class="mc'+(m.av==='MB'?' mc2':'')+'">'
+      +'<div class="mc-head">'
+      +'<span class="mc-av '+m.avClass+'" aria-hidden="true">'+m.av+'</span>'
+      +'<div class="mc-meta"><span class="mc-name">'+m.name+'</span><span class="mc-role">'+m.role+'</span></div>'
+      +'<span class="mc-ch">Slack #soc-incidents</span>'
+      +'<span class="mc-ts">'+m.ts+'</span></div>';
+    m.paras.forEach(function(p,pi){
+      h+='<p class="mc-body'+(pi===m.paras.length-1?' mc-sign':'')+'">'+p+'</p>';
+    });
+    h+='</div>';
+  });
+  t.innerHTML=h;
+  // Personalise
+  t.querySelectorAll('[id^="msg-fn-"]').forEach(function(el){el.textContent=fn;});
+}
+
+/* === LOG DATA === */
+var logs=[
+  {ts:'07:55:12',src:'PATCH-MGMT',sev:'Info',user:'',ip:'',dst:'',msg:'Patch compliance check: 214 endpoints scanned, 211 compliant, 3 pending reboot.'},
+  {ts:'08:00:41',src:'MAIL-GW',sev:'Info',user:'',ip:'',dst:'',msg:'Inbound message scan: 412 messages processed, 6 quarantined. No high-severity items.'},
+  {ts:'08:01:09',src:'AD-DC01',sev:'Info',user:'',ip:'',dst:'',msg:'Group Policy refresh completed across 198 domain-joined workstations. No violations.'},
+  {ts:'08:02:14',src:'MAIL-GW',sev:'Warning',user:'j.alvarez',ip:'',dst:'',msg:'Delivered to j.alvarez@soliscommerce.com from billing@solis-invoices-secure.com, subject "Overdue Invoice #4471 - Action Required", SPF=softfail, spam_score=4.2/10 (below quarantine threshold of 6.0).'},
+  {ts:'08:03:55',src:'MAIL-GW',sev:'Info',user:'r.thomas',ip:'',dst:'',msg:'Delivered to r.thomas@soliscommerce.com from supplier-ops@northgear-textiles.com. Clean.'},
+  {ts:'08:05:33',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Routine DNS outbound: 10.20.12.20 to 8.8.8.8:53. 847 requests, baseline.'},
+  {ts:'08:07:02',src:'EDR-AGENT',sev:'Info',user:'j.alvarez',ip:'',dst:'',msg:'Host J-ALVAREZ-LT01: AV definition update applied. No threats detected.'},
+  {ts:'08:09:18',src:'AD-DC01',sev:'Info',user:'svc-backup',ip:'10.20.12.10',dst:'',msg:'svc-backup authenticated from 10.20.12.10 (BACKUP-SRV01). Routine nightly continuation.'},
+  {ts:'08:11:44',src:'PATCH-MGMT',sev:'Info',user:'',ip:'',dst:'',msg:'Host M-DELACRUZ-LT03: Defender update KB5034441 applied. Reboot not required.'},
+  {ts:'08:14:09',src:'EDR-AGENT',sev:'Warning',user:'j.alvarez',ip:'',dst:'',msg:'Host J-ALVAREZ-LT01: user clicked hyperlink in email body, browser navigated to solis-invoices-secure.com/login.'},
+  {ts:'08:14:22',src:'EDR-AGENT',sev:'Warning',user:'j.alvarez',ip:'',dst:'',msg:'Host J-ALVAREZ-LT01: POST to solis-invoices-secure.com over HTTPS, fields matched username/password pattern. Possible credential submission to external site.'},
+  {ts:'08:17:05',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Certificate renewal: internal CA renewed TLS cert for mail.soliscommerce.com. Expiry extended 365 days.'},
+  {ts:'08:21:10',src:'AD-DC01',sev:'Info',user:'r.thomas',ip:'10.20.12.41',dst:'',msg:'Kerberos authentication: r.thomas from 10.20.12.41 (badge-in workstation, routine morning login).'},
+  {ts:'08:24:38',src:'AD-DC01',sev:'Info',user:'p.okonkwo',ip:'10.20.12.62',dst:'',msg:'Kerberos authentication: p.okonkwo from 10.20.12.62 (badge-in workstation, routine).'},
+  {ts:'08:28:51',src:'FS-CORP01',sev:'Info',user:'r.thomas',ip:'',dst:'',msg:'File read: \\\\FS-CORP01\\Shared\\HR\\Payroll_Q1_Summary.pdf by r.thomas. Normal access for Finance role.'},
+  {ts:'08:33:48',src:'VPN-GW',sev:'Info',user:'k.singh',ip:'24.114.88.12',dst:'',msg:'Authentication success: user=k.singh, source_ip=24.114.88.12 (Toronto, known corporate range), MFA=PASSED.'},
+  {ts:'08:40:22',src:'AD-DC01',sev:'Info',user:'svc-helpdesk',ip:'10.20.11.5',dst:'',msg:'Kerberos authentication: svc-helpdesk from 10.20.11.5 (HELPDESK-SRV01, expected host). Routine.'},
+  {ts:'08:44:17',src:'MAIL-GW',sev:'Info',user:'',ip:'',dst:'',msg:'Outbound batch: 34 messages relayed, 0 bounces, 0 flagged. Normal operational volume.'},
+  {ts:'08:51:03',src:'VPN-GW',sev:'Critical',user:'j.alvarez',ip:'185.220.101.47',dst:'',msg:'Authentication success: user=j.alvarez, source_ip=185.220.101.47 (Tor exit-node range, Eastern Europe), MFA=NOT_REQUIRED (group=vendor-portal-legacy), session=VPN-SESS-88291. Geographic anomaly, country mismatch from previous 90 sessions.'},
+  {ts:'08:51:09',src:'VPN-GW',sev:'Warning',user:'j.alvarez',ip:'10.20.14.203',dst:'',msg:'Session VPN-SESS-88291 assigned internal pool address 10.20.14.203, route=Corporate-LAN. No ACL restriction applied for vendor-portal-legacy group.'},
+  {ts:'08:53:17',src:'AD-DC01',sev:'Warning',user:'j.alvarez',ip:'10.20.14.203',dst:'',msg:'Kerberos authentication: j.alvarez from 10.20.14.203 (first auth from this source in 90 days).'},
+  {ts:'08:55:04',src:'FW-CORE',sev:'Info',user:'',ip:'10.20.12.30',dst:'',msg:'Outbound: 10.20.12.30 to cdn.office365.com:443, 14.2MB. Microsoft 365 sync. Allowlisted.'},
+  {ts:'08:58:30',src:'AD-DC01',sev:'Info',user:'m.delacruz',ip:'10.20.12.55',dst:'',msg:'Kerberos authentication: m.delacruz from 10.20.12.55 (badge-in workstation, routine).'},
+  {ts:'09:02:19',src:'EDR-AGENT',sev:'Info',user:'',ip:'',dst:'',msg:'Host K-SINGH-LT04: scheduled vulnerability scan initiated by VULN-SCAN01. Approved change CR-2026-0291.'},
+  {ts:'09:08:47',src:'AD-DC01',sev:'Info',user:'p.okonkwo',ip:'10.20.12.62',dst:'',msg:'Kerberos authentication: p.okonkwo from 10.20.12.62 (re-auth after screen lock, routine).'},
+  {ts:'09:14:31',src:'FS-CORP01',sev:'Info',user:'m.delacruz',ip:'',dst:'',msg:'File write: \\\\FS-CORP01\\Shared\\Marketing\\Campaigns\\SolisSpring26_Brief_v3.pptx by m.delacruz. Normal.'},
+  {ts:'09:22:05',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Outbound: 10.20.11.5 (HELPDESK-SRV01) to api.vendor-ticketing-cloud.com:443, 3.1MB. Helpdesk SaaS sync. Allowlisted.'},
+  {ts:'09:30:44',src:'PATCH-MGMT',sev:'Info',user:'',ip:'',dst:'',msg:'Host R-THOMAS-LT02: Windows update KB5034765 staged. Scheduled for next maintenance window.'},
+  {ts:'09:40:02',src:'AD-DC01',sev:'Info',user:'r.thomas',ip:'10.20.12.41',dst:'',msg:'Kerberos authentication: r.thomas from 10.20.12.41 (re-auth after workstation lock, routine).'},
+  {ts:'09:44:33',src:'EDR-AGENT',sev:'Info',user:'',ip:'',dst:'',msg:'Host DB-POS01: scheduled binary integrity check. All hashes match baseline. No tampering detected.'},
+  {ts:'09:47:55',src:'AD-DC01',sev:'Warning',user:'',ip:'10.20.14.203',dst:'',msg:'LDAP query from 10.20.14.203: enumeration of group "Helpdesk-Admins". 7 members returned. No prior record of directory queries from this source.'},
+  {ts:'09:52:18',src:'FS-CORP01',sev:'Info',user:'m.delacruz',ip:'',dst:'',msg:'File read: \\\\FS-CORP01\\Shared\\Marketing\\Q1_campaign_brief.docx by m.delacruz. Normal access.'},
+  {ts:'09:58:41',src:'FS-CORP01',sev:'Critical',user:'j.alvarez',ip:'10.20.14.203',dst:'',msg:'File read: \\\\FS-CORP01\\IT$\\scripts\\legacy_creds.txt by session 10.20.14.203 (j.alvarez). Last modified 2019-11-04. Contents include plaintext svc-helpdesk credentials.'},
+  {ts:'10:01:09',src:'EDR-AGENT',sev:'Info',user:'r.thomas',ip:'',dst:'',msg:'Host R-THOMAS-LT02: patch bundle installed. No user interaction required.'},
+  {ts:'10:04:28',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Outbound: 10.20.12.41 to teams.microsoft.com:443, 2.8MB. Teams traffic. Allowlisted.'},
+  {ts:'10:07:15',src:'AD-DC01',sev:'Info',user:'p.okonkwo',ip:'10.20.12.62',dst:'',msg:'Kerberos authentication: p.okonkwo from 10.20.12.62 (routine re-auth). Normal session.'},
+  {ts:'10:12:33',src:'AD-DC01',sev:'Critical',user:'svc-helpdesk',ip:'10.20.14.203',dst:'',msg:'Kerberos authentication: svc-helpdesk from 10.20.14.203. First authentication of this service account from this host in all recorded history. svc-helpdesk is a non-interactive service account.'},
+  {ts:'10:13:01',src:'SIEM-ALERT',sev:'Critical',user:'svc-helpdesk',ip:'10.20.14.203',dst:'',msg:'ALERT RULE TRIGGERED: Cross-Tier-Service-Account-Auth. svc-helpdesk authenticated from non-standard interactive host 10.20.14.203 with no active change window. Confidence: HIGH.'},
+  {ts:'10:13:04',src:'SIEM-ALERT',sev:'Warning',user:'',ip:'',dst:'',msg:'Alert auto-suppressed: matched suppression rule MAINT-0291-HelpdeskRollout (created 2026-02-11, maintenance window closed 2026-02-14, rule status=ACTIVE, never deactivated). Alert not escalated.'},
+  {ts:'10:18:52',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Outbound: 10.20.12.55 to sharepoint.soliscommerce.com:443, 6.4MB. SharePoint sync. Internal allowlisted.'},
+  {ts:'10:20:47',src:'AD-DC01',sev:'Info',user:'k.singh',ip:'10.20.12.30',dst:'',msg:'Kerberos authentication: k.singh from 10.20.12.30 (badge-in workstation, routine).'},
+  {ts:'10:25:16',src:'FW-CORE',sev:'Critical',user:'',ip:'10.20.14.203',dst:'10.40.8.12',msg:'Rule "Corp-to-POS-Restricted" PERMITTED: 10.20.14.203 to 10.40.8.12 (DB-POS01), port 1433. Rule has no source host restriction. Rule comment: IT diagnostics only, restrict to approved hosts TBD.'},
+  {ts:'10:26:02',src:'DB-POS01',sev:'Critical',user:'svc-helpdesk',ip:'10.20.14.203',dst:'',msg:'SQL Server authentication: svc-helpdesk from 10.20.14.203. Login method: SQL Auth. Role: db_owner on card_data database.'},
+  {ts:'10:28:40',src:'FS-CORP01',sev:'Info',user:'r.thomas',ip:'',dst:'',msg:'File read: \\\\FS-CORP01\\Shared\\Finance\\budget_draft.xlsx by r.thomas. Normal access.'},
+  {ts:'10:31:55',src:'DB-POS01',sev:'Critical',user:'svc-helpdesk',ip:'',dst:'',msg:"Query: SELECT * FROM card_data WHERE transaction_date >= '2025-01-01'. Rows returned: 38,442. Execution: 4.1s. No filter on PAN or CVV fields."},
+  {ts:'10:32:10',src:'DB-POS01',sev:'Warning',user:'',ip:'',dst:'',msg:'card_data encryption metadata: cipher=3DES-EDE (CBC), key_id=CK-2021-07, last_rotation=2021-07-04. Policy mandates annual rotation. Overdue 1,371 days.'},
+  {ts:'10:35:22',src:'DB-POS01',sev:'Info',user:'',ip:'',dst:'',msg:'Routine POS terminal query from POS-TERM-014: SELECT quantity, sku. 12 rows. Normal operational pattern.'},
+  {ts:'10:39:04',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Outbound: 10.20.12.30 to payment-gateway-vendor.com:443, 2.1MB. Allowlisted payment processor.'},
+  {ts:'10:41:08',src:'FW-CORE',sev:'Critical',user:'',ip:'10.40.8.12',dst:'91.219.237.18',msg:'Outbound INITIATED: 10.40.8.12 (DB-POS01) to 91.219.237.18 (ASN=unknown, Eastern Europe), HTTPS port 443, bytes_out=431MB. Destination absent from all allowlists. Duration at detection: 3h12m.'},
+  {ts:'10:47:29',src:'AD-DC01',sev:'Info',user:'p.okonkwo',ip:'10.20.12.62',dst:'',msg:'Kerberos authentication: p.okonkwo from 10.20.12.62 (re-auth after Teams call). Normal.'},
+  {ts:'11:02:51',src:'FW-CORE',sev:'Info',user:'',ip:'10.20.12.30',dst:'',msg:'Outbound: 10.20.12.30 to payment-gateway-vendor.com:443, 2.1MB. Allowlisted. Normal transaction batch.'},
+  {ts:'11:15:08',src:'PATCH-MGMT',sev:'Info',user:'',ip:'',dst:'',msg:'Compliance report: 211 endpoints fully patched, 3 pending. No critical vulnerabilities unmitigated.'},
+  {ts:'11:34:47',src:'AD-DC01',sev:'Info',user:'m.delacruz',ip:'10.20.12.55',dst:'',msg:'Kerberos authentication: m.delacruz from 10.20.12.55 (routine re-auth). Normal session.'},
+  {ts:'12:05:19',src:'EDR-AGENT',sev:'Info',user:'k.singh',ip:'',dst:'',msg:'Host K-SINGH-LT04: vulnerability scan completed. 0 critical, 2 medium (both known). Scan ID VSR-2026-0310-044.'},
+  {ts:'12:44:03',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Internal: 10.20.12.55 to 10.20.11.5 (HELPDESK-SRV01), port 443. Marketing submitted 3 support tickets via helpdesk portal.'},
+  {ts:'13:21:55',src:'AD-DC01',sev:'Info',user:'r.thomas',ip:'10.20.12.41',dst:'',msg:'Kerberos authentication: r.thomas from 10.20.12.41 (re-auth after lunch break). Normal.'},
+  {ts:'13:55:37',src:'EDR-AGENT',sev:'Warning',user:'svc-helpdesk',ip:'',dst:'',msg:'Host DB-POS01: anomalous process creation, sqlcmd.exe under svc-helpdesk session. Invocation flags inconsistent with normal baseline.'},
+  {ts:'14:02:19',src:'SIEM-ALERT',sev:'Warning',user:'',ip:'',dst:'',msg:'Alert triggered: Large-Outbound-Transfer-DB. 431MB from DB-POS01 to unlisted external IP. Ticket INC-55810 auto-created, routed to Tier1-Backlog (47 items deep).'},
+  {ts:'14:05:00',src:'FW-CORE',sev:'Info',user:'',ip:'',dst:'',msg:'Outbound flow 10.40.8.12 to 91.219.237.18 terminated by remote end. Total duration: 3h24m. Final bytes_out: 431MB.'}
+];
+
+/* === CASE FILE DATA === */
+var CF=[
+  {ref:'SEC-POL-004 - Remote Access MFA Policy',phase:'Initial Access',nist:'Protect',
+   txt:'MFA is mandatory for all remote access without exception. The "vendor-portal-legacy" group received a temporary exception in November 2019 for a third-party integration project. That project closed in February 2020. The exception was never revoked. 23 active accounts held this exception as of the breach date.',
+   find:'j.alvarez was one of those 23 accounts. The attacker authenticated without MFA from a Tor exit node and the VPN gateway accepted it.'},
+  {ref:'SEC-POL-011 - Network Segmentation Policy',phase:'Lateral Movement',nist:'Protect',
+   txt:'Policy requires full isolation of the POS card data environment from the Corporate-LAN per PCI DSS 1.3. Post-incident audit found firewall rule "Corp-to-POS-Restricted" had no source host restriction. The rule comment acknowledged the gap: "restrict to approved hosts TBD."',
+   find:'Any Corporate-LAN host could reach DB-POS01 on port 1433. The attacker used a VPN-assigned address that placed them on Corporate-LAN and walked straight through.'},
+  {ref:'SIEM Effectiveness Review - Cross-Tier-Service-Account-Auth',phase:'Detection Failure',nist:'Detect / Respond',
+   txt:'The rule triggered correctly and classified the event as Critical at 10:13:01. It was auto-suppressed three seconds later by MAINT-0291-HelpdeskRollout. That rule was created for a helpdesk rollout in February 2026, maintenance window closed 2026-02-14, and was never deactivated.',
+   find:'The Detect function worked. The Respond function failed. An expired suppression rule silently swallowed the one alert that would have stopped the attack three hours before exfiltration.'},
+  {ref:'Cryptography and Key Management - card_data',phase:'Impact',nist:'Protect',
+   txt:'card_data used 3DES-EDE (CBC), which PCI DSS 4.0 Section 3.5.1 requires to be replaced with AES-256. Key CK-2021-07 was overdue for rotation by 1,371 days. A migration project was scoped in Q3 2024 and deprioritised due to budget constraints.',
+   find:'The 38,442 exfiltrated records were encrypted with a deprecated algorithm using a stale key. An attacker with sufficient resources can break 3DES offline after theft.'}
+];
+
+/* === QUESTIONS === */
+var QQ=[
+  {id:'q1',type:'conceptual',
+   prompt:"38,442 payment card records left Solis Commerce's network and ended up with a threat actor. Which property of the CIA Triad was most directly violated?",
+   opts:['Confidentiality: data that should only be readable internally was accessed and removed by an unauthorised party','Availability: the POS system was taken offline during the attack, preventing legitimate transactions from completing','Integrity: the attacker modified transaction records in card_data before exfiltrating the altered data','Integrity: the encryption keys protecting card_data were corrupted during the outbound transfer'],
+   fb:['Correct. Confidentiality protects data from unauthorised access. The exfiltration of cardholder data to an external attacker is a textbook confidentiality failure.','The logs show no downtime. POS terminals continued processing normally. Availability was not affected.','There is no log evidence of modification. The attacker ran a SELECT query and copied records outbound. The data was stolen, not altered.','The key rotation problem is real, but the keys were not corrupted. The CIA Triad property at stake is about who can see the data.']},
+  {id:'q2',type:'conceptual',
+   prompt:'The SIEM fired a Critical alert at 10:13:01. According to the Case File, which NIST CSF function worked as designed and which one failed?',
+   opts:['Detect worked: the rule triggered correctly. Respond failed: the alert was suppressed before any human could action it','Detect failed: the rule never triggered because the suppression was applied before the event was evaluated','Identify failed: svc-helpdesk was not in the asset inventory the rule was checking against','Protect failed: MFA was not enforced on svc-helpdesk when it authenticated to the domain'],
+   fb:['Correct. The technology did its job, the process did not. A suppression rule left active weeks after its window closed turned a working detection into a dead end.','The Case File is explicit: the rule triggered at 10:13:01. The suppression fired three seconds later. Detect worked.','The rule knew exactly what svc-helpdesk was and flagged its unusual behaviour accurately.','MFA typically applies to interactive user accounts. The failure was a process gap in the Respond function.']},
+  {id:'q3',type:'conceptual',
+   prompt:'The Corp-to-POS firewall rule permitted any Corporate-LAN host to reach DB-POS01 despite a policy requiring full isolation. Which security principle was most directly violated?',
+   opts:['Least Privilege: the rule granted access to every host in the segment rather than only the specific hosts that needed it','Defense-in-Depth: the firewall was the only control between the two network segments','Zero Trust: the firewall automatically trusted all Corporate-LAN traffic without secondary verification','Non-repudiation: the rule did not log which hosts used it to reach the POS network'],
+   fb:['Correct. Least Privilege means access is limited to exactly what is needed. A firewall rule open to an entire /24 for a diagnostic purpose is exactly what least privilege prevents.','Defense-in-Depth is relevant to the overall breach, but the specific gap here is about the scope of access granted.','Zero Trust is a valid concern, but the rule was too broadly scoped, which is a least privilege issue.','The firewall did log the traffic. The problem was too many hosts were permitted, not that logging failed.']},
+  {id:'q4',type:'investigative',hint:'source:VPN-GW severity:critical',
+   prompt:"Search the VPN-GW logs for the Critical event involving j.alvarez. What internal IP address was assigned to the attacker's VPN session?",
+   opts:['10.20.14.203','10.20.12.41','185.220.101.47','10.40.8.12'],
+   fb:['Correct. Session VPN-SESS-88291 was assigned 10.20.14.203 from the Corporate-LAN pool. This IP appears throughout the lateral movement logs.','10.20.12.41 belongs to r.thomas. It appears in AD authentication logs for a routine login, unrelated to the attacker.','185.220.101.47 is the external source IP, the Tor exit node. It is the origin of the VPN login, not the internal address assigned after authentication.','10.40.8.12 is DB-POS01 in the POS network. The attacker eventually reached it but it was the destination, not the VPN session address.']},
+  {id:'q5',type:'investigative',hint:'user:svc-helpdesk source:DB-POS01',
+   prompt:'Locate the database query executed by svc-helpdesk. Exactly how many rows were returned?',
+   opts:['38,442','41,203','38,040','42,819'],
+   fb:['Correct. The query ran against card_data with no filter on PAN or CVV fields, returning every record from 2025-01-01 onward. This is the dataset that was subsequently exfiltrated.','That number does not appear anywhere in the logs. Look for the Critical event on DB-POS01 from svc-helpdesk.','Close but not the number in the log. The actual count is in the DB-POS01 Critical event.','That number does not appear in the incident logs. The row count is logged precisely in the database event entry.']},
+  {id:'q6',type:'investigative',hint:'source:SIEM-ALERT',
+   prompt:'The Critical SIEM alert fired at 10:13:01 but was never actioned. What was the exact name of the suppression rule responsible?',
+   opts:['MAINT-0291-HelpdeskRollout','SUPP-0122-PatchCycle-Feb','MAINT-0291-VendorPortal','MAINT-0189-HelpdeskRollout'],
+   fb:['Correct. MAINT-0291-HelpdeskRollout was created for a helpdesk rollout in February 2026. Its window closed 2026-02-14 but was left active, swallowing a Critical alert that pointed directly at the attacker.','That rule name does not appear in any SIEM events. Open the SIEM-ALERT Warning at 10:13:04.','The prefix and number are right, but the suffix is wrong. Read the SIEM-ALERT Warning at 10:13:04 carefully.','The suffix is right, but the number is wrong. Read the SIEM-ALERT Warning at 10:13:04.']},
+  {id:'q7',type:'investigative',hint:'user:j.alvarez source:VPN-GW severity:critical',
+   prompt:'Find the Critical VPN-GW event for j.alvarez. According to the log, why was MFA not required for this login?',
+   opts:['The account belonged to group "vendor-portal-legacy," which held a standing MFA exception that was never formally revoked','The VPN gateway detected the connection as a known safe IP range and automatically waived MFA','The account was classified as a service account in Active Directory, placing it outside the MFA policy scope','The authentication method used was Kerberos, which the VPN policy treated as hardware-bound and exempt from MFA'],
+   fb:['Correct. MFA=NOT_REQUIRED is explicitly tied to group=vendor-portal-legacy in the log. This exception was created in 2019 and never removed.','The log shows the opposite. The source IP was flagged as a Tor exit-node in Eastern Europe, a clear geographic anomaly.','j.alvarez is a human employee account. The MFA exception is tied to a legacy security group, not account type.','That is not stated anywhere in the logs or policy documents. The reason is explicitly logged in the VPN-GW Critical event.']},
+  {id:'q8',type:'conceptual',
+   prompt:'The card_data table was encrypted with 3DES, a cipher PCI DSS 4.0 requires to be replaced with AES-256. Why does a weaker algorithm make a data theft scenario meaningfully worse?',
+   opts:['Weaker algorithms are more susceptible to being broken offline after the data is stolen, reducing the protection the encryption actually provides','Weaker algorithms produce shorter ciphertext, making the stolen dataset faster to transmit without detection','Weaker algorithms are only vulnerable during transmission, not after the data reaches the attacker and is stored at rest','Weaker algorithms cannot generate a valid digital signature, so the integrity of the stolen data cannot be verified'],
+   fb:['Correct. Encryption only protects data if an attacker cannot break it. 3DES with an overdue key rotation is vulnerable to offline cracking. If cracked, the encryption provided no real protection at all.','Algorithm strength does not significantly affect ciphertext size in a way that would change a 431MB transfer. The concern is decryption, not transmission speed.','The opposite is true. Offline attacks become possible after exfiltration, giving unlimited time away from any detection systems.','3DES is a symmetric cipher for confidentiality, not for digital signatures. The problem here is confidentiality specifically.']},
+  {id:'q9',type:'conceptual',
+   prompt:'Solis Commerce processes Visa and Mastercard transactions. Which compliance framework most specifically governs how they must protect stored payment cardholder data?',
+   opts:['PCI DSS: the Payment Card Industry Data Security Standard, which sets mandatory controls for any organisation that stores, processes, or transmits cardholder data','ISO 27001: the international ISMS standard, which mandates encryption of sensitive stored data and carries the same legal weight as PCI DSS','GDPR: the EU data protection regulation, which requires strong encryption for PII and applies to all Solis Commerce customer records','NIST SP 800-175B: the NIST cryptographic standards guide that defines legal obligations for commercial encryption in the United States'],
+   fb:['Correct. PCI DSS exists specifically for this purpose. Requirement 3 covers stored cardholder data, including encryption algorithm requirements. The 3DES cipher and overdue key rotation are both direct violations.','ISO 27001 is a general security management standard and does not mandate specific encryption algorithms for payment card data.','GDPR applies to customer personal data but the specific requirements for cardholder data encryption fall under PCI DSS, not GDPR.','NIST SP 800-175B is guidance, not a compliance framework with legal jurisdiction over payment card data.']}
+];
+
+
+/* === ATTACK PATH MAP === */
+function buildAttackMap(){
+  var el=document.getElementById('attack-map');if(!el)return;
+  var nodes=[
+    {id:'n0',label:'External',sub:'185.220.101.47',ts:'',col:'#ef4444',icon:'&#127760;',q:'src:185.220.101.47'},
+    {id:'n1',label:'MAIL-GW',sub:'Phishing delivery',ts:'08:02',col:'#f59e0b',icon:'&#128231;',q:'source:MAIL-GW user:j.alvarez'},
+    {id:'n2',label:'VPN-GW',sub:'No MFA bypass',ts:'08:51',col:'#ef4444',icon:'&#127746;',q:'source:VPN-GW severity:critical'},
+    {id:'n3',label:'Corp LAN',sub:'10.20.14.203',ts:'08:53',col:'#f59e0b',icon:'&#128187;',q:'src:10.20.14.203'},
+    {id:'n4',label:'FS-CORP01',sub:'legacy_creds.txt',ts:'09:58',col:'#ef4444',icon:'&#128193;',q:'source:FS-CORP01 severity:critical'},
+    {id:'n5',label:'DB-POS01',sub:'38,442 rows',ts:'10:26',col:'#ef4444',icon:'&#128451;',q:'source:DB-POS01 severity:critical'},
+    {id:'n6',label:'91.219.237.18',sub:'431 MB exfil',ts:'10:41',col:'#7c3aed',icon:'&#128225;',q:'dst:91.219.237.18'}
+  ];
+
+  var svgW=920,svgH=110,pad=20;
+  var step=Math.floor((svgW-pad*2)/(nodes.length-1));
+  var nW=108,nH=64,ny=22;
+
+  var h='<svg viewBox="0 0 '+svgW+' '+svgH+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:600px;display:block" aria-label="Attack path diagram">';
+  // Connections
+  nodes.forEach(function(n,i){
+    if(i===nodes.length-1)return;
+    var x1=pad+i*step+nW/2,x2=pad+(i+1)*step+nW/2,y=ny+nH/2;
+    h+='<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="rgba(239,68,68,.35)" stroke-width="2" stroke-dasharray="5,3"/>';
+    var mx=(x1+x2)/2,my=y-6;
+    var label=i===0?'phish':i===1?'VPN login':i===2?'lateral':i===3?'creds':i===4?'db_owner':'exfil';
+    h+='<text x="'+mx+'" y="'+my+'" text-anchor="middle" font-size="8" fill="rgba(239,68,68,.5)" font-family="JetBrains Mono,monospace">'+label+'</text>';
+    // Arrow
+    h+='<polygon points="'+x2+','+y+' '+(x2-7)+','+(y-4)+' '+(x2-7)+','+(y+4)+'" fill="rgba(239,68,68,.4)"/>';
+  });
+  // Nodes
+  nodes.forEach(function(n,i){
+    var x=pad+i*step,y=ny;
+    var gid='amap-node-'+i;
+    h+='<g id="'+gid+'" tabindex="0" role="button" aria-label="Investigate '+n.label+'" style="cursor:pointer">'
+      +'<rect x="'+x+'" y="'+y+'" width="'+nW+'" height="'+nH+'" rx="7" fill="rgba(15,22,35,.8)" stroke="'+n.col+'" stroke-width="1.5" stroke-opacity=".6"/>'
+      +(n.ts?'<text x="'+(x+nW-6)+'" y="'+(y+11)+'" text-anchor="end" font-size="7.5" fill="'+n.col+'" fill-opacity=".8" font-family="JetBrains Mono,monospace">'+n.ts+'</text>':'')
+      +'<text x="'+(x+nW/2)+'" y="'+(y+22)+'" text-anchor="middle" font-size="14">'+n.icon+'</text>'
+      +'<text x="'+(x+nW/2)+'" y="'+(y+41)+'" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#e2e8f0" font-family="DM Sans,sans-serif">'+n.label+'</text>'
+      +'<text x="'+(x+nW/2)+'" y="'+(y+55)+'" text-anchor="middle" font-size="8" fill="'+n.col+'" fill-opacity=".85" font-family="DM Sans,sans-serif">'+n.sub+'</text>'
+      +'</g>';
+  });
+  h+='</svg>';
+  el.innerHTML=h;
+  // Wire clicks
+  nodes.forEach(function(n,i){
+    var g=document.getElementById('amap-node-'+i);
+    if(!g)return;
+    g.addEventListener('click',function(){jumpInv(n.q);});
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();jumpInv(n.q);}});
+    // Hover effect
+    g.addEventListener('mouseenter',function(){g.querySelector('rect').setAttribute('stroke-opacity','1');g.querySelector('rect').setAttribute('fill','rgba(239,68,68,.08)');});
+    g.addEventListener('mouseleave',function(){g.querySelector('rect').setAttribute('stroke-opacity','.6');g.querySelector('rect').setAttribute('fill','rgba(15,22,35,.8)');});
+  });
+}
+
+/* === DASHBOARD === */
+function buildCharts(){
+  var isDark=$('app').getAttribute('data-theme')==='dark';
+  var txtColor=isDark?'#3d5270':'#94a3b8';
+  var gridColor=isDark?'rgba(30,45,70,.4)':'rgba(0,0,0,.06)';
+  var surfColor=isDark?'#0f1623':'#ffffff';
+  Chart.defaults.color=txtColor;
+  Chart.defaults.font.family='"JetBrains Mono",monospace';
+  Chart.defaults.font.size=11;
+
+  // Destroy existing charts
+  Object.keys(_charts).forEach(function(k){if(_charts[k])_charts[k].destroy();});
+  _charts={};
+
+  var tot=logs.length;
+  var crit=logs.filter(function(l){return l.sev==='Critical';}).length;
+  var sys=Array.from(new Set(logs.map(function(l){return l.src;})));
+  var usr=Array.from(new Set(logs.filter(function(l){return l.user;}).map(function(l){return l.user;})));
+
+  // Animate stat cards
+  function countUp(el,target){
+    if(typeof anime!=='undefined'){
+      var o={v:0};
+      anime({targets:o,v:target,round:1,duration:1400,easing:'easeOutExpo',update:function(){if(el)el.textContent=Math.round(o.v);}});
+    } else { if(el)el.textContent=target; }
+  }
+  countUp($('st-total'),tot);countUp($('st-crit'),crit);
+  countUp($('st-sys'),sys.length);countUp($('st-usr'),usr.length);
+  buildAttackMap();
+
+  // Severity doughnut
+  var c1=document.getElementById('ch-sev');
+  if(c1&&typeof Chart!=='undefined'){
+    var counts={Critical:0,Warning:0,Info:0};
+    logs.forEach(function(l){counts[l.sev]++;});
+    _charts.sev=new Chart(c1,{type:'doughnut',data:{
+      labels:['Critical','Warning','Info'],
+      datasets:[{data:[counts.Critical,counts.Warning,counts.Info],backgroundColor:['#ef4444','#f59e0b','#4a5a7a'],borderColor:'transparent',borderWidth:0,hoverOffset:5}]
+    },options:{responsive:true,maintainAspectRatio:true,cutout:'68%',
+      plugins:{legend:{position:'bottom',labels:{color:txtColor,boxWidth:10,padding:12,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){return ' '+c.label+': '+c.raw;}}}},
+      onClick:function(e,els){if(els.length)jumpInv('severity:'+['critical','warning','info'][els[0].index]);}
+    }});
+  }
+
+  // Source system horizontal bar
+  var c2=document.getElementById('ch-sys');
+  if(c2&&typeof Chart!=='undefined'){
+    var sc={};sys.forEach(function(s){sc[s]=logs.filter(function(l){return l.src===s;}).length;});
+    var sorted=sys.slice().sort(function(a,b){return sc[b]-sc[a];}).slice(0,8);
+    var cols=sorted.map(function(s){
+      return logs.some(function(l){return l.src===s&&l.sev==='Critical';})
+        ?'rgba(239,68,68,.75)'
+        :logs.some(function(l){return l.src===s&&l.sev==='Warning';})?'rgba(245,158,11,.65)':'rgba(44,169,188,.55)';
+    });
+    _charts.sys=new Chart(c2,{type:'bar',data:{
+      labels:sorted,
+      datasets:[{data:sorted.map(function(s){return sc[s];}),backgroundColor:cols,borderRadius:3,borderSkipped:false}]
+    },options:{indexAxis:'y',responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+' events';}}}},
+      scales:{
+        x:{ticks:{color:txtColor,font:{size:10}},grid:{color:gridColor},border:{display:false}},
+        y:{ticks:{color:isDark?'#4a6a8a':'#94a3b8',font:{size:10}},grid:{display:false},border:{display:false}}
+      },
+      onClick:function(e,els){if(els.length)jumpInv('source:'+sorted[els[0].index]);}
+    }});
+  }
+
+  // Timeline bar
+  var c3=document.getElementById('ch-tl');
+  if(c3&&typeof Chart!=='undefined'){
+    var hg={};
+    logs.forEach(function(l){
+      var h=l.ts.substring(0,2)+':00';
+      if(!hg[h])hg[h]={n:0,cr:false,wa:false};
+      hg[h].n++;if(l.sev==='Critical')hg[h].cr=true;if(l.sev==='Warning')hg[h].wa=true;
+    });
+    var hrs=Object.keys(hg).sort();
+    var bgc=hrs.map(function(h){return hg[h].cr?'rgba(239,68,68,.75)':hg[h].wa?'rgba(245,158,11,.65)':'rgba(44,169,188,.45)';});
+    _charts.tl=new Chart(c3,{type:'bar',data:{
+      labels:hrs,
+      datasets:[{data:hrs.map(function(h){return hg[h].n;}),backgroundColor:bgc,borderRadius:3,borderSkipped:false}]
+    },options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+' events';}}}},
+      scales:{
+        x:{ticks:{color:txtColor,font:{size:10},maxRotation:0},grid:{display:false},border:{display:false}},
+        y:{ticks:{color:txtColor,font:{size:10},stepSize:2},grid:{color:gridColor},border:{display:false}}
+      }
+    }});
+  }
+}
+
+/* === INVESTIGATE === */
+var allSrc=Array.from(new Set(logs.map(function(l){return l.src;}))).sort();
+function buildSrcChips(){
+  var r=$('srcchips');if(!r)return;
+  var h='<span class="clbl">Source</span><button class="chip active" data-src="">All</button>';
+  allSrc.forEach(function(s){h+='<button class="chip" data-src="'+esc(s)+'">'+s+'</button>';});
+  r.innerHTML=h;
+  r.querySelectorAll('[data-src]').forEach(function(c){
+    c.addEventListener('click',function(){
+      r.querySelectorAll('[data-src]').forEach(function(x){x.classList.remove('active');});
+      c.classList.add('active');srcF=c.getAttribute('data-src');renderInv();
+    });
+  });
+}
+
+function pQ(q){
+  var t=q.trim().split(/\s+/).filter(Boolean),f={},fr=[];
+  t.forEach(function(tok){
+    var m=tok.match(/^(user|src|dst|source|severity|sev):(.+)$/i);
+    if(m){var k=m[1].toLowerCase()==='sev'?'severity':m[1].toLowerCase();f[k]=m[2].toLowerCase();}
+    else fr.push(tok.toLowerCase());
+  });
+  return{fields:f,free:fr.join(' ')};
+}
+function mL(l,p){
+  var f=p.fields;
+  if(f.user&&(!l.user||l.user.toLowerCase().indexOf(f.user)===-1))return false;
+  if(f.src&&(!l.ip||l.ip.toLowerCase().indexOf(f.src)===-1))return false;
+  if(f.dst&&(!l.dst||l.dst.toLowerCase().indexOf(f.dst)===-1))return false;
+  if(f.source&&l.src.toLowerCase().indexOf(f.source)===-1)return false;
+  if(f.severity&&l.sev.toLowerCase()!==f.severity)return false;
+  if(p.free){var h=(l.msg+' '+l.src+' '+l.user+' '+l.ip+' '+l.dst).toLowerCase();if(h.indexOf(p.free)===-1)return false;}
+  return true;
+}
+
+function renderInv(){
+  var q=$('sbox').value,p=pQ(q);
+  var fil=logs.filter(function(l){
+    if(sevF&&l.sev!==sevF)return false;
+    if(srcF&&l.src!==srcF)return false;
+    return mL(l,p);
+  });
+  $('rcnt').textContent='Showing '+fil.length+' of '+logs.length;
+  var fc=Object.keys(flags).filter(function(k){return flags[k];}).length;
+  var fs=$('fst');if(fs)fs.textContent=fc>0?fc+' flagged':'';
+  var tb=$('ltbody');tb.innerHTML='';
+  fil.forEach(function(l){
+    var id=l.ts+'_'+l.src,fl=!!flags[id];
+    var tr=document.createElement('tr');
+    tr.setAttribute('tabindex','0');
+    tr.setAttribute('aria-label',l.sev+' event from '+l.src+' at '+l.ts);
+    if(fl)tr.classList.add('flg');
+    tr.innerHTML='<td class="tc1">'+l.ts+'</td>'
+      +'<td class="tc2"><span class="clink" data-f="source:'+esc(l.src)+'">'+esc(l.src)+'</span></td>'
+      +(l.user?'<td class="tc3"><span class="clink" data-f="user:'+esc(l.user)+'">'+esc(l.user)+'</span></td>':'<td class="tc3"></td>')
+      +'<td class="tc4"><span class="sevtxt '+l.sev+'">'+l.sev+'</span></td>'
+      +'<td class="tc5">'+hlText(l.msg.substring(0,70),q)+(l.msg.length>70?'…':'')+'</td>'
+      +'<td class="tc6"><button class="flgbtn'+(fl?' on':'')+'" data-id="'+esc(id)+'" aria-label="'+(fl?'Unflag':'Flag')+'">&#9733;</button></td>';
+    tr.addEventListener('click',function(e){if(e.target.closest('.flgbtn')||e.target.closest('.clink'))return;showD(l,tr);});
+    tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showD(l,tr);}});
+    tr.querySelector('.flgbtn').addEventListener('click',function(e){
+      e.stopPropagation();var bid=e.currentTarget.getAttribute('data-id');
+      flags[bid]=!flags[bid];e.currentTarget.classList.toggle('on',!!flags[bid]);tr.classList.toggle('flg',!!flags[bid]);
+      var cnt=Object.keys(flags).filter(function(k){return flags[k];}).length;
+      var fsel=$('fst');if(fsel)fsel.textContent=cnt>0?cnt+' flagged':'';save();
+    });
+    tr.querySelectorAll('.clink').forEach(function(cell){
+      cell.addEventListener('click',function(e){
+        e.stopPropagation();var fv=cell.getAttribute('data-f'),sb=$('sbox'),cur=sb.value.trim();
+        sb.value=(!cur||cur.indexOf(fv)!==-1)?fv:cur+' '+fv;renderInv();
+      });
+    });
+    tb.appendChild(tr);
+  });
+  // Arrow key navigation in table
+  tb.addEventListener('keydown',function(e){
+    var rows=[].slice.call(tb.querySelectorAll('tr'));
+    var idx=rows.indexOf(document.activeElement);
+    if(e.key==='ArrowDown'&&idx<rows.length-1){rows[idx+1].focus();e.preventDefault();}
+    if(e.key==='ArrowUp'&&idx>0){rows[idx-1].focus();e.preventDefault();}
+  });
+}
+
+function showD(l,rowEl){
+  document.querySelectorAll('#ltbody tr').forEach(function(r){r.classList.remove('sel');});
+  if(rowEl)rowEl.classList.add('sel');
+  function fld(lbl,val,fk){
+    if(!val)return'';
+    return'<div class="dpf"><div class="dpfl">'+lbl
+      +(fk?'<button class="afbtn" data-f="'+esc(fk+':'+val)+'">+ filter</button>':'')
+      +'</div><div class="dpfv">'+esc(val)+'</div></div>';
+  }
+  var h=fld('Timestamp',l.ts)+fld('Source System',l.src,'source')+fld('Severity',l.sev,'severity')
+    +(l.user?fld('User Account',l.user,'user'):'')
+    +(l.ip?fld('Source IP',l.ip,'src'):'')
+    +(l.dst?fld('Destination IP',l.dst,'dst'):'')
+    +fld('Full Message',l.msg);
+  var dp=$('dpanel');dp.innerHTML=h;
+  dp.querySelectorAll('.afbtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var fv=b.getAttribute('data-f'),sb=$('sbox'),cur=sb.value.trim();
+      sb.value=(!cur||cur.indexOf(fv)!==-1)?fv:cur+' '+fv;renderInv();
+    });
+  });
+}
+
+on($('sbox'),'input',renderInv);
+on($('sclear'),'click',function(){
+  $('sbox').value='';sevF='';srcF='';
+  document.querySelectorAll('[data-sev]').forEach(function(c){c.classList.remove('active');});
+  document.querySelectorAll('[data-src]').forEach(function(c){c.classList.remove('active');});
+  var a1=document.querySelector('[data-sev=""]'),a2=document.querySelector('[data-src=""]');
+  if(a1)a1.classList.add('active');if(a2)a2.classList.add('active');
+  renderInv();
+});
+document.querySelectorAll('[data-sev]').forEach(function(c){
+  c.addEventListener('click',function(){
+    document.querySelectorAll('[data-sev]').forEach(function(x){x.classList.remove('active');});
+    c.classList.add('active');sevF=c.getAttribute('data-sev');renderInv();
+  });
+});
+
+/* === ALERTS === */
+var AD=[
+  {rule:'Geographic-Auth-Anomaly',sev:'Critical',suppressed:false,fired:'08:51:03',
+   msg:'j.alvarez authenticated to the VPN from 185.220.101.47, a Tor exit node in Eastern Europe. Country mismatch against all prior 90 sessions. MFA not enforced due to active legacy group exception.',
+   jq:'user:j.alvarez source:VPN-GW',corr:'CORR-2026-0310-0031',
+   rel:[logs[18],logs[19],logs[20]],
+   note:'This alert was visible in the queue but received no timely response. At the point of authentication, the attacker had approximately 7 hours of uncontested access before exfiltration was detected.'},
+  {rule:'Cross-Tier-Service-Account-Auth',sev:'Critical',suppressed:true,fired:'10:13:01',suppAt:'10:13:04',suppRule:'MAINT-0291-HelpdeskRollout',
+   msg:'svc-helpdesk authenticated from non-standard interactive host 10.20.14.203 with no active change window. First-ever authentication of this service account from this source. Confidence: HIGH.',
+   jq:'user:svc-helpdesk',corr:'CORR-2026-0310-0047',
+   rel:[logs[37],logs[38],logs[39]],
+   note:'This alert fired correctly and was auto-suppressed three seconds later by MAINT-0291-HelpdeskRollout. That rule\'s maintenance window closed 2026-02-14. Had this alert escalated, the attack would have been identified three hours before exfiltration.'},
+  {rule:'Large-Outbound-Transfer-DB',sev:'Warning',suppressed:false,fired:'14:02:19',
+   msg:'431MB outbound from DB-POS01 to unlisted external IP 91.219.237.18. Transfer already in progress for 3+ hours at detection. Ticket INC-55810 auto-created, routed to Tier1-Backlog.',
+   jq:'dst:91.219.237.18',corr:'CORR-2026-0310-0059',
+   rel:[logs[48],logs[57],logs[58]],
+   note:'The alert fired correctly but entered a backlog of 47 items. The transfer completed before any analyst opened the ticket.'}
+];
+
+function renderAlerts(){
+  // Timeline
+  var tlt=$('atl-track');
+  if(tlt){
+    var f1=8*60+51,f2=14*60+5,sp=f2-f1;
+    function pc(ts){var p=ts.split(':');return Math.min(92,Math.max(8,((parseInt(p[0],10)*60+parseInt(p[1],10)-f1)/sp*100))).toFixed(1);}
+    var h='';
+    AD.forEach(function(a){
+      var p=pc(a.fired),col=a.sev==='Critical'?'red':'amber';
+      h+='<div class="atl-item" style="left:'+p+'%">'
+        +'<div class="atl-dot '+col+'"></div>'
+        +'<div class="atl-ts">'+a.fired+'</div>'
+        +'<div class="atl-rule">'+a.rule.substring(0,16)+'</div>'
+        +(a.suppressed?'<div class="atl-supp-label">SUPPRESSED</div>':'')
+        +'</div>';
+    });
+    tlt.innerHTML=h;
+  }
+  var al=$('alist');if(!al)return;
+  var h2='';
+  AD.forEach(function(a){
+    var tl='<span class="atl-ev">'+a.fired+': FIRED</span>';
+    if(a.suppressed)tl+=' <span style="color:var(--muted);margin:0 4px">&#10230;</span> <span class="atl-ev supp">'+a.suppAt+': SUPPRESSED by '+esc(a.suppRule)+'</span>';
+    var rh='';
+    if(a.rel&&a.rel.length){
+      rh='<div class="acard-rel"><div class="acard-rel-title">Correlating Events</div>';
+      a.rel.forEach(function(l){if(!l)return;rh+='<div class="acard-rel-row"><span class="acard-rel-ts">'+l.ts+'</span><span class="acard-rel-msg">'+esc(l.msg.substring(0,72))+(l.msg.length>72?'\u2026':'')+'</span></div>';});
+      rh+='</div>';
+    }
+    h2+='<div class="acard '+a.sev.toLowerCase()+'">'
+      +'<div class="acard-top"><span class="acard-rule">'+esc(a.rule)+'</span>'
+      +'<span><span class="acard-sev'+(a.sev==='Warning'?' warn':'')+'">'+a.sev+'</span>'
+      +(a.suppressed?'<span class="acard-supp">SUPPRESSED</span>':'')+'</span></div>'
+      +'<div class="acard-tl">'+tl+'</div>'
+      +'<div class="acard-msg">'+esc(a.msg)+'</div>'
+      +rh
+      +'<div class="acard-ftr"><span class="acard-corr">'+a.corr+'</span>'
+      +'<button class="ajbtn" data-jq="'+esc(a.jq)+'">View related events &#8594;</button></div>'
+      +(a.note?'<div class="acard-note"><strong>Analyst Note:</strong> '+esc(a.note)+'</div>':'')
+      +'</div>';
+  });
+  al.innerHTML=h2;
+  al.querySelectorAll('.ajbtn').forEach(function(b){b.addEventListener('click',function(){jumpInv(b.getAttribute('data-jq'));});});
+}
+
+/* === CHAIN RECONSTRUCTION === */
+var chainBuilt=false;
+var chainSlots=new Array(6).fill(null);
+var chainCards=[
+  {id:'c0',title:'Phishing Email Delivery',ts:'08:02:14',src:'MAIL-GW',icon:'P',correctSlot:0},
+  {id:'c1',title:'VPN Authentication Bypass',ts:'08:51:03',src:'VPN-GW',icon:'V',correctSlot:1},
+  {id:'c2',title:'Internal Network Positioning',ts:'08:53:17',src:'AD-DC01',icon:'N',correctSlot:2},
+  {id:'c3',title:'Credential File Access',ts:'09:58:41',src:'FS-CORP01',icon:'C',correctSlot:3},
+  {id:'c4',title:'Database Compromise',ts:'10:26:02',src:'DB-POS01',icon:'D',correctSlot:4},
+  {id:'c5',title:'Data Exfiltration',ts:'10:41:08',src:'FW-CORE',icon:'X',correctSlot:5}
+];
+var slotHints=[
+  {label:'Stage 1 - Initial foothold','clue':'User interaction triggers credential theft'},
+  {label:'Stage 2 - Remote access','clue':'Authentication event with anomalous indicators'},
+  {label:'Stage 3 - Internal positioning','clue':'Lateral movement and reconnaissance within the network'},
+  {label:'Stage 4 - Privilege escalation','clue':'Service account credentials obtained from file system'},
+  {label:'Stage 5 - Target access','clue':'Privileged access to sensitive data store'},
+  {label:'Stage 6 - Impact','clue':'Data transmitted to external destination'}
+];
+
+function shuffleArr(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+
+function buildChain(){
+  chainBuilt=true;
+  var shuffled=shuffleArr(chainCards);
+  var slotsEl=$('chain-slots'),poolEl=$('chain-pool');
+  if(!slotsEl||!poolEl)return;
+
+  // Build slots
+  slotsEl.innerHTML='';
+  slotHints.forEach(function(h,i){
+    var div=document.createElement('div');
+    div.className='chain-slot';
+    div.setAttribute('data-slot',i);
+    div.setAttribute('aria-label','Slot '+(i+1)+': '+h.label);
+    div.innerHTML='<div class="chain-slot-num">'+(i+1)+'</div>'
+      +'<div class="chain-slot-hint"><div class="chain-slot-label">'+esc(h.label)+'</div><div class="chain-slot-clue">'+esc(h.clue)+'</div></div>'
+      +'<div class="chain-slot-drop" id="chain-drop-'+i+'"></div>';
+    slotsEl.appendChild(div);
+  });
+
+  // Build pool
+  poolEl.innerHTML='';
+  shuffled.forEach(function(card){
+    var div=document.createElement('div');
+    div.className='chain-card';
+    div.setAttribute('data-card-id',card.id);
+    div.setAttribute('draggable','true');
+    div.setAttribute('tabindex','0');
+    div.setAttribute('aria-label',card.title+', '+card.ts);
+    div.innerHTML='<div class="chain-card-title">'+esc(card.title)+'</div>'
+      +'<div class="chain-card-meta">'+card.ts+' &#183; '+card.src+'</div>';
+    poolEl.appendChild(div);
+  });
+
+  // Wire Sortable
+  if(typeof Sortable!=='undefined'){
+    Sortable.create(poolEl,{group:{name:'chain',pull:true,put:true},animation:150,
+      onStart:function(e){e.item.classList.add('dragging');},
+      onEnd:function(e){e.item.classList.remove('dragging');}});
+    slotsEl.querySelectorAll('.chain-slot-drop').forEach(function(drop){
+      Sortable.create(drop,{group:{name:'chain',pull:true,put:function(to){return to.el.children.length===0;}},
+        animation:150,maxItems:1,
+        onAdd:function(){updateRunButton();},
+        onRemove:function(){updateRunButton();}});
+    });
+  }
+
+  on($('chain-run'),'click',runChainSim);
+  on($('chain-reset'),'click',function(){chainBuilt=false;buildChain();$('chain-sim').classList.remove('visible');$('chain-result').classList.remove('visible');$('chain-findings').classList.remove('visible');});
+  updateRunButton();
+}
+
+function updateRunButton(){
+  var allFilled=true;
+  document.querySelectorAll('.chain-slot-drop').forEach(function(drop){
+    if(drop.children.length===0)allFilled=false;
+  });
+  var rb=$('chain-run');if(rb)rb.disabled=!allFilled;
+  var filled=document.querySelectorAll('.chain-slot-drop [data-card-id]').length;
+  var sc=$('chain-score');if(sc)sc.textContent=filled>0?filled+' of 6 placed':'';
+}
+
+function openChainModal(){
+  // Build attempt dots
+  var dots=$('chm-dots');
+  if(dots){
+    var dh='';
+    for(var di=0;di<chainMaxAttempts;di++){
+      var cls=di<chainAttempts?(chainPassed?'pass':'fail'):'';
+      dh+='<div class="chm-attempt-dot '+cls+'"></div>';
+    }
+    dots.innerHTML=dh;
+  }
+  var meta=$('chm-meta');
+  if(meta)meta.textContent=' Attempt '+(chainAttempts+1)+' of '+chainMaxAttempts;
+  var retry=$('chm-retry');
+  if(retry){retry.style.display='none';retry.disabled=true;}
+  var done=$('chm-done');
+  if(done)done.style.display='none';
+  $('chm-result').classList.remove('visible');
+  $('chm-result').innerHTML='';
+  $('chm-stage-row').innerHTML='';
+  $('chain-modal').classList.add('open');
+  $('chm-close').focus();
+}
+function closeChainModal(){$('chain-modal').classList.remove('open');}
+on($('chm-close'),'click',closeChainModal);
+on($('chain-modal'),'click',function(e){if(e.target===$('chain-modal'))closeChainModal();});
+on($('chm-done'),'click',function(){closeChainModal();sw('assessment');});
+on($('chm-retry'),'click',function(){
+  closeChainModal();
+  chainBuilt=false;buildChain();
+});
+$('chain-modal').addEventListener('keydown',function(e){if(e.key==='Escape')closeChainModal();});
+
+function runChainSim(){
+  if(chainAttempts>=chainMaxAttempts)return;
+  chainAttempts++;
+  openChainModal();
+
+  // Collect placements
+  var placements=[];
+  for(var i=0;i<6;i++){
+    var drop=$('chain-drop-'+i);
+    var card=drop?drop.querySelector('[data-card-id]'):null;
+    placements.push(card?card.getAttribute('data-card-id'):null);
+  }
+
+  // Check correctness
+  var correctCount=0,results=[];
+  placements.forEach(function(cid,i){
+    var card=chainCards.find(function(c){return c.id===cid;});
+    var correct=card&&card.correctSlot===i;
+    if(correct)correctCount++;
+    results.push({cardId:cid,correct:correct,card:card||null});
+  });
+
+  var passed=correctCount===6;
+  if(passed&&!chainPassed){chainPassed=true;chainBestScore=Math.max(chainBestScore,correctCount);}
+  if(!passed)chainBestScore=Math.max(chainBestScore,correctCount);
+
+  // Update attempt dots
+  var dots=$('chm-dots');
+  if(dots){
+    var dh='';
+    for(var di=0;di<chainMaxAttempts;di++){
+      var used=di<chainAttempts,cls=used?(passed&&di===chainAttempts-1?'pass':'fail'):'';
+      dh+='<div class="chm-attempt-dot '+cls+'"></div>';
+    }
+    dots.innerHTML=dh;
+  }
+
+  var simIcons=['&#128231;','&#127760;','&#128187;','&#128193;','&#128451;','&#128225;'];
+  var stageRow=$('chm-stage-row');
+  var h='';
+  results.forEach(function(r,i){
+    var cc=r.correct?'correct-stage':r.card?'wrong-stage':'';
+    h+='<div class="chain-stage-card '+cc+'" id="sim-stage-'+i+'">'
+      +'<div class="chain-stage-icon">'+simIcons[i]+'</div>'
+      +'<div class="chain-stage-name">'+(r.card?esc(r.card.title):'(empty)')+'</div>'
+      +'<div class="chain-stage-ts">'+(r.card?r.card.ts:'--')+'</div>'
+      +'<div class="chain-stage-verdict" id="sim-verd-'+i+'"></div>'
+      +'</div>';
+    if(i<5)h+='<div class="chain-sim-arrow">&#8594;</div>';
+  });
+  h+='<svg class="chain-path-svg" id="chain-path-svg" aria-hidden="true"><path id="cpath" fill="none" stroke="rgba(239,68,68,.25)" stroke-width="2" stroke-dasharray="6,4"/></svg>';
+  h+='<div class="chain-robber-wrap" id="chain-robber-wrap" aria-hidden="true">'
+    +'<svg class="chain-robber-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">'
+    +'<path fill="#e2e8f0" d="M465.703,333.352c-9.547-4.078-36.766-13.594-69.453-8.172c-18.984,3.188-126.641,21.813-133.438,21.813c-6.813,0-6.813,0-6.813,0s0,0-6.813,0S134.734,328.368,115.75,325.18c-32.688-5.422-59.906,4.094-69.453,8.172C6.234,350.54,19.672,390.665,28.594,405.54c12.25,20.422,58.906,74.079,104.859,80.329c59.906,8.172,111.656-38.109,122.547-38.109s62.625,46.281,122.547,38.109c45.953-6.25,92.609-59.906,104.859-80.329C492.328,390.665,505.781,350.54,465.703,333.352z"/>'
+    +'<path fill="#1e2d45" d="M486.578,203.086C462.969,59.665,326.766,25.165,256,25.165c-70.75,0-206.984,34.5-230.578,177.922C9.078,206.727,0,224.883,0,233.961s0,59.906,0,59.906h512c0,0,0-50.828,0-59.906S502.922,206.727,486.578,203.086z"/>'
+    +'</svg></div>';
+  stageRow.innerHTML=h;
+
+  // Animate
+  setTimeout(function(){
+    var wrap=$('chain-robber-wrap');
+    var stages=stageRow.querySelectorAll('.chain-stage-card');
+    if(!wrap||!stages.length)return;
+    var simRect=stageRow.getBoundingClientRect();
+    var waypoints=[];
+    stages.forEach(function(s){
+      var r=s.getBoundingClientRect();
+      waypoints.push({x:r.left-simRect.left+r.width/2-22,y:r.bottom-simRect.top+8});
+    });
+    var pathEl=$('cpath');
+    if(pathEl&&waypoints.length>1){
+      var d='M'+waypoints[0].x+','+waypoints[0].y;
+      for(var pi=1;pi<waypoints.length;pi++)d+=' L'+waypoints[pi].x+','+waypoints[pi].y;
+      pathEl.setAttribute('d',d);
+    }
+    wrap.style.left=waypoints[0].x+'px';wrap.style.bottom='0';wrap.style.opacity='1';
+
+    if(typeof anime!=='undefined'){
+      var tl=anime.timeline({autoplay:true});
+      var firstWrong=-1;
+      waypoints.forEach(function(wp,i){
+        tl.add({targets:wrap,left:wp.x,duration:700,easing:'easeInOutCubic',
+          complete:function(){
+            var verd=$('sim-verd-'+i);
+            var stage=stageRow.querySelectorAll('.chain-stage-card')[i];
+            if(results[i].correct){
+              if(verd)verd.innerHTML='<span style="color:#10b981;font-weight:700">&#10003; Correct</span>';
+              if(stage)anime({targets:stage,backgroundColor:['rgba(16,185,129,.2)','rgba(16,185,129,.05)'],duration:500});
+              anime({targets:wrap.querySelector('svg'),filter:['drop-shadow(0 0 12px rgba(239,68,68,.9))','drop-shadow(0 0 5px rgba(239,68,68,.4))'],duration:400});
+            } else if(firstWrong===-1){
+              firstWrong=i;
+              if(verd)verd.innerHTML='<span style="color:#ef4444;font-weight:700">&#10007; Wrong</span>';
+              anime({targets:wrap,left:[wp.x-8,wp.x+8,wp.x-5,wp.x+5,wp.x],duration:480});
+              anime({targets:wrap.querySelector('svg'),filter:['drop-shadow(0 0 14px rgba(239,68,68,1))','none'],duration:600});
+              tl.pause();
+              showChainResult(false,correctCount,firstWrong);
+            }
+            if(i===5&&firstWrong===-1)showChainResult(true,correctCount,-1);
+          }
+        });
+      });
+    } else {showChainResult(passed,correctCount,passed?-1:results.findIndex(function(r){return !r.correct;}));}
+  },500);
+}
+
+function showChainResult(passed,score,wrongAt){
+  var rb=$('chm-result');if(!rb)return;
+  var pct=Math.round(score/6*100);
+  var attLeft=chainMaxAttempts-chainAttempts;
+  var grade=chainPassed?(chainAttempts===1?100:chainAttempts===2?80:65):0;
+
+  if(passed){
+    rb.innerHTML='<div class="chm-result-title pass">&#10003; Attack Chain Reconstructed</div>'
+      +'<div class="chm-result-text">All six stages correct. The attacker progressed from phishing to full exfiltration in under 3 hours. Breach Analysis documents are now unlocked.'
+      +(chainAttempts===1?' First attempt, full marks.':' Completed on attempt '+chainAttempts+'.')+'</div>';
+    var gd=$('chm-grade-disp');
+    if(gd)gd.textContent='Grade: '+grade+'% (Assessment 1)';
+    // Record grade
+    if(scorm.ready()){
+      scorm.sv('cmi.interactions.10.id','chain-reconstruction');
+      scorm.sv('cmi.interactions.10.type','matching');
+      scorm.sv('cmi.interactions.10.result','correct');
+      scorm.sv('cmi.interactions.10.learner_response','all-6-correct-attempt-'+chainAttempts);
+      scorm.cm();
+    }
+    var done=$('chm-done');if(done){done.style.display='';done.textContent='Continue to Asmt 2';}
+    var retry=$('chm-retry');if(retry)retry.style.display='none';
+    renderFindings();
+    markProg('chain');
+  } else {
+    var wrongCard=wrongAt>=0?(chainCards.find(function(c2){return c2.correctSlot===wrongAt;})||{title:'Unknown'}):{title:'Unknown'};
+    rb.innerHTML='<div class="chm-result-title fail">&#10007; Reconstruction Incomplete ('+pct+'%)</div>'
+      +'<div class="chm-result-text">'+score+' of 6 stages placed correctly. '
+      +(wrongAt>=0?'Stage '+(wrongAt+1)+' is wrong: the stage placed here does not match the evidence timeline. ':'')
+      +(attLeft>0?attLeft+' attempt'+(attLeft>1?'s':'')+' remaining. Search <strong style="color:var(--teal)">source:SIEM-ALERT</strong> and cross-reference timestamps.':'No attempts remaining. The correct sequence is revealed above.')
+      +'</div>';
+    if(attLeft>0&&!chainPassed){
+      var retry2=$('chm-retry');if(retry2){retry2.style.display='';retry2.disabled=false;}
+    } else {
+      // Reveal correct order
+      stageRow.querySelectorAll('.chain-stage-card').forEach(function(sc,idx){
+        var correctCard=chainCards.find(function(c2){return c2.correctSlot===idx;});
+        var vd=$('sim-verd-'+idx);
+        if(correctCard&&vd)vd.innerHTML='<span style="color:#64748b;font-size:.55rem">Correct: '+esc(correctCard.title)+'</span>';
+      });
+      var done2=$('chm-done');if(done2){done2.style.display='';done2.textContent='Continue anyway';}
+    }
+  }
+  rb.classList.add('visible');
+  // Update attempt dots display
+  var dots=$('chm-dots');
+  if(dots){
+    var dh='';
+    for(var di=0;di<chainMaxAttempts;di++){
+      var cls2=di<chainAttempts?(passed&&di===chainAttempts-1?'pass':'fail'):'';
+      dh+='<div class="chm-attempt-dot '+cls2+'"></div>';
+    }
+    dots.innerHTML=dh;
+  }
+}
+
+function renderFindings(){
+  var container=$('cf-docs');if(!container)return;
+  var h='';
+  CF.forEach(function(c,i){
+    var savedNote=(notes&&notes['note_doc'+i])||'';
+    h+='<div class="cfdoc"><div class="cfdoc-top">'
+      +'<span class="cfdoc-ref">DOC-'+String(i+1).padStart(3,'0')+' - '+esc(c.ref)+'</span>'
+      +'<span class="cfdoc-phase">'+esc(c.phase)+' &#183; NIST: '+esc(c.nist)+'</span></div>'
+      +'<div class="cfdoc-body"><div class="cfdoc-txt">'+esc(c.txt)+'</div>'
+      +'<div class="cfdoc-find"><strong>Breach implication:</strong> '+esc(c.find)+'</div>'
+      +'<div class="cdnotes-sec"><div class="cdnotes-lbl">Your Notes</div>'
+      +'<textarea class="cdnotes" data-note-key="note_doc'+i+'" placeholder="Record your observations about this finding..." aria-label="Notes for '+esc(c.ref)+'">'+esc(savedNote)+'</textarea></div>'
+      +'</div></div>';
+  });
+  container.innerHTML=h;
+  container.querySelectorAll('.cdnotes').forEach(function(ta){
+    var _t;
+    ta.addEventListener('input',function(){
+      clearTimeout(_t);_t=setTimeout(function(){notes[ta.getAttribute('data-note-key')]=ta.value;save();},600);
+    });
+  });
+  $('chain-findings').classList.add('visible');
+}
+
+/* === NOTES REFERENCE === */
+function buildNotesRef(){
+  var body=$('notes-ref-body');if(!body)return;
+  var hasNotes=CF.some(function(c,i){return notes&&notes['note_doc'+i]&&notes['note_doc'+i].trim();});
+  if(!hasNotes){body.innerHTML='<div class="notes-ref-empty">No notes recorded yet. Complete the Chain Reconstruction to access and annotate the Breach Analysis documents.</div>';return;}
+  var h='';
+  CF.forEach(function(c,i){var txt=notes&&notes['note_doc'+i];if(!txt||!txt.trim())return;
+    h+='<div class="notes-ref-item"><div class="notes-ref-lbl">DOC-'+String(i+1).padStart(3,'0')+': '+esc(c.ref.split(' - ')[0])+'</div><div class="notes-ref-txt">'+esc(txt)+'</div></div>';
+  });
+  body.innerHTML=h||'<div class="notes-ref-empty">No notes recorded yet.</div>';
+}
+
+on($('notes-ref-tog'),'click',function(){
+  var body=$('notes-ref-body'),ch=$('nrchev');
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  $('notes-ref-tog').setAttribute('aria-expanded',isOpen?'false':'true');
+  if(ch)ch.textContent=isOpen?'\u25B6':'\u25BC';
+  if(!isOpen)buildNotesRef();
+});
+
+/* === ASSESSMENT === */
+$('qtot').textContent=QQ.length;
+
+function recAns(q,txt){
+  var ok=chk(q.id,txt);
+  ans[q.id]={correct:ok,text:txt};
+  var cnt=Object.keys(ans).length;
+  $('qbadge').textContent=cnt+'/'+QQ.length;
+  $('qans').textContent=cnt;
+  save();
+  if(!scorm.ready())return;
+  var n=cnt-1,pre='cmi.interactions.'+n+'.';
+  scorm.sv(pre+'id',q.id);scorm.sv(pre+'type','choice');
+  scorm.sv(pre+'timestamp',new Date().toISOString().substring(0,19));
+  scorm.sv(pre+'learner_response',txt.substring(0,250));
+  scorm.sv(pre+'result',ok?'correct':'incorrect');
+  scorm.sv(pre+'description',q.prompt.substring(0,250));
+  scorm.cm();
+}
+
+function renderQuiz(){
+  var c=$('qlist');if(!c)return;
+  QQ.forEach(function(q,qi){
+    var div=document.createElement('div');
+    div.className='qq';div.setAttribute('data-qid',q.id);
+    var tag=q.type==='investigative'
+      ?'<span class="qtag inv">&#128269; Requires log search</span>'
+      :'<span class="qtag">Module concept</span>';
+    div.innerHTML='<div class="qhdr"><span class="qnum">Q'+(qi+1)+' of '+QQ.length+'</span>'+tag+'</div>'
+      +'<p class="qtext">'+esc(q.prompt)+'</p>';
+    if(q.hint){var hp=document.createElement('p');hp.className='qhint';hp.textContent='Search hint: '+q.hint;div.appendChild(hp);}
+    var fb=document.createElement('p');fb.className='qfb';
+
+    // Fisher-Yates shuffle of option indices
+    var idxs=q.opts.map(function(_,i){return i;});
+    for(var ii=idxs.length-1;ii>0;ii--){var jj=Math.floor(Math.random()*(ii+1));var tmp=idxs[ii];idxs[ii]=idxs[jj];idxs[jj]=tmp;}
+
+    idxs.forEach(function(oi){
+      var ot=q.opts[oi];
+      var btn=document.createElement('button');
+      btn.className='qopt';btn.type='button';btn.textContent=ot;
+      btn.addEventListener('click',function(){
+        if(div.getAttribute('data-answered')==='true')return;
+        div.setAttribute('data-answered','true');
+        var ok=chk(q.id,ot);
+        div.querySelectorAll('.qopt').forEach(function(o){o.classList.remove('ok','bad');});
+        btn.classList.add(ok?'ok':'bad');
+        fb.textContent=q.fb[oi];fb.classList.add(ok?'ok':'bad','show');
+        recAns(q,ot);
+      });
+      div.appendChild(btn);
+    });
+    div.appendChild(fb);c.appendChild(div);
+  });
+}
+
+function restoreQuiz(){
+  Object.keys(ans).forEach(function(qid){
+    var sv=ans[qid],qd=document.querySelector('.qq[data-qid="'+qid+'"]');
+    if(!qd)return;qd.setAttribute('data-answered','true');
+    var q=QQ.find(function(x){return x.id===qid;});if(!q)return;
+    var oi=q.opts.indexOf(sv.text);
+    var btns=qd.querySelectorAll('.qopt');
+    btns.forEach(function(b){if(b.textContent===sv.text)b.classList.add(sv.correct?'ok':'bad');});
+    var fb=qd.querySelector('.qfb');
+    if(fb&&oi>=0){fb.textContent=q.fb[oi];fb.classList.add(sv.correct?'ok':'bad','show');}
+  });
+  var cnt=Object.keys(ans).length;
+  $('qbadge').textContent=cnt+'/'+QQ.length;$('qans').textContent=cnt;
+}
+
+on($('subbtn'),'click',function(){
+  var answered=Object.keys(ans).length;
+  var correct=Object.keys(ans).filter(function(id){return ans[id].correct;}).length;
+  var raw=QQ.length>0?Math.round(correct/QQ.length*100):0;
+  var passed=raw>=70;
+  if(scorm.ready()){
+    scorm.sv('cmi.score.raw',String(raw));scorm.sv('cmi.score.min','0');
+    scorm.sv('cmi.score.max','100');scorm.sv('cmi.score.scaled',(raw/100).toFixed(2));
+    scorm.sv('cmi.completion_status','completed');scorm.sv('cmi.success_status',passed?'passed':'failed');
+    scorm.cm();
+    $('scst').textContent='Grade recorded: '+correct+'/'+QQ.length+' correct ('+raw+'%).';
+  } else {
+    $('scst').textContent='Results recorded locally. Grade will be posted once available.';
+  }
+  $('subst').textContent='Submitted: '+correct+' of '+QQ.length+' correct ('+raw+'%), '+answered+' of '+QQ.length+' answered.';
+  $('subbtn').disabled=true;$('subbtn').textContent='Submitted';
+  clr();
+});
+
+/* === MAIN INIT === */
+function initApp(restoring){
+  buildSrcChips();
+  renderInv();
+  renderAlerts();
+  buildBriefThread();
+  renderQuiz();
+  if(restoring)restoreQuiz();
+
+  // Defer heavy chart build until Chart.js is loaded
+  function tryCharts(){
+    if(typeof Chart!=='undefined'){buildCharts();}
+    else{setTimeout(tryCharts,200);}
+  }
+  tryCharts();
+
+  // Show notifications after short delay for immersion
+  if(!restoring){
+    setTimeout(function(){showNotifCard(messages[0],0,0);},1400);
+    setTimeout(function(){showNotifCard(messages[1],1,0);},2400);
+  }
+}
+
+})();
+</script>
+</body>
+</html>
+
