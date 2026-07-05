@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en" translate="yes">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenneri | eLearning Built for Retention</title>
+<meta name="description" content="Tenneri designs interactive learning environments that meet every student and employee where they are. Built inside the LMS your institution already runs.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tenneri.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tenneri.com/">
+<meta property="og:title" content="Tenneri | Learning Environments Built for Every Learner">
+<meta property="og:description" content="Tenneri designs learning experiences that make the material stick.">
+<meta property="og:image" content="https://tenneri.com/Ten-Logo.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tenneri | Learning Environments Built for Every Learner">
+<meta name="twitter:description" content="Tenneri designs learning experiences that make the material stick.">
+<meta name="geo.region" content="US">
+<meta name="geo.region" content="CA">
+<link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Tenneri","url":"https://tenneri.com","logo":"https://tenneri.com/Ten-Logo.png","email":"ramano@tenneri.com","founder":{"@type":"Person","name":"Ramano Stoute","jobTitle":"Founder and Instructional Designer"},"areaServed":["US","CA","GB"],"serviceType":["Instructional Design","eLearning Development","LMS Course Design","Adaptive Learning","Corporate Training Design"]}
+</script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --ink:#0f0e0c;--dim:#2a2724;--body:#3d3a36;--muted:#6b6560;
+  --rule:#ddd8ce;--paper:#f8f5f0;--cream:#faf8f4;--white:#ffffff;
+  --gold:#b8913c;--gold-lt:#d4ac58;
+  --navy:#1b2d4f;--navy-lt:#2a4270;--navy-dk:#111e35;
+  --f-d:'Cormorant Garamond',Georgia,serif;
+  --f-b:'Instrument Sans',system-ui,sans-serif;
+  --f-m:'DM Mono',monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+body{font-family:var(--f-b);background:var(--paper);color:var(--ink);font-size:18px;line-height:1.75;overflow-x:hidden}
+.scroll-bar{position:fixed;top:0;left:0;z-index:300;height:2px;width:0%;background:linear-gradient(90deg,var(--gold),var(--navy));pointer-events:none;transition:width .1s linear}
+nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:200;height:72px;width:calc(100% - 16px);max-width:1440px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:rgba(250,248,244,0);backdrop-filter:blur(0px);border-radius:0;box-shadow:none;transition:width .6s cubic-bezier(.22,1,.36,1),height .6s cubic-bezier(.22,1,.36,1),top .6s cubic-bezier(.22,1,.36,1),padding .5s cubic-bezier(.22,1,.36,1),border-radius .5s ease,background-color .45s ease,box-shadow .45s ease,backdrop-filter .45s ease,color .45s ease}
+nav.scrolled{top:12px;height:56px;width:min(700px,calc(100% - 40px));padding:0 20px;border-radius:100px;background:var(--white);border:1px solid rgba(27,45,79,.12);box-shadow:0 10px 34px rgba(15,14,12,.2)}
+nav.scrolled .n-links{gap:18px}
+.n-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.n-logo img{height:34px;width:auto;transition:height .5s cubic-bezier(.22,1,.36,1)}
+nav.scrolled .n-logo img{height:24px}
+.n-logo-name{font-family:var(--f-d);font-size:1.55rem;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;transition:font-size .5s cubic-bezier(.22,1,.36,1),opacity .35s ease,width .5s cubic-bezier(.22,1,.36,1),margin .5s ease}
+nav.scrolled .n-logo-name{font-size:0;opacity:0;width:0;margin:0}
+.n-links{display:flex;align-items:center;gap:28px;list-style:none}
+.n-links a{font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.n-links a:hover{color:var(--ink)}
+.n-cta{padding:8px 20px;background:var(--navy)!important;color:#fff!important;border-radius:3px;transition:background .2s!important}
+.n-cta:hover{background:var(--navy-lt)!important}
+.n-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.n-ham span{width:22px;height:1.5px;background:var(--ink);display:block}
+.mob-nav{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(250,248,244,.98);border-bottom:1px solid var(--rule);padding:24px 28px;flex-direction:column;gap:18px;z-index:199}
+.mob-nav.open{display:flex}
+.mob-nav a{font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 52px 90px;position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold) 0%,transparent 60%)}
+.ghost{position:absolute;right:-1300px;top:50%;transform:translateY(calc(-50% + 10px)) rotate(90deg);transform-origin:center;font-family:var(--f-m);font-size:clamp(100px,14vw,180px);font-weight:500;letter-spacing:.18em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(27,45,79,.14);pointer-events:none;user-select:none;z-index:0}
+.hero-inner{position:relative;z-index:1;max-width:820px}
+.hero-kicker{font-family:var(--f-m);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:10px;opacity:0;animation:up .9s var(--ease) .1s forwards}
+.hero-kicker::before{content:'';width:16px;height:1px;background:var(--gold);flex-shrink:0}
+.hero-h{font-family:var(--f-d);font-size:clamp(2.4rem,4vw,4.6rem);font-weight:300;line-height:1.08;letter-spacing:-.02em;color:var(--ink);max-width:820px;opacity:0;animation:up .9s var(--ease) .2s forwards}
+.hero-h em{font-style:italic;color:var(--navy)}
+.hero-div{width:40px;height:1px;background:var(--gold);margin:28px 0;opacity:0;animation:up .8s var(--ease) .35s forwards}
+.hero-sub{font-size:1.05rem;color:var(--body);line-height:1.8;max-width:600px;margin-bottom:32px;opacity:0;animation:up .8s var(--ease) .45s forwards;white-space:nowrap}
+.hero-metrics{display:flex;gap:0;margin-bottom:40px;opacity:0;animation:up .8s var(--ease) .55s forwards}
+.hero-met{padding-right:28px;margin-right:28px;border-right:1px solid var(--rule)}
+.hero-met:last-child{border-right:none;margin-right:0;padding-right:0}
+.hero-met-n{font-family:var(--f-d);font-size:2rem;font-weight:300;color:var(--navy);line-height:1;margin-bottom:3px}
+.hero-met-l{font-family:var(--f-m);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+.hero-cta{display:inline-flex;align-items:center;gap:14px;text-decoration:none;opacity:0;animation:up .8s var(--ease) .65s forwards}
+.hero-cta-l{font-family:var(--f-m);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);border-bottom:1px solid var(--navy);padding-bottom:2px;transition:color .2s,border-color .2s}
+.hero-cta-c{width:36px;height:36px;border:1px solid var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--navy);transition:background .2s,color .2s,transform .3s var(--ease)}
+.hero-cta:hover .hero-cta-c{background:var(--navy);color:#fff;transform:translateX(5px)}
+.hero-cta:hover .hero-cta-l{color:var(--navy-lt);border-color:var(--navy-lt)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 52px}
+.sec{padding:96px 0}
+.label{font-family:var(--f-m);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.label::before{content:'';width:14px;height:1px;background:var(--gold);flex-shrink:0}
+.display{font-family:var(--f-d);font-size:clamp(2rem,3.5vw,3.2rem);font-weight:300;line-height:1.1;letter-spacing:-.01em;color:var(--ink)}
+.display em{font-style:italic;color:var(--navy)}
+.display strong{font-weight:600;color:var(--navy)}
+.pain{background:var(--white);border-bottom:1px solid var(--rule)}
+.pain-heading{margin-bottom:24px;max-width:640px}
+.pain-toggle{display:flex;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden;margin-bottom:28px;width:fit-content}
+.pain-toggle-btn{padding:9px 22px;font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--white);border:none;cursor:pointer;transition:background .2s,color .2s}
+.pain-toggle-btn.on{background:var(--navy);color:#fff}
+.pain-frame{font-size:1rem;font-weight:500;color:var(--dim);line-height:1.7;border-left:3px solid var(--gold);padding-left:16px;margin-bottom:28px;max-width:680px}
+.pain-frame strong{color:var(--navy);font-weight:600}
+.pain-panel{display:none}
+.pain-panel.on{display:block}
+.pain-cards{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.pain-card{background:var(--white);padding:32px 36px;display:grid;grid-template-columns:32px 1fr;gap:18px;align-items:start;transition:background .25s;position:relative}
+.pain-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .35s var(--ease)}
+.pain-card:hover{background:#fefcf8}
+.pain-card:hover::after{transform:scaleY(1)}
+.pain-n{font-family:var(--f-d);font-size:1.1rem;font-weight:300;color:var(--rule);line-height:1;padding-top:5px;transition:color .3s}
+.pain-card:hover .pain-n{color:var(--gold-lt)}
+.pain-q{font-family:var(--f-d);font-size:1.2rem;font-style:italic;font-weight:400;color:var(--ink);line-height:1.35;margin-bottom:8px}
+.pain-p{font-size:.95rem;font-weight:400;color:var(--body);line-height:1.8}
+.method-close{margin-top:56px;padding-top:44px;border-top:1px solid var(--rule)}
+.method-close-title{font-family:var(--f-d);font-size:1.4rem;font-weight:400;color:var(--ink);line-height:1.25;text-align:center;max-width:480px;margin:0 auto 28px}
+.method-close-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.method-p{background:var(--white);padding:26px 24px 28px;border-top:2px solid var(--gold-lt)}
+.method-p{background:var(--white);padding:18px 22px 22px;border-left:2px solid var(--gold-lt)}
+.method-p-title{font-family:var(--f-d);font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:5px}
+.method-p-body{font-size:.9rem;color:var(--body);line-height:1.65}
+.method-p-body strong{color:var(--dim);font-weight:600}
+.build{background:var(--paper);border-bottom:1px solid var(--rule)}
+.build-intro{margin-bottom:52px}
+.build-intro .display{margin-bottom:12px}
+.build-sub{font-size:.95rem;color:var(--body);line-height:1.8;max-width:680px}
+.build-showcase{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--rule);border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(15,14,12,.1);margin-bottom:48px}
+.build-col{background:var(--white);display:flex;flex-direction:column}
+.build-tag{padding:12px 20px;font-family:var(--f-m);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:8px;cursor:default}
+.bt-l{color:var(--muted);background:var(--paper)}
+.bt-r{color:var(--navy);background:rgba(27,45,79,.04)}
+.build-col-body{flex:1;display:flex;flex-direction:column}
+.lms{height:100%;display:flex;flex-direction:column;min-height:420px}
+.lms-chrome{background:#e6e3de;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--rule);flex-shrink:0}
+.lms-dots{display:flex;gap:5px}
+.lms-dot{width:10px;height:10px;border-radius:50%}
+.ld-r{background:#ff5f57}.ld-y{background:#febc2e}.ld-g{background:#28c840}
+.lms-bar{flex:1;background:#fff;border-radius:3px;height:20px;margin:0 8px;display:flex;align-items:center;padding:0 10px}
+.lms-url{font-family:var(--f-m);font-size:.6rem;color:var(--muted)}
+.lms-nav{background:var(--navy);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.lms-nav-title{font-family:var(--f-d);font-size:.88rem;font-weight:600;color:#fff}
+.lms-tabs{display:flex}
+.lms-tab{padding:5px 12px;font-family:var(--f-m);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.lms-tab.on{color:var(--gold-lt);border-bottom-color:var(--gold-lt)}
+.lms-panel{flex:1;display:none;flex-direction:column;gap:8px;padding:14px 16px;background:#fdfcf9;overflow-y:auto}
+.lms-panel.on{display:flex}
+.lms-act{border:1px solid var(--rule);border-radius:5px;background:var(--white)}
+.lms-act-row{padding:10px 12px;display:flex;align-items:center;gap:10px}
+.lms-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.li-b{background:rgba(27,45,79,.08)}.li-g{background:rgba(184,145,60,.1)}.li-v{background:rgba(61,90,69,.09)}
+.lms-act-info{flex:1;min-width:0}
+.lms-act-name{font-size:.78rem;font-weight:600;color:var(--ink)}
+.lms-act-type{font-size:.66rem;color:var(--muted);margin-top:1px}
+.lms-bdg{font-family:var(--f-m);font-size:.58rem;font-weight:500;padding:2px 8px;border-radius:100px;letter-spacing:.04em;flex-shrink:0}
+.bdg-live{background:rgba(61,90,69,.1);color:#3d6b45;border:1px solid rgba(61,90,69,.25)}
+.bdg-open{background:rgba(184,145,60,.1);color:var(--gold);border:1px solid rgba(184,145,60,.25)}
+.bdg-next{background:rgba(27,45,79,.07);color:var(--navy);border:1px solid rgba(27,45,79,.2)}
+.bdg-done{background:rgba(61,90,69,.06);color:#5a8f63;border:1px solid rgba(61,90,69,.15)}
+.lms-prog{padding:8px 12px;background:rgba(27,45,79,.03);border:1px solid var(--rule);border-radius:5px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.lms-prog-lbl{font-family:var(--f-m);font-size:.6rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.lms-prog-track{flex:1;height:4px;background:var(--rule);border-radius:100px;overflow:hidden}
+.lms-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--navy));border-radius:100px}
+.lms-prog-pct{font-family:var(--f-m);font-size:.6rem;color:var(--navy);font-weight:500}
+.lms-act-expanded{padding:0 12px 12px 52px}
+.lms-act-desc{font-size:.75rem;color:var(--muted);line-height:1.65;border-left:2px solid var(--rule);padding-left:10px}
+.lms-act-desc strong{color:var(--body);font-weight:600}
+.prog-ring-wrap{display:flex;align-items:center;gap:20px;padding:14px;background:rgba(27,45,79,.03);border:1px solid var(--rule);border-radius:8px;flex-shrink:0}
+.prog-ring-bg{fill:none;stroke:var(--rule);stroke-width:6}
+.prog-ring-fill{fill:none;stroke:url(#prog-grad);stroke-width:6;stroke-linecap:round;stroke-dasharray:188;stroke-dashoffset:75;transform:rotate(-90deg);transform-origin:50% 50%}
+.prog-ring-text{font-family:var(--f-d);font-size:1.1rem;font-weight:600;fill:var(--navy);text-anchor:middle;dominant-baseline:middle}
+.prog-ring-sub{font-family:var(--f-m);font-size:.45rem;fill:var(--muted);text-anchor:middle;dominant-baseline:middle;letter-spacing:.06em;text-transform:uppercase}
+.prog-ring-info{flex:1}
+.prog-ring-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.prog-ring-detail{font-size:.82rem;color:var(--body);line-height:1.6}
+.prog-checklist{display:flex;flex-direction:column;gap:6px}
+.prog-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--rule);border-radius:5px;background:var(--white);font-size:.8rem}
+.prog-item-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0}
+.pi-done{background:rgba(61,90,69,.12);color:#3d6b45}
+.pi-active{background:rgba(27,45,79,.1);color:var(--navy)}
+.pi-lock{background:var(--rule);color:var(--muted)}
+.prog-item-name{flex:1;color:var(--body);font-weight:500}
+.prog-item-name.done{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(61,90,69,.4)}
+.prog-item-name.active{color:var(--ink)}
+.prog-next{padding:10px 14px;background:rgba(27,45,79,.05);border:1px solid rgba(27,45,79,.12);border-radius:5px;font-size:.78rem;color:var(--navy);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.vid-wrap{flex:1;display:flex;flex-direction:column}
+.vid-frame{flex:1;min-height:280px;position:relative;background:var(--navy-dk);cursor:pointer}
+.vid-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.vid-popout-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(10,16,30,.55) 100%);display:flex;align-items:flex-end;justify-content:flex-start;padding:16px 18px;opacity:0;transition:opacity .25s;pointer-events:none}
+.vid-frame:hover .vid-popout-overlay{opacity:1}
+.vid-popout-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:100px;backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer;transition:background .2s}
+.vid-popout-btn:hover{background:rgba(255,255,255,.26)}
+.vid-popout-icon{font-size:.65rem;color:#fff}
+.vid-popout-label{font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.vid-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--paper);border-top:1px solid var(--rule);cursor:pointer;user-select:none;transition:background .2s}
+.vid-toggle:hover{background:var(--cream)}
+.vid-toggle-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vid-toggle-icon{font-size:.7rem;color:var(--muted);transition:transform .3s var(--ease);display:inline-block}
+.vid-toggle-icon.open{transform:rotate(180deg)}
+.vid-caption-body{padding:14px 18px 16px;background:var(--white);border-top:1px solid var(--rule);font-size:.85rem;color:var(--body);line-height:1.6;display:none}
+.vid-caption-body.open{display:block}
+.vid-caption-body strong{color:var(--dim);font-weight:600}
+.peek-label{font-family:var(--f-m);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.peek-label::before{content:'';width:14px;height:1px;background:var(--muted);flex-shrink:0}
+.peek-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:8px;overflow:hidden;margin-bottom:40px}
+.peek-card{background:var(--white);position:relative;overflow:hidden;cursor:pointer}
+.peek-card:hover .peek-overlay{opacity:.5}
+.peek-vid-ratio{padding-top:56.25%;position:relative;background:var(--navy-dk)}
+.peek-vid-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none}
+.peek-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(10,16,30,.7) 100%);opacity:.7;transition:opacity .25s;display:flex;align-items:center;justify-content:center}
+.peek-play{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;transition:background .2s,transform .2s}
+.peek-card:hover .peek-play{background:rgba(255,255,255,.28);transform:scale(1.1)}
+.peek-info{padding:10px 12px;border-top:1px solid var(--rule)}
+.peek-title{font-family:var(--f-d);font-size:1.05rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:2px}
+.peek-type{font-family:var(--f-m);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.peek-modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,14,20,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px}
+.peek-modal-overlay.open{display:flex}
+.peek-modal{background:var(--navy-dk);width:100%;max-width:900px;border-radius:10px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:modalIn .35s var(--ease)}
+.peek-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08)}
+.peek-modal-title{font-family:var(--f-d);font-size:1rem;font-weight:600;color:#fff}
+.peek-modal-type{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:2px}
+.peek-modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+.peek-modal-close:hover{background:rgba(255,255,255,.18);color:#fff}
+.peek-modal-video{padding-top:56.25%;position:relative;background:#000}
+.peek-modal-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.build-caps{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px}
+.build-cap{display:flex;align-items:center;gap:8px;padding:9px 16px;background:var(--white);border:1px solid var(--rule);border-radius:100px;font-size:.82rem;color:var(--dim);font-weight:500;cursor:default;transition:border-color .2s,color .2s}
+.build-cap:hover{border-color:var(--navy);color:var(--navy)}
+.build-cap-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.build-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:32px;border-top:1px solid var(--rule);flex-wrap:wrap}
+.build-cta-note{font-size:.88rem;color:var(--body);line-height:1.7;max-width:400px}
+.build-cta-note strong{color:var(--dim);font-weight:600}
+.btn-pair{display:flex;gap:10px;flex-wrap:wrap}
+.btn-nv{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--navy);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
+.btn-nv:hover{background:var(--navy-lt);transform:translateY(-1px)}
+.btn-ln{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:1px solid var(--rule);color:var(--dim);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-ln:hover{border-color:var(--navy);color:var(--navy)}
+.cases{background:var(--white);border-bottom:1px solid var(--rule)}
+.cases-intro{margin-bottom:48px}
+.cases-intro .display{margin-bottom:10px}
+.cases-intro-sub{font-size:.95rem;color:var(--body);line-height:1.75;max-width:520px}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:10px;overflow:hidden;box-shadow:0 12px 40px rgba(15,14,12,.07)}
+.case-card{background:var(--white);padding:40px 36px;display:flex;flex-direction:column;gap:20px;position:relative;transition:background .2s}
+.case-card:hover{background:#fefcf8}
+.case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.case-card:hover::before{opacity:1}
+.case-vertical{font-family:var(--f-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.case-title{font-family:var(--f-d);font-size:1.35rem;font-weight:400;color:var(--ink);line-height:1.3}
+.case-body{font-size:.88rem;color:var(--body);line-height:1.8;flex:1}
+.case-body strong{color:var(--dim);font-weight:600}
+.case-outcome{padding:14px 16px;background:rgba(27,45,79,.04);border-left:3px solid var(--navy);border-radius:0 4px 4px 0}
+.case-outcome-label{font-family:var(--f-m);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:5px}
+.case-outcome-text{font-size:.85rem;color:var(--dim);line-height:1.6}
+.case-outcome-text strong{font-weight:600}
+.case-quote{font-family:var(--f-d);font-size:.95rem;font-style:italic;color:var(--dim);line-height:1.6;padding-top:16px;border-top:1px solid var(--rule)}
+.case-quote-attr{font-family:var(--f-m);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.6;margin-top:6px;display:block;font-style:normal}
+.faq{background:var(--navy-dk);border-bottom:1px solid rgba(255,255,255,.08)}
+.faq-intro{margin-bottom:40px}
+.faq-intro .display{margin-bottom:10px}
+.faq-sub{font-size:.95rem;color:var(--body);line-height:1.75;max-width:480px}
+.faq-list{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.faq-item{background:var(--white)}
+.faq-q{padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;font-family:var(--f-d);font-size:1.15rem;font-weight:400;color:var(--ink);line-height:1.35;transition:background .2s;user-select:none}
+.faq-q:hover{background:rgba(255,255,255,.04)}
+.faq-icon-wrap{width:28px;height:28px;flex-shrink:0;border:1px solid var(--rule);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .3s}
+.faq-item.open .faq-icon-wrap{background:var(--navy);border-color:var(--navy)}
+.faq-icon-svg{display:block;transition:transform .35s var(--ease)}
+.faq-icon-svg line{stroke:var(--muted);stroke-width:1.5;stroke-linecap:round;transition:stroke .2s}
+.faq-item.open .faq-icon-svg{transform:rotate(45deg)}
+.faq-item.open .faq-icon-svg line{stroke:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.faq-item.open .faq-a{max-height:500px}
+.faq-a-inner{padding:0 28px 24px;font-size:.95rem;color:var(--body);line-height:1.85}
+.faq-a-inner strong{color:var(--dim);font-weight:600}
+.faq-a-inner a{color:var(--navy);text-decoration:none;border-bottom:1px solid rgba(27,45,79,.3);padding-bottom:1px}
+.low-commit{margin-top:40px;padding:28px 36px;background:var(--white);border:1px solid var(--rule);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.low-commit-title{font-family:var(--f-d);font-size:1.3rem;font-weight:400;color:var(--ink);margin-bottom:4px}
+.low-commit-sub{font-size:.88rem;color:var(--muted);line-height:1.6}
+.low-commit-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn-sample{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:rgba(27,45,79,.06);border:1px solid rgba(27,45,79,.2);color:var(--navy);border-radius:3px;font-family:var(--f-m);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .2s,border-color .2s}
+.btn-sample:hover{background:rgba(27,45,79,.1);border-color:var(--navy)}
+.contact-trigger-wrap{margin-top:28px;display:flex;justify-content:center}
+.contact-trigger{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--white);border:1px solid var(--rule);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);cursor:pointer;transition:border-color .25s,background .25s,box-shadow .25s}
+.contact-trigger:hover{border-color:var(--navy);background:rgba(27,45,79,.03);box-shadow:0 4px 16px rgba(27,45,79,.08)}
+.contact-trigger-arrow{font-size:.7rem;transition:transform .3s var(--ease)}
+.contact-trigger.open .contact-trigger-arrow{transform:rotate(90deg)}
+.contact-expand{
+  max-height:0;overflow:hidden;
+  transition:max-height .6s var(--ease),opacity .4s;
+  opacity:0;
+}
+.contact-expand.open{max-height:800px;opacity:1}
+
+.contact-form-inner{
+  margin-top:24px;
+  padding:36px;
+  background:var(--white);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  animation:slideIn .4s var(--ease) both;
+}
+
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.cf-heading{font-family:var(--f-d);font-size:1.4rem;font-weight:300;color:var(--ink);margin-bottom:6px}
+.cf-heading em{font-style:italic;color:var(--navy)}
+.cf-sub{font-size:.85rem;color:var(--body);line-height:1.7;margin-bottom:28px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.cf-group{margin-bottom:16px}
+.cf-group:last-of-type{margin-bottom:0}
+.cf-label{display:block;font-family:var(--f-m);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(184,145,60,.8);margin-bottom:7px}
+.cf-input,.cf-select,.cf-textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--rule);padding:9px 0;font-family:var(--f-b);font-size:.95rem;font-weight:300;color:var(--ink);outline:none;transition:border-color .3s;border-radius:0;-webkit-appearance:none}
+.cf-input:focus,.cf-select:focus,.cf-textarea:focus{border-bottom-color:var(--navy)}
+.cf-input::placeholder,.cf-textarea::placeholder{color:var(--muted);font-size:.85rem}
+.cf-select{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .25rem center;padding-right:1.5rem}
+.cf-select option{background:var(--white);color:var(--ink)}
+.cf-textarea{resize:vertical;min-height:90px;line-height:1.7}
+.cf-submit{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;padding:13px 28px;background:var(--navy);color:#fff;border:none;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .2s,opacity .3s}
+.cf-submit:hover:not(:disabled){background:var(--navy-lt);transform:translateY(-1px)}
+.cf-submit:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.cf-success{display:none;text-align:center;padding:32px 0}
+.cf-success.show{display:block}
+.cf-success-icon{width:52px;height:52px;border-radius:50%;background:rgba(27,45,79,.07);border:1px solid rgba(27,45,79,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.cf-success-icon svg{width:22px;height:22px;color:var(--navy)}
+.cf-success-title{font-family:var(--f-d);font-size:1.5rem;font-weight:300;color:var(--ink);margin-bottom:8px}
+.cf-success-title em{font-style:italic;color:var(--navy)}
+.cf-success-body{font-size:.85rem;color:var(--body);line-height:1.75}
+.overview-strip{margin-top:40px;padding:28px 36px;background:linear-gradient(135deg,var(--navy-dk),var(--navy));border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden}
+.overview-strip::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:32px 32px}
+.overview-strip-text{position:relative;z-index:1}
+.overview-strip-title{font-family:var(--f-d);font-size:1.25rem;font-weight:300;color:#fff;margin-bottom:4px}
+.overview-strip-title em{font-style:italic;color:var(--gold-lt)}
+.overview-strip-sub{font-size:.85rem;color:rgba(255,255,255,.75);line-height:1.6}
+.btn-overview{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--gold);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;box-shadow:0 4px 16px rgba(184,145,60,.35);transition:background .2s,transform .2s;position:relative;z-index:1}
+.btn-overview:hover{background:var(--gold-lt);transform:translateY(-1px)}
+.about{background:var(--paper);border-bottom:1px solid var(--rule)}
+.about-grid{display:grid;grid-template-columns:260px 1fr;gap:72px;align-items:start}
+.about-aside{position:sticky;top:76px}
+.about-frame{border-radius:10px;overflow:hidden;aspect-ratio:3/4;background:var(--navy);position:relative;box-shadow:0 16px 40px rgba(15,14,12,.12)}
+.about-frame img{width:100%;height:100%;object-fit:cover;opacity:1}
+.about-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 65%,rgba(10,16,30,.72) 100%);padding:22px;display:flex;flex-direction:column;justify-content:flex-end}
+.about-name{font-family:var(--f-d);font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:2px}
+.about-role{font-family:var(--f-m);font-size:.62rem;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase}
+.about-body .label{margin-bottom:14px}
+.about-body .display{margin-bottom:26px}
+.about-body p{font-size:.95rem;color:var(--body);line-height:1.95;margin-bottom:16px}
+.about-body p:last-child{margin-bottom:0}
+.about-body strong{color:var(--dim);font-weight:600}
+.team-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.team-tab{padding:10px 16px;background:var(--white);border:1.5px solid var(--rule);border-radius:100px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:border-color .25s,background .25s,color .25s}
+.team-tab:hover{border-color:var(--navy);color:var(--navy)}
+.team-tab.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.team-panel{background:var(--white);border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:18px 22px;margin-bottom:24px}
+.team-panel-name{font-family:var(--f-d);font-size:1.05rem;font-weight:600;color:var(--ink);margin-bottom:4px}
+.team-panel-bio{font-size:.85rem;color:var(--body);line-height:1.7}
+.about-sig{margin-top:28px;padding-top:22px;border-top:1px solid var(--rule)}
+.about-sig-name{font-family:var(--f-d);font-size:1.05rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.about-sig-role{font-family:var(--f-m);font-size:.62rem;color:var(--muted);letter-spacing:.04em}
+.process{background:var(--white);border-bottom:1px solid var(--rule)}
+.process-head{margin-bottom:48px}
+.process-head .display{margin-bottom:10px}
+.process-sub{font-size:.95rem;color:var(--body);line-height:1.75;max-width:480px}
+.process-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:8px;overflow:hidden;box-shadow:0 8px 28px rgba(15,14,12,.06)}
+.ps{background:var(--white);padding:40px 32px;position:relative}
+.ps::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.ps:hover::before{opacity:1}
+.ps-n{font-family:var(--f-m);font-size:.68rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.ps-icon{font-size:1.2rem;display:inline;margin-bottom:0}
+.ps-title{font-family:var(--f-d);font-size:1.25rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:10px}
+.ps-body{font-size:.95rem;color:var(--body);line-height:1.85}
+.ps-body strong{color:var(--dim);font-weight:600}
+.cta{background:var(--navy);padding:112px 52px;text-align:center;position:relative;overflow:hidden}
+.cta-mesh{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px),radial-gradient(ellipse 55% 65% at 50% 50%,rgba(184,145,60,.09) 0%,transparent 70%);background-size:48px 48px,48px 48px,100% 100%}
+.cta-inner{max-width:620px;margin:0 auto;position:relative;z-index:1}
+.cta-qm{font-family:var(--f-d);font-size:4rem;color:var(--gold);opacity:.3;line-height:.8;margin-bottom:16px;display:block}
+.cta-qt{font-family:var(--f-d);font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:300;font-style:italic;color:rgba(255,255,255,.9);line-height:1.4;margin-bottom:8px}
+.cta-qa{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:44px;display:block}
+.cta-h{font-family:var(--f-d);font-size:clamp(1.6rem,2.6vw,2.2rem);font-weight:300;color:#fff;line-height:1.25;margin-bottom:36px}
+.cta-h strong{font-weight:600;color:var(--gold-lt)}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--gold);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;box-shadow:0 4px 20px rgba(184,145,60,.35);transition:background .2s,transform .2s}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);color:#fff}
+footer{background:var(--ink);padding:36px 52px}
+.foot-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot-logo{display:flex;align-items:center;gap:8px;font-family:var(--f-d);font-size:.95rem;color:rgba(255,255,255,.28);text-decoration:none}
+.foot-logo img{height:20px;width:auto;opacity:.3;filter:brightness(0) invert(1)}
+.foot-links{display:flex;gap:24px;list-style:none}
+.foot-links a{font-family:var(--f-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:rgba(255,255,255,.6)}
+.foot-copy{font-family:var(--f-m);font-size:.62rem;color:rgba(255,255,255,.14)}
+.sim-toggle{display:flex;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden;margin-bottom:24px;width:fit-content}
+.sim-toggle-btn{padding:9px 22px;font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--white);border:none;cursor:pointer;transition:background .2s,color .2s}
+.sim-toggle-btn.on{background:var(--navy);color:#fff}
+.sim-view{display:none}
+.sim-view.on{display:flex;flex-direction:column;height:100%}
+.compat-row{display:flex;align-items:baseline;gap:16px;padding:20px 24px;background:var(--white);border:1px solid var(--rule);border-radius:6px;flex-wrap:wrap;margin-bottom:32px}
+.compat-label{font-family:var(--f-m);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);white-space:nowrap;flex-shrink:0}
+.compat-platforms{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.compat-plat{font-size:.82rem;color:var(--body);font-weight:500}
+.compat-sep{color:var(--rule);font-size:.7rem}
+.compat-badge{font-family:var(--f-m);font-size:.58rem;letter-spacing:.1em;padding:2px 8px;border:1px solid rgba(27,45,79,.2);color:var(--navy);border-radius:100px}
+.case-strips{display:flex;flex-direction:column;gap:2px;background:var(--rule);border-radius:10px;overflow:hidden;box-shadow:0 12px 40px rgba(15,14,12,.07)}
+.case-strip{background:var(--white);padding:48px 40px;display:grid;grid-template-columns:170px 1fr;gap:40px;align-items:start;transition:background .2s;position:relative}
+.case-strip-metrics{display:flex;flex-direction:column;gap:16px}
+.case-strip-metric{flex:1 1 70px}
+.case-strip::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.case-strip:hover{background:#fefcf8}
+.case-strip:hover::before{opacity:1}
+.case-strip-left{border-right:1px solid var(--rule);padding-right:40px}
+.case-strip-vertical{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;line-height:1.6}
+.case-strip-stat{font-family:var(--f-d);font-size:2.4rem;font-weight:300;color:var(--navy);line-height:1}
+.case-strip-stat-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5;margin-top:4px}
+.case-strip-title{font-family:var(--f-d);font-size:1.4rem;font-weight:400;color:var(--ink);line-height:1.25;margin-bottom:14px}
+.case-strip-body{font-size:.95rem;color:var(--body);line-height:1.85;margin-bottom:20px}
+.case-strip-body strong{color:var(--dim);font-weight:600}
+.case-strip-process{font-size:.95rem;color:var(--dim);line-height:1.85;margin-bottom:18px;padding:14px 16px;background:rgba(27,45,79,.05);border-left:2px solid var(--navy);border-radius:0 4px 4px 0}
+.case-strip-process-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:6px;display:block}
+.case-strip-quote{font-family:var(--f-d);font-size:.95rem;font-style:italic;color:var(--dim);line-height:1.6;padding-top:18px;border-top:1px solid var(--rule)}
+.case-strip-attr{font-family:var(--f-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:6px;display:block;font-style:normal}
+.progress-rail{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:190;display:flex;flex-direction:column;gap:10px;opacity:0;transition:opacity .4s}
+.progress-rail.visible{opacity:1}
+.rail-dot{width:7px;height:7px;border-radius:50%;background:var(--rule);transition:background .3s,transform .3s;cursor:pointer;border:none;padding:0}
+.rail-dot.done{background:var(--navy-lt)}
+.rail-dot.active{background:var(--gold);transform:scale(1.6)}
+.rail-dot:hover{background:var(--navy)}
+.back-top{position:fixed;bottom:32px;right:32px;z-index:190;width:44px;height:44px;border-radius:50%;background:var(--white);color:var(--navy);border:1.5px solid var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s,background .2s,bottom .3s ease;pointer-events:none;box-shadow:0 4px 20px rgba(15,14,12,.25)}
+.back-top.show{opacity:1;transform:none;pointer-events:auto}
+.back-top:hover{background:#f0eee8}
+.back-top svg{width:18px;height:18px}
+.ticker{overflow:hidden;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:rgba(27,45,79,.03);padding:12px 0}
+.ticker-track{display:flex;white-space:nowrap;animation:ticker-scroll 32s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;gap:18px;padding:0 22px;font-family:var(--f-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.ticker-sep{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.ticker-badge{color:var(--navy);font-weight:500}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.path-selector{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:40px;opacity:0;animation:up .8s var(--ease) .55s forwards;width:100%}
+.path-label{font-family:var(--f-m);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);align-self:center}
+.path-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:var(--white);border:1.5px solid var(--rule);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:border-color .25s,background .25s,color .25s,transform .2s;white-space:nowrap}
+.path-btn:hover{border-color:var(--navy);color:var(--navy);transform:translateY(-2px)}
+.path-btn.active{border-color:var(--navy);background:var(--navy);color:#fff;transform:translateY(-2px)}
+.path-btn-icon{font-size:.9rem}
+.hero-cta-row{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;opacity:0;animation:up .8s var(--ease) .7s forwards;width:100%}
+.btn-hero-primary{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;background:var(--navy);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--navy);transition:background .2s,transform .2s}
+.btn-hero-primary:hover{background:var(--navy-lt);transform:translateY(-1px)}
+.btn-hero-secondary{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border:1.5px solid var(--rule);color:var(--dim);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s,transform .2s;background:transparent;cursor:pointer}
+.btn-hero-secondary:hover{border-color:var(--navy);color:var(--navy);transform:translateY(-1px)}
+.dashboard{background:var(--navy-dk);border-bottom:1px solid rgba(255,255,255,.06);overflow:hidden;position:relative}
+.dashboard::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.dashboard-inner{position:relative;z-index:1;padding:64px 52px}
+.dash-header{margin-bottom:44px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.dash-title{font-family:var(--f-d);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;color:#fff;line-height:1.1}
+.dash-title em{font-style:italic;color:var(--gold-lt)}
+.dash-eyebrow{font-family:var(--f-m);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.dash-eyebrow::before{content:'';width:12px;height:1px;background:var(--gold)}
+.dash-live{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(109,191,122,.8);padding:5px 12px;border:1px solid rgba(109,191,122,.25);border-radius:100px}
+.dash-live-dot{width:6px;height:6px;border-radius:50%;background:#3ecf7a;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden;margin-bottom:2px}
+.dash-card{background:rgba(255,255,255,.04);padding:28px 24px;border-bottom:2px solid transparent;transition:background .3s,border-color .3s}
+.dash-card:hover{background:rgba(255,255,255,.07);border-bottom-color:var(--gold)}
+.dash-card-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px}
+.dash-card-val{font-family:var(--f-d);font-size:2.8rem;font-weight:300;color:var(--gold-lt);line-height:1;margin-bottom:6px}
+.dash-card-sub{font-size:.85rem;color:rgba(255,255,255,.92);line-height:1.55}
+.dash-card-trend{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-m);font-size:.62rem;font-weight:600;color:#3ecf7a;margin-top:8px;letter-spacing:.06em}
+.dash-row2{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden}
+.dash-bar-panel{background:rgba(255,255,255,.04);padding:28px}
+.dash-bar-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
+.dash-bars{display:flex;flex-direction:column;gap:12px}
+.dash-bar-row{display:flex;align-items:center;gap:12px}
+.dash-bar-name{font-size:.8rem;color:rgba(255,255,255,.92);width:136px;flex-shrink:0}
+.dash-bar-track{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.dash-bar-fill{height:100%;border-radius:100px;width:0%;transition:width 1.4s var(--ease)}
+.dash-bar-pct{font-family:var(--f-m);font-size:.62rem;color:rgba(255,255,255,.7);width:36px;text-align:right}
+.bar-navy{background:linear-gradient(90deg,var(--gold),var(--gold-lt))}
+.bar-muted{background:linear-gradient(90deg,rgba(184,145,60,.4),rgba(184,145,60,.7))}
+.dash-quote-panel{background:rgba(255,255,255,.04);padding:28px;display:flex;flex-direction:column;justify-content:center}
+.dash-q-mark{font-family:var(--f-d);font-size:3rem;color:var(--gold);opacity:.25;line-height:.7;margin-bottom:10px}
+.dash-q-text{font-family:var(--f-d);font-size:1.15rem;font-style:italic;font-weight:300;color:rgba(255,255,255,.95);line-height:1.55;margin-bottom:14px}
+.dash-q-attr{font-family:var(--f-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.faq-adaptive{margin-bottom:40px}
+.faq-question-block{background:var(--white);border:1px solid var(--rule);border-radius:8px;padding:32px 36px;margin-bottom:20px}
+.faq-question-prompt{font-family:var(--f-d);font-size:1.5rem;font-weight:300;color:var(--ink);margin-bottom:20px;line-height:1.3}
+.faq-question-prompt em{font-style:italic;color:var(--navy)}
+.faq-choices{display:flex;flex-wrap:wrap;gap:10px}
+.faq-choice{padding:10px 18px;background:var(--paper);border:1.5px solid var(--rule);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:border-color .25s,background .25s,color .25s;white-space:nowrap}
+.faq-choice:hover{border-color:var(--navy);color:var(--navy)}
+.faq-choice.selected{border-color:var(--navy);background:var(--navy);color:#fff}
+.faq-answer-block{display:none;background:var(--white);border:1px solid var(--rule);border-left:4px solid var(--navy);border-radius:0 8px 8px 0;padding:28px 32px;animation:answerIn .4s var(--ease)}
+.faq-answer-block.show{display:block}
+@keyframes answerIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.faq-answer-label{font-family:var(--f-m);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.faq-answer-label::before{content:'';width:10px;height:1px;background:var(--gold)}
+.faq-answer-text{font-size:.95rem;color:var(--body);line-height:1.85}
+.faq-answer-text strong{color:var(--dim);font-weight:600}
+.faq-answer-text a{color:var(--navy);text-decoration:none;border-bottom:1px solid rgba(27,45,79,.3)}
+.faq-reset{margin-top:16px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;transition:color .2s;display:none}
+.faq-reset.show{display:inline-block}
+.faq-reset:hover{color:var(--navy)}
+.r{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.r.in{opacity:1;transform:none}
+.rd1{transition-delay:.08s}.rd2{transition-delay:.16s}.rd3{transition-delay:.24s}
+
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+@media(max-width:980px){
+  nav{padding:0 24px}
+  .hero{padding:100px 24px 72px}
+  .hero-sub{white-space:normal;max-width:100%}
+  .ghost{font-size:80px;right:-90px}
+  .hero-metrics{flex-wrap:wrap;gap:16px}
+  .hero-met{border-right:none;padding-right:0;margin-right:0;border-bottom:1px solid var(--rule);padding-bottom:12px}
+  .hero-met:last-child{border-bottom:none;padding-bottom:0}
+  .wrap{padding:0 24px}
+  .sec{padding:72px 0}
+  .method-close-row{grid-template-columns:1fr}
+  .build-showcase{grid-template-columns:1fr}
+  .vid-frame{min-height:220px}
+  .dash-grid{grid-template-columns:1fr 1fr}
+  .dash-row2{grid-template-columns:1fr}
+  .dashboard-inner{padding:40px 24px}
+  .progress-rail{display:none}
+  .back-top{bottom:20px;right:20px}
+  .peek-strip{grid-template-columns:repeat(2,1fr)}
+  .case-strip{grid-template-columns:1fr;gap:28px;padding:36px 24px}
+  .case-strip-left{border-right:none;border-bottom:1px solid var(--rule);padding-right:0;padding-bottom:24px}
+  .compat-row{flex-direction:column;gap:10px}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-aside{position:static}
+  .about-frame{aspect-ratio:3/2;max-width:280px}
+  .process-steps{grid-template-columns:1fr}
+  .cta{padding:80px 24px}
+  footer{padding:28px 24px}
+  .low-commit{flex-direction:column;align-items:flex-start}
+  .overview-strip{flex-direction:column;align-items:flex-start}
+  .cf-row{grid-template-columns:1fr}
+  .contact-form-inner{padding:24px}
+}
+@media(max-width:680px){
+  .n-links{display:none}
+  .n-ham{display:flex}
+}
+@media(max-width:520px){
+  .hero-h{font-size:2.2rem}
+  .hero-sub{white-space:normal}
+  .display{font-size:1.9rem}
+  .cta-btns{flex-direction:column}
+  .cta-btns a{text-align:center;justify-content:center}
+  .peek-strip{grid-template-columns:1fr}
+  .peek-modal{max-width:100%;border-radius:6px}
+  .faq-q{font-size:1rem}
+}
+.faq .label{color:var(--gold-lt)}
+.faq .display{color:#fff}
+.faq .display em{color:var(--gold-lt)}
+.faq-sub{color:rgba(255,255,255,.75)}
+.faq-question-block{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12)}
+.faq-question-prompt{color:#fff}
+.faq-question-prompt em{color:var(--gold-lt)}
+.faq-choice{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+.faq-choice:hover{border-color:var(--gold-lt);color:var(--gold-lt)}
+.faq-choice.selected{background:var(--gold);border-color:var(--gold);color:var(--navy-dk)}
+.faq-reset{color:rgba(255,255,255,.5)}
+.faq-reset:hover{color:#fff}
+.faq-answer-block{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-left:4px solid var(--gold)}
+.faq-answer-text{color:rgba(255,255,255,.85)}
+.faq-answer-text strong{color:#fff}
+.faq-answer-text a{color:var(--gold-lt);border-bottom-color:rgba(212,172,88,.4)}
+.faq-list{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.12)}
+.faq-item{background:var(--navy-dk)}
+.faq-q{color:#fff}
+.faq-icon-wrap{border-color:rgba(255,255,255,.3)}
+.faq-item.open .faq-icon-wrap{background:var(--gold);border-color:var(--gold)}
+.faq-icon-svg line{stroke:rgba(255,255,255,.7)}
+.faq-item.open .faq-icon-svg line{stroke:var(--navy-dk)}
+.faq-a-inner{color:rgba(255,255,255,.85)}
+.faq-a-inner strong{color:#fff}
+.faq-a-inner a{color:var(--gold-lt);border-bottom-color:rgba(212,172,88,.4)}
+.contact-trigger{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 4px 20px rgba(184,145,60,.3)}
+.contact-trigger:hover{border-color:var(--gold-lt);background:var(--gold-lt);box-shadow:0 4px 20px rgba(184,145,60,.4)}
+.contact-form-inner{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12)}
+.cf-heading{color:#fff}
+.cf-heading em{color:var(--gold-lt)}
+.cf-sub{color:rgba(255,255,255,.75)}
+.cf-label{color:var(--gold-lt)}
+.cf-input,.cf-select,.cf-textarea{color:#fff;border-bottom-color:rgba(255,255,255,.25)}
+.cf-input::placeholder,.cf-textarea::placeholder{color:rgba(255,255,255,.4)}
+.cf-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+.cf-select option{background:var(--navy-dk);color:#fff}
+.cf-submit{background:var(--gold)}
+.cf-submit:hover:not(:disabled){background:var(--gold-lt)}
+.cf-success-icon{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:var(--gold-lt)}
+.cf-success-title{color:#fff}
+.cf-success-title em{color:var(--gold-lt)}
+.cf-success-body{color:rgba(255,255,255,.75)}
+.overview-strip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+
+<div class="scroll-bar" id="scroll-bar"></div>
+<nav id="nav">
+  <a href="/" class="n-logo">
+    <img src="https://tenneri.com/Ten-Logo.png" alt="Tenneri" onerror="this.style.display='none'">
+    <span class="n-logo-name" translate="no">Tenneri</span>
+  </a>
+  <ul class="n-links">
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#build">The Work</a></li>
+    <li><a href="#cases">Results</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://calendly.com/tenneri/new-meeting" target="_blank" class="n-cta">Book a Call</a></li>
+  </ul>
+  <button class="n-ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-nav" id="mob">
+  <a href="#problem" onclick="closeMob()">The Problem</a>
+  <a href="#build" onclick="closeMob()">The Work</a>
+  <a href="#cases" onclick="closeMob()">Results</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="https://calendly.com/tenneri/new-meeting" target="_blank" onclick="closeMob()">Book a Call</a>
+</div>
+<div class="progress-rail" id="progress-rail" aria-hidden="true">
+  <button class="rail-dot" data-target="hero" title="Top"></button>
+  <button class="rail-dot" data-target="problem" title="The Problem"></button>
+  <button class="rail-dot" data-target="dashboard" title="Dashboard"></button>
+  <button class="rail-dot" data-target="build" title="The Work"></button>
+  <button class="rail-dot" data-target="cases" title="Results"></button>
+  <button class="rail-dot" data-target="faq" title="FAQ"></button>
+  <button class="rail-dot" data-target="about" title="About"></button>
+  <button class="rail-dot" data-target="process" title="How It Works"></button>
+</div>
+<button class="back-top" id="back-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+<section class="hero" id="hero" data-section="hero">
+  <div class="ghost" id="ghost" aria-hidden="true">TENERE</div>
+  <div class="hero-inner">
+    <span class="hero-kicker">Instructional Design, Built in Code</span>
+    <h1 class="hero-h">Information alone does not change<br>how <em>learners perform.</em></h1>
+    <div style="width:40px;height:1px;background:var(--gold);margin:28px 0;opacity:0;animation:up .8s var(--ease) .35s forwards"></div>
+    <p class="hero-sub">Tell me who you are, and I'll show you what's relevant to your situation.</p>
+    <div class="path-selector" id="path-selector">
+      <span class="path-label">I am</span>
+      <button class="path-btn" data-path="academic"><span class="path-btn-icon">🎓</span>A faculty member, department head, or dean</button>
+      <button class="path-btn" data-path="corporate"><span class="path-btn-icon">🏢</span>Managing corporate training or L&amp;D</button>
+      <button class="path-btn" data-path="exploring"><span class="path-btn-icon">🔍</span>Just exploring what's possible</button>
+    </div>
+    <div class="hero-cta-row">
+      <a href="#build" class="btn-hero-secondary">See how it works ↓</a>
+      <a href="https://calendly.com/tenneri/new-meeting" target="_blank" class="btn-hero-primary">Book a 20-minute call →</a>
+    </div>
+  </div>
+</section>
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Brightspace / D2L<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Moodle<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Canvas<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Cornerstone<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Workday Learning<span class="ticker-sep"></span></span>
+    <span class="ticker-item ticker-badge">xAPI<span class="ticker-sep"></span></span>
+    <span class="ticker-item ticker-badge">SCORM<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Scenario Labs<span class="ticker-sep"></span></span>
+    <span class="ticker-item">GRC Training<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Adaptive Assessment<span class="ticker-sep"></span></span>
+    <span class="ticker-item">WCAG 2.1 AA<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Zero Vendor Dependency<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Native LMS Builds<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Brightspace / D2L<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Moodle<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Canvas<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Cornerstone<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Workday Learning<span class="ticker-sep"></span></span>
+    <span class="ticker-item ticker-badge">xAPI<span class="ticker-sep"></span></span>
+    <span class="ticker-item ticker-badge">SCORM<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Scenario Labs<span class="ticker-sep"></span></span>
+    <span class="ticker-item">GRC Training<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Adaptive Assessment<span class="ticker-sep"></span></span>
+    <span class="ticker-item">WCAG 2.1 AA<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Zero Vendor Dependency<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Native LMS Builds<span class="ticker-sep"></span></span>
+  </div>
+</div>
+<section class="sec pain" id="problem" data-section="problem">
+  <div class="wrap">
+    <div class="label r">Is this your situation?</div>
+    <h2 class="display r pain-heading">What problems are you<br>hoping to solve?</h2>
+    <div class="pain-toggle r" role="group">
+      <button class="pain-toggle-btn on" data-audience="academic">Higher Education</button>
+      <button class="pain-toggle-btn" data-audience="corporate">Corporate</button>
+    </div>
+
+    <div class="pain-panel on" id="pain-academic">
+      <p class="pain-frame r">Courses that don't move with how students actually learn lose outcomes, quietly. <strong>My fix leans on gamification</strong>, built to reward progress instead of just tracking it.</p>
+      <div class="pain-cards r">
+        <div class="pain-card"><div class="pain-n">01</div><div>
+          <p class="pain-q">"Social media and AI have changed how students absorb information. The course has not changed with it."</p>
+          <p class="pain-p">The same student who cannot focus through a 40-minute lecture will spend three hours going down a YouTube rabbit hole. Attention is not the problem. The design is.</p>
+        </div></div>
+        <div class="pain-card"><div class="pain-n">02</div><div>
+          <p class="pain-q">"Your course was probably built around the student who reads everything and takes notes. That student is a minority in most cohorts now."</p>
+          <p class="pain-p">Readers, watchers, and doers are all in the same room. When the path through the material only works for one type, the others quietly fall behind.</p>
+        </div></div>
+        <div class="pain-card"><div class="pain-n">03</div><div>
+          <p class="pain-q">"You added a tool. Students treated it like optional extra credit."</p>
+          <p class="pain-p">When the experience lives outside the course, students leave it outside the course. The solution was never another tab.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="pain-panel" id="pain-corporate">
+      <p class="pain-frame r">When modules feel stale, employees stop absorbing and start clicking through. <strong>I design and build everything in code</strong>, so it feels fresh, fits your team, and runs the same way on whatever platform you use.</p>
+      <div class="pain-cards r">
+        <div class="pain-card"><div class="pain-n">01</div><div>
+          <p class="pain-q">"Employees complete the training. Nothing changes on the floor."</p>
+          <p class="pain-p">Completion and retention are two different outcomes. When training doesn't explain why it matters to the specific person taking it, the click-through becomes a ritual rather than a learning experience.</p>
+        </div></div>
+        <div class="pain-card"><div class="pain-n">02</div><div>
+          <p class="pain-q">"Mandatory training is the room nobody wants to be in. The phone comes out within minutes."</p>
+          <p class="pain-p">When the material has no face and no consequence, employees process it on autopilot. The quiz gets retaken until the passing score appears. Nothing sticks.</p>
+        </div></div>
+        <div class="pain-card"><div class="pain-n">03</div><div>
+          <p class="pain-q">"We bought a learning platform. Our L&amp;D team spent more time managing it than designing for it."</p>
+          <p class="pain-p">External platforms create overhead. Integration issues, licensing negotiations, and adoption friction often consume more resources than the training itself delivers.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="method-close r">
+      <h3 class="method-close-title">Here's how I design for it.</h3>
+      <div class="method-close-row">
+        <div class="method-p">
+          <div class="method-p-title">Built for retention</div>
+          <div class="method-p-body">Every activity has to teach something text alone can't, and build skill, not just confidence.</div>
+        </div>
+        <div class="method-p">
+          <div class="method-p-title">Built to be finished</div>
+          <div class="method-p-body">The goal is a build where skipping ahead feels like a loss, not an option.</div>
+        </div>
+        <div class="method-p">
+          <div class="method-p-title">Built with code</div>
+          <div class="method-p-body">HTML, CSS, and JavaScript are the foundations every LMS runs on. Build in that language directly and the result runs anywhere, with none of an authoring tool's creative limits.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="dashboard" id="dashboard" data-section="dashboard">
+  <div class="dashboard-inner">
+    <div class="dash-header">
+      <div>
+        <div class="dash-eyebrow">Performance data</div>
+        <h2 class="dash-title">What changes when the design<br><em>is treated as seriously as the content.</em></h2>
+      </div>
+    </div>
+    <div class="dash-grid r">
+      <div class="dash-card">
+        <div class="dash-card-label">Average score improvement</div>
+        <div class="dash-card-val" data-target="38" data-suffix="%">38%</div>
+        <div class="dash-card-sub">Across redesigned programs, measured against the previous version</div>
+        <div class="dash-card-trend">↑ Consistent across verticals</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Licensing cost reduction</div>
+        <div class="dash-card-val" data-target="68" data-suffix="%">68%</div>
+        <div class="dash-card-sub">Why rent a platform when you can own the experience. Enterprise-grade labs and simulations, built once and customized to your institution.</div>
+        <div class="dash-card-trend">↑ Zero new vendor contracts</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Completion rate lift</div>
+        <div class="dash-card-val">2×</div>
+        <div class="dash-card-sub">Average after a multi-path redesign. From 44% to 82% in one program.</div>
+        <div class="dash-card-trend">↑ Voluntary re-engagement recorded</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">New infrastructure required</div>
+        <div class="dash-card-val">$0</div>
+        <div class="dash-card-sub">Everything built inside the platform your institution already runs</div>
+        <div class="dash-card-trend">↑ No IT security review needed</div>
+      </div>
+    </div>
+    <div class="dash-row2 r rd1">
+      <div class="dash-bar-panel">
+        <div class="dash-bar-label">Before and after redesign: program metrics</div>
+        <div class="dash-bars">
+          <div class="dash-bar-row"><span class="dash-bar-name">Completion (before)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-muted" data-w="44%"></div></div><span class="dash-bar-pct">44%</span></div>
+          <div class="dash-bar-row"><span class="dash-bar-name">Completion (after)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-navy" data-w="82%"></div></div><span class="dash-bar-pct">82%</span></div>
+          <div class="dash-bar-row"><span class="dash-bar-name">Pass rate (before)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-muted" data-w="51%"></div></div><span class="dash-bar-pct">51%</span></div>
+          <div class="dash-bar-row"><span class="dash-bar-name">Pass rate (after)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-navy" data-w="89%"></div></div><span class="dash-bar-pct">89%</span></div>
+          <div class="dash-bar-row"><span class="dash-bar-name">Compliance (before)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-muted" data-w="58%"></div></div><span class="dash-bar-pct">58%</span></div>
+          <div class="dash-bar-row"><span class="dash-bar-name">Compliance (after)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-navy" data-w="93%"></div></div><span class="dash-bar-pct">93%</span></div>
+        </div>
+      </div>
+      <div class="dash-quote-panel">
+        <div class="dash-q-mark">"</div>
+        <p class="dash-q-text">The moment that got me was the Python terminal. Students were writing and running real code without ever leaving the course page. My first reaction was, "I didn't know you could even do this in an LMS."</p>
+        <span class="dash-q-attr">Director of Training · Cybersecurity &amp; AI Program</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec build" id="build" data-section="build">
+  <div class="wrap">
+    <div class="build-intro">
+      <div class="label r">What I build</div>
+      <h2 class="display r">A new experience,<br><em>native to the platform</em> you already run.</h2>
+      <p class="build-sub r">I take what an institution or organization already has and redesign how learners move through it, built with accessibility in mind and tailored to your specific standards.</p>
+    </div>
+    <div class="sim-toggle r" role="group" aria-label="Simulator view">
+      <button class="sim-toggle-btn on" data-sim="academic">Higher Education</button>
+      <button class="sim-toggle-btn" data-sim="corporate">Corporate / L&amp;D</button>
+    </div>
+    <div class="build-showcase r">
+      <div class="build-col">
+        <div class="build-tag bt-l" id="sim-tag">A Tenneri-built course module</div>
+        <div class="build-col-body">
+          <div class="lms sim-view on" id="sim-academic">
+            <div class="lms-chrome">
+              <div class="lms-dots"><div class="lms-dot ld-r"></div><div class="lms-dot ld-y"></div><div class="lms-dot ld-g"></div></div>
+              <div class="lms-bar"><span class="lms-url">yourschool.lms.com / ACCT101 / Week-6</span></div>
+            </div>
+            <div class="lms-nav">
+              <span class="lms-nav-title">ACCT 101, Week 6: Debits &amp; Credits</span>
+              <div class="lms-tabs">
+                <div class="lms-tab on" data-panel="overview">Overview</div>
+                <div class="lms-tab" data-panel="activities">Activities</div>
+                <div class="lms-tab" data-panel="progress">Progress</div>
+              </div>
+            </div>
+            <div class="lms-panel on" id="panel-overview">
+              <div class="lms-prog"><span class="lms-prog-lbl">Module progress</span><div class="lms-prog-track"><div class="lms-prog-fill" style="width:60%"></div></div><span class="lms-prog-pct">60%</span></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Concept Overview</div><div class="lms-act-type">Short-form summary · For every learner type</div></div><span class="lms-bdg bdg-done">✓ Done</span></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">📊</div><div class="lms-act-info"><div class="lms-act-name">Journal Entry Scenario Lab</div><div class="lms-act-type">Simulation · Decision-based · Self-paced</div></div><span class="lms-bdg bdg-live">Live</span></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">🧩</div><div class="lms-act-info"><div class="lms-act-name">Debit or Credit? Challenge</div><div class="lms-act-type">Game · Instant reinforcement</div></div><span class="lms-bdg bdg-open">Unlocked</span></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">📋</div><div class="lms-act-info"><div class="lms-act-name">Knowledge Check</div><div class="lms-act-type">Scored · Auto-syncs to gradebook</div></div><span class="lms-bdg bdg-next">Next</span></div></div>
+            </div>
+            <div class="lms-panel" id="panel-activities">
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Concept Overview</div><div class="lms-act-type">3 minutes · Video + text summary</div></div><span class="lms-bdg bdg-done">✓ Done</span></div><div class="lms-act-expanded"><p class="lms-act-desc">A condensed walkthrough for the learner who absorbs by watching. <strong>No prior knowledge assumed.</strong></p></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">📊</div><div class="lms-act-info"><div class="lms-act-name">Journal Entry Scenario Lab</div><div class="lms-act-type">15-20 minutes · Hands-on simulation</div></div><span class="lms-bdg bdg-live">Live</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Learners work through a real scenario before assessment. <strong>Decisions have consequences.</strong> Wrong entries show the downstream effect.</p></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">🧩</div><div class="lms-act-info"><div class="lms-act-name">Debit or Credit? Challenge</div><div class="lms-act-type">5 minutes · Game · Repeatable</div></div><span class="lms-bdg bdg-open">Unlocked</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Reinforcement that doesn't feel like repetition. <strong>Learners replay voluntarily.</strong></p></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">📋</div><div class="lms-act-info"><div class="lms-act-name">Knowledge Check</div><div class="lms-act-type">10 questions · Gradebook sync</div></div><span class="lms-bdg bdg-next">Next</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Scores sync automatically. <strong>No manual entry.</strong> Unlocks once the scenario lab is complete.</p></div></div>
+            </div>
+            <div class="lms-panel" id="panel-progress">
+              <div class="prog-ring-wrap">
+                <svg width="64" height="64" viewBox="0 0 64 64">
+                  <defs><linearGradient id="prog-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#b8913c"/><stop offset="100%" style="stop-color:#2a4270"/></linearGradient></defs>
+                  <circle class="prog-ring-bg" cx="32" cy="32" r="28"/>
+                  <circle class="prog-ring-fill" cx="32" cy="32" r="28"/>
+                  <text class="prog-ring-text" x="32" y="30">60%</text>
+                  <text class="prog-ring-sub" x="32" y="40">complete</text>
+                </svg>
+                <div class="prog-ring-info"><div class="prog-ring-label">Module progress</div><div class="prog-ring-detail">2 of 4 activities complete. On track for Friday's deadline.</div></div>
+              </div>
+              <div class="prog-checklist">
+                <div class="prog-item"><div class="prog-item-icon pi-done">✓</div><span class="prog-item-name done">Concept Overview</span><span class="lms-bdg bdg-done" style="font-size:.55rem">Done</span></div>
+                <div class="prog-item"><div class="prog-item-icon pi-active">→</div><span class="prog-item-name active">Journal Entry Scenario Lab</span><span class="lms-bdg bdg-live">In progress</span></div>
+                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Debit or Credit? Challenge</span><span class="lms-bdg bdg-open">Unlocked</span></div>
+                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Knowledge Check</span><span class="lms-bdg bdg-next">Locked</span></div>
+              </div>
+              <div class="prog-next"><span>→</span><span>Continue: <strong>Journal Entry Scenario Lab</strong></span></div>
+            </div>
+          </div>
+          <div class="lms sim-view" id="sim-corporate" style="display:none">
+            <div class="lms-chrome">
+              <div class="lms-dots"><div class="lms-dot ld-r"></div><div class="lms-dot ld-y"></div><div class="lms-dot ld-g"></div></div>
+              <div class="lms-bar"><span class="lms-url">yourcompany.lms.com / GRC-2026 / Module-3</span></div>
+            </div>
+            <div class="lms-nav">
+              <span class="lms-nav-title">Cyber Risk &amp; Reporting Obligations, Module 3</span>
+              <div class="lms-tabs">
+                <div class="lms-tab on" data-panel="corp-overview">Overview</div>
+                <div class="lms-tab" data-panel="corp-activities">Activities</div>
+                <div class="lms-tab" data-panel="corp-progress">Progress</div>
+              </div>
+            </div>
+            <div class="lms-panel on" id="panel-corp-overview">
+              <div class="lms-prog"><span class="lms-prog-lbl">Certification progress</span><div class="lms-prog-track"><div class="lms-prog-fill" style="width:75%"></div></div><span class="lms-prog-pct">75%</span></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Policy Briefing</div><div class="lms-act-type">10 minutes · Role-specific · Required</div></div><span class="lms-bdg bdg-done">✓ Certified</span></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎯</div><div class="lms-act-info"><div class="lms-act-name">Phishing Scenario Lab</div><div class="lms-act-type">Simulation · Real-world threat vectors</div></div><span class="lms-bdg bdg-live">Active</span></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">⚖️</div><div class="lms-act-info"><div class="lms-act-name">Escalation Decision Exercise</div><div class="lms-act-type">Scenario · Regulatory consequence mapping</div></div><span class="lms-bdg bdg-open">Unlocked</span></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">✅</div><div class="lms-act-info"><div class="lms-act-name">Compliance Attestation</div><div class="lms-act-type">Required · Syncs to HR system</div></div><span class="lms-bdg bdg-next">Required</span></div></div>
+            </div>
+            <div class="lms-panel" id="panel-corp-activities">
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Policy Briefing</div><div class="lms-act-type">10 minutes · Role-specific</div></div><span class="lms-bdg bdg-done">✓ Certified</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Not a PDF. A structured walkthrough of what the policy means for this specific role and what a violation looks like in practice. <strong>Context first, rule second.</strong></p></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎯</div><div class="lms-act-info"><div class="lms-act-name">Phishing Scenario Lab</div><div class="lms-act-type">15 minutes · Simulated threat environment</div></div><span class="lms-bdg bdg-live">Active</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Employees work through a simulated phishing attempt using real-looking headers and attachment types. <strong>Wrong decisions show the full consequence chain</strong> before it happens in reality.</p></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">⚖️</div><div class="lms-act-info"><div class="lms-act-name">Escalation Decision Exercise</div><div class="lms-act-type">10 minutes · Regulatory scenario</div></div><span class="lms-bdg bdg-open">Unlocked</span></div><div class="lms-act-expanded"><p class="lms-act-desc">A GRC incident unfolds across three departments. The employee chooses the correct escalation path. <strong>Each choice maps to a real regulatory framework.</strong> GDPR, SOC 2, ISO 27001.</p></div></div>
+              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">✅</div><div class="lms-act-info"><div class="lms-act-name">Compliance Attestation</div><div class="lms-act-type">Required · Auto-syncs to HR system</div></div><span class="lms-bdg bdg-next">Required</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Formal completion record syncs automatically to your HR or GRC platform. <strong>No manual tracking, no spreadsheet chasing.</strong> Audit-ready on day one.</p></div></div>
+            </div>
+            <div class="lms-panel" id="panel-corp-progress">
+              <div class="prog-ring-wrap">
+                <svg width="64" height="64" viewBox="0 0 64 64">
+                  <defs><linearGradient id="prog-grad-corp" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#b8913c"/><stop offset="100%" style="stop-color:#2a4270"/></linearGradient></defs>
+                  <circle class="prog-ring-bg" cx="32" cy="32" r="28"/>
+                  <circle class="prog-ring-fill" cx="32" cy="32" r="28" stroke="url(#prog-grad-corp)" style="stroke-dashoffset:47"/>
+                  <text class="prog-ring-text" x="32" y="30">75%</text>
+                  <text class="prog-ring-sub" x="32" y="40">certified</text>
+                </svg>
+                <div class="prog-ring-info"><div class="prog-ring-label">Certification progress</div><div class="prog-ring-detail">3 of 4 modules complete. Attestation due before end of quarter.</div></div>
+              </div>
+              <div class="prog-checklist">
+                <div class="prog-item"><div class="prog-item-icon pi-done">✓</div><span class="prog-item-name done">Policy Briefing</span><span class="lms-bdg bdg-done" style="font-size:.55rem">Certified</span></div>
+                <div class="prog-item"><div class="prog-item-icon pi-active">→</div><span class="prog-item-name active">Phishing Scenario Lab</span><span class="lms-bdg bdg-live">In progress</span></div>
+                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Escalation Decision Exercise</span><span class="lms-bdg bdg-open">Unlocked</span></div>
+                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Compliance Attestation</span><span class="lms-bdg bdg-next">Required</span></div>
+              </div>
+              <div class="prog-next"><span>→</span><span>Continue: <strong>Phishing Scenario Lab</strong></span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="build-col">
+        <div class="build-tag bt-r">Module in motion</div>
+        <div class="build-col-body">
+          <div class="vid-wrap">
+            <div class="vid-frame" id="main-vid-frame" title="Click to watch in full view">
+              <iframe src="https://player.vimeo.com/video/1169432122?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="module-demo"></iframe>
+              <div class="vid-popout-overlay" id="vid-popout-overlay">
+                <div class="vid-popout-btn"><span class="vid-popout-icon">▶</span><span class="vid-popout-label">Watch in full view</span></div>
+              </div>
+            </div>
+            <div class="vid-toggle" id="vid-toggle" role="button" aria-expanded="false">
+              <span class="vid-toggle-label">About this demo</span>
+              <span class="vid-toggle-icon" id="vid-toggle-icon">▼</span>
+            </div>
+            <div class="vid-caption-body" id="vid-caption">
+              <strong>Module Architecture and Course Structure.</strong> Tabbed layouts, embedded activities, and interactive content living inside a single course page. No external platforms, no additional logins, no infrastructure.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="peek-label r">There is more where that came from</p>
+    <div class="peek-strip r">
+      <div class="peek-card" data-title="Simulated OS Environment" data-type="Cybersecurity · Technical Training" data-vimeo="1169432149">
+        <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432149?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="rose-demo"></iframe></div>
+        <div class="peek-overlay"><div class="peek-play">▶</div></div>
+        <div class="peek-info"><div class="peek-title">Simulated OS Environment</div><div class="peek-type">Cybersecurity · Technical Training</div></div>
+      </div>
+      <div class="peek-card" data-title="Adaptive Assignments" data-type="Assessment · Gradebook Integration" data-vimeo="1169432083">
+        <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432083?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="assignment-demo"></iframe></div>
+        <div class="peek-overlay"><div class="peek-play">▶</div></div>
+        <div class="peek-info"><div class="peek-title">Adaptive Assignments</div><div class="peek-type">Assessment · Gradebook Integration</div></div>
+      </div>
+      <div class="peek-card" data-title="Custom LMS Applications" data-type="Training · Phishing Simulation" data-vimeo="1169432096">
+        <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432096?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="barracuda-demo"></iframe></div>
+        <div class="peek-overlay"><div class="peek-play">▶</div></div>
+        <div class="peek-info"><div class="peek-title">Custom LMS Applications</div><div class="peek-type">Training · Phishing Simulation</div></div>
+      </div>
+      <div class="peek-card" data-title="Games &amp; Gamification" data-type="Engagement · Voluntary Completion" data-vimeo="1169432107">
+        <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432107?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="jeopardy-demo"></iframe></div>
+        <div class="peek-overlay"><div class="peek-play">▶</div></div>
+        <div class="peek-info"><div class="peek-title">Games &amp; Gamification</div><div class="peek-type">Engagement · Voluntary Completion</div></div>
+      </div>
+    </div>
+    <div class="build-cta r">
+      <div class="btn-pair">
+        <a href="https://tenneri.com/projects/ai-communication/" target="_blank" class="btn-nv">Try a live demo →</a>
+        <a href="https://tenneri.com/projects/" target="_blank" class="btn-ln">All projects</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec cases" id="cases" data-section="cases">
+  <div class="wrap">
+    <div class="cases-intro">
+      <div class="label r">Results in the wild</div>
+      <h2 class="display r">Three different problems.<br><em>One consistent outcome.</em></h2>
+      <p class="cases-intro-sub r">Learners who finished. Learners who wanted more. Learners who forgot they didn't want to be there.</p>
+    </div>
+    <div class="case-strips">
+      <div class="case-strip r">
+        <div class="case-strip-left">
+          <div class="case-strip-vertical">Higher Education · Data Science</div>
+          <div class="case-strip-metrics">
+            <div class="case-strip-metric">
+              <div class="case-strip-stat">38%</div>
+              <div class="case-strip-stat-label">Score improvement<br>after redesign</div>
+            </div>
+            <div class="case-strip-metric">
+              <div class="case-strip-stat">68%</div>
+              <div class="case-strip-stat-label">Licensing cost<br>reduction</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-strip-right">
+          <h3 class="case-strip-title">When the redesign outlasted the vendor</h3>
+          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>Part of the course lived on a third-party vendor platform. Students found that experience richer than the main course, so they stayed there instead of coming back. Completion on the LMS sat at 44 percent.</div>
+          <p class="case-strip-body">The redesign built three paths through the same material, brought entirely in-house. Readers had depth, watchers had short-form summaries, and doers had scenario labs that put them inside the material before they were assessed. <strong>Scores improved 38 percent and completion nearly doubled.</strong> The institution retired the vendor contract, and licensing costs dropped 68 percent.</p>
+          <div class="case-strip-quote">
+            "I retook this course after failing the first version. I cannot believe how different it felt. I actually understood what I was doing this time."
+            <span class="case-strip-attr">A learner · Data Science Program · second attempt after redesign</span>
+          </div>
+        </div>
+      </div>
+      <div class="case-strip r rd1">
+        <div class="case-strip-left">
+          <div class="case-strip-vertical">Higher Education · Emerging Technology</div>
+          <div class="case-strip-stat" style="font-size:1.6rem;line-height:1.2">Asked for<br>more</div>
+          <div class="case-strip-stat-label">End-of-course<br>learner response</div>
+        </div>
+        <div class="case-strip-right">
+          <h3 class="case-strip-title">Making the unintuitive feel inevitable</h3>
+          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>A quantum computing course where the material itself was never the real problem. The challenge was sequence and analogy: keeping a genuinely difficult subject from losing the learner in the first ten minutes.</div>
+          <p class="case-strip-body">Every concept was built directly on the one before it, developed alongside subject matter experts who caught anything introduced too soon. Difficult ideas moved through analogy, application, and scenario in that order, so learners hit recognition instead of confusion. <strong>The real constraint was the sequence, not the subject.</strong></p>
+          <div class="case-strip-quote">
+            "When is the next one? I want to keep going."
+            <span class="case-strip-attr">Multiple learners · end-of-course feedback</span>
+          </div>
+        </div>
+      </div>
+      <div class="case-strip r rd2">
+        <div class="case-strip-left">
+          <div class="case-strip-vertical">Corporate · Mandatory Compliance</div>
+          <div class="case-strip-metrics">
+            <div class="case-strip-metric">
+              <div class="case-strip-stat">&lt;60%</div>
+              <div class="case-strip-stat-label">Completion before<br>redesign</div>
+            </div>
+            <div class="case-strip-metric">
+              <div class="case-strip-stat">&gt;90%</div>
+              <div class="case-strip-stat-label">Completion after<br>redesign</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-strip-right">
+          <h3 class="case-strip-title">The room nobody wants to be in</h3>
+          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>Mandatory GRC and compliance training that employees clicked through on autopilot. The missing piece was relevance: nobody had connected the policy to what could actually happen to that employee.</div>
+          <p class="case-strip-body">The redesign led with the personal why: what happens to this specific role in this specific scenario if this goes wrong. Scenario-based modules put employees inside real situations, mapped to GDPR, SOC 2, and ISO 27001 frameworks. <strong>People stopped going through the motions and started paying attention.</strong></p>
+          <div class="case-strip-quote">
+            "I actually understood why we have these policies. I had been clicking through that training for three years and this is the first time it made sense."
+            <span class="case-strip-attr">An employee · Systems Training Coordinator · Compliance Redesign</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec faq" id="faq" data-section="faq">
+  <div class="wrap">
+    <div class="faq-intro">
+      <div class="label r">Before you reach out</div>
+      <h2 class="display r">What is the first thing<br><em>holding you back?</em></h2>
+      <p class="faq-sub r">Select what resonates and I will surface the answer that matters to your situation.</p>
+    </div>
+    <div class="faq-adaptive r">
+      <div class="faq-question-block">
+        <p class="faq-question-prompt">What is your <em>biggest concern</em> about a project like this?</p>
+        <div class="faq-choices">
+          <button class="faq-choice" data-answer="ownership">Who owns what gets built</button>
+          <button class="faq-choice" data-answer="faculty">How much this lands on your team</button>
+          <button class="faq-choice" data-answer="cost">What the investment looks like</button>
+          <button class="faq-choice" data-answer="evaluate">I'm not ready to commit yet</button>
+        </div>
+        <button class="faq-reset" id="faq-reset">← Ask something else</button>
+      </div>
+      <div class="faq-answer-block" id="answer-ownership">
+        <div class="faq-answer-label">On ownership</div>
+        <div class="faq-answer-text">You own it completely. Every file is delivered in standard web formats your LMS administrator can open, edit, and maintain independently. No proprietary format, no locked system, no ongoing dependency. <strong>You get a permanent institutional asset, not a vendor relationship.</strong></div>
+      </div>
+      <div class="faq-answer-block" id="answer-faculty">
+        <div class="faq-answer-label">On your team's workload</div>
+        <div class="faq-answer-text">Less than you expect. Subject matter experts provide the knowledge and the learning outcomes. I handle the instructional engineering, the activity design, the sequencing, and the build. <strong>Most engagements require a few focused conversations, not sustained time commitments.</strong> Your faculty or L&D team are the source material, not the project managers.</div>
+      </div>
+      <div class="faq-answer-block" id="answer-cost">
+        <div class="faq-answer-label">On investment</div>
+        <div class="faq-answer-text">Projects scale with scope. The 20-minute call exists specifically to scope what makes sense before any figure is discussed. <strong>You'll know exactly what gets built, what it costs, and what your learners will experience before any commitment is made.</strong> No retainers, no surprise add-ons, no ongoing licensing.</div>
+      </div>
+      <div class="faq-answer-block" id="answer-evaluate">
+        <div class="faq-answer-label">On evaluating without committing</div>
+        <div class="faq-answer-text">Several builds are live on <a href="https://tenneri.com/projects/" target="_blank">the projects page</a>, including the AI Communication module and the SIEM breach investigation lab. No login, no form, no commitment. You can also <a href="https://tenneri.com/overview" target="_blank">read a shareable overview</a>, formatted for forwarding to a dean or an L&D director. Or reach me at <a href="mailto:ramano@tenneri.com">ramano@tenneri.com</a>. <strong>No pitch, no pressure.</strong></div>
+      </div>
+    </div>
+    <div class="faq-list r">
+      <div class="faq-item">
+        <div class="faq-q" role="button" aria-expanded="false">If you stop working with me, what happens to everything that was built?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+        <div class="faq-a"><div class="faq-a-inner">You own it completely. Every file is delivered in standard web formats your LMS administrator can open, edit, and maintain independently. There is no proprietary format, no locked system, no ongoing dependency. A platform update won't break a native build the way it might break an external integration, because the code lives inside your system rather than calling out to mine. You get a permanent asset, not a vendor relationship.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" role="button" aria-expanded="false">How much of this lands on your faculty or L&amp;D team's plate?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+        <div class="faq-a"><div class="faq-a-inner">Less than you might expect. Subject matter experts provide the knowledge and the learning outcomes. I handle the instructional engineering, the activity design, the sequencing, and the build. Most engagements require a few focused conversations rather than sustained time commitments. Your people are the source material, not the project managers.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" role="button" aria-expanded="false">What does a typical project cost?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+        <div class="faq-a"><div class="faq-a-inner">Projects scale with scope. A single module redesign and a full program build are different conversations with different numbers. The 20-minute call exists specifically to scope what makes sense before any figure is discussed. You'll know exactly what gets built, what it costs, and what your learners will experience before any commitment is made. No retainers, no surprise add-ons, no ongoing licensing.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" role="button" aria-expanded="false">I'm not ready to book a call. Is there another way to evaluate the work?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Several builds are live and fully interactive on <a href="https://tenneri.com/projects/" target="_blank">the projects page</a>, including the AI Communication module and the SIEM breach investigation lab. No login, no form, no commitment. You can also <a href="https://tenneri.com/overview" target="_blank">read a shareable overview</a>, a clean document you can forward to whoever needs to see it. Or send a question directly to <a href="mailto:ramano@tenneri.com">ramano@tenneri.com</a>.</div></div>
+      </div>
+    </div>
+    <div class="contact-trigger-wrap r">
+      <button class="contact-trigger" id="contact-trigger" aria-expanded="false" aria-controls="contact-expand">
+        Send me a message
+        <span class="contact-trigger-arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+    <div class="contact-expand" id="contact-expand" aria-hidden="true">
+      <div class="contact-form-inner">
+        <div id="cf-success" class="cf-success">
+          <div class="cf-success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h3 class="cf-success-title">Message received.<br><em>I'll be in touch.</em></h3>
+          <p class="cf-success-body">I'll get back to you within one business day. In the meantime, the full body of work is always up at tenneri.com/projects.</p>
+        </div>
+        <form id="contact-form" action="https://formspree.io/f/mvzlallb" method="POST">
+          <input type="hidden" name="_subject" value="New enquiry via tenneri.com">
+          <h3 class="cf-heading">Start a conversation.<br><em>No pitch, no pressure.</em></h3>
+          <p class="cf-sub">Tell me about the role or project. If a resume would help, just ask and I'll send one over.</p>
+          <div class="cf-row">
+            <div class="cf-group">
+              <label class="cf-label" for="cf-name">Your name</label>
+              <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label" for="cf-email">Email address</label>
+              <input class="cf-input" type="email" id="cf-email" name="email" placeholder="you@institution.edu" required>
+            </div>
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="cf-org">Institution or organisation</label>
+            <input class="cf-input" type="text" id="cf-org" name="organisation" placeholder="e.g. University of Somewhere, or Acme Corp">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="cf-context">What are you working on?</label>
+            <select class="cf-select" id="cf-context" name="context">
+              <option value="" disabled selected>Select the closest match</option>
+              <option>Redesigning an existing online course</option>
+              <option>Building a new course or program from scratch</option>
+              <option>Corporate or compliance training redesign</option>
+              <option>Exploring what is possible, no project yet</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="cf-message">Tell me more</label>
+            <textarea class="cf-textarea" id="cf-message" name="message" placeholder="What is the course about, what is not working, or what outcome you are hoping for. The more you share, the more useful the conversation."></textarea>
+          </div>
+          <button type="submit" class="cf-submit" id="cf-submit-btn">
+            Send message →
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="overview-strip r">
+      <div class="overview-strip-text">
+        <div class="overview-strip-title">Need something to share with a dean or an L&amp;D director? <em>Here it is.</em></div>
+      </div>
+      <a href="https://tenneri.com/overview" target="_blank" class="btn-overview">View &amp; Download Overview →</a>
+    </div>
+  </div>
+</section>
+<section class="sec about" id="about" data-section="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-aside r">
+        <div class="about-frame">
+          <img src="https://tenneri.com/about-photo.png" alt="Ramano Stoute, Founder of Tenneri">
+          <div class="about-overlay">
+            <div class="about-name" id="about-name">Ramano Stoute</div>
+            <div class="about-role" id="about-role">Founder &amp; Principal ID</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-body r rd1">
+        <div class="label">Meet the team</div>
+        <h2 class="display">The people behind<br><em>every build.</em></h2>
+
+        <div class="team-tabs" role="tablist">
+          <button class="team-tab on" data-name="Ramano Stoute" data-role="Founder &amp; Principal ID" data-bio="Owns the instructional strategy on every project: needs analysis, learning objectives, sequencing, and assessment design.">Founder &amp; Principal ID</button>
+          <button class="team-tab" data-name="Stoute, Ramano" data-role="Lab &amp; Scenario Engineer" data-bio="Builds the interactive labs, simulations, and adaptive logic that turn a concept into something a learner can actually do.">Lab &amp; Scenario Engineer</button>
+          <button class="team-tab" data-name="Ramano A. Stoute" data-role="Multimedia Director" data-bio="Handles the interface, motion, and visual polish that make a build feel finished instead of merely functional.">Multimedia Director</button>
+        </div>
+
+        <div class="team-panel">
+          <div class="team-panel-name" id="team-name">Ramano Stoute</div>
+          <div class="team-panel-bio" id="team-bio">Owns the instructional strategy on every project: needs analysis, learning objectives, sequencing, and assessment design.</div>
+        </div>
+
+        <p>I come from a family of educators, and teaching was always the assumption in my household. What I never inherited was a set of principles. Everything I built early on was intuitive, driven by wanting the process itself to be enjoyable, regardless of the subject.</p>
+
+        <p>That intuition started with being a student who hated cookie cutter courses, the ones where the summary at the end told you everything you needed and the rest was safe to skip. I design against that instinct in every build I ship.</p>
+
+        <p>The moment this became more than a personal habit: a program I redesigned saw completion rates nearly double, and licensing costs dropped 68 percent. The content stayed the same. The design did not. That is when Tenneri became something I could offer other people, not just something I built for myself.</p>
+
+        <p>The methodology behind that habit has held up outside my own projects too. A Fortune 100 company took it through final round interviews for a Senior Instructional Designer role and made an offer. Their Group Manager of Learning Strategy and Experience Design and Senior Manager of Learning Development both flagged the depth of the process as the reason. Unfortunately, circumstances on my end meant I could not accept.</p>
+
+        <div class="about-sig">
+          <div class="about-sig-name">Ramano Stoute</div>
+          <div class="about-sig-role">Founder, Tenneri &nbsp;·&nbsp; Instructional Designer and eLearning Developer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec process" id="process" data-section="process">
+  <div class="wrap">
+    <div class="process-head">
+      <div class="label r">How it works</div>
+      <h2 class="display r">Three steps. <em>No guesswork.</em></h2>
+      <p class="process-sub r">What happens after you reach out. Before any proposal, any contract, or any commitment.</p>
+    </div>
+<div class="process-steps">
+  <div class="ps r">
+    <div class="ps-n">Step 01 <span class="ps-icon">💬</span></div>
+    <h3 class="ps-title">You tell me what's not working.</h3>
+    <p class="ps-body">A 20-minute conversation where I listen to what your program or organization needs.</p>
+  </div>
+  <div class="ps r rd1">
+    <div class="ps-n">Step 02 <span class="ps-icon">💡</span></div>
+    <h3 class="ps-title">I show you what's possible.</h3>
+    <p class="ps-body">Inside the system you already have. <strong>No new tools, no new infrastructure, no new budget line.</strong></p>
+  </div>
+  <div class="ps r rd2">
+    <div class="ps-n">Step 03 <span class="ps-icon">🛠️</span></div>
+    <h3 class="ps-title">We scope the first build together.</h3>
+    <p class="ps-body">You'll know exactly what gets built, what it costs, and what your learners will experience before anything is agreed.</p>
+  </div>
+</div>
+</section>
+
+<div class="cta">
+  <div class="cta-mesh"></div>
+  <div class="cta-inner">
+    <span class="cta-qm">"</span>
+    <p class="cta-qt">I caught myself checking my privacy settings on the way home. This is the first time the training stayed with me outside of work.</p>
+    <span class="cta-qa">Marketing Associate · Cyber Awareness Program</span>
+    <h2 class="cta-h">Let's make your learners feel the <strong>same way.</strong></h2>
+    <div class="cta-btns">
+      <a href="https://calendly.com/tenneri/new-meeting" target="_blank" class="btn-gold">Book a 20-Minute Call →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <a href="/" class="foot-logo">
+      <img src="https://tenneri.com/Ten-Logo.png" alt="Tenneri">
+      <span translate="no">Tenneri</span>
+    </a>
+    <ul class="foot-links">
+      <li><a href="https://tenneri.com/projects/">Projects</a></li>
+      <li><a href="https://tenneri.com/overview" target="_blank">Overview PDF</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://calendly.com/tenneri/new-meeting" target="_blank">Book a Call</a></li>
+    </ul>
+    <span class="foot-copy">© 2026 Tenneri</span>
+  </div>
+</footer>
+<div class="peek-modal-overlay" id="peek-modal-overlay">
+  <div class="peek-modal" id="peek-modal">
+    <div class="peek-modal-header">
+      <div><div class="peek-modal-title" id="peek-modal-title"></div><div class="peek-modal-type" id="peek-modal-type"></div></div>
+      <button class="peek-modal-close" id="peek-modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="peek-modal-video" id="peek-modal-video"></div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+'use strict';
+var sb=document.getElementById('scroll-bar');
+window.addEventListener('scroll',function(){sb.style.width=Math.min(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100,100)+'%';},{passive:true});
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){
+  nav.classList.toggle('scrolled',window.scrollY>20);
+},{passive:true});
+document.getElementById('ham').addEventListener('click',function(){document.getElementById('mob').classList.toggle('open');});
+window.closeMob=function(){document.getElementById('mob').classList.remove('open');};
+
+var revEls=document.querySelectorAll('.r');
+function checkReveal(){var vh=window.innerHeight;revEls.forEach(function(el){if(el.getBoundingClientRect().top<vh-60)el.classList.add('in');});}
+window.addEventListener('scroll',checkReveal,{passive:true});
+setTimeout(checkReveal,100);
+
+function animateCounter(el){
+  var target=parseInt(el.getAttribute('data-target'));
+  var suffix=el.getAttribute('data-suffix')||'';
+  if(!target)return;
+  var start=performance.now();
+  var dur=900;
+  function tick(now){
+    var p=Math.min((now-start)/dur,1);
+    var e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(e*target)+suffix;
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+setTimeout(function(){document.querySelectorAll('.hero-met-n[data-target]').forEach(animateCounter);},700);
+
+document.querySelectorAll('.pain-toggle-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.pain-toggle-btn').forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    var a=btn.getAttribute('data-audience');
+    document.querySelectorAll('.pain-panel').forEach(function(p){p.classList.remove('on');});
+    var t=document.getElementById('pain-'+a);
+    if(t)t.classList.add('on');
+  });
+});
+
+document.querySelectorAll('.sim-toggle-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.sim-toggle-btn').forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    var sim=btn.getAttribute('data-sim');
+    document.querySelectorAll('.sim-view').forEach(function(v){v.classList.remove('on');v.style.display='none';});
+    var target=document.getElementById('sim-'+sim);
+    if(target){target.classList.add('on');target.style.display='flex';}
+    var tag=document.getElementById('sim-tag');
+    if(tag){tag.textContent=sim==='corporate'?'A Tenneri-built training module':'A Tenneri-built course module';}
+  });
+});
+
+document.querySelectorAll('.lms-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    var container=tab.closest('.lms');
+    if(!container)return;
+    var id=tab.getAttribute('data-panel');
+    container.querySelectorAll('.lms-tab').forEach(function(t){t.classList.remove('on');});
+    tab.classList.add('on');
+    container.querySelectorAll('.lms-panel').forEach(function(p){p.classList.remove('on');});
+    var panel=container.querySelector('#panel-'+id);
+    if(panel)panel.classList.add('on');
+  });
+});
+
+var mainPop=document.getElementById('vid-popout-overlay');
+if(mainPop){mainPop.addEventListener('click',function(){openModal('Module Architecture and Course Structure','Tabbed layouts · Embedded activities · Interactive content','1169432122');});}
+
+var vt=document.getElementById('vid-toggle');
+var vc=document.getElementById('vid-caption');
+var vi=document.getElementById('vid-toggle-icon');
+if(vt){vt.addEventListener('click',function(){var o=vc.classList.toggle('open');vi.classList.toggle('open',o);vt.setAttribute('aria-expanded',String(o));});}
+
+var overlay=document.getElementById('peek-modal-overlay');
+var mTitle=document.getElementById('peek-modal-title');
+var mType=document.getElementById('peek-modal-type');
+var mVideo=document.getElementById('peek-modal-video');
+var mClose=document.getElementById('peek-modal-close');
+
+function openModal(title,type,vimeoId){
+  mTitle.textContent=title;mType.textContent=type;
+  mVideo.innerHTML='<iframe src="https://player.vimeo.com/video/'+vimeoId+'?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=0&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="'+title+'"></iframe>';
+  overlay.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';mVideo.innerHTML='';}
+
+document.querySelectorAll('.peek-card').forEach(function(card){
+  card.addEventListener('click',function(){openModal(card.getAttribute('data-title'),card.getAttribute('data-type'),card.getAttribute('data-vimeo'));});
+});
+mClose.addEventListener('click',closeModal);
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeModal();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    var item=q.parentElement;
+    var isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-q').setAttribute('aria-expanded','false');});
+    if(!isOpen){item.classList.add('open');q.setAttribute('aria-expanded','true');}
+  });
+});
+
+var trigger=document.getElementById('contact-trigger');
+var expand=document.getElementById('contact-expand');
+if(trigger&&expand){
+  trigger.addEventListener('click',function(){
+    var isOpen=expand.classList.toggle('open');
+    trigger.classList.toggle('open',isOpen);
+    trigger.setAttribute('aria-expanded',String(isOpen));
+    expand.setAttribute('aria-hidden',String(!isOpen));
+    if(isOpen){
+      setTimeout(function(){expand.scrollIntoView({behavior:'smooth',block:'start'});},100);
+    }
+  });
+}
+
+var cfForm=document.getElementById('contact-form');
+var cfBtn=document.getElementById('cf-submit-btn');
+var cfSuccess=document.getElementById('cf-success');
+if(cfForm){
+  cfForm.addEventListener('submit',async function(e){
+    e.preventDefault();
+    cfBtn.disabled=true;cfBtn.textContent='Sending...';
+    try{
+      var res=await fetch(cfForm.action,{method:'POST',body:new FormData(cfForm),headers:{'Accept':'application/json'}});
+      if(res.ok){
+        window.location.href='https://tenneri.com/thank-you';
+      }else{throw new Error();}
+    }catch(err){
+      cfBtn.disabled=false;cfBtn.textContent='Send message →';
+      alert('Something went wrong. Please email me directly at ramano@tenneri.com');
+    }
+  });
+}
+
+var bt=document.getElementById('back-top');
+if(bt){
+  window.addEventListener('scroll',function(){
+    bt.classList.toggle('show',window.scrollY>600);
+    var footer=document.querySelector('footer');
+    if(footer){
+      var fr=footer.getBoundingClientRect();
+      var overlap=window.innerHeight-fr.top;
+      bt.style.bottom=(overlap>0 ? (32+overlap) : 32)+'px';
+    }
+  },{passive:true});
+  bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+}
+
+var ghost=document.getElementById('ghost');
+if(ghost){
+  window.addEventListener('scroll',function(){
+    ghost.style.transform='translateY(calc(-50% + 10px + '+window.scrollY*.12+'px)) rotate(90deg)';
+  },{passive:true});
+}
+
+var rail=document.getElementById('progress-rail');
+if(rail){
+  var dots=Array.from(rail.querySelectorAll('.rail-dot'));
+  var sections=Array.from(document.querySelectorAll('[data-section]'));
+  dots.forEach(function(dot){
+    dot.addEventListener('click',function(){
+      var target=document.getElementById(dot.getAttribute('data-target'));
+      if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  function updateRail(){
+    var scrollY=window.scrollY+window.innerHeight/2;
+    var activeIndex=-1;
+    sections.forEach(function(sec,i){
+      if(scrollY>=sec.offsetTop&&scrollY<sec.offsetTop+sec.offsetHeight){
+        activeIndex=i;
+      }
+    });
+    dots.forEach(function(d,i){
+      d.classList.remove('active','done');
+      if(i===activeIndex)d.classList.add('active');
+      else if(activeIndex>-1&&i<activeIndex)d.classList.add('done');
+    });
+    rail.classList.toggle('visible',window.scrollY>200);
+  }
+  window.addEventListener('scroll',updateRail,{passive:true});
+  updateRail();
+}
+
+function animateNum(el){
+  var target=parseInt(el.getAttribute('data-target'));
+  var suffix=el.getAttribute('data-suffix')||'';
+  if(!target)return;
+  var start=performance.now();
+  var dur=1000;
+  function tick(now){
+    var p=Math.min((now-start)/dur,1);
+    var e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(e*target)+suffix;
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+var dash=document.getElementById('dashboard');
+if(dash){
+  var dashDone=false;
+  new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!dashDone){
+      dashDone=true;
+      document.querySelectorAll('.dash-card-val[data-target]').forEach(animateNum);
+      document.querySelectorAll('.dash-bar-fill').forEach(function(bar){
+        var w=bar.getAttribute('data-w');
+        if(w)setTimeout(function(){bar.style.width=w;},200);
+      });
+    }
+  },{threshold:.2}).observe(dash);
+}
+
+document.querySelectorAll('.path-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.path-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    var path=btn.getAttribute('data-path');
+    if(path==='academic'){
+      var ab=document.querySelector('[data-audience="academic"]');
+      if(ab)ab.click();
+      var sa=document.querySelector('[data-sim="academic"]');
+      if(sa)sa.click();
+    } else if(path==='corporate'){
+      var cb=document.querySelector('[data-audience="corporate"]');
+      if(cb)cb.click();
+      var sb=document.querySelector('[data-sim="corporate"]');
+      if(sb)sb.click();
+    }
+    setTimeout(function(){
+      var prob=document.getElementById('problem');
+      if(prob)prob.scrollIntoView({behavior:'smooth',block:'start'});
+    },200);
+  });
+});
+  
+var faqChoices=document.querySelectorAll('.faq-choice');
+var faqAnswers=document.querySelectorAll('.faq-answer-block');
+var faqReset=document.getElementById('faq-reset');
+faqChoices.forEach(function(btn){
+  btn.addEventListener('click',function(){
+    faqChoices.forEach(function(b){b.classList.remove('selected');});
+    btn.classList.add('selected');
+    faqAnswers.forEach(function(a){a.classList.remove('show');});
+    var answer=document.getElementById('answer-'+btn.getAttribute('data-answer'));
+    if(answer){answer.classList.add('show');answer.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    if(faqReset)faqReset.classList.add('show');
+  });
+});
+if(faqReset)faqReset.addEventListener('click',function(){
+  faqChoices.forEach(function(b){b.classList.remove('selected');});
+  faqAnswers.forEach(function(a){a.classList.remove('show');});
+  faqReset.classList.remove('show');
+});
+
+var teamTabs=document.querySelectorAll('.team-tab');
+var teamName=document.getElementById('team-name');
+var teamBio=document.getElementById('team-bio');
+var aboutName=document.getElementById('about-name');
+var aboutRole=document.getElementById('about-role');
+teamTabs.forEach(function(tab){
+  tab.addEventListener('click',function(){
+    teamTabs.forEach(function(t){t.classList.remove('on');});
+    tab.classList.add('on');
+    var name=tab.getAttribute('data-name');
+    var role=tab.getAttribute('data-role');
+    var bio=tab.getAttribute('data-bio');
+    if(teamName)teamName.textContent=name;
+    if(teamBio)teamBio.textContent=bio;
+    if(aboutName)aboutName.textContent=name;
+    if(aboutRole)aboutRole.textContent=role;
+  });
+});
+
+})();
+</script>
+</body>
+</html>
