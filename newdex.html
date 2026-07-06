@@ -107,12 +107,16 @@ nav.scrolled .n-logo-name{font-size:0;opacity:0;width:0;margin:0}
 .pain-p{font-size:.95rem;font-weight:400;color:var(--body);line-height:1.8}
 .method-close{margin-top:56px;padding-top:44px;border-top:1px solid var(--rule)}
 .method-close-title{font-family:var(--f-d);font-size:1.4rem;font-weight:400;color:var(--ink);line-height:1.25;text-align:center;max-width:480px;margin:0 auto 28px}
-.method-close-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
-.method-p{background:var(--white);padding:26px 24px 28px;border-top:2px solid var(--gold-lt)}
-.method-p{background:var(--white);padding:18px 22px 22px;border-left:2px solid var(--gold-lt)}
-.method-p-title{font-family:var(--f-d);font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:5px}
-.method-p-body{font-size:.9rem;color:var(--body);line-height:1.65}
+.method-close-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:8px;overflow:hidden;box-shadow:0 8px 28px rgba(15,14,12,.06)}
+.method-p{background:var(--white);padding:32px 28px;position:relative}
+.method-p::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.method-p:hover::before{opacity:1}
+.method-p-n{font-family:var(--f-m);font-size:.62rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;display:block}
+.method-p-title{font-family:var(--f-d);font-size:1.15rem;font-weight:500;color:var(--ink);margin-bottom:8px}
+.method-p-body{font-size:.9rem;color:var(--body);line-height:1.7}
 .method-p-body strong{color:var(--dim);font-weight:600}
+.method-close-row .rd1{transition-delay:.18s}
+.method-close-row .rd2{transition-delay:.36s}
 .build{background:var(--paper);border-bottom:1px solid var(--rule)}
 .build-intro{margin-bottom:52px}
 .build-intro .display{margin-bottom:12px}
@@ -450,14 +454,14 @@ footer{background:var(--ink);padding:36px 52px}
 .dash-live{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(109,191,122,.8);padding:5px 12px;border:1px solid rgba(109,191,122,.25);border-radius:100px}
 .dash-live-dot{width:6px;height:6px;border-radius:50%;background:#3ecf7a;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden;margin-bottom:2px}
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden;margin-bottom:2px}
 .dash-card{background:rgba(255,255,255,.04);padding:28px 24px;border-bottom:2px solid transparent;transition:background .3s,border-color .3s}
 .dash-card:hover{background:rgba(255,255,255,.07);border-bottom-color:var(--gold)}
 .dash-card-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px}
 .dash-card-val{font-family:var(--f-d);font-size:2.8rem;font-weight:300;color:var(--gold-lt);line-height:1;margin-bottom:6px}
 .dash-card-sub{font-size:.85rem;color:rgba(255,255,255,.92);line-height:1.55}
 .dash-card-trend{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-m);font-size:.62rem;font-weight:600;color:#3ecf7a;margin-top:8px;letter-spacing:.06em}
-.dash-row2{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden}
+.dash-row2{display:grid;grid-template-columns:1fr;gap:2px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden}
 .dash-bar-panel{background:rgba(255,255,255,.04);padding:28px}
 .dash-bar-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
 .dash-bars{display:flex;flex-direction:column;gap:12px}
@@ -469,6 +473,8 @@ footer{background:var(--ink);padding:36px 52px}
 .bar-navy{background:linear-gradient(90deg,var(--gold),var(--gold-lt))}
 .bar-muted{background:linear-gradient(90deg,rgba(184,145,60,.4),rgba(184,145,60,.7))}
 .dash-quote-panel{background:rgba(255,255,255,.04);padding:28px;display:flex;flex-direction:column;justify-content:center}
+.dash-quote-panel-full{padding:36px 44px;text-align:center;align-items:center}
+.dash-quote-panel-full .dash-q-text{max-width:640px}
 .dash-q-mark{font-family:var(--f-d);font-size:3rem;color:var(--gold);opacity:.25;line-height:.7;margin-bottom:10px}
 .dash-q-text{font-family:var(--f-d);font-size:1.15rem;font-style:italic;font-weight:300;color:rgba(255,255,255,.95);line-height:1.55;margin-bottom:14px}
 .dash-q-attr{font-family:var(--f-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65)}
@@ -510,8 +516,7 @@ footer{background:var(--ink);padding:36px 52px}
   .method-close-row{grid-template-columns:1fr}
   .build-showcase{grid-template-columns:1fr}
   .vid-frame{min-height:220px}
-  .dash-grid{grid-template-columns:1fr 1fr}
-  .dash-row2{grid-template-columns:1fr}
+  .dash-grid{grid-template-columns:1fr}
   .dashboard-inner{padding:40px 24px}
   .progress-rail{display:none}
   .back-top{bottom:20px;right:20px}
@@ -629,7 +634,7 @@ footer{background:var(--ink);padding:36px 52px}
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 <section class="hero" id="hero" data-section="hero">
-  <div class="ghost" id="ghost" aria-hidden="true">TENERE</div>
+  <div class="ghost" id="ghost" aria-hidden="true">TENNERI</div>
   <div class="hero-inner">
     <span class="hero-kicker">Instructional Design, Built in Code</span>
     <h1 class="hero-h">Information alone does not change<br>how <em>learners perform.</em></h1>
@@ -687,14 +692,14 @@ footer{background:var(--ink);padding:36px 52px}
     </div>
 
     <div class="pain-panel on" id="pain-academic">
-      <p class="pain-frame r">Courses that don't move with how students actually learn lose outcomes, quietly. <strong>My fix leans on gamification</strong>, built to reward progress instead of just tracking it.</p>
+      <p class="pain-frame r">Static courses break student engagement and kill learning outcomes. By building natively in code, I deliver environments with built-in WCAG accessibility that never breaks, feeding real-time performance data straight into your LMS gradebook via SCORM and xAPI.</p>
       <div class="pain-cards r">
         <div class="pain-card"><div class="pain-n">01</div><div>
           <p class="pain-q">"Social media and AI have changed how students absorb information. The course has not changed with it."</p>
           <p class="pain-p">The same student who cannot focus through a 40-minute lecture will spend three hours going down a YouTube rabbit hole. Attention is not the problem. The design is.</p>
         </div></div>
         <div class="pain-card"><div class="pain-n">02</div><div>
-          <p class="pain-q">"Your course was probably built around the student who reads everything and takes notes. That student is a minority in most cohorts now."</p>
+          <p class="pain-q">"Most courses are still built for the reader who takes notes and finishes every page. That's one kind of learner in a room full of different ones."</p>
           <p class="pain-p">Readers, watchers, and doers are all in the same room. When the path through the material only works for one type, the others quietly fall behind.</p>
         </div></div>
         <div class="pain-card"><div class="pain-n">03</div><div>
@@ -704,7 +709,8 @@ footer{background:var(--ink);padding:36px 52px}
       </div>
     </div>
     <div class="pain-panel" id="pain-corporate">
-      <p class="pain-frame r">When modules feel stale, employees stop absorbing and start clicking through. <strong>I design and build everything in code</strong>, so it feels fresh, fits your team, and runs the same way on whatever platform you use.</p>
+      <p class="pain-frame r"> I engineer custom browser-based simulations, bypassing generic authoring tool limits. By wrapping the mechanics entirely around your specific performance gaps, I ensure skills are retained mastered.</p>
+     
       <div class="pain-cards r">
         <div class="pain-card"><div class="pain-n">01</div><div>
           <p class="pain-q">"Employees complete the training. Nothing changes on the floor."</p>
@@ -724,15 +730,18 @@ footer{background:var(--ink);padding:36px 52px}
     <div class="method-close r">
       <h3 class="method-close-title">Here's how I design for it.</h3>
       <div class="method-close-row">
-        <div class="method-p">
+        <div class="method-p r">
+          <div class="method-p-n">01</div>
           <div class="method-p-title">Built for retention</div>
-          <div class="method-p-body">Every activity has to teach something text alone can't, and build skill, not just confidence.</div>
+          <div class="method-p-body">Every activity teaches or reinforces something text alone can't.</div>
         </div>
-        <div class="method-p">
+        <div class="method-p r rd1">
+          <div class="method-p-n">02</div>
           <div class="method-p-title">Built to be finished</div>
-          <div class="method-p-body">The goal is a build where skipping ahead feels like a loss, not an option.</div>
+          <div class="method-p-body">The goal is creating content where skipping ahead feels like a loss to the learner.</div>
         </div>
-        <div class="method-p">
+        <div class="method-p r rd2">
+          <div class="method-p-n">03</div>
           <div class="method-p-title">Built with code</div>
           <div class="method-p-body">HTML, CSS, and JavaScript are the foundations every LMS runs on. Build in that language directly and the result runs anywhere, with none of an authoring tool's creative limits.</div>
         </div>
@@ -750,46 +759,29 @@ footer{background:var(--ink);padding:36px 52px}
     </div>
     <div class="dash-grid r">
       <div class="dash-card">
-        <div class="dash-card-label">Average score improvement</div>
-        <div class="dash-card-val" data-target="38" data-suffix="%">38%</div>
-        <div class="dash-card-sub">Across redesigned programs, measured against the previous version</div>
-        <div class="dash-card-trend">↑ Consistent across verticals</div>
+        <div class="dash-card-label"> AI Program completion</div>
+        <div class="dash-card-val">~60%</div>
+        <div class="dash-card-sub">Cohort 1 to cohort 2, same instructors and course length. Replaced a paid third-party platform with coding practice built natively into the LMS.</div>
+        <div class="dash-card-trend">↑ Hiring managers cited stronger technical readiness</div>
       </div>
       <div class="dash-card">
-        <div class="dash-card-label">Licensing cost reduction</div>
-        <div class="dash-card-val" data-target="68" data-suffix="%">68%</div>
-        <div class="dash-card-sub">Why rent a platform when you can own the experience. Enterprise-grade labs and simulations, built once and customized to your institution.</div>
-        <div class="dash-card-trend">↑ Zero new vendor contracts</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">Completion rate lift</div>
-        <div class="dash-card-val">2×</div>
-        <div class="dash-card-sub">Average after a multi-path redesign. From 44% to 82% in one program.</div>
-        <div class="dash-card-trend">↑ Voluntary re-engagement recorded</div>
+        <div class="dash-card-label"> Quantum, AI, Cybersecurity Program Completion</div>
+        <div class="dash-card-val" data-target="66" data-suffix="%">66%</div>
+        <div class="dash-card-sub">Free program: No incentive tied to finishing. Built on the same design principles proven in the redesign above.</div>
+        <div class="dash-card-trend">↑ Zero completion incentive required</div>
       </div>
       <div class="dash-card">
         <div class="dash-card-label">New infrastructure required</div>
         <div class="dash-card-val">$0</div>
-        <div class="dash-card-sub">Everything built inside the platform your institution already runs</div>
+        <div class="dash-card-sub">I build everything myself and deploy it directly into the platform you already run.</div>
         <div class="dash-card-trend">↑ No IT security review needed</div>
       </div>
     </div>
     <div class="dash-row2 r rd1">
-      <div class="dash-bar-panel">
-        <div class="dash-bar-label">Before and after redesign: program metrics</div>
-        <div class="dash-bars">
-          <div class="dash-bar-row"><span class="dash-bar-name">Completion (before)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-muted" data-w="44%"></div></div><span class="dash-bar-pct">44%</span></div>
-          <div class="dash-bar-row"><span class="dash-bar-name">Completion (after)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-navy" data-w="82%"></div></div><span class="dash-bar-pct">82%</span></div>
-          <div class="dash-bar-row"><span class="dash-bar-name">Pass rate (before)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-muted" data-w="51%"></div></div><span class="dash-bar-pct">51%</span></div>
-          <div class="dash-bar-row"><span class="dash-bar-name">Pass rate (after)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-navy" data-w="89%"></div></div><span class="dash-bar-pct">89%</span></div>
-          <div class="dash-bar-row"><span class="dash-bar-name">Compliance (before)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-muted" data-w="58%"></div></div><span class="dash-bar-pct">58%</span></div>
-          <div class="dash-bar-row"><span class="dash-bar-name">Compliance (after)</span><div class="dash-bar-track"><div class="dash-bar-fill bar-navy" data-w="93%"></div></div><span class="dash-bar-pct">93%</span></div>
-        </div>
-      </div>
-      <div class="dash-quote-panel">
+      <div class="dash-quote-panel dash-quote-panel-full">
         <div class="dash-q-mark">"</div>
-        <p class="dash-q-text">The moment that got me was the Python terminal. Students were writing and running real code without ever leaving the course page. My first reaction was, "I didn't know you could even do this in an LMS."</p>
-        <span class="dash-q-attr">Director of Training · Cybersecurity &amp; AI Program</span>
+        <p class="dash-q-text">The built in Python terminal changed everything, students executed real code inside the LMS. Then Ramano deployed a simulated virtual machine running entirely inside our LMS container, completely transforming our technical readiness outcomes.</p>
+        <span class="dash-q-attr">Director of Training </span>
       </div>
     </div>
   </div>
@@ -798,8 +790,8 @@ footer{background:var(--ink);padding:36px 52px}
   <div class="wrap">
     <div class="build-intro">
       <div class="label r">What I build</div>
-      <h2 class="display r">A new experience,<br><em>native to the platform</em> you already run.</h2>
-      <p class="build-sub r">I take what an institution or organization already has and redesign how learners move through it, built with accessibility in mind and tailored to your specific standards.</p>
+      <h2 class="display r">A friction-free experience,<br><em>built directly inside</em> the platform you already run.</h2>
+      <p class="build-sub r" id="build-sub">I turn static curriculum into interactive browser simulations; engineered using HTML, CSS & Javascript, all content is WCAG compliance and has SCORM or xAPI gradebook syncing.</p>
     </div>
     <div class="sim-toggle r" role="group" aria-label="Simulator view">
       <button class="sim-toggle-btn on" data-sim="academic">Higher Education</button>
@@ -969,21 +961,21 @@ footer{background:var(--ink);padding:36px 52px}
           <div class="case-strip-vertical">Higher Education · Data Science</div>
           <div class="case-strip-metrics">
             <div class="case-strip-metric">
-              <div class="case-strip-stat">38%</div>
-              <div class="case-strip-stat-label">Score improvement<br>after redesign</div>
+              <div class="case-strip-stat" style="font-size:1.8rem;line-height:1.15">~60%</div>
+              <div class="case-strip-stat-label">Completion increase<br>cohort 1 to cohort 2</div>
             </div>
             <div class="case-strip-metric">
-              <div class="case-strip-stat">68%</div>
-              <div class="case-strip-stat-label">Licensing cost<br>reduction</div>
+              <div class="case-strip-stat" style="font-size:1.8rem;line-height:1.15">Retired</div>
+              <div class="case-strip-stat-label">Third-party coding<br>platform</div>
             </div>
           </div>
         </div>
         <div class="case-strip-right">
           <h3 class="case-strip-title">When the redesign outlasted the vendor</h3>
-          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>Part of the course lived on a third-party vendor platform. Students found that experience richer than the main course, so they stayed there instead of coming back. Completion on the LMS sat at 44 percent.</div>
-          <p class="case-strip-body">The redesign built three paths through the same material, brought entirely in-house. Readers had depth, watchers had short-form summaries, and doers had scenario labs that put them inside the material before they were assessed. <strong>Scores improved 38 percent and completion nearly doubled.</strong> The institution retired the vendor contract, and licensing costs dropped 68 percent.</p>
+          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>Part of the course ran on a paid third-party coding platform. Students often stayed there instead of coming back to the main course, and completion in the first cohort reflected it.</div>
+          <p class="case-strip-body">Cohort 2 was redesigned directly from cohort 1's feedback. Coding practice moved off the third-party platform and was rebuilt natively inside the LMS, with the same instructors and course length held constant. <strong>Completion rose by roughly 60 percent.</strong> Hiring managers who later took on graduates from the redesigned cohort independently reported they arrived more technically ready, and specifically noted that students kept using the tool itself after the course ended, simply because they found it useful. Several students who had struggled with the first version came back in cohort 3 as QA testers, and said concepts they were now meeting elsewhere felt easier to follow here than where they'd first learned them.</p>
           <div class="case-strip-quote">
-            "I retook this course after failing the first version. I cannot believe how different it felt. I actually understood what I was doing this time."
+            "I must say this version was much, much better compared to the first."
             <span class="case-strip-attr">A learner · Data Science Program · second attempt after redesign</span>
           </div>
         </div>
@@ -991,13 +983,21 @@ footer{background:var(--ink);padding:36px 52px}
       <div class="case-strip r rd1">
         <div class="case-strip-left">
           <div class="case-strip-vertical">Higher Education · Emerging Technology</div>
-          <div class="case-strip-stat" style="font-size:1.6rem;line-height:1.2">Asked for<br>more</div>
-          <div class="case-strip-stat-label">End-of-course<br>learner response</div>
+          <div class="case-strip-metrics">
+            <div class="case-strip-metric">
+              <div class="case-strip-stat" style="font-size:1.6rem;line-height:1.2">Asked for<br>more</div>
+              <div class="case-strip-stat-label">End-of-course<br>learner response</div>
+            </div>
+            <div class="case-strip-metric">
+              <div class="case-strip-stat">66%</div>
+              <div class="case-strip-stat-label">Completion, free<br>program</div>
+            </div>
+          </div>
         </div>
         <div class="case-strip-right">
           <h3 class="case-strip-title">Making the unintuitive feel inevitable</h3>
           <div class="case-strip-process"><span class="case-strip-process-label">The need</span>A quantum computing course where the material itself was never the real problem. The challenge was sequence and analogy: keeping a genuinely difficult subject from losing the learner in the first ten minutes.</div>
-          <p class="case-strip-body">Every concept was built directly on the one before it, developed alongside subject matter experts who caught anything introduced too soon. Difficult ideas moved through analogy, application, and scenario in that order, so learners hit recognition instead of confusion. <strong>The real constraint was the sequence, not the subject.</strong></p>
+          <p class="case-strip-body">Every concept was built directly on the one before it, developed alongside subject matter experts who caught anything introduced too soon. Difficult ideas moved through analogy, application, and scenario in that order, so learners hit recognition instead of confusion. <strong>The real constraint was the sequence, not the subject.</strong> It ran free to attend with no incentive tied to finishing, and still saw two out of three learners complete it.</p>
           <div class="case-strip-quote">
             "When is the next one? I want to keep going."
             <span class="case-strip-attr">Multiple learners · end-of-course feedback</span>
@@ -1070,6 +1070,10 @@ footer{background:var(--ink);padding:36px 52px}
       <div class="faq-item">
         <div class="faq-q" role="button" aria-expanded="false">If you stop working with me, what happens to everything that was built?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
         <div class="faq-a"><div class="faq-a-inner">You own it completely. Every file is delivered in standard web formats your LMS administrator can open, edit, and maintain independently. There is no proprietary format, no locked system, no ongoing dependency. A platform update won't break a native build the way it might break an external integration, because the code lives inside your system rather than calling out to mine. You get a permanent asset, not a vendor relationship.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" role="button" aria-expanded="false">Doesn't custom code just mean more maintenance down the line?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+        <div class="faq-a"><div class="faq-a-inner">Less than a platform dependency does. Nothing in a native build calls out to an external vendor's server, so there is no third-party update that can break it overnight and no license renewal that quietly changes what you have access to. It is stable at launch and sandboxed by design, which is also a security advantage. Once a build is configured for a cohort, it stays configured. The same lab can run every semester without being rebuilt. And because the logic is written from scratch rather than assembled from a template, things like rotating scenarios or randomized variables can be built in from day one, so a student who retakes the same lab three times gets three different versions of it, which most authoring tools cannot do out of the box.</div></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" role="button" aria-expanded="false">How much of this lands on your faculty or L&amp;D team's plate?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
@@ -1177,7 +1181,7 @@ footer{background:var(--ink);padding:36px 52px}
 
         <p>That intuition started with being a student who hated cookie cutter courses, the ones where the summary at the end told you everything you needed and the rest was safe to skip. I design against that instinct in every build I ship.</p>
 
-        <p>The moment this became more than a personal habit: a program I redesigned saw completion rates nearly double, and licensing costs dropped 68 percent. The content stayed the same. The design did not. That is when Tenneri became something I could offer other people, not just something I built for myself.</p>
+        <p>The moment this became more than a personal habit: a program I redesigned saw completion rise by roughly 60 percent between cohorts, and the paid third-party platform it once depended on got retired entirely. The content stayed mostly the same. The design did not. That is when Tenneri became something I could offer other people, not just something I built for myself.</p>
 
         <p>The methodology behind that habit has held up outside my own projects too. A Fortune 100 company took it through final round interviews for a Senior Instructional Designer role and made an offer. Their Group Manager of Learning Strategy and Experience Design and Senior Manager of Learning Development both flagged the depth of the process as the reason. Unfortunately, circumstances on my end meant I could not accept.</p>
 
@@ -1310,6 +1314,12 @@ document.querySelectorAll('.sim-toggle-btn').forEach(function(btn){
     if(target){target.classList.add('on');target.style.display='flex';}
     var tag=document.getElementById('sim-tag');
     if(tag){tag.textContent=sim==='corporate'?'A Tenneri-built training module':'A Tenneri-built course module';}
+    var buildSub=document.getElementById('build-sub');
+    if(buildSub){
+      buildSub.textContent=sim==='corporate'
+        ? "I take what your team already has and rebuild it in code, using libraries that cut typical turnaround time significantly. Gamification gets shaped around the exact behavior you need to change, so training sticks instead of just getting completed."
+        : "I take what an institution already has and redesign how learners move through it. Everything runs natively in the browser, so accessibility is built in rather than bolted on, and progress reports straight through SCORM or xAPI into the gradebook you already use.";
+    }
   });
 });
 
