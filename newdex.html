@@ -275,7 +275,7 @@ nav.scrolled .n-logo-name{font-size:0;opacity:0;width:0;margin:0}
 .low-commit-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn-sample{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:rgba(27,45,79,.06);border:1px solid rgba(27,45,79,.2);color:var(--navy);border-radius:3px;font-family:var(--f-m);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .2s,border-color .2s}
 .btn-sample:hover{background:rgba(27,45,79,.1);border-color:var(--navy)}
-.contact-trigger-wrap{margin-top:28px;display:flex;justify-content:center}
+.contact-trigger-wrap{margin-top:28px;display:flex;justify-content:center;scroll-margin-top:120px}
 .contact-trigger{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--white);border:1px solid var(--rule);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);cursor:pointer;transition:border-color .25s,background .25s,box-shadow .25s}
 .contact-trigger:hover{border-color:var(--navy);background:rgba(27,45,79,.03);box-shadow:0 4px 16px rgba(27,45,79,.08)}
 .contact-trigger-arrow{font-size:.7rem;transition:transform .3s var(--ease)}
@@ -657,7 +657,7 @@ footer{background:var(--ink);padding:36px 52px}
       <a href="#build" class="btn-hero-secondary">See how it works ↓</a>
       <a href="https://tenneri.com/projects/" target="_blank" class="btn-hero-primary">All Projects →</a>
     </div>
-    <p class="hero-contact-line">Prefer to <a href="#contact">send a message</a> instead?</p>
+    <p class="hero-contact-line">Prefer to <a href="#contact" id="hero-contact-link">send a message</a> instead?</p>
   </div>
 </section>
 <div class="ticker" aria-hidden="true">
@@ -1390,12 +1390,25 @@ if(trigger&&expand){
     trigger.setAttribute('aria-expanded',String(isOpen));
     expand.setAttribute('aria-hidden',String(!isOpen));
     if(isOpen){
-      setTimeout(function(){expand.scrollIntoView({behavior:'smooth',block:'start'});},100);
+      setTimeout(function(){trigger.scrollIntoView({behavior:'smooth',block:'start'});},100);
     }
   });
+  var heroContactLink=document.getElementById('hero-contact-link');
+  if(heroContactLink){
+    heroContactLink.addEventListener('click',function(e){
+      e.preventDefault();
+      var contactWrap=document.getElementById('contact');
+      if(contactWrap)contactWrap.classList.add('in');
+      if(!expand.classList.contains('open')){
+        trigger.click();
+      }else{
+        trigger.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+  }
   if(window.location.hash==='#contact'){
-    var contactWrap=document.getElementById('contact');
-    if(contactWrap)contactWrap.classList.add('in');
+    var contactWrap2=document.getElementById('contact');
+    if(contactWrap2)contactWrap2.classList.add('in');
     setTimeout(function(){trigger.click();},400);
   }
 }
