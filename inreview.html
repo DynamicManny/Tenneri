@@ -163,6 +163,7 @@ button:focus-visible,input:focus-visible,[tabindex="0"]:focus-visible{outline:2p
 .tb-dot{color:#1e2d45}
 .tb-inc{font-size:.68rem;color:#3d5270;font-weight:600;font-family:var(--fm)}
 .tb-save{margin-left:auto;font-size:.67rem;color:var(--green);font-weight:600}
+.tb-elapsed{font-size:.65rem;color:#2d4a66;font-family:var(--fm);margin-left:auto}
 
 /* VIEWS */
 .view{display:none;padding:20px 22px;animation:none}
@@ -228,17 +229,17 @@ button:focus-visible,input:focus-visible,[tabindex="0"]:focus-visible{outline:2p
 .ilayout{display:grid;grid-template-columns:1.7fr 1fr;gap:10px;align-items:start}
 .ltwrap{background:#050810;border:1px solid #0f1a2a;border-radius:var(--r12);overflow:hidden;max-height:530px;overflow-y:auto}
 .ltable{width:100%;border-collapse:collapse;font-size:.68rem;font-family:var(--fm);table-layout:fixed}
-.ltable th{background:#080d16;color:#2d4a66;text-align:left;padding:7px 9px;position:sticky;top:0;font-weight:500;border-bottom:1px solid #0f1a2a;font-size:.58rem;text-transform:uppercase;letter-spacing:.5px;overflow:hidden;white-space:nowrap}
-.ltable td{padding:6px 9px;color:#64748b;border-bottom:1px solid rgba(15,26,42,.7);vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ltable th{background:#080d16;color:#5a7a9a;text-align:left;padding:7px 9px;position:sticky;top:0;font-weight:600;border-bottom:1px solid #0f1a2a;font-size:.58rem;text-transform:uppercase;letter-spacing:.5px;overflow:hidden;white-space:nowrap}
+.ltable td{padding:6px 9px;color:#8fa8c0;border-bottom:1px solid rgba(15,26,42,.7);vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .ltable tr:hover td{background:rgba(44,169,188,.04);cursor:pointer}
-.ltable tr.sel td{background:rgba(44,169,188,.08);color:#94a3b8}
+.ltable tr.sel td{background:rgba(44,169,188,.08);color:#c8ddf0}
 .ltable tr.flg td{background:rgba(245,158,11,.04)}
 .tc1{width:62px}.tc2{width:86px}.tc3{width:88px}.tc4{width:72px}.tc5{color:#4a5a7a}.tc6{width:30px;text-align:center}
 .sevtxt{font-size:.64rem;font-weight:700}
-.sevtxt.Critical{color:#ef4444}.sevtxt.Warning{color:#f59e0b}.sevtxt.Info{color:#4a5a7a}
+.sevtxt.Critical{color:#ef4444}.sevtxt.Warning{color:#f59e0b}.sevtxt.Info{color:#6888aa}
 .flgbtn{background:none;border:none;cursor:pointer;font-size:.82rem;opacity:.22;padding:2px;border-radius:3px;transition:opacity .15s}
 .flgbtn:hover{opacity:.7}.flgbtn.on{opacity:1;color:#f59e0b}
-.clink{cursor:pointer;color:var(--dim);border-bottom:1px solid transparent}
+.clink{cursor:pointer;color:#9dbad4;border-bottom:1px solid transparent}
 .clink:hover{color:var(--teal);border-bottom-color:rgba(44,169,188,.3)}
 .dp{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:14px 16px;min-height:180px;position:sticky;top:48px}
 .dp-empty{text-align:center;padding:22px 12px;color:var(--muted)}
@@ -362,6 +363,8 @@ button:focus-visible,input:focus-visible,[tabindex="0"]:focus-visible{outline:2p
 .atitle{font-family:var(--ff);font-size:1.15rem;font-weight:700;color:var(--txt);margin-bottom:4px}
 .asub{font-size:.79rem;color:var(--muted);line-height:1.6}
 .ascore{background:var(--surf);border:1px solid var(--brd);border-radius:6px;padding:7px 15px;font-size:.82rem;font-weight:700;color:var(--txt);white-space:nowrap;font-family:var(--fm)}
+.jump-unanswered{background:none;border:none;color:var(--teal);font-size:.75rem;font-weight:700;cursor:pointer;font-family:var(--fs);padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.jump-unanswered:hover{opacity:.75}
 .notes-ref{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r8);margin-bottom:14px}
 .notes-ref-tog{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;font-size:.78rem;font-weight:600;color:var(--dim);width:100%;background:none;border:none;font-family:var(--fs);text-align:left}
 .notes-ref-tog:hover{color:var(--teal)}
@@ -388,6 +391,21 @@ button:focus-visible,input:focus-visible,[tabindex="0"]:focus-visible{outline:2p
 .qfb.show{display:block}
 .qfb.ok{border-left-color:rgba(16,185,129,.5)}.qfb.bad{border-left-color:rgba(239,68,68,.3)}
 .subwrap{padding:14px 0;border-top:1px solid var(--brd);margin-top:4px}
+.sub-confirm{background:rgba(44,169,188,.06);border:1px solid rgba(44,169,188,.2);border-radius:var(--r8);padding:14px 16px;margin-bottom:12px}
+.sub-confirm-msg{font-size:.83rem;color:var(--dim);margin-bottom:11px;line-height:1.6}
+.sub-confirm-msg strong{color:var(--txt)}
+.sub-confirm-acts{display:flex;gap:9px}
+.sub-yes-btn{background:linear-gradient(135deg,#2ca9bc,#1d8fa0);border:none;color:#fff;border-radius:var(--r8);padding:9px 22px;font-size:.83rem;font-weight:700;cursor:pointer;font-family:var(--fs)}
+.sub-no-btn{background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--dim);border-radius:var(--r8);padding:9px 18px;font-size:.83rem;font-weight:600;cursor:pointer;font-family:var(--fs)}
+.sub-result{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r12);padding:16px 18px;margin-top:10px}
+.sub-result-title{font-family:var(--ff);font-size:1rem;font-weight:700;margin-bottom:6px}
+.sub-result-title.pass{color:var(--green)}.sub-result-title.fail{color:var(--amber)}
+.sub-result-body{font-size:.81rem;color:var(--dim);line-height:1.8}
+.sub-breakdown{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--brd)}
+.sub-stat{display:flex;flex-direction:column;gap:2px}
+.sub-stat-val{font-family:var(--ff);font-size:1.4rem;font-weight:700;color:var(--teal);line-height:1}
+.sub-stat-val.pass{color:var(--green)}.sub-stat-val.fail{color:var(--amber)}
+.sub-stat-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .subbtn{background:linear-gradient(135deg,#2ca9bc,#1d8fa0);color:#fff;border:none;border-radius:var(--r8);padding:11px 26px;font-weight:700;font-size:.87rem;cursor:pointer;font-family:var(--fs)}
 .subbtn:hover{opacity:.9}
 .subbtn:disabled{opacity:.4;cursor:not-allowed}
@@ -567,6 +585,7 @@ mark{background:rgba(245,158,11,.28);color:inherit;border-radius:2px;padding:0 1
       <span class="tb-dot">&#183;</span>
       <span class="tb-inc">Solis Commerce &#183; INC-55810 &#183; 2026-03-10</span>
       <span class="tb-save hidden" id="tsave" aria-live="polite">&#10003; Saved</span>
+      <span class="tb-elapsed" id="telapsed" title="Time on this case"></span>
     </div>
 
     <!-- DASHBOARD -->
@@ -596,8 +615,9 @@ mark{background:rgba(245,158,11,.28);color:inherit;border-radius:2px;padding:0 1
         <div class="crow" role="group" aria-label="Filter by source" id="srcchips"></div>
       </div>
       <div class="irow"><p class="rcnt" id="rcnt" aria-live="polite"></p><div class="fst" id="fst"></div></div>
+      <div id="no-results-hint" style="display:none;padding:28px 12px;text-align:center" aria-live="polite"></div>
       <div class="ilayout">
-        <div class="ltwrap">
+        <div class="ltwrap" id="ltwrap">
           <table class="ltable">
             <caption class="vh">SIEM event log. Click a row to see full details. Click a cell value to add it to the search filter.</caption>
             <colgroup><col style="width:62px"><col style="width:86px"><col style="width:88px"><col style="width:72px"><col><col style="width:30px"></colgroup>
@@ -663,13 +683,23 @@ mark{background:rgba(245,158,11,.28);color:inherit;border-radius:2px;padding:0 1
 
     <!-- ASSESSMENT -->
     <section class="view" id="v-assessment" aria-labelledby="nb-assessment">
-      <div class="ahdr"><div><h2 class="atitle">Incident Assessment</h2><p class="asub">Five conceptual questions and four that require searching the logs. Answers shuffle on each load and save automatically.</p></div><div class="ascore">Answered: <span id="qans">0</span> / <span id="qtot">9</span></div></div>
+      <div class="ahdr"><div><h2 class="atitle">Incident Assessment</h2><p class="asub">Five conceptual questions and four that require searching the logs. Answers shuffle on each load and save automatically. <button class="jump-unanswered" id="jump-unanswered" type="button">Jump to first unanswered &#8595;</button></p></div><div class="ascore">Answered: <span id="qans">0</span> / <span id="qtot">9</span></div></div>
       <div class="notes-ref" id="notes-ref">
         <button class="notes-ref-tog" id="notes-ref-tog" aria-expanded="false">&#128221; Your Case File Notes <span id="nrchev" style="margin-left:auto;font-size:.75rem;opacity:.5">&#9654;</span></button>
         <div class="notes-ref-body" id="notes-ref-body"></div>
       </div>
       <div id="qlist"></div>
-      <div class="subwrap"><button class="subbtn" id="subbtn" type="button">Submit Attempt</button><p class="subst" id="subst" aria-live="polite"></p><p class="scst" id="scst" aria-live="polite"></p></div>
+      <div class="subwrap">
+        <button class="subbtn" id="subbtn" type="button">Submit Assessment</button>
+        <div class="sub-confirm hidden" id="sub-confirm">
+          <p class="sub-confirm-msg"><strong>Are you sure?</strong> Your answers are final once submitted. Make sure you have answered all the questions you can before continuing.</p>
+          <div class="sub-confirm-acts">
+            <button class="sub-yes-btn" id="sub-yes" type="button">Yes, submit</button>
+            <button class="sub-no-btn" id="sub-no" type="button">Go back</button>
+          </div>
+        </div>
+        <div class="sub-result hidden" id="sub-result"></div>
+      </div>
     </section>
   </main>
   <!-- CHAIN SIMULATION MODAL -->
@@ -722,7 +752,7 @@ window.addEventListener('beforeunload',function(){try{scorm.cm();scorm.tm();}cat
 
 /* === HASH === */
 function djb2(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h)+s.charCodeAt(i);h=h&h;}return(h>>>0).toString(16);}
-var AH={q1:'4b5ba4fa',q2:'c3d58171',q3:'1bee338f',q4:'ca3070cc',q5:'82e47dd6',q6:'d0558625',q7:'286402a0',q8:'b32fd312',q9:'eb6e9fd9'};
+var AH={q1:'4b5ba4fa',q2:'c3d58171',q3:'8dfbf224',q4:'ca3070cc',q5:'82e47dd6',q6:'d0558625',q7:'286402a0',q8:'b32fd312',q9:'eb6e9fd9'};
 function chk(id,txt){return djb2(txt)===AH[id];}
 
 /* === UTILS === */
@@ -732,7 +762,7 @@ function esc(s){var d=document.createElement('div');d.textContent=s;return d.inn
 function hlText(text,terms){var e=esc(text);if(!terms)return e;try{return e.replace(new RegExp('('+terms+')', 'gi'),'<mark>$1</mark>');}catch(ex){return e;}}
 
 /* === STATE === */
-var fn='Analyst',ans={},flags={},notes={},sevF='',srcF='';
+var fn='Analyst',ans={},flags={},notes={},sevF='',srcF='',viewed=new Set();
 var chainAttempts=0,chainMaxAttempts=3,chainBestScore=0,chainPassed=false;
 var _charts={};
 var msgIdx=0;
@@ -818,6 +848,17 @@ on($('login-newtab'),'click',function(){
 function doLogin(restoring){
   var v=($('aname').value||'').trim();
   if(!v){$('lerr').textContent='Please enter your name to continue.';$('aname').focus();return;}
+  // Block after 2 fresh starts per name
+  if(!restoring){
+    var nameKey='storm_starts_'+v.toLowerCase().trim().replace(/\W+/g,'_');
+    var startCount=0;
+    try{startCount=parseInt(localStorage.getItem(nameKey)||'0',10);}catch(e){}
+    if(startCount>=2){
+      $('lerr').textContent='"'+v.split(/\s+/)[0]+'" has used the maximum number of attempts. Contact your instructor.';
+      $('loginbtn').textContent='Sign In';$('loginbtn').disabled=false;return;
+    }
+    try{localStorage.setItem(nameKey,String(startCount+1));}catch(e){}
+  }
   if(!restoring){fn=v.split(/\s+/)[0];ans={};flags={};notes={};}
   $('lerr').textContent='';$('loginbtn').textContent='Verifying...';$('loginbtn').disabled=true;
   setTimeout(function(){
@@ -879,6 +920,7 @@ function sw(v){
   $('vtitle').textContent=VT[v]||v;
   if(v==='assessment')buildNotesRef();
   if(v==='chain'&&!chainBuilt)buildChain();
+  if(v==='investigate'){setTimeout(function(){var sb=$('sbox');if(sb&&!sb.value)sb.focus();},120);}
   markProg(v);
 }
 document.querySelectorAll('.nbtn').forEach(function(b){b.addEventListener('click',function(){sw(b.getAttribute('data-v'));});});
@@ -1077,7 +1119,7 @@ var CF=[
 /* === QUESTIONS === */
 var QQ=[
   {id:'q1',type:'conceptual',
-   prompt:"38,442 payment card records left Solis Commerce's network and ended up with a threat actor. Which property of the CIA Triad was most directly violated?",
+   prompt:"A large batch of payment card records left Solis Commerce's network and ended up with a threat actor. Which property of the CIA Triad was most directly violated?",
    opts:['Confidentiality: data that should only be readable internally was accessed and removed by an unauthorised party','Availability: the POS system was taken offline during the attack, preventing legitimate transactions from completing','Integrity: the attacker modified transaction records in card_data before exfiltrating the altered data','Integrity: the encryption keys protecting card_data were corrupted during the outbound transfer'],
    fb:['Correct. Confidentiality protects data from unauthorised access. The exfiltration of cardholder data to an external attacker is a textbook confidentiality failure.','The logs show no downtime. POS terminals continued processing normally. Availability was not affected.','There is no log evidence of modification. The attacker ran a SELECT query and copied records outbound. The data was stolen, not altered.','The key rotation problem is real, but the keys were not corrupted. The CIA Triad property at stake is about who can see the data.']},
   {id:'q2',type:'conceptual',
@@ -1305,6 +1347,22 @@ function renderInv(){
     return mL(l,p);
   });
   $('rcnt').textContent='Showing '+fil.length+' of '+logs.length;
+  var noResults=$('no-results-hint');
+  var lw=$('ltwrap');
+  if(fil.length===0){
+    var q2=$('sbox').value;
+    if(noResults){
+      noResults.innerHTML='<div style="font-size:1.3rem;margin-bottom:8px">&#128269;</div>'
+        +'<div style="font-weight:600;color:#6a8aaa;margin-bottom:5px">No results for "'+esc(q2)+'"</div>'
+        +'<div style="font-size:.72rem;color:#3d5a78;margin-top:6px">Try: <code style="background:#0a0f1a;padding:2px 6px;border-radius:3px;color:#2ca9bc">severity:critical</code>'
+        +' or <code style="background:#0a0f1a;padding:2px 6px;border-radius:3px;color:#2ca9bc">user:j.alvarez</code></div>';
+      noResults.style.display='block';
+    }
+    if(lw)lw.style.display='none';
+  } else {
+    if(noResults)noResults.style.display='none';
+    if(lw)lw.style.display='';
+  }
   var fc=Object.keys(flags).filter(function(k){return flags[k];}).length;
   var fs=$('fst');if(fs)fs.textContent=fc>0?fc+' flagged':'';
   var tb=$('ltbody');tb.innerHTML='';
@@ -1348,6 +1406,8 @@ function renderInv(){
 function showD(l,rowEl){
   document.querySelectorAll('#ltbody tr').forEach(function(r){r.classList.remove('sel');});
   if(rowEl)rowEl.classList.add('sel');
+  viewed.add(l.ts+'_'+l.src);
+  var fst=$('fst');if(fst){var fv=Object.keys(flags).filter(function(k){return flags[k];}).length;var pts=[];if(fv>0)pts.push(fv+' flagged');if(viewed.size>0)pts.push(viewed.size+' viewed');fst.textContent=pts.join('  ');}
   function fld(lbl,val,fk){
     if(!val)return'';
     return'<div class="dpf"><div class="dpfl">'+lbl
@@ -1846,21 +1906,39 @@ function restoreQuiz(){
 }
 
 on($('subbtn'),'click',function(){
+  $('sub-confirm').classList.remove('hidden');
+  $('subbtn').classList.add('hidden');
+  $('sub-yes').focus();
+});
+on($('sub-no'),'click',function(){
+  $('sub-confirm').classList.add('hidden');
+  $('subbtn').classList.remove('hidden');
+});
+on($('sub-yes'),'click',function(){
   var answered=Object.keys(ans).length;
   var correct=Object.keys(ans).filter(function(id){return ans[id].correct;}).length;
   var raw=QQ.length>0?Math.round(correct/QQ.length*100):0;
   var passed=raw>=70;
-  if(scorm.ready()){
-    scorm.sv('cmi.score.raw',String(raw));scorm.sv('cmi.score.min','0');
-    scorm.sv('cmi.score.max','100');scorm.sv('cmi.score.scaled',(raw/100).toFixed(2));
-    scorm.sv('cmi.completion_status','completed');scorm.sv('cmi.success_status',passed?'passed':'failed');
-    scorm.cm();
-    $('scst').textContent='Grade recorded: '+correct+'/'+QQ.length+' correct ('+raw+'%).';
-  } else {
-    $('scst').textContent='Results recorded locally. Grade will be posted once available.';
-  }
-  $('subst').textContent='Submitted: '+correct+' of '+QQ.length+' correct ('+raw+'%), '+answered+' of '+QQ.length+' answered.';
-  $('subbtn').disabled=true;$('subbtn').textContent='Submitted';
+  scorm.sv('cmi.score.raw',String(raw));
+  scorm.sv('cmi.score.min','0');
+  scorm.sv('cmi.score.max','100');
+  scorm.sv('cmi.score.scaled',(raw/100).toFixed(2));
+  scorm.sv('cmi.completion_status','completed');
+  scorm.sv('cmi.success_status',passed?'passed':'failed');
+  scorm.cm();
+  var chain1Grade=chainPassed?(chainAttempts===1?100:chainAttempts===2?80:65):0;
+  var overall=Math.round((raw+chain1Grade)/2);
+  var rb=$('sub-result');
+  rb.innerHTML='<div class="sub-result-title '+(passed?'pass':'fail')+'">'+(passed?'&#10003; Assessment Complete':'Assessment Complete')+'</div>'
+    +'<div class="sub-result-body">You answered <strong>'+correct+' of '+QQ.length+'</strong> questions correctly ('+raw+'%). '+(passed?'Your grade has been submitted.':'Speak with your instructor for next steps.')+'</div>'
+    +'<div class="sub-breakdown">'
+    +'<div class="sub-stat"><div class="sub-stat-val '+(passed?'pass':'fail')+'">'+raw+'%</div><div class="sub-stat-lbl">Incident Report</div></div>'
+    +'<div class="sub-stat"><div class="sub-stat-val '+(chain1Grade>=65?'pass':'fail')+'">'+chain1Grade+'%</div><div class="sub-stat-lbl">Chain Recon</div></div>'
+    +'<div class="sub-stat"><div class="sub-stat-val '+(overall>=65?'pass':'fail')+'">'+overall+'%</div><div class="sub-stat-lbl">Overall</div></div>'
+    +'<div class="sub-stat"><div class="sub-stat-val">'+answered+'/'+QQ.length+'</div><div class="sub-stat-lbl">Attempted</div></div>'
+    +'</div>';
+  $('sub-confirm').classList.add('hidden');
+  rb.classList.remove('hidden');
   clr();
 });
 
@@ -1872,6 +1950,30 @@ function initApp(restoring){
   buildBriefThread();
   renderQuiz();
   if(restoring)restoreQuiz();
+
+  // Elapsed time counter
+  var loginTime=Date.now();
+  setInterval(function(){
+    var el=$('telapsed');if(!el)return;
+    var mins=Math.floor((Date.now()-loginTime)/60000);
+    var secs=Math.floor(((Date.now()-loginTime)%60000)/1000);
+    el.textContent='On case: '+(mins>0?mins+'m ':'')+secs+'s';
+  },1000);
+
+  // Jump to first unanswered
+  on($('jump-unanswered'),'click',function(){
+    var all=document.querySelectorAll('.qq');
+    for(var qi=0;qi<all.length;qi++){
+      if(all[qi].getAttribute('data-answered')!=='true'){
+        all[qi].scrollIntoView({behavior:'smooth',block:'center'});
+        var firstOpt=all[qi].querySelector('.qopt');
+        if(firstOpt)firstOpt.focus();
+        return;
+      }
+    }
+    // All answered
+    $('subbtn').scrollIntoView({behavior:'smooth',block:'center'});
+  });
 
   // Defer heavy chart build until Chart.js is loaded
   function tryCharts(){
@@ -1891,4 +1993,3 @@ function initApp(restoring){
 </script>
 </body>
 </html>
-
