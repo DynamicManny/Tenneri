@@ -451,6 +451,15 @@ function loadWallpaper(idx){
   img.onerror=function(){if(idx+1<WALLPAPERS.length)loadWallpaper(idx+1);};
   img.src=src;
 }
+function msgIcon(sz){
+  return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'
+    +'<circle cx="16" cy="14" r="12" fill="#2ca9bc"/>'
+    +'<polygon points="10,24 7,32 17,24" fill="#2ca9bc"/>'
+    +'<circle cx="11" cy="14" r="2.2" fill="rgba(255,255,255,.88)"/>'
+    +'<circle cx="16" cy="14" r="2.2" fill="rgba(255,255,255,.88)"/>'
+    +'<circle cx="21" cy="14" r="2.2" fill="rgba(255,255,255,.88)"/>'
+    +'</svg>';
+}
 
 const IM_INITIAL=[
   {
@@ -615,7 +624,7 @@ class ROSe {
     const g=document.getElementById('ag-grid');
     g.innerHTML=this.apps.map(a=>`
       <div class="ag-item${a.name==='Solitaire'&&this.gameDisabled?' disabled':''}" onclick="rose._agClick('${a.name}')" title="${a.name}">
-        ${a.icon==='msg'?`<img src=${"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='14' r='12' fill='%232ca9bc'/%3E%3Cpolygon points='10,24 8,31 16,24' fill='%232ca9bc'/%3E%3Ccircle cx='11' cy='14' r='2' fill='rgba(255,255,255,.9)'/%3E%3Ccircle cx='16' cy='14' r='2' fill='rgba(255,255,255,.9)'/%3E%3Ccircle cx='21' cy='14' r='2' fill='rgba(255,255,255,.9)'/%3E%3C/svg%3E"} style="width:28px;height:28px" alt="Messages">`:`<span class="ag-icon">${a.icon}</span>`}
+        ${a.icon==='msg'?msgIcon(28):`<span class="ag-icon">${a.icon}</span>`}
         <span class="ag-label">${a.name}</span>
       </div>`).join('');
   }
@@ -644,9 +653,7 @@ class ROSe {
       const d=document.createElement('div');
       d.className='desktop-icon';
       d.style.cssText=`top:${p.t}px;right:${p.r}px;position:absolute`;
-      const icoHTML=a.icon==='msg'
-        ?`<img class="di-emoji-msg" src=${"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='14' r='12' fill='%232ca9bc'/%3E%3Cpolygon points='10,24 8,31 16,24' fill='%232ca9bc'/%3E%3Ccircle cx='11' cy='14' r='2' fill='rgba(255,255,255,.9)'/%3E%3Ccircle cx='16' cy='14' r='2' fill='rgba(255,255,255,.9)'/%3E%3Ccircle cx='21' cy='14' r='2' fill='rgba(255,255,255,.9)'/%3E%3C/svg%3E"} alt="Messages">`
-        :`<span class="di-emoji">${a.icon}</span>`;
+      const icoHTML=a.icon==='msg'?'<span class="di-emoji" style="display:flex;align-items:center;justify-content:center">'+msgIcon(34)+'</span>':'<span class="di-emoji">'+a.icon+'</span>';
       d.innerHTML=icoHTML+`<span class="di-label">${a.name}</span>`;
       d.ondblclick=()=>this.openApp(a.name);
       container.appendChild(d);
