@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ROSe | Ramano Operating System Emulator</title>
+<title>ROSe</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -21,8 +21,8 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 /* BOOT */
 #boot{position:fixed;inset:0;background:#060c14;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s}
 #boot.fade-out{opacity:0;pointer-events:none}
-.flower-wrap{position:relative;width:0;height:0;margin-bottom:0}
-.corolla{position:absolute;top:0;left:0;transform:rotate(-45deg)}
+.flower-wrap{position:relative;width:220px;height:220px;flex-shrink:0}
+.corolla{position:absolute;top:110px;left:110px;transform:rotate(-45deg)}
 .segm{
   position:absolute;left:0;top:-100px;
   width:100px;height:100px;
@@ -50,8 +50,7 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 .flower-glow{position:absolute;top:-80px;left:-80px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(44,169,188,.22) 0%,transparent 70%);animation:glowpulse 3s ease-in-out infinite;pointer-events:none}
 @keyframes glowpulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.2);opacity:1}}
 .boot-center{display:flex;flex-direction:column;align-items:center;margin-bottom:60px}
-.boot-wordmark{font-family:var(--ff);font-size:2.2rem;font-weight:700;color:#d4f0f8;letter-spacing:.1em;margin-top:118px;text-shadow:0 0 40px rgba(44,169,188,.5)}
-.boot-sub-label{font-size:.57rem;color:rgba(44,169,188,.35);letter-spacing:2.5px;text-transform:uppercase;margin-top:6px}
+.boot-wordmark{font-family:var(--ff);font-size:2.2rem;font-weight:700;color:#d4f0f8;letter-spacing:.1em;margin-top:16px;text-shadow:0 0 40px rgba(44,169,188,.5)}
 .boot-term{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);text-align:center;width:380px}
 .boot-term-line{font-family:var(--fm);font-size:.72rem;color:rgba(180,230,240,.85);margin-bottom:5px;opacity:0;transition:opacity .3s}
 .boot-term-line.show{opacity:1}
@@ -280,7 +279,6 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
       </div>
     </div>
     <div class="boot-wordmark">ROSe</div>
-    <div class="boot-sub-label">Ramano Operating System Emulator</div>
   </div>
   <div class="boot-term" id="boot-term">
     <div class="boot-term-line" id="btl0"></div>
@@ -465,7 +463,7 @@ const IM_INITIAL=[
   {
     id:'r1',sender:'ryan',name:'Ryan Thompson',title:'Board Chair',
     avatar:'photo',time:'09:14',
-    badge:'PRIORITY:  CRO BRIEFING',
+    badge:'PRIORITY: CRO BRIEFING',
     text:`[NAME], effective immediately you are appointed Chief Risk Officer of Solis Commerce. A confirmed breach of our cardholder data environment has compromised 38,442 payment card records. The acquiring bank has triggered a mandatory forensic investigation, our legal counsel has been retained, and three class action firms have already filed notices.\n\nI need your complete risk assessment on my desk before the emergency board meeting. Maya will brief you on the technical situation from the ground. Your task list is waiting in the Tasks application. Work through it in order.\n\n— Ryan Thompson`
   },
   {
@@ -653,7 +651,7 @@ class ROSe {
       const d=document.createElement('div');
       d.className='desktop-icon';
       d.style.cssText=`top:${p.t}px;right:${p.r}px;position:absolute`;
-      const icoHTML=a.icon==='msg'?'<span class="di-emoji" style="display:flex;align-items:center;justify-content:center">'+msgIcon(34)+'</span>':'<span class="di-emoji">'+a.icon+'</span>';
+      const icoHTML=a.icon==='msg'?'<div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center">'+msgIcon(38)+'</div>':'<span class="di-emoji">'+a.icon+'</span>';
       d.innerHTML=icoHTML+`<span class="di-label">${a.name}</span>`;
       d.ondblclick=()=>this.openApp(a.name);
       container.appendChild(d);
