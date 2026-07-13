@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>INC-55810 War Room</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-serif;color:#1a1f36;overflow:hidden}
+:root{
+  --navy:#0f1525;--bg:#f2f4f8;--card:#fff;--brd:#e4e8f2;--brd2:#d0d6e8;
+  --txt:#1a1f36;--sec:#4f566b;--muted:#8898aa;
+  --teal:#2ca9bc;--teal-bg:rgba(44,169,188,.08);--teal-brd:rgba(44,169,188,.2);
+  --red:#dc2626;--red-bg:#fef2f2;--red-brd:#fecaca;
+  --amb:#d97706;--amb-bg:#fffbeb;--amb-brd:#fde68a;
+  --grn:#059669;--grn-bg:#ecfdf5;--grn-brd:#a7f3d0;
+  --mono:"JetBrains Mono",monospace;
+}
+#shell{display:flex;height:100vh;overflow:hidden}
+/* SIDEBAR */
+#sb{width:220px;min-width:220px;background:var(--navy);display:flex;flex-direction:column}
+.sb-top{padding:16px 14px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-brand{font-family:"Fraunces",serif;font-size:1rem;font-weight:700;color:#fff}
+.sb-inc{font-family:var(--mono);font-size:.55rem;color:rgba(255,255,255,.28);letter-spacing:.07em;margin-top:2px}
+.sb-sec{padding:12px 14px 4px;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.22)}
+.sb-item{width:calc(100% - 8px);margin:1px 4px;background:none;border:none;text-align:left;padding:8px 12px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:9px;font-family:"DM Sans",sans-serif;font-size:.77rem;color:rgba(255,255,255,.48);transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.78)}
+.sb-item.active{background:rgba(44,169,188,.14);color:#7dd8e8;border:1px solid rgba(44,169,188,.18)}
+.sb-ck{width:15px;height:15px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.5rem;flex-shrink:0;transition:all .3s}
+.sb-ck.done{background:var(--grn);border-color:var(--grn);color:#fff;animation:popin .3s cubic-bezier(.16,1,.3,1)}
+@keyframes popin{from{transform:scale(0)}to{transform:scale(1)}}
+.sb-foot{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.06)}
+.sb-prog-lbl{font-size:.6rem;color:rgba(255,255,255,.28);margin-bottom:7px}
+.sb-pbar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.sb-pfill{height:100%;background:var(--teal);border-radius:2px;transition:width .5s ease;width:0%}
+.sub-btn{width:100%;margin-top:10px;background:rgba(44,169,188,.12);color:rgba(44,169,188,.4);border:1px solid rgba(44,169,188,.12);border-radius:8px;padding:10px;font-size:.77rem;font-weight:700;cursor:not-allowed;font-family:"DM Sans",sans-serif;transition:all .3s}
+.sub-btn.ready{background:var(--teal);color:#fff;border-color:var(--teal);cursor:pointer;animation:pulse-btn 2s ease-in-out 3}
+@keyframes pulse-btn{0%,100%{box-shadow:0 0 0 0 rgba(44,169,188,.4)}50%{box-shadow:0 0 0 6px rgba(44,169,188,0)}}
+.sub-btn.ready:hover{background:#2393a5}
+.sub-btn.done{background:var(--grn);border-color:var(--grn);color:#fff;cursor:default}
+/* CONTENT */
+#content{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.tab-pane{display:none;flex-direction:column;gap:14px;animation:fadein .2s ease}
+.tab-pane.active{display:flex}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.pg-title{font-size:1.15rem;font-weight:700;color:var(--txt);margin-bottom:4px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.card-hdr{padding:11px 15px;border-bottom:1px solid var(--brd);background:#fafbfd;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sec)}
+/* TASK CARDS */
+.tc{background:var(--card);border:1px solid var(--brd);border-left:3px solid var(--brd2);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:13px;cursor:pointer;transition:all .18s}
+.tc:hover{border-color:var(--teal-brd);border-left-color:var(--teal);box-shadow:0 2px 14px rgba(44,169,188,.09);transform:translateY(-1px)}
+.tc.done{border-left-color:var(--grn)}
+.tc-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.tc-ico.red{background:var(--red-bg)}.tc-ico.amb{background:var(--amb-bg)}
+.tc-body{flex:1}
+.tc-title{font-size:.86rem;font-weight:600;color:var(--txt);margin-bottom:4px}
+.tc-desc{font-size:.71rem;color:var(--sec);line-height:1.55}
+.tc-foot{display:flex;align-items:center;gap:8px;margin-top:8px}
+.tc-pbar{flex:1;height:4px;background:var(--brd);border-radius:2px;overflow:hidden}
+.tc-pfill{height:100%;background:var(--grn);border-radius:2px;transition:width .4s ease}
+.tc-pts{font-size:.62rem;color:var(--muted);flex-shrink:0}
+/* PRESS */
+.press-wrap{background:#fdf8f0;border:1px solid #ede0c4;border-radius:8px;overflow:hidden}
+.press-toolbar{padding:8px 14px;border-bottom:1px solid #ede0c4;display:flex;align-items:center;gap:8px;background:#faf5eb}
+.press-filename{font-family:var(--mono);font-size:.62rem;color:#8a7a5a;flex:1;text-align:center}
+.read-btn{font-size:.65rem;background:#fff;border:1px solid #ede0c4;border-radius:5px;padding:4px 10px;cursor:pointer;color:#8a7a5a;font-family:"DM Sans",sans-serif}
+.read-btn:hover{background:#fdf8f0}
+.press-doc{padding:22px 28px;font-size:.82rem;line-height:1.9;color:#2a2218}
+.press-doc p{margin-bottom:13px}
+.press-hdr{text-align:center;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid #ede0c4}
+.press-release-lbl{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a0906a;margin-bottom:6px}
+.press-title-txt{font-size:.95rem;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:4px}
+.press-dateline{font-size:.7rem;color:#a0906a}
+.rf{background:#fef3c7;border-bottom:2px solid var(--amb);cursor:pointer;padding:1px 4px;border-radius:3px 3px 0 0;transition:all .18s;display:inline}
+.rf:hover{background:#fde68a}
+.rf.done-any{background:#d1fae5;border-bottom-color:var(--grn);cursor:pointer}
+.rf-lbl{font-size:.55rem;vertical-align:super;margin-left:1px;font-weight:700;color:var(--amb)}
+.rf.done-any .rf-lbl{color:var(--grn)}
+.rp{display:none;background:#fff;border:1px solid var(--brd2);border-radius:0 8px 8px 8px;padding:11px 13px;margin:6px 0 2px;box-shadow:0 4px 18px rgba(0,0,0,.08);animation:fadein .15s ease}
+.rp.open{display:block}
+.rp-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:7px}
+.rp-current{background:var(--amb-bg);border:1px solid var(--amb-brd);border-radius:5px;padding:6px 10px;font-size:.73rem;color:#92400e;margin-bottom:9px;font-style:italic;line-height:1.5}
+.rp-opts{display:flex;flex-direction:column;gap:5px}
+.rp-opt{border:1px solid var(--brd);border-radius:7px;padding:9px 12px;cursor:pointer;font-size:.74rem;color:var(--sec);transition:all .15s;background:#fff;display:flex;align-items:center;gap:9px;line-height:1.4}
+.rp-opt:hover{border-color:var(--teal-brd);background:var(--teal-bg);color:var(--txt)}
+.rp-opt.chosen{border-color:var(--teal-brd);background:var(--teal-bg);color:var(--teal);pointer-events:none}
+.rp-radio{width:13px;height:13px;border-radius:50%;border:1.5px solid currentColor;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.rp-opt.chosen .rp-radio::after{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,21,37,.5);backdrop-filter:blur(3px);z-index:200;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex;animation:fadein .2s ease}
+.modal{background:#fdf8f0;border:1px solid #ede0c4;border-radius:12px;width:100%;max-width:640px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideup .25s cubic-bezier(.16,1,.3,1)}
+@keyframes slideup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.modal-hdr{padding:12px 16px;border-bottom:1px solid #ede0c4;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#faf5eb}
+.modal-close{background:none;border:none;font-size:1.1rem;cursor:pointer;color:#8a7a5a;padding:2px 6px}
+.modal-body{padding:24px 32px;font-size:.82rem;line-height:1.9;color:#2a2218}
+.modal-body p{margin-bottom:12px}
+/* CHAT */
+.chat-window{display:flex;flex-direction:column;gap:12px;max-height:400px;overflow-y:auto;padding:4px 2px}
+.chat-msg{display:flex;gap:9px;align-items:flex-start;animation:fadein .3s ease}
+.chat-msg.student{flex-direction:row-reverse}
+.chat-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;overflow:hidden}
+.chat-av img{width:100%;height:100%;object-fit:cover}
+.chat-content{flex:1;min-width:0}
+.chat-bubble{max-width:100%;background:var(--card);border:1px solid var(--brd);border-radius:0 10px 10px 10px;padding:10px 13px;font-size:.78rem;color:var(--txt);line-height:1.6;word-wrap:break-word}
+.chat-bubble.student{background:var(--teal);color:#fff;border:none;border-radius:10px 0 10px 10px}
+.chat-sender{font-size:.6rem;font-weight:700;color:var(--muted);margin-bottom:3px}
+.typing-bubble{display:flex;gap:4px;align-items:center;padding:2px 0}
+.td{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tdot .9s ease-in-out infinite}
+.td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
+@keyframes tdot{0%,80%,100%{transform:scale(.7);opacity:.5}40%{transform:scale(1);opacity:1}}
+.chat-opts{display:flex;flex-direction:column;gap:6px;margin-top:4px;animation:fadein .3s ease}
+.chat-opt{border:1px solid var(--brd);border-radius:8px;padding:9px 13px;cursor:pointer;font-size:.76rem;color:var(--sec);transition:all .15s;background:#fff;text-align:left;line-height:1.4}
+.chat-opt:hover{border-color:var(--teal-brd);background:var(--teal-bg);color:var(--txt)}
+/* COMPLETION OVERLAY */
+#completion-overlay{display:none;position:fixed;inset:0;background:rgba(15,21,37,.55);backdrop-filter:blur(4px);z-index:300;align-items:center;justify-content:center;padding:24px}
+#completion-card{background:#fff;border-radius:16px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:slideup .35s cubic-bezier(.16,1,.3,1)}
+.comp-av{width:60px;height:60px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid var(--brd)}
+.comp-name{font-size:.85rem;font-weight:700;color:var(--txt);margin-bottom:2px}
+.comp-role{font-size:.65rem;color:var(--muted);margin-bottom:16px}
+.comp-msg{font-size:.82rem;color:var(--sec);line-height:1.75;margin-bottom:20px;text-align:left;background:#f8fafc;border-left:3px solid var(--teal);padding:12px 14px;border-radius:0 8px 8px 0}
+.comp-close{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:"DM Sans",sans-serif;transition:opacity .2s}
+.comp-close:hover{opacity:.9}
+/* POPUP */
+#msg-overlay{position:fixed;inset:0;background:rgba(15,21,37,.35);backdrop-filter:blur(2px);z-index:100;display:none;align-items:flex-end;padding:16px;animation:fadein .3s ease}
+#msg-popup{background:#fff;border:1px solid var(--brd);border-radius:12px;padding:16px;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.14);animation:slideup .3s cubic-bezier(.16,1,.3,1)}
+.mp-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.mp-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;overflow:hidden}
+.mp-av img{width:100%;height:100%;object-fit:cover}
+.mp-name{font-size:.82rem;font-weight:700;color:var(--txt)}
+.mp-role{font-size:.63rem;color:var(--muted)}
+.mp-text{font-size:.78rem;color:var(--sec);line-height:1.7;border-top:1px solid var(--brd);padding-top:10px}
+.mp-dismiss{width:100%;margin-top:12px;background:var(--navy);color:#fff;border:none;border-radius:7px;padding:9px;font-size:.76rem;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif}
+.mp-dismiss:hover{background:#2d3352}
+</style>
+</head>
+<body>
+<div id="shell">
+  <nav id="sb">
+    <div class="sb-top">
+      <div class="sb-brand">War Room</div>
+      <div class="sb-inc">SOLIS COMMERCE / INC-55810</div>
+    </div>
+    <div class="sb-sec">Tasks</div>
+    <button class="sb-item active" onclick="showTab('overview')" id="nav-overview"><span class="sb-ck" id="ck-o">&#9654;</span> Overview</button>
+    <button class="sb-item" onclick="showTab('press')" id="nav-press"><span class="sb-ck" id="ck-p"></span> Press Statement</button>
+    <button class="sb-item" onclick="showTab('chat')" id="nav-chat"><span class="sb-ck" id="ck-c"></span> Obligations Review</button>
+    <button class="sb-item" onclick="showTab('maya')" id="nav-maya"><span class="sb-ck" id="ck-m"></span> Response Decisions</button>
+    <div class="sb-foot">
+      <div class="sb-prog-lbl" id="sb-lbl">0 of 3 tasks complete</div>
+      <div class="sb-pbar"><div class="sb-pfill" id="sb-pfill"></div></div>
+      <button class="sub-btn" id="sub-btn" onclick="submitSection()">Submit War Room</button>
+    </div>
+  </nav>
+  <div id="content">
+    <div class="tab-pane active" id="tab-overview">
+      <div class="pg-title">INC-55810 Incident Response Overview</div>
+      <div class="tc" id="tc-press" onclick="showTab('press')">
+        <div class="tc-ico red">&#128240;</div>
+        <div class="tc-body">
+          <div class="tc-title">Press Statement</div>
+          <div class="tc-desc">Kai from Communications sent this draft for your review. She needs your sign-off before it goes anywhere. Make sure every factual claim is accurate.</div>
+          <div class="tc-foot"><div class="tc-pbar"><div class="tc-pfill" id="tp-press" style="width:0%"></div></div><div class="tc-pts">25 pts</div></div>
+        </div>
+      </div>
+      <div class="tc" id="tc-chat" onclick="showTab('chat')">
+        <div class="tc-ico amb">&#9989;</div>
+        <div class="tc-body">
+          <div class="tc-title">Obligations Review</div>
+          <div class="tc-desc">Brigitte has questions before she finalizes the obligations register. She is waiting on your read on a few items.</div>
+          <div class="tc-foot"><div class="tc-pbar"><div class="tc-pfill" id="tp-chat" style="width:0%"></div></div><div class="tc-pts">10 pts</div></div>
+        </div>
+      </div>
+      <div class="tc" id="tc-maya" onclick="showTab('maya')">
+        <div class="tc-ico amb">&#128176;</div>
+        <div class="tc-body">
+          <div class="tc-title">Response Decisions</div>
+          <div class="tc-desc">Maya has been coordinating on the ground and needs your call on five decisions. Ryan asked her to run these through you before anything moves.</div>
+          <div class="tc-foot"><div class="tc-pbar"><div class="tc-pfill" id="tp-maya" style="width:0%"></div></div><div class="tc-pts">5 pts</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="tab-press">
+      <div class="pg-title">Press Statement</div>
+      <div style="font-size:.62rem;color:var(--muted);margin-bottom:6px" id="press-ctr">0 of 5 reviewed. Click highlighted sections to review.</div>
+      <div class="press-wrap">
+        <div class="press-toolbar">
+          <span class="press-filename">press-release-draft-v1.2-CONFIDENTIAL.docx</span>
+          <button class="read-btn" onclick="openFullBriefing()">Read full document</button>
+        </div>
+        <div class="press-doc" id="press-doc"></div>
+      </div>
+    </div>
+    <div class="tab-pane" id="tab-chat">
+      <div class="pg-title">Obligations Review</div>
+      <div class="card">
+        <div class="card-hdr">
+          <span class="card-title">Direct Message / Brigitte Alfred</span>
+          <span style="font-size:.62rem;color:var(--grn)">Active now</span>
+        </div>
+        <div style="padding:16px">
+          <div class="chat-window" id="chat-window"></div>
+          <div id="chat-opts-wrap" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="tab-maya">
+      <div class="pg-title">Response Decisions</div>
+      <div class="card">
+        <div class="card-hdr">
+          <span class="card-title">Direct Message / Maya Chen</span>
+          <span style="font-size:.62rem;color:var(--grn)">Active now</span>
+        </div>
+        <div style="padding:16px">
+          <div class="chat-window" id="maya-window"></div>
+          <div id="maya-opts-wrap" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <span style="font-size:.75rem;font-weight:700;color:var(--sec)">Full Document</span>
+      <button class="modal-close" onclick="closeModal()">x</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- COMPLETION -->
+<div id="completion-overlay">
+  <div id="completion-card">
+    <img class="comp-av" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&h=160&fit=crop&q=80" alt="Ryan Thompson">
+    <div class="comp-name">Ryan Thompson</div>
+    <div class="comp-role">Board Chair, Solis Commerce</div>
+    <div class="comp-msg" id="comp-msg"></div>
+    <button class="comp-close" onclick="document.getElementById('completion-overlay').style.display='none'">Done</button>
+  </div>
+</div>
+
+<!-- BRIGITTE POPUP -->
+<div id="msg-overlay">
+  <div id="msg-popup">
+    <div class="mp-hdr">
+      <div class="mp-av"><img src="https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" alt="Brigitte Alfred"></div>
+      <div><div class="mp-name">Brigitte Alfred</div><div class="mp-role">General Counsel, Solis Commerce</div></div>
+    </div>
+    <div class="mp-text" id="mp-text"></div>
+    <button class="mp-dismiss" onclick="dismissMsg()">On it.</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+let firstName = "CRO";
+try {
+  const s = JSON.parse(localStorage.getItem("rose_v3") || "{}") || {};
+  if (s.userName) firstName = s.userName.split(" ")[0];
+} catch(e) {}
+
+/* ── PRESS DATA ─────────────────────────────────────────────── */
+const PRESS_FIELDS = [
+  { id:"count", score:5, draft:"approximately 40,000 customers",
+    options:[
+      {id:"a",text:"38,442 payment cardholders"},
+      {id:"b",text:"approximately 40,000 customers"},
+      {id:"c",text:"up to 50,000 individuals"}
+    ], correct:"a" },
+  { id:"cause", score:5, draft:"an isolated technical error in our payment processing environment",
+    options:[
+      {id:"a",text:"a sophisticated external attack on our network infrastructure"},
+      {id:"b",text:"an isolated technical error in our payment processing environment"},
+      {id:"c",text:"unauthorized access through compromised employee credentials"}
+    ], correct:"c" },
+  { id:"framework", score:5, draft:"the General Data Protection Regulation (GDPR)",
+    options:[
+      {id:"a",text:"the General Data Protection Regulation (GDPR)"},
+      {id:"b",text:"PCI DSS v4.0 and PIPEDA (Personal Information Protection and Electronic Documents Act)"},
+      {id:"c",text:"all applicable international data security standards"}
+    ], correct:"b" },
+  { id:"harm", score:5, draft:"there is currently no evidence that any customer information has been misused",
+    options:[
+      {id:"a",text:"all customer data remains secure and has not been further accessed"},
+      {id:"b",text:"we cannot yet confirm whether exfiltrated information has been further accessed or misused"},
+      {id:"c",text:"there is currently no evidence that any customer information has been misused"}
+    ], correct:"b" },
+  { id:"action", score:5, draft:"contact their bank directly if they notice any suspicious account activity",
+    options:[
+      {id:"a",text:"contact their bank directly if they notice any suspicious account activity"},
+      {id:"b",text:"monitor their account statements carefully over the coming weeks"},
+      {id:"c",text:"enroll in the complimentary 24-month credit monitoring service being provided, and contact their card issuer if they notice any suspicious activity"}
+    ], correct:"c" }
+];
+const pressState = {};
+const PRESS_DATE = "July 10, 2026";
+
+function buildPress() {
+  const doc = document.getElementById("press-doc");
+  function rf(id) {
+    const f = PRESS_FIELDS.find(x => x.id === id);
+    return `<span class="rf" id="rf-${id}" onclick="openReview('${id}')">${f.draft}<sup class="rf-lbl">&#9998;</sup></span>`;
+  }
+  doc.innerHTML = `
+    <div class="press-hdr">
+      <div class="press-release-lbl">Press Release &bull; Draft v1.2 &bull; Confidential &bull; Awaiting CRO sign-off</div>
+      <div class="press-title-txt">SOLIS COMMERCE ANNOUNCES SECURITY INCIDENT<br>AFFECTING CUSTOMER PAYMENT DATA</div>
+      <div class="press-dateline">TORONTO, ONTARIO &bull; ${PRESS_DATE}</div>
+    </div>
+    <p>Solis Commerce Ltd ("Solis" or the "Company") today announced that it has identified a security incident affecting the payment card data of ${rf("count")}.</p>
+    <div id="rp-count"></div>
+    <p>The Company has determined that the incident resulted from ${rf("cause")}, which allowed an unauthorized party to access its cardholder data environment. The incident occurred on ${PRESS_DATE}.</p>
+    <div id="rp-cause"></div>
+    <p>The unauthorized party accessed the Company&rsquo;s card data database and exfiltrated payment card numbers, cardholder names, and expiry dates. PIN data and CVV codes were not stored in the compromised system and were not affected.</p>
+    <p>The Company wishes to inform customers that ${rf("harm")}. Solis has engaged an independent forensic investigation firm and is cooperating with all regulatory requirements.</p>
+    <div id="rp-harm"></div>
+    <p>Solis Commerce is acting in full compliance with its obligations under ${rf("framework")} and has notified the relevant payment network and acquiring bank.</p>
+    <div id="rp-framework"></div>
+    <p>Affected customers are advised to ${rf("action")}. Customers with questions may contact the dedicated response line at 1-800-SOLIS-01.</p>
+    <div id="rp-action"></div>
+  `;
+}
+buildPress();
+
+window.openReview = function(id) {
+  const existing = document.querySelector(".rp.open");
+  const panel = document.getElementById("rp-" + id);
+  if (existing && existing !== panel) existing.classList.remove("open");
+  if (panel.classList.contains("open")) { panel.classList.remove("open"); return; }
+  const f = PRESS_FIELDS.find(x => x.id === id);
+  const cur = pressState[id] ? f.options.find(o => o.id === pressState[id].optId) : null;
+  panel.innerHTML = `<div class="rp-lbl">Select the accurate statement</div>
+    <div class="rp-current">Current draft: "${f.draft}"</div>
+    <div class="rp-opts">${f.options.map(o =>
+      `<div class="rp-opt${cur && cur.id===o.id?" chosen":""}" onclick="choosePress('${id}','${o.id}',${o.id===f.correct},'${o.text.replace(/'/g,"\\'")}')"><div class="rp-radio"></div>${o.text}</div>`
+    ).join("")}</div>`;
+  panel.classList.add("open");
+};
+
+window.choosePress = function(fieldId, optId, isCorrect, chosenText) {
+  const f = PRESS_FIELDS.find(x => x.id === fieldId);
+  const wasReviewed = !!pressState[fieldId];
+  pressState[fieldId] = { optId, correct: isCorrect, score: isCorrect ? f.score : 0 };
+  const panel = document.getElementById("rp-" + fieldId);
+  panel.querySelectorAll(".rp-opt").forEach(el => { el.style.pointerEvents="none"; el.style.opacity=".45"; });
+  const idx = f.options.findIndex(o => o.id === optId);
+  const chosen = panel.querySelectorAll(".rp-opt")[idx];
+  if (chosen) { chosen.classList.add("chosen"); chosen.style.opacity="1"; }
+  const rf = document.getElementById("rf-" + fieldId);
+  if (rf) {
+    rf.innerHTML = chosenText + `<sup class="rf-lbl">&#10003;</sup>`;
+    rf.className = "rf done-any";
+  }
+  if (!wasReviewed) updatePressCounter();
+  setTimeout(() => { if (panel) panel.classList.remove("open"); }, 800);
+};
+
+function updatePressCounter() {
+  const done = Object.keys(pressState).length;
+  document.getElementById("press-ctr").textContent = done + " of 5 reviewed. Click highlighted sections to review.";
+  document.getElementById("tp-press").style.width = (done/5*100) + "%";
+  if (done === 5) {
+    document.getElementById("ck-p").className = "sb-ck done";
+    document.getElementById("ck-p").textContent = "✓";
+    document.getElementById("tc-press").classList.add("done");
+    updateOverall();
+  }
+}
+
+window.openFullBriefing = function() {
+  document.getElementById("modal-body").innerHTML = `
+    <div style="text-align:center;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid #ede0c4">
+      <div style="font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a0906a;margin-bottom:5px">Press Release &bull; Draft v1.2 &bull; Confidential</div>
+      <div style="font-size:.95rem;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:3px">SOLIS COMMERCE ANNOUNCES SECURITY INCIDENT<br>AFFECTING CUSTOMER PAYMENT DATA</div>
+      <div style="font-size:.7rem;color:#a0906a">TORONTO, ONTARIO &bull; ${PRESS_DATE}</div>
+    </div>
+    <p>Solis Commerce Ltd ("Solis") today announced a security incident affecting the payment card data of approximately 40,000 customers.</p>
+    <p>The Company determined that the incident resulted from an isolated technical error, allowing an unauthorized party to access its cardholder data environment on ${PRESS_DATE}.</p>
+    <p>The unauthorized party exfiltrated payment card numbers, cardholder names, and expiry dates. PIN data and CVV codes were not stored in the compromised system.</p>
+    <p>The Company wishes to inform customers that there is currently no evidence that any customer information has been misused. An independent forensic investigation firm has been engaged.</p>
+    <p>Solis Commerce is acting in compliance with the General Data Protection Regulation (GDPR) and has notified the relevant payment network and acquiring bank.</p>
+    <p>Affected customers are advised to contact their bank directly if they notice any suspicious account activity. Contact: 1-800-SOLIS-01.</p>
+  `;
+  document.getElementById("modal").classList.add("open");
+};
+window.closeModal = function() { document.getElementById("modal").classList.remove("open"); };
+document.getElementById("modal").addEventListener("click", e => { if (e.target === document.getElementById("modal")) closeModal(); });
+
+/* ── SHARED CHAT UTILITIES ──────────────────────────────────── */
+function addChat(text, isStudent, winId, senderClass) {
+  const win = document.getElementById(winId);
+  const div = document.createElement("div");
+  div.className = "chat-msg" + (isStudent ? " student" : "");
+  if (isStudent) {
+    div.innerHTML = `<div class="chat-bubble student">${text}</div>`;
+  } else {
+    const src = senderClass === "brigitte" ? "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
+    const name = senderClass === "brigitte" ? "Brigitte Alfred" : "Maya Chen";
+    div.innerHTML = `<div class="chat-av"><img src="${src}" alt="${name}"></div><div class="chat-content"><div class="chat-sender">${name}</div><div class="chat-bubble">${text}</div></div>`;
+  }
+  win.appendChild(div);
+  win.scrollTop = win.scrollHeight;
+}
+
+function addTyping(winId, senderClass) {
+  const win = document.getElementById(winId);
+  const div = document.createElement("div");
+  div.className = "chat-msg"; div.id = winId + "-typing";
+  const src = senderClass === "brigitte" ? "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
+  div.innerHTML = `<div class="chat-av"><img src="${src}" alt="typing"></div><div class="chat-content"><div class="chat-bubble"><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div></div></div>`;
+  win.appendChild(div); win.scrollTop = win.scrollHeight;
+}
+function removeTyping(winId) { const el = document.getElementById(winId + "-typing"); if (el) el.remove(); }
+
+/* ── BRIGITTE CHAT ──────────────────────────────────────────── */
+const CHAT_Q = [
+  { q:"GDPR is on the current draft as applicable. Our affected cardholders are outside the EU. Does GDPR actually apply to this breach?",
+    opts:[{id:"a",text:"Yes. We process card data across borders so GDPR applies."},{id:"b",text:"No. GDPR covers EU residents specifically. Our cardholders are not EU-based."},{id:"c",text:"Include it as a precaution. It can only help."}],
+    correct:"b", score:2, reply:"Understood, removing it." },
+  { q:"SOX is also on there. We are not a US-listed public company. Should it be on the list?",
+    opts:[{id:"a",text:"Yes. SOX principles apply to any company handling financial data."},{id:"b",text:"No. SOX only applies to US-listed public companies. We are not subject to it."},{id:"c",text:"Partially. Our payment partners may make it relevant."}],
+    correct:"b", score:2, reply:"Taking it off." },
+  { q:"PCI DSS requires a Qualified Security Assessor for this type of breach. QSA-led investigation or can our internal team handle it?",
+    opts:[{id:"a",text:"Mandatory. Our transaction volume and breach type require an independent QSA."},{id:"b",text:"Optional. The bank decides if a QSA is required."},{id:"c",text:"Internal team is enough. QSA is best practice, not a requirement here."}],
+    correct:"a", score:2, reply:"Confirmed." },
+  { q:"Do we have a legal obligation to notify the 38,442 affected cardholders directly, or is that our call to make?",
+    opts:[{id:"a",text:"Mandatory. PCI DSS and PIPEDA both require direct cardholder notification."},{id:"b",text:"Discretionary. We can notify as a goodwill gesture if we choose."},{id:"c",text:"Required only if cardholders experience actual financial harm."}],
+    correct:"a", score:2, reply:"Noted." },
+  { q:"IT wants to begin remediating affected systems. The external QSA has not finished evidence collection yet. Do we authorize them?",
+    opts:[{id:"a",text:"Yes. Getting systems clean is the priority right now."},{id:"b",text:"No. Forensic evidence must be preserved before any remediation begins."},{id:"c",text:"Authorize partial remediation on non-critical systems only."}],
+    correct:"b", score:2, reply:"Got it." }
+];
+const chatState = { step:0, answers:[], done:false };
+
+function showChatOpts(step) {
+  if (step >= CHAT_Q.length) {
+    chatState.done = true;
+    document.getElementById("chat-opts-wrap").innerHTML = "";
+    setTimeout(() => {
+      addTyping("chat-window", "brigitte");
+      setTimeout(() => {
+        removeTyping("chat-window");
+        addChat("That’s everything I needed. I’ll finalize the register.", false, "chat-window", "brigitte");
+        document.getElementById("ck-c").className = "sb-ck done";
+        document.getElementById("ck-c").textContent = "✓";
+        document.getElementById("tc-chat").classList.add("done");
+        updateChatProg();
+        updateOverall();
+      }, 700);
+    }, 400);
+    return;
+  }
+  const q = CHAT_Q[step];
+  document.getElementById("chat-opts-wrap").innerHTML = "";
+  addTyping("chat-window", "brigitte");
+  setTimeout(() => {
+    removeTyping("chat-window");
+    addChat(q.q, false, "chat-window", "brigitte");
+    const wrap = document.getElementById("chat-opts-wrap");
+    const od = document.createElement("div"); od.className = "chat-opts";
+    q.opts.forEach(o => {
+      const btn = document.createElement("button");
+      btn.className = "chat-opt"; btn.textContent = o.text;
+      btn.onclick = function() { chooseChatOpt(step, o.id, o.id===q.correct, o.text); };
+      od.appendChild(btn);
+    });
+    wrap.appendChild(od);
+  }, 700);
+}
+
+window.chooseChatOpt = function(step, optId, isCorrect, text) {
+  const q = CHAT_Q[step];
+  chatState.answers.push({ optId, correct:isCorrect, score:isCorrect ? q.score : 0 });
+  document.getElementById("chat-opts-wrap").innerHTML = "";
+  addChat(text, true, "chat-window", "brigitte");
+  addTyping("chat-window", "brigitte");
+  setTimeout(() => {
+    removeTyping("chat-window");
+    addChat(q.reply, false, "chat-window", "brigitte");
+    chatState.step = step + 1;
+    updateChatProg();
+    setTimeout(() => showChatOpts(chatState.step), 500);
+  }, 800);
+};
+
+function updateChatProg() {
+  document.getElementById("tp-chat").style.width = (chatState.step/CHAT_Q.length*100) + "%";
+}
+
+function initChat() {
+  addTyping("chat-window", "brigitte");
+  setTimeout(() => {
+    removeTyping("chat-window");
+    addChat(firstName + ", it’s Brigitte again.", false, "chat-window", "brigitte");
+    addTyping("chat-window", "brigitte");
+    setTimeout(() => {
+      removeTyping("chat-window");
+      addChat("Some things don’t look right to me and I need your call on them.", false, "chat-window", "brigitte");
+      setTimeout(() => showChatOpts(0), 500);
+    }, 900);
+  }, 700);
+}
+
+/* ── MAYA CHAT ──────────────────────────────────────────────── */
+const MAYA_Q = [
+  { q:"The acquiring bank’s compliance team has called twice. Legal says take it now with Brigitte on the line. IT wants 30 more minutes to pull the full scope together. How do you want to play this?",
+    opts:[{id:"a",text:"Take the call now with Brigitte on the line.",score:2},{id:"b",text:"Call them back in 30 minutes once we have the full scope.",score:1},{id:"c",text:"Have communications handle initial contact and set up a formal call.",score:0}],
+    reply:"On it." },
+  { q:"Kai has the press statement ready and wants to push it before the story leaks. We haven’t sent regulatory notification to the bank yet. She says every hour increases the risk.",
+    opts:[{id:"a",text:"Hold it. Regulatory notification goes out first, then the statement.",score:2},{id:"b",text:"Approve it with a 2-hour delay so we can notify the bank first.",score:1},{id:"c",text:"Approve it now. Getting ahead of the story is the priority.",score:0}],
+    reply:"Holding it." },
+  { q:"A CBC journalist left a message. They know something is happening at Solis and want a comment. No statement has gone out yet.",
+    opts:[{id:"a",text:"Have communications acknowledge the inquiry and hold pending the official statement.",score:2},{id:"b",text:"No comment. Leave the message.",score:1},{id:"c",text:"Return the call and confirm an incident is under investigation.",score:0}],
+    reply:"Comms will handle it." },
+  { q:"Ryan needs something in writing for the board meeting in three hours. The investigation isn’t complete yet. Whatever we send is on the record.",
+    opts:[{id:"a",text:"Get Ryan on the line now. Verbal briefing only until we have the complete picture.",score:2},{id:"b",text:"Send the current draft clearly marked as preliminary and subject to revision.",score:1},{id:"c",text:"Wait until the investigation is complete before sending anything.",score:0}],
+    reply:"Getting him on the line." },
+  {q:"Forensics confirmed the breach entry point was a VPN exception from 2019. There are likely other similar legacy exceptions across the network. IT wants to audit and revoke all of them now. Some operational systems will go offline during the process.",
+    opts:[{id:"a",text:"Authorize the full audit and revocation. The systemic vulnerability needs to close now.",score:2},{id:"b",text:"Revoke only the specific exception that was exploited. Broader audit can wait.",score:1},{id:"c",text:"Leave everything until the investigation closes.",score:0}],
+    reply:"Audit authorized." }
+];
+const mayaState = { step:0, answers:[], done:false };
+
+function showMayaOpts(step) {
+  if (step >= MAYA_Q.length) {
+    mayaState.done = true;
+    document.getElementById("maya-opts-wrap").innerHTML = "";
+    setTimeout(() => {
+      addTyping("maya-window", "maya");
+      setTimeout(() => {
+        removeTyping("maya-window");
+        addChat("That’s all five. Everything is logged. Good decisions.", false, "maya-window", "maya");
+        document.getElementById("ck-m").className = "sb-ck done";
+        document.getElementById("ck-m").textContent = "✓";
+        document.getElementById("tc-maya").classList.add("done");
+        document.getElementById("tp-maya").style.width = "100%";
+        updateOverall();
+      }, 700);
+    }, 400);
+    return;
+  }
+  const q = MAYA_Q[step];
+  document.getElementById("maya-opts-wrap").innerHTML = "";
+  addTyping("maya-window", "maya");
+  setTimeout(() => {
+    removeTyping("maya-window");
+    addChat(q.q, false, "maya-window", "maya");
+    const wrap = document.getElementById("maya-opts-wrap");
+    const od = document.createElement("div"); od.className = "chat-opts";
+    q.opts.forEach(o => {
+      const btn = document.createElement("button");
+      btn.className = "chat-opt"; btn.textContent = o.text;
+      btn.onclick = function() { chooseMayaOpt(step, o.id, o.score, o.text); };
+      od.appendChild(btn);
+    });
+    wrap.appendChild(od);
+  }, 700);
+}
+
+window.chooseMayaOpt = function(step, optId, score, text) {
+  const q = MAYA_Q[step];
+  mayaState.answers.push({ optId, score });
+  document.getElementById("maya-opts-wrap").innerHTML = "";
+  addChat(text, true, "maya-window", "maya");
+  addTyping("maya-window", "maya");
+  document.getElementById("tp-maya").style.width = ((step+1)/MAYA_Q.length*100) + "%";
+  setTimeout(() => {
+    removeTyping("maya-window");
+    addChat(q.reply, false, "maya-window", "maya");
+    mayaState.step = step + 1;
+    setTimeout(() => showMayaOpts(mayaState.step), 500);
+  }, 800);
+};
+
+function initMaya() {
+  addTyping("maya-window", "maya");
+  setTimeout(() => {
+    removeTyping("maya-window");
+    addChat(firstName + ", it’s Maya. Ryan asked me to coordinate with you on a few decisions that need your authorization before we can move on them.", false, "maya-window", "maya");
+    setTimeout(() => showMayaOpts(0), 700);
+  }, 700);
+}
+
+/* ── OVERALL ─────────────────────────────────────────────────── */
+function updateOverall() {
+  const done = [Object.keys(pressState).length===5, chatState.done, mayaState.done].filter(Boolean).length;
+  document.getElementById("sb-lbl").textContent = done + " of 3 tasks complete";
+  document.getElementById("sb-pfill").style.width = (done/3*100) + "%";
+  if (done >= 3) document.getElementById("sub-btn").classList.add("ready");
+}
+
+/* ── TABS ────────────────────────────────────────────────────── */
+let chatInited = false, mayaInited = false;
+window.showTab = function(id) {
+  document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".sb-item").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-" + id).classList.add("active");
+  document.getElementById("nav-" + id).classList.add("active");
+  if (id==="chat" && !chatInited) { chatInited=true; setTimeout(initChat,300); }
+  if (id==="maya" && !mayaInited) { mayaInited=true; setTimeout(initMaya,300); }
+};
+
+/* ── SUBMIT ──────────────────────────────────────────────────── */
+let submitted = false;
+window.submitSection = function() {
+  if (submitted || !document.getElementById("sub-btn").classList.contains("ready")) return;
+  submitted = true;
+  const pressScore = Object.values(pressState).reduce((a,v) => a+v.score, 0);
+  const chatScore = chatState.answers.reduce((a,v) => a+v.score, 0);
+  const mayaRaw = mayaState.answers.reduce((a,v) => a+v.score, 0);
+  const mayaScore = mayaRaw >= 9 ? 5 : mayaRaw >= 7 ? 4 : mayaRaw >= 5 ? 3 : mayaRaw >= 3 ? 2 : 1;
+  const total = pressScore + chatScore + mayaScore;
+  document.getElementById("sub-btn").classList.remove("ready");
+  document.getElementById("sub-btn").classList.add("done");
+  document.getElementById("sub-btn").textContent = "Submitted";
+  window.parent.postMessage({type:"section_complete", sectionId:2, score:total, max:40}, "*");
+  setTimeout(() => {
+    document.getElementById("comp-msg").innerHTML = firstName + ", I’ve just been briefed on your decisions across all three workstreams. The relevant teams are deployed and we’re in motion. I knew I had the right person for this role.";
+    document.getElementById("completion-overlay").style.display = "flex";
+  }, 600);
+};
+
+/* ── BRIGITTE POPUP ──────────────────────────────────────────── */
+window.dismissMsg = function() { document.getElementById("msg-overlay").style.display="none"; };
+setTimeout(() => {
+  document.getElementById("mp-text").innerHTML = firstName + ", it’s Brigitte. Ryan has briefed me. I’ve drafted the press statement and the obligations register but both need your sign-off before anything moves. I also have questions for you on the obligations side.";
+  document.getElementById("msg-overlay").style.display = "flex";
+}, 800);
+</script>
+</body>
+</html>
