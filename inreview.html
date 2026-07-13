@@ -103,7 +103,8 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .chat-msg.student{flex-direction:row-reverse}
 .chat-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;overflow:hidden}
 .chat-av img{width:100%;height:100%;object-fit:cover}
-.chat-bubble{max-width:92%;background:var(--card);border:1px solid var(--brd);border-radius:0 10px 10px 10px;padding:10px 13px;font-size:.78rem;color:var(--txt);line-height:1.6;overflow-wrap:break-word;word-break:normal}
+.chat-content{flex:1;min-width:0}
+.chat-bubble{max-width:100%;background:var(--card);border:1px solid var(--brd);border-radius:0 10px 10px 10px;padding:10px 13px;font-size:.78rem;color:var(--txt);line-height:1.6;word-wrap:break-word}
 .chat-bubble.student{background:var(--teal);color:#fff;border:none;border-radius:10px 0 10px 10px}
 .chat-sender{font-size:.6rem;font-weight:700;color:var(--muted);margin-bottom:3px}
 .typing-bubble{display:flex;gap:4px;align-items:center;padding:2px 0}
@@ -401,7 +402,7 @@ function addChat(text, isStudent, winId, senderClass) {
   } else {
     const src = senderClass === "brigitte" ? "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
     const name = senderClass === "brigitte" ? "Brigitte Alfred" : "Maya Chen";
-    div.innerHTML = `<div class="chat-av"><img src="${src}" alt="${name}"></div><div><div class="chat-sender">${name}</div><div class="chat-bubble">${text}</div></div>`;
+    div.innerHTML = `<div class="chat-av"><img src="${src}" alt="${name}"></div><div class="chat-content"><div class="chat-sender">${name}</div><div class="chat-bubble">${text}</div></div>`;
   }
   win.appendChild(div);
   win.scrollTop = win.scrollHeight;
@@ -412,7 +413,7 @@ function addTyping(winId, senderClass) {
   const div = document.createElement("div");
   div.className = "chat-msg"; div.id = winId + "-typing";
   const src = senderClass === "brigitte" ? "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
-  div.innerHTML = `<div class="chat-av"><img src="${src}" alt="typing"></div><div><div class="chat-bubble"><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div></div></div>`;
+  div.innerHTML = `<div class="chat-av"><img src="${src}" alt="typing"></div><div class="chat-content"><div class="chat-bubble"><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div></div></div>`;
   win.appendChild(div); win.scrollTop = win.scrollHeight;
 }
 function removeTyping(winId) { const el = document.getElementById(winId + "-typing"); if (el) el.remove(); }
@@ -520,9 +521,9 @@ const MAYA_Q = [
   { q:"Ryan needs something in writing for the board meeting in three hours. The investigation isn’t complete yet. Whatever we send is on the record.",
     opts:[{id:"a",text:"Get Ryan on the line now. Verbal briefing only until we have the complete picture.",score:2},{id:"b",text:"Send the current draft clearly marked as preliminary and subject to revision.",score:1},{id:"c",text:"Wait until the investigation is complete before sending anything.",score:0}],
     reply:"Getting him on the line." },
-  { q:"IT is ready to start cleaning up affected systems. The QSA hasn’t finished evidence collection. IT says every hour of downtime costs money.",
-    opts:[{id:"a",text:"Hold remediation until the QSA confirms evidence collection is complete.",score:2},{id:"b",text:"Authorize non-critical system remediation only.",score:1},{id:"c",text:"Authorize full remediation now. Security takes priority.",score:0}],
-    reply:"IT will stand by." }
+  {q:"Forensics confirmed the breach entry point was a VPN exception from 2019. There are likely other similar legacy exceptions across the network. IT wants to audit and revoke all of them now. Some operational systems will go offline during the process.",
+    opts:[{id:"a",text:"Authorize the full audit and revocation. The systemic vulnerability needs to close now.",score:2},{id:"b",text:"Revoke only the specific exception that was exploited. Broader audit can wait.",score:1},{id:"c",text:"Leave everything until the investigation closes.",score:0}],
+    reply:"Audit authorized." }
 ];
 const mayaState = { step:0, answers:[], done:false };
 
