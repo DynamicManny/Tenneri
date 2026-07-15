@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Risk Register / INC-55810</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:"DM Sans",system-ui,sans-serif;color:#e2e8f0;overflow:hidden;background:#111827}
+:root{
+  --bg:#111827;--surf:#1e2433;--surf2:#252d3f;--brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.14);
+  --txt:#e2e8f0;--sec:#94a3b8;--muted:#4b5563;
+  --teal:#2ca9bc;--teal-d:rgba(44,169,188,.14);--teal-b:rgba(44,169,188,.3);
+  --red:#ef4444;--red-d:rgba(239,68,68,.14);--red-b:rgba(239,68,68,.3);
+  --mit:#3b82f6;--mit-d:rgba(59,130,246,.14);--mit-b:rgba(59,130,246,.3);
+  --trans:#8b5cf6;--trans-d:rgba(139,92,246,.14);--trans-b:rgba(139,92,246,.3);
+  --acc:#f59e0b;--acc-d:rgba(245,158,11,.14);--acc-b:rgba(245,158,11,.3);
+  --grn:#10b981;--grn-d:rgba(16,185,129,.14);--grn-b:rgba(16,185,129,.3);
+  --mono:"JetBrains Mono",monospace;
+}
+#shell{display:flex;height:100vh;overflow:hidden}
+/* LEFT PANEL (combined register + nav) */
+#lp{width:290px;min-width:290px;background:#0d1117;border-right:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden}
+.lp-brand{padding:14px 14px 10px;border-bottom:1px solid var(--brd)}
+.lp-brand-name{font-family:"Fraunces",serif;font-size:.92rem;font-weight:700;color:#fff}
+.lp-brand-inc{font-family:var(--mono);font-size:.52rem;color:rgba(255,255,255,.22);letter-spacing:.07em;margin-top:2px}
+.lp-from{padding:9px 14px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:8px}
+.lp-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#fff;flex-shrink:0}
+.lp-from-name{font-size:.69rem;font-weight:600;color:rgba(255,255,255,.55)}
+.lp-from-role{font-size:.57rem;color:rgba(255,255,255,.24)}
+.lp-prog{padding:9px 14px;border-bottom:1px solid var(--brd)}
+.lp-prog-row{display:flex;justify-content:space-between;margin-bottom:4px}
+.lp-prog-lbl{font-size:.59rem;color:rgba(255,255,255,.28)}
+.lp-prog-val{font-size:.59rem;font-weight:700;font-family:var(--mono);color:rgba(255,255,255,.55)}
+.lp-pbar{height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.lp-pfill{height:100%;background:var(--teal);border-radius:2px;transition:width .4s ease;width:0%}
+/* REGISTER TABLE */
+.lp-table-hdr{padding:7px 14px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.lp-table-title{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.07em}
+.lp-table-sub{font-size:.57rem;color:rgba(255,255,255,.18)}
+.lp-table-wrap{flex:1;overflow-y:auto}
+table.rt{width:100%;border-collapse:collapse}
+table.rt th{padding:6px 10px;text-align:left;font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--brd);background:#080d14;position:sticky;top:0;white-space:nowrap}
+table.rt td{padding:9px 10px;border-bottom:1px solid var(--brd);vertical-align:middle}
+table.rt tr{cursor:pointer;transition:background .12s}
+table.rt tr:hover td{background:rgba(255,255,255,.03)}
+table.rt tr.active td{background:rgba(44,169,188,.07)}
+table.rt tr.active{box-shadow:inset 2px 0 0 var(--teal)}
+.rt-id{font-family:var(--mono);font-size:.58rem;color:var(--muted);white-space:nowrap}
+.rt-title{font-size:.7rem;color:var(--txt);font-weight:500;line-height:1.35;max-width:110px}
+.sc-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:18px;border-radius:3px;font-family:var(--mono);font-size:.62rem;font-weight:700}
+.sc-empty{background:rgba(255,255,255,.05);color:rgba(255,255,255,.18)}
+.sc-low{background:rgba(16,185,129,.2);color:#10b981}
+.sc-med{background:rgba(245,158,11,.2);color:#f59e0b}
+.sc-hi{background:rgba(239,68,68,.18);color:#f87171}
+.sc-crit{background:rgba(239,68,68,.32);color:#ef4444}
+.tl{font-size:.57rem;font-weight:700;padding:1px 5px;border-radius:2px;text-transform:uppercase;letter-spacing:.03em}
+.tl-avoid{background:var(--red-d);color:var(--red)}
+.tl-mitigate{background:var(--mit-d);color:var(--mit)}
+.tl-transfer{background:var(--trans-d);color:var(--trans)}
+.tl-accept{background:var(--acc-d);color:var(--acc)}
+.pip-row{display:flex;gap:3px;align-items:center}
+.pip{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.1);transition:background .2s}
+.pip.done{background:var(--grn)}.pip.act{background:var(--teal)}
+/* LEFT FOOTER */
+.lp-foot{padding:11px 14px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:7px}
+.prev-btn{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:6px;padding:7px;font-size:.7rem;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .2s}
+.prev-btn:hover{background:rgba(255,255,255,.09);color:rgba(255,255,255,.8)}
+.sub-btn{width:100%;background:rgba(44,169,188,.1);color:rgba(44,169,188,.3);border:1px solid rgba(44,169,188,.1);border-radius:6px;padding:8px;font-size:.73rem;font-weight:700;cursor:not-allowed;font-family:"DM Sans",sans-serif;transition:all .3s}
+.sub-btn.ready{background:var(--teal);color:#fff;border-color:var(--teal);cursor:pointer;animation:pulse 2s ease 3}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(44,169,188,.4)}50%{box-shadow:0 0 0 5px rgba(44,169,188,0)}}
+.sub-btn.ready:hover{background:#259eaf}
+.sub-btn.done{background:var(--grn);border-color:var(--grn);color:#fff;cursor:default}
+/* WORKSPACE */
+#ws{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.ws-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:40px}
+.ws-empty-icon{font-size:2.2rem;margin-bottom:12px;opacity:.25}
+.ws-empty-txt{font-size:.78rem;line-height:1.7;max-width:240px}
+.ws-risk{flex:1;display:flex;flex-direction:column}
+.ws-hdr{padding:14px 20px 12px;border-bottom:1px solid var(--brd);background:#161e2e;flex-shrink:0}
+.ws-hdr-meta{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.ws-rid{font-family:var(--mono);font-size:.65rem;color:var(--muted);font-weight:700}
+.ws-cat{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:3px;background:var(--teal-d);color:var(--teal);border:1px solid var(--teal-b)}
+.ws-title{font-size:.98rem;font-weight:700;color:var(--txt);line-height:1.35;margin-bottom:10px}
+.ws-tabs{display:flex;gap:0;border:1px solid var(--brd);border-radius:7px;overflow:hidden}
+.ws-tab{flex:1;padding:7px 8px;text-align:center;cursor:pointer;font-size:.68rem;font-weight:600;color:rgba(255,255,255,.3);background:rgba(255,255,255,.02);transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;border-right:1px solid var(--brd)}
+.ws-tab:last-child{border-right:none}
+.ws-tab.act{background:var(--teal-d);color:var(--teal)}
+.ws-tab.done{color:var(--grn);background:var(--grn-d)}
+.ws-tab.locked{cursor:not-allowed;opacity:.35}
+.ws-tab-n{width:14px;height:14px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.48rem;font-weight:700;flex-shrink:0}
+.ws-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+/* EVIDENCE */
+.ev-block{background:#080d14;border:1px solid rgba(44,169,188,.14);border-radius:8px;overflow:hidden}
+.ev-hdr{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05)}
+.ev-title{font-family:var(--mono);font-size:.58rem;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.09em}
+.hint-btn{font-size:.63rem;font-weight:600;color:rgba(255,255,255,.35);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:"DM Sans",sans-serif;display:flex;align-items:center;gap:5px;transition:all .15s}
+.hint-btn:hover{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.3);color:#f59e0b}
+.hint-btn .maya-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.ev-grid{padding:10px 14px;display:grid;grid-template-columns:auto 1fr;gap:3px 12px}
+.ev-k{font-family:var(--mono);font-size:.57rem;color:#334155;text-transform:uppercase;letter-spacing:.04em;align-self:baseline;padding-top:1px;white-space:nowrap}
+.ev-v{font-family:var(--mono);font-size:.69rem;color:#94a3b8;line-height:1.5}
+.ev-v.red{color:#f87171}.ev-v.amb{color:#fbbf24}
+/* HINT CARD */
+.hint-card{border-top:1px solid rgba(255,255,255,.05);padding:10px 14px;display:none;animation:fadein .2s ease}
+.hint-card.open{display:flex;gap:9px;align-items:flex-start}
+@keyframes fadein{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.hint-av{width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.hint-av img{width:100%;height:100%;object-fit:cover}
+.hint-who{font-size:.6rem;font-weight:700;color:var(--teal);margin-bottom:3px}
+.hint-txt{font-size:.7rem;color:#94a3b8;line-height:1.65}
+/* STAGE CARDS */
+.sc{background:var(--surf);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:9px 13px;border-bottom:1px solid var(--brd);background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:space-between}
+.sc-hdr-title{font-size:.7rem;font-weight:700;color:var(--txt)}
+.sc-body{padding:13px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
+.form-row.full{grid-template-columns:1fr}
+.ff{display:flex;flex-direction:column;gap:4px}
+.fl{font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fsel{padding:8px 10px;border:1px solid var(--brd2);border-radius:7px;font-size:.75rem;font-family:"DM Sans",sans-serif;color:var(--txt);background:var(--surf2);outline:none;cursor:pointer;transition:border-color .15s}
+.fsel:focus{border-color:var(--teal)}
+.fsel option{background:#1e2433;color:#e2e8f0}
+.score-meter{background:var(--surf2);border:1px solid var(--brd2);border-radius:9px;padding:13px;text-align:center}
+.sm-lbl{font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sm-num{font-size:2.5rem;font-weight:700;font-family:var(--mono);line-height:1;margin-bottom:4px;transition:color .25s}
+.sm-sev{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;transition:color .25s}
+.sm-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.07);position:relative;overflow:hidden;margin-bottom:3px}
+.sm-fill{height:100%;border-radius:3px;position:absolute;left:0;top:0;transition:width .3s ease,background .3s ease}
+.sm-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.49rem;color:var(--muted)}
+.sl-wrap{display:flex;flex-direction:column;gap:9px}
+.sl-row{display:flex;align-items:center;gap:9px}
+.sl-lbl{font-size:.63rem;color:var(--sec);width:60px;flex-shrink:0}
+input[type=range]{flex:1;accent-color:var(--teal);cursor:pointer}
+.sl-val{font-size:.74rem;font-weight:700;font-family:var(--mono);color:var(--txt);width:14px;text-align:center}
+.sl-hint{font-size:.57rem;color:var(--muted);padding-left:69px;margin-top:-5px}
+.treat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:11px}
+.t-btn{padding:9px 6px;border-radius:8px;border:1.5px solid;cursor:pointer;font-size:.71rem;font-weight:700;font-family:"DM Sans",sans-serif;text-align:center;transition:all .18s;background:transparent;line-height:1.3}
+.t-btn-avoid{border-color:var(--red-b);color:var(--red)}
+.t-btn-avoid:hover,.t-btn-avoid.sel{background:var(--red);color:#fff;border-color:var(--red)}
+.t-btn-mitigate{border-color:var(--mit-b);color:var(--mit)}
+.t-btn-mitigate:hover,.t-btn-mitigate.sel{background:var(--mit);color:#fff;border-color:var(--mit)}
+.t-btn-transfer{border-color:var(--trans-b);color:var(--trans)}
+.t-btn-transfer:hover,.t-btn-transfer.sel{background:var(--trans);color:#fff;border-color:var(--trans)}
+.t-btn-accept{border-color:var(--acc-b);color:var(--acc)}
+.t-btn-accept:hover,.t-btn-accept.sel{background:var(--acc);color:#fff;border-color:var(--acc)}
+.t-note{background:rgba(255,255,255,.04);border:1px solid var(--brd);border-radius:7px;padding:10px 12px;font-size:.72rem;color:var(--sec);line-height:1.65;font-style:italic}
+.sc-foot{padding:9px 13px;border-top:1px solid var(--brd);display:flex;justify-content:flex-end;gap:7px}
+.btn-back{background:transparent;border:1px solid var(--brd2);color:var(--sec);border-radius:7px;padding:7px 13px;font-size:.72rem;cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .15s}
+.btn-back:hover{border-color:var(--teal);color:var(--teal)}
+.btn-next{background:var(--teal);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:.74rem;font-weight:700;cursor:pointer;font-family:"DM Sans",sans-serif;transition:opacity .15s}
+.btn-next:hover{opacity:.9}
+.btn-next:disabled,.btn-commit:disabled{background:rgba(255,255,255,.07);color:var(--muted);cursor:not-allowed}
+.btn-commit{background:#fff;color:#0f1525;border:none;border-radius:7px;padding:7px 16px;font-size:.74rem;font-weight:700;cursor:pointer;font-family:"DM Sans",sans-serif;transition:opacity .15s}
+.btn-commit:hover:not(:disabled){opacity:.9}
+.committed-card{background:var(--grn-d);border:1px solid var(--grn-b);border-radius:9px;padding:11px 13px}
+.cc-hdr{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--grn);margin-bottom:7px;display:flex;justify-content:space-between}
+.cc-revise{font-size:.62rem;color:var(--teal);cursor:pointer;text-decoration:underline;font-weight:400;text-transform:none;letter-spacing:0}
+.cc-revise.used{color:var(--muted);cursor:default;text-decoration:none}
+.cc-lines{font-size:.73rem;color:#94a3b8;line-height:1.7}
+/* FEEDBACK MODAL */
+#fb-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px}
+#fb-ov.open{display:flex;animation:fadein .2s ease}
+#fb-box{background:var(--surf);border-radius:14px;width:100%;max-width:420px;box-shadow:0 24px 60px rgba(0,0,0,.6);overflow:hidden;border:1px solid var(--brd)}
+.fb-bar{height:4px}
+.fb-bar.pos{background:var(--grn)}.fb-bar.note{background:var(--acc)}.fb-bar.push{background:var(--red)}
+.fb-inner{padding:16px}
+.fb-who{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.fb-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0;overflow:hidden}
+.fb-name{font-size:.8rem;font-weight:700;color:var(--txt)}
+.fb-role{font-size:.62rem;color:var(--muted)}
+.fb-badge{font-size:.58rem;font-weight:800;padding:2px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;margin-left:auto}
+.fb-badge.pos{background:var(--grn-d);color:var(--grn);border:1px solid var(--grn-b)}
+.fb-badge.note{background:var(--acc-d);color:var(--acc);border:1px solid var(--acc-b)}
+.fb-badge.push{background:var(--red-d);color:var(--red);border:1px solid var(--red-b)}
+.fb-msg{font-size:.77rem;color:var(--sec);line-height:1.75;margin-bottom:12px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:7px}
+.fb-redo{font-size:.69rem;color:var(--muted);margin-bottom:10px;padding:6px 10px;background:var(--red-d);border-radius:5px;border-left:2px solid var(--red)}
+.fb-btns{display:flex;gap:7px;justify-content:flex-end}
+.fb-btn-revise{background:var(--red-d);color:var(--red);border:1px solid var(--red-b);border-radius:7px;padding:7px 14px;font-size:.73rem;font-weight:700;cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .15s}
+.fb-btn-revise:hover{background:var(--red);color:#fff}
+.fb-btn-keep{background:transparent;border:1px solid var(--brd2);color:var(--sec);border-radius:7px;padding:7px 12px;font-size:.72rem;cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .15s}
+.fb-btn-keep:hover{border-color:var(--teal);color:var(--teal)}
+.fb-btn-close{background:var(--teal);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:.73rem;font-weight:700;cursor:pointer;font-family:"DM Sans",sans-serif;transition:opacity .15s}
+.fb-btn-close:hover{opacity:.9}
+/* PREVIEW MODAL */
+#prev-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:190;align-items:center;justify-content:center;padding:20px}
+#prev-ov.open{display:flex;animation:fadein .2s ease}
+#prev-box{background:var(--surf);border-radius:14px;width:100%;max-width:760px;max-height:88vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.5);border:1px solid var(--brd)}
+.prev-hdr{padding:13px 18px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surf)}
+.prev-close{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--muted);padding:2px 5px}
+.prev-body{padding:22px 26px}
+/* POPUP */
+#pop-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(2px);z-index:180;display:none;align-items:flex-end;padding:16px}
+#pop-box{background:var(--surf);border:1px solid var(--brd2);border-radius:12px;padding:15px;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:slideup .3s cubic-bezier(.16,1,.3,1)}
+@keyframes slideup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.pop-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pop-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
+.pop-name{font-size:.78rem;font-weight:700;color:var(--txt)}
+.pop-role{font-size:.61rem;color:var(--muted)}
+.pop-txt{font-size:.75rem;color:var(--sec);line-height:1.7;border-top:1px solid var(--brd);padding-top:10px}
+.pop-btn{width:100%;margin-top:11px;background:var(--teal);color:#fff;border:none;border-radius:7px;padding:9px;font-size:.74rem;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif}
+.pop-btn:hover{background:#259eaf}
+</style>
+</head>
+<body>
+<div id="shell">
+  <!-- LEFT PANEL: combined register + navigation -->
+  <div id="lp">
+    <div class="lp-brand">
+      <div class="lp-brand-name">Risk Register</div>
+      <div class="lp-brand-inc">SOLIS COMMERCE / INC-55810</div>
+    </div>
+    <div class="lp-from">
+      <div class="lp-av">DS</div>
+      <div>
+        <div class="lp-from-name">Devon Singh</div>
+        <div class="lp-from-role">CISO, Solis Commerce</div>
+      </div>
+    </div>
+    <div class="lp-prog">
+      <div class="lp-prog-row"><span class="lp-prog-lbl">Risks treated</span><span class="lp-prog-val" id="lp-val">0 / 5</span></div>
+      <div class="lp-pbar"><div class="lp-pfill" id="lp-pfill"></div></div>
+    </div>
+    <div class="lp-table-hdr">
+      <span class="lp-table-title">Live Register</span>
+      <span class="lp-table-sub">Click a row to open</span>
+    </div>
+    <div class="lp-table-wrap">
+      <table class="rt">
+        <thead><tr><th>ID</th><th>Risk</th><th>Score</th><th>Treat.</th><th></th></tr></thead>
+        <tbody id="reg-tbody"></tbody>
+      </table>
+    </div>
+    <div class="lp-foot">
+      <button class="prev-btn" onclick="openPreview()">Preview Register</button>
+      <button class="sub-btn" id="sub-btn" onclick="submitSection()">Submit to Board</button>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL: workspace -->
+  <div id="ws">
+    <div class="ws-empty" id="ws-empty">
+      <div class="ws-empty-icon">&#128203;</div>
+      <div class="ws-empty-txt">Select a risk from the register.<br>Assess, Assign, then Treat each item.</div>
+    </div>
+    <div class="ws-risk" id="ws-risk" style="display:none">
+      <div class="ws-hdr" id="ws-hdr"></div>
+      <div class="ws-body" id="ws-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div id="fb-ov">
+  <div id="fb-box">
+    <div class="fb-bar" id="fb-bar"></div>
+    <div class="fb-inner">
+      <div class="fb-who">
+        <div class="fb-av" id="fb-av" style="overflow:hidden"></div>
+        <div><div class="fb-name" id="fb-name"></div><div class="fb-role" id="fb-role"></div></div>
+        <span class="fb-badge" id="fb-badge"></span>
+      </div>
+      <div class="fb-msg" id="fb-msg"></div>
+      <div class="fb-redo" id="fb-redo" style="display:none">This treatment has been flagged. You have one opportunity to revise it before the register locks.</div>
+      <div class="fb-btns" id="fb-btns"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div id="prev-ov">
+  <div id="prev-box">
+    <div class="prev-hdr"><span style="font-size:.8rem;font-weight:700;color:var(--txt)">Risk Treatment Register</span><button class="prev-close" onclick="closePrev()">x</button></div>
+    <div class="prev-body" id="prev-body"></div>
+  </div>
+</div>
+
+<!-- DEVON POPUP -->
+<div id="pop-ov">
+  <div id="pop-box">
+    <div class="pop-hdr">
+      <div class="pop-av">DS</div>
+      <div><div class="pop-name">Devon Singh</div><div class="pop-role">CISO, Solis Commerce</div></div>
+    </div>
+    <div class="pop-txt" id="pop-txt"></div>
+    <button class="pop-btn" onclick="document.getElementById('pop-ov').style.display='none'">Ready.</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+let firstName="CRO";
+try{const s=JSON.parse(localStorage.getItem("rose_v3")||"{}");if(s.userName)firstName=s.userName.split(" ")[0];}catch(e){}
+
+const MAYA_PHOTO = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
+const BRIGITTE_PHOTO = "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop";
+
+const CHARACTERS = {
+  "CISO":          {name:"Devon Singh",    role:"CISO, Solis Commerce",          initials:"DS",  photo:null,             color:"linear-gradient(135deg,#1e3a8a,#3b82f6)"},
+  "VP Technology": {name:"Alex Rowe",      role:"VP Technology, Solis Commerce", initials:"AR",  photo:null,             color:"linear-gradient(135deg,#065f46,#059669)"},
+  "IT Operations": {name:"Sam Park",       role:"IT Operations, Solis Commerce", initials:"SP",  photo:null,             color:"linear-gradient(135deg,#7c2d12,#ea580c)"},
+  "Legal Counsel": {name:"Brigitte Alfred",role:"General Counsel, Solis Commerce",initials:"BA", photo:BRIGITTE_PHOTO,   color:"linear-gradient(135deg,#4c1d95,#7c3aed)"},
+  "CRO":           {name:null,             role:"Chief Risk Officer",            initials:"CRO", photo:null,             color:"linear-gradient(135deg,#374151,#6b7280)"},
+};
+
+const SCOPE = {
+  "R-001":{"VP Technology":"Cipher selection and key management policy sits with Devon on the security side. I can implement once she confirms the technical specifications.","IT Operations":"Encryption architecture decisions are above my level. That needs to come from Devon. I can support once she directs us.","Legal Counsel":"Encryption standards are outside my scope. This belongs with Devon. I can advise on disclosure implications once the technical remediation is confirmed.","CRO":"This risk requires CISO-level technical ownership to implement. Assigning it to the CRO creates a holding pattern."},
+  "R-002":{"VP Technology":"MFA policy decisions sit with Devon. I can configure the technical side once she makes the call on the exception group.","IT Operations":"Authentication policy changes need to go through security. I can assist with the Active Directory piece but Devon needs to direct this.","Legal Counsel":"Access policy is not my area. Devon should be making this call.","CRO":"MFA exception governance needs CISO ownership to implement. This cannot move forward with CRO as the action owner."},
+  "R-003":{"VP Technology":"File system cleanup and credential rotation sounds like IT Operations to me, with Devon on the security policy side. I would redirect this one.","Legal Counsel":"Credential management and file deletion is not in my scope. That is a CISO and IT Operations decision.","CRO":"This needs CISO or IT Operations ownership to action. The CRO cannot implement a file deletion directly."},
+  "R-004":{"IT Operations":"Firewall rule changes go through Alex in VP Technology. I can assist with implementation but the authorization sits with them.","Legal Counsel":"A firewall rule modification is outside my scope. That is VP Technology or CISO territory.","CRO":"Network architecture decisions need technical ownership. This should go to VP Technology or CISO to action."},
+  "R-005":{"VP Technology":"SIEM rule governance and detection policies sit with Devon. I can support technically but she needs to own this one.","IT Operations":"Alert suppression rules and SIEM governance is Devon's domain. I can help with execution but this needs to come from security.","Legal Counsel":"SIEM management is outside my area entirely. Devon should be handling this.","CRO":"SIEM governance needs CISO ownership. The CRO cannot directly manage detection rule lifecycles."},
+};
+
+const RISKS = [
+  { id:"R-001", cat:"Cryptography", title:"Deprecated encryption on cardholder data",
+    evidence:[{k:"Database",v:"card_data on DB-POS01",c:""},{k:"Cipher",v:"3DES-EDE (deprecated, not PCI DSS v4.0 compliant)",c:"red"},{k:"Key ID",v:"CK-2021-07 / last rotated July 2021",c:"red"},{k:"Overdue",v:"1,371 days past rotation schedule",c:"red"},{k:"Records Exposed",v:"38,442 payment card records",c:"red"}],
+    hint:"3DES was mandated out of PCI DSS v4.0 by March 31, 2024. Any cardholder data encrypted with 3DES at the time of exfiltration is potentially decryptable by a threat actor with the stolen records. The QSA will flag this in the first hour of their review. Transfer might cover the liability window but it does not close the technical exposure.",
+    events:["Unauthorized decryption of exfiltrated cardholder data","Regulatory non-compliance finding under PCI DSS v4.0","Attacker intercepts and decrypts in-transit card data","Key material exposure enabling bulk decryption of stored records"],
+    correctEvent:0,consequences:["Cardholder data decrypted post-exfiltration by threat actor","PCI DSS v4.0 non-compliance penalty and card scheme sanctions","Extended liability period across 38,442 affected cardholders","Full CDE encryption rebuild required"],
+    correctConsequence:0,correctL:4,correctI:5,
+    owners:["CISO","VP Technology","IT Operations","CRO","Legal Counsel"],correctOwners:["CISO"],
+    treatments:{
+      avoid:{formScore:0,note:"Encryption of cardholder data is a PCI DSS requirement. Avoidance means exiting card processing entirely, which is a multi-year strategic decision, not a breach response action."},
+      mitigate:{formScore:3,tone:"pos",msg:"Cipher replacement is being initiated. I will coordinate with the QSA to validate AES-256 before we reactivate the CDE. Key rotation has been triggered on CK-2021-07.",
+        form:[{label:"Control Action",key:"action",options:["Replace 3DES-EDE with AES-256-GCM and implement 90-day automated key rotation","Rotate key CK-2021-07 immediately and deploy a key management system for schedule enforcement","Engage QSA to validate encryption posture and confirm PCI DSS v4.0 compliance before CDE reactivation"]},{label:"Timeline",key:"timeline",options:["Immediate","Within 48 hours","Within 7 days","Within 30 days","Within 90 days"]},{label:"Control Owner",key:"owner",options:["CISO","VP Technology","IT Operations","External IR Firm"]}]},
+      transfer:{formScore:2,tone:"note",msg:"Insurer notification is going out. I want to flag that we still need to replace the cipher itself. This covers the liability exposure but it does not close the technical gap.",
+        form:[{label:"Transfer Mechanism",key:"mechanism",options:["Notify cyber liability insurer of encryption gap as a mandatory disclosure event","Engage card schemes to frame chargeback liability within the cipher deprecation timeline","Contract external key management-as-a-service to transfer operational rotation risk"]},{label:"Transfer Party",key:"party",options:["Cyber liability insurer","Card scheme (Visa / Mastercard)","External managed security provider","Legal counsel / indemnification agreement"]},{label:"Coverage Status",key:"coverage",options:["Confirmed, coverage verified","Pending, awaiting insurer confirmation","Not confirmed, seeking coverage"]}]},
+      accept:{formScore:1,tone:"push",msg:"I have to flag this. The acquiring bank is going to ask us directly whether this cipher has been replaced. An acceptance note will not satisfy them or the QSA.",
+        form:[{label:"Justification",key:"justification",options:["Cipher replacement requires full database migration, 90-day deferral accepted for operational continuity","Compensating controls reduce effective exposure during the transition period","Risk accepted pending scheduled infrastructure upgrade"]},{label:"Accepted By",key:"acceptedby",options:["CRO","Board of Directors","Risk Committee"]},{label:"Review Date",key:"reviewdate",options:["Next board meeting","30 days","60 days","90 days"]}]},
+    }
+  },
+  { id:"R-002", cat:"Identity & Access", title:"Unrevoked MFA exception on VPN group",
+    evidence:[{k:"Group",v:"vendor-portal-legacy",c:"red"},{k:"Active Since",v:"November 2019, never reviewed",c:"red"},{k:"Auth Method",v:"Password only, MFA bypassed",c:"red"},{k:"Breach Role",v:"Entry point, j.alvarez session VPN-SESS-88291",c:"red"}],
+    hint:"PCI DSS Requirement 8.4.2 mandates MFA for all remote network access originating from outside the trusted network. An exception group that predates the current policy cycle would not survive a QSA audit. More critically: compensating controls on a directly exploited exception will be scrutinized heavily. The acquiring bank's forensic team will specifically ask whether the exception group still exists at the time of the report.",
+    events:["Unauthorized VPN access through bypassed multi-factor authentication","Credential-only authentication exploited via phishing attack","Persistent attacker access through unrevoked legacy exception","Account takeover via social engineering on an unprotected account"],
+    correctEvent:0,consequences:["Complete VPN perimeter breach for any account in the exception group","Lateral movement enabled to any corporate-accessible system","PCI DSS strong authentication requirement violated","Any vendor-portal-legacy account is a permanent single-factor attack surface"],
+    correctConsequence:0,correctL:5,correctI:5,
+    owners:["CISO","VP Technology","IT Operations","CRO","Legal Counsel"],correctOwners:["CISO"],
+    treatments:{
+      avoid:{formScore:3,tone:"pos",msg:"vendor-portal-legacy group has been revoked. MFA is now enforced across all VPN authentication without exception. Written confirmation is on its way.",
+        form:[{label:"Elimination Action",key:"action",options:["Revoke vendor-portal-legacy MFA exception group immediately and enforce MFA for all VPN authentication","Delete vendor-portal-legacy group from Active Directory and require re-provisioning under current MFA policy","Disable all VPN auth for the vendor-portal-legacy population pending a full access review and re-enrollment"]},{label:"Deadline",key:"deadline",options:["Immediate, within 2 hours","Within 24 hours","Within 48 hours","Within 7 days"]},{label:"Verification Method",key:"verify",options:["Audit log review confirming group deletion","System penetration test confirming MFA enforcement","External security assessment","Peer review by IT governance"]}]},
+      mitigate:{formScore:2,tone:"note",msg:"Compensating controls are being applied. I want to be transparent: an exploited exception with compensating controls is still a live vulnerability. Full revocation should follow.",
+        form:[{label:"Control Action",key:"action",options:["Implement IP allowlisting on vendor-portal-legacy as a compensating control pending exception review","Add session-based risk scoring to flag anomalous authentication patterns for Tier 1 review","Enable device compliance conditional access for all vendor-portal-legacy accounts"]},{label:"Timeline",key:"timeline",options:["Immediate","Within 48 hours","Within 7 days","Within 30 days"]},{label:"Control Owner",key:"owner",options:["CISO","VP Technology","IT Operations"]}]},
+      transfer:{formScore:0,note:"The MFA exception is an internal access control failure. No mechanism exists to transfer this risk to a third party. It must be eliminated or controlled by Solis directly."},
+      accept:{formScore:0,note:"Accepting an unrevoked MFA exception directly exploited in a confirmed breach cannot be justified to the acquiring bank, PCI DSS auditors, or the board."},
+    }
+  },
+  { id:"R-003", cat:"Identity & Access", title:"Service account credentials in plaintext file",
+    evidence:[{k:"File Path",v:"\\FS-CORP01\IT$\scripts\legacy_creds.txt",c:"red"},{k:"Storage",v:"Cleartext, no encryption",c:"red"},{k:"Accessibility",v:"Domain-wide read, any authenticated user",c:"red"},{k:"Account",v:"svc-helpdesk, db_owner on card_data (DB-POS01)",c:"red"}],
+    hint:"The IT$ share is a default Windows administrative share. Domain-wide read access on an admin share is a well-documented attack pattern. PCI DSS Requirement 8.6.1 explicitly prohibits hardcoded credentials in scripts and configuration files. The QSA will ask for evidence that this file no longer exists and that the svc-helpdesk password has been rotated. Mitigation buys time but the file needs to be gone before you can close this finding.",
+    events:["Service account credential discovery from accessible network share","Lateral movement to card database via cleartext service credential","Privilege escalation through db_owner role obtained from plaintext file","Domain-wide unauthorized access via discovered service account"],
+    correctEvent:0,consequences:["Database-level access available to any authenticated domain user who finds the file","Full compromise of svc-helpdesk and all systems accessible via that account","Non-compliance with PCI DSS credential management and least-privilege requirements","Persistent access risk until file is removed and credentials are rotated"],
+    correctConsequence:0,correctL:5,correctI:5,
+    owners:["CISO","VP Technology","IT Operations","CRO","Legal Counsel"],correctOwners:["CISO","IT Operations"],
+    treatments:{
+      avoid:{formScore:3,tone:"pos",msg:"legacy_creds.txt and all copies have been deleted from FS-CORP01. svc-helpdesk credentials are being rotated. Privilege is being scoped down from db_owner. Confirmation shortly.",
+        form:[{label:"Elimination Action",key:"action",options:["Delete legacy_creds.txt and all copies from FS-CORP01 immediately and rotate svc-helpdesk credentials","Implement HashiCorp Vault or CyberArk for service account management and remove all static credential files","Revoke domain-wide read access from IT$ share and audit all files for additional credential exposure"]},{label:"Deadline",key:"deadline",options:["Immediate, within 2 hours","Within 24 hours","Within 48 hours","Within 7 days"]},{label:"Verification Method",key:"verify",options:["Audit log review confirming file deletion and credential rotation","File system scan confirming no copies remain","External security assessment","Peer review by IT governance"]}]},
+      mitigate:{formScore:2,tone:"note",msg:"Access restrictions on IT$ are being applied now. The file remains a risk as long as it exists. Full deletion should be the next step once the access is scoped.",
+        form:[{label:"Control Action",key:"action",options:["Restrict IT$ access to named administrators only and enable access logging","Encrypt legacy_creds.txt using enterprise key management pending permanent removal","Rotate svc-helpdesk credentials and reduce privilege from db_owner to minimum required"]},{label:"Timeline",key:"timeline",options:["Immediate","Within 48 hours","Within 7 days","Within 30 days"]},{label:"Control Owner",key:"owner",options:["CISO","IT Operations","VP Technology"]}]},
+      transfer:{formScore:0,note:"Storing credentials in a cleartext file on a domain share is an internal operational failure. No mechanism exists to transfer this risk externally."},
+      accept:{formScore:0,note:"Accepting a plaintext credential file with domain-wide read access and db_owner privilege, directly exploited in this breach, cannot be justified."},
+    }
+  },
+  { id:"R-004", cat:"Network Security", title:"Unrestricted Corp-to-POS firewall rule",
+    evidence:[{k:"Rule",v:"Corp-to-POS-Restricted",c:""},{k:"Direction",v:"Corp-LAN any-host to DB-POS01:1433",c:"red"},{k:"Source Restriction",v:"None, any Corporate-LAN host permitted",c:"red"},{k:"Internal Note",v:'"TODO: restrict to specific hosts, not completed"',c:"amb"},{k:"Last Reviewed",v:"Never",c:"red"}],
+    hint:"PCI DSS Requirement 1.3.2 requires that inbound and outbound traffic to and from the CDE is restricted to only what is necessary. An any-host source rule directly violates this. The internal TODO note will almost certainly be cited in the QSA report as evidence of a known, unaddressed control gap. The acquiring bank's forensic team will use this to argue that Solis had constructive knowledge of the vulnerability. Mitigation (restricting source hosts) is faster and less disruptive than a full network redesign.",
+    events:["Unrestricted lateral movement from corporate network to payment database","Any compromised corporate credential enabling direct database access","CDE perimeter bypassed by any corporate-LAN originating connection","Unauthorized SQL query execution on card_data via exploited network path"],
+    correctEvent:0,consequences:["Any corporate-network breach becomes a CDE breach by default","PCI DSS network segmentation requirement violated","Firewall provides no meaningful isolation between corporate and payment environments","Chargeback liability expanded if host restriction cannot be proven post-breach"],
+    correctConsequence:0,correctL:4,correctI:5,
+    owners:["CISO","VP Technology","IT Operations","CRO","Legal Counsel"],correctOwners:["VP Technology","CISO"],
+    treatments:{
+      avoid:{formScore:2,tone:"note",msg:"A full network redesign is a significant change. I want to confirm you are authorizing the temporary service interruption. This will require a 48-hour planning window before we can begin.",
+        form:[{label:"Elimination Action",key:"action",options:["Decommission Corp-to-POS-Restricted and redesign network segmentation from zero trust principles","Remove DB-POS01 from Corp-LAN segment and place in a dedicated CDE with allowlist-only access","Replace flat rule with application-aware proxy requiring authenticated sessions to DB-POS01"]},{label:"Deadline",key:"deadline",options:["Within 48 hours","Within 7 days","Within 30 days","Within 90 days"]},{label:"Verification Method",key:"verify",options:["External security assessment","Penetration test confirming CDE isolation","Audit log review","Peer review by IT governance"]}]},
+      mitigate:{formScore:3,tone:"pos",msg:"Corp-to-POS-Restricted has been updated. Source is now restricted to named jump hosts only. Any-host permission has been revoked. Updated rule coming to you for sign-off.",
+        form:[{label:"Control Action",key:"action",options:["Restrict Corp-to-POS-Restricted to named jump-host IPs only and remove any-host permission immediately","Implement database activity monitoring on DB-POS01:1433 to detect anomalous query patterns","Deploy micro-segmentation replacing the flat rule with host-based allow rules for named systems only"]},{label:"Timeline",key:"timeline",options:["Immediate","Within 48 hours","Within 7 days","Within 30 days"]},{label:"Control Owner",key:"owner",options:["VP Technology","CISO","IT Operations"]}]},
+      transfer:{formScore:1,tone:"note",msg:"Engaging the managed security provider as instructed. I want to note that the unrestricted rule still needs to be addressed regardless of who owns governance going forward.",
+        form:[{label:"Transfer Mechanism",key:"mechanism",options:["Engage managed security service provider to own and audit all firewall rule governance","Contract network security firm to validate segmentation compliance with PCI DSS","Notify cyber liability insurer of segmentation gap as a risk disclosure item"]},{label:"Transfer Party",key:"party",options:["External managed security provider","Network security assessment firm","Cyber liability insurer","Card scheme (Visa / Mastercard)"]},{label:"Coverage Status",key:"coverage",options:["Confirmed, coverage verified","Pending, awaiting confirmation","Not confirmed, seeking coverage"]}]},
+      accept:{formScore:0,note:"An unrestricted firewall rule directly exploited in the breach cannot be accepted. The acquiring bank will require evidence of remediation, not documented acceptance."},
+    }
+  },
+  { id:"R-005", cat:"Detection & Response", title:"SIEM alert suppressed by expired rule",
+    evidence:[{k:"Alert",v:"INC-55810, Cross-Tier-Service-Account-Auth (HIGH)",c:"red"},{k:"Suppression Rule",v:"MAINT-0291-HelpdeskRollout",c:"red"},{k:"Window Closed",v:"2026-02-14 (rule never deactivated)",c:"red"},{k:"Queue at Routing",v:"47 items, no triage SLA",c:"red"},{k:"Dwell Time Added",v:"3h 32m before human review",c:"red"}],
+    hint:"PCI DSS Requirement 10.7.2 requires that security controls are reviewed and failures are responded to promptly. A suppression rule that outlives its maintenance window is not a failure of detection capability, it is a failure of rule lifecycle governance. That distinction matters for the forensic report. The QSA will ask how many other suppression rules exist without an expiry date. That answer will define the scope of the remediation finding. Avoidance (deleting the rule and fixing the governance process) closes the finding cleanly. Mitigation buys time but leaves the underlying governance gap open.",
+    events:["Critical security alert suppressed by expired maintenance rule before human review","Detection failure extending attacker dwell time by 3 hours 32 minutes","Alert triage failure enabling full exfiltration window to close undetected","SIEM rule lifecycle failure creating a blind spot for known attack pattern"],
+    correctEvent:0,consequences:["3 hours 32 minutes of additional exfiltration window attributable to the suppressed alert","Systemic SIEM governance failure evidenced for PCI DSS forensic report","Unknown number of similar suppression rules may still be active across the ruleset","Tier 1 queue backlog masks future high-severity alerts indefinitely"],
+    correctConsequence:0,correctL:5,correctI:4,
+    owners:["CISO","VP Technology","IT Operations","CRO","Legal Counsel"],correctOwners:["CISO"],
+    treatments:{
+      avoid:{formScore:3,tone:"pos",msg:"MAINT-0291-HelpdeskRollout has been deleted. Full suppression rule audit is running now. INC-55810 alert class is live and hitting the Tier 1 queue.",
+        form:[{label:"Elimination Action",key:"action",options:["Delete MAINT-0291-HelpdeskRollout immediately and audit all active suppression rules for expiry","Implement automated expiry enforcement on all SIEM suppression rules with a 72-hour maximum window","Establish change control requiring CISO sign-off for any SIEM rule modification or suppression event"]},{label:"Deadline",key:"deadline",options:["Immediate, within 2 hours","Within 24 hours","Within 48 hours","Within 7 days"]},{label:"Verification Method",key:"verify",options:["SIEM audit log confirming rule deletion","System test confirming INC-55810 alert class is active","External security assessment","Peer review by IT governance"]}]},
+      mitigate:{formScore:2,tone:"note",msg:"Secondary alerting path is being configured. I would still recommend scheduling deletion of MAINT-0291 itself once the secondary path is confirmed active.",
+        form:[{label:"Control Action",key:"action",options:["Activate INC-55810 alert class immediately and implement a 15-minute Tier 1 triage SLA","Add secondary alerting for cross-tier service account auth that bypasses all suppression rules","Deploy automated suppression rule expiry and audit all existing rules within 24 hours"]},{label:"Timeline",key:"timeline",options:["Immediate","Within 48 hours","Within 7 days","Within 30 days"]},{label:"Control Owner",key:"owner",options:["CISO","IT Operations","VP Technology"]}]},
+      transfer:{formScore:0,note:"Alert suppression is an internal detection and response process failure. The risk of delayed response cannot be transferred to a third party."},
+      accept:{formScore:0,note:"Accepting a suppression rule that silenced the alert detecting this breach, with no review process in place, cannot be justified to regulators."},
+    }
+  }
+];
+
+/* STATE */
+const ST={};
+RISKS.forEach(r=>{ST[r.id]={stage:0,s1:{event:"",consequence:"",l:3,i:3},s2:{owner:"",status:""},s3:{treatment:"",formVals:{}},committed:false,redoUsed:false,hintOpen:false};});
+let activeRid=null,submitted=false;
+
+/* HELPERS */
+function scClass(s){return s<=4?"sc-low":s<=9?"sc-med":s<=19?"sc-hi":"sc-crit";}
+function scColor(s){return s<=4?"#10b981":s<=9?"#f59e0b":s<=19?"#ef4444":"#dc2626";}
+function scLabel(s){return s<=4?"Low":s<=9?"Medium":s<=19?"High":"Critical";}
+
+/* REGISTER TABLE */
+function renderTable(){
+  const tb=document.getElementById("reg-tbody");
+  tb.innerHTML=RISKS.map(r=>{
+    const st=ST[r.id];
+    const sc=st.s1.l*st.s1.i;
+    const hasScore=sc>0&&(st.stage>0||st.committed);
+    const badge=hasScore?`<span class="sc-badge ${scClass(sc)}">${sc}</span>`:`<span class="sc-badge sc-empty">--</span>`;
+    const tr=st.s3.treatment;
+    const tLabel=tr?`<span class="tl tl-${tr}">${tr.slice(0,3)}</span>`:'<span style="color:var(--muted);font-size:.65rem">--</span>';
+    const done=st.committed;
+    const pip=[0,1,2].map(i=>`<div class="pip${done||st.stage>i?" done":st.stage===i&&i>0?" act":""}"></div>`).join("");
+    return`<tr id="rt-${r.id}" class="${r.id===activeRid?"active":""}" onclick="openRisk('${r.id}')">
+      <td class="rt-id">${r.id}</td>
+      <td class="rt-title">${r.title}</td>
+      <td>${badge}</td>
+      <td>${tLabel}</td>
+      <td><div class="pip-row">${pip}${done?'<span style="color:var(--grn);font-size:.72rem;margin-left:1px">&#10003;</span>':''}</div></td>
+    </tr>`;
+  }).join("");
+  const done=Object.values(ST).filter(s=>s.committed).length;
+  document.getElementById("lp-val").textContent=done+" / 5";
+  document.getElementById("lp-pfill").style.width=(done/5*100)+"%";
+  if(done===5&&!submitted)document.getElementById("sub-btn").classList.add("ready");
+}
+
+/* WORKSPACE */
+window.openRisk=function(rid){
+  activeRid=rid;
+  document.getElementById("ws-empty").style.display="none";
+  document.getElementById("ws-risk").style.display="flex";
+  renderWs();renderTable();
+};
+function renderWs(){
+  if(!activeRid)return;
+  const r=RISKS.find(x=>x.id===activeRid);
+  const st=ST[activeRid];
+  renderHdr(r,st);renderBody(r,st);
+}
+function renderHdr(r,st){
+  const tabs=["Assess","Assign","Treat"].map((s,i)=>{
+    const done=st.committed||(st.stage>i);
+    const act=!st.committed&&st.stage===i;
+    const locked=!st.committed&&st.stage<i;
+    return`<div class="ws-tab${done?" done":act?" act":locked?" locked":""}" onclick="${locked||st.committed?"":"goStage("+i+")"}">
+      <div class="ws-tab-n">${done?"&#10003;":(i+1)}</div>${s}</div>`;
+  }).join("");
+  document.getElementById("ws-hdr").innerHTML=`
+    <div class="ws-hdr-meta"><span class="ws-rid">${r.id}</span><span class="ws-cat">${r.cat}</span></div>
+    <div class="ws-title">${r.title}</div>
+    <div class="ws-tabs">${tabs}</div>`;
+}
+function renderBody(r,st){
+  const body=document.getElementById("ws-body");
+  const hintOpen=st.hintOpen;
+  const evHtml=`<div class="ev-block">
+    <div class="ev-hdr">
+      <span class="ev-title">Investigation Evidence</span>
+      <button class="hint-btn" onclick="toggleHint('${r.id}')"><span class="maya-dot"></span>${hintOpen?"Close hint":"Ask Maya"}</button>
+    </div>
+    <div class="ev-grid">${r.evidence.map(e=>`<span class="ev-k">${e.k}</span><span class="ev-v ${e.c}">${e.v}</span>`).join("")}</div>
+    <div class="hint-card${hintOpen?" open":""}">
+      <div class="hint-av"><img src="${MAYA_PHOTO}" alt="Maya"></div>
+      <div><div class="hint-who">Maya Chen / Senior Security Analyst</div><div class="hint-txt">${r.hint}</div></div>
+    </div>
+  </div>`;
+  if(st.committed){
+    const sc=st.s1.l*st.s1.i;
+    const tr=st.s3.treatment;
+    const tdata=r.treatments[tr];
+    const actionVal=st.s3.formVals["action"]||st.s3.formVals["mechanism"]||st.s3.formVals["justification"]||"";
+    const others=Object.entries(st.s3.formVals).filter(([k])=>k!=="action"&&k!=="mechanism"&&k!=="justification").map(([,v])=>v).filter(Boolean);
+    const canRevise=!st.redoUsed;
+    body.innerHTML=evHtml+`<div class="committed-card">
+      <div class="cc-hdr">Treatment committed
+        <span class="cc-revise${canRevise?"":' used'}" onclick="${canRevise?`reviseEntry('${r.id}')`:''}">${canRevise?"Revise":"Revision used"}</span>
+      </div>
+      <div class="cc-lines">
+        <strong style="color:var(--txt)">Assessment:</strong> L${st.s1.l} x I${st.s1.i} = ${sc} (${scLabel(sc)}) &nbsp;|&nbsp; <strong style="color:var(--txt)">Owner:</strong> ${st.s2.owner}<br>
+        <strong style="color:var(--txt)">Treatment:</strong> <span style="color:${tdata.tone==="pos"?"var(--grn)":tdata.tone==="note"?"var(--acc)":"var(--red)"};font-weight:700;text-transform:uppercase">${tr}</span><br>
+        ${actionVal?`<strong style="color:var(--txt)">Action:</strong> ${actionVal}<br>`:""}
+        ${others.length?`<strong style="color:var(--txt)">Details:</strong> ${others.join(" / ")}`:""}
+      </div>
+    </div>`;
+    return;
+  }
+  if(st.stage===0)body.innerHTML=evHtml+buildS1(r,st);
+  else if(st.stage===1)body.innerHTML=evHtml+buildS2(r,st);
+  else body.innerHTML=evHtml+buildS3(r,st);
+}
+
+/* HINT */
+window.toggleHint=function(rid){ST[rid].hintOpen=!ST[rid].hintOpen;renderWs();};
+
+/* STAGE 1 */
+function buildS1(r,st){
+  const s1=st.s1;const sc=s1.l*s1.i;const col=scColor(sc);const pct=sc/25*100;
+  const like=["","Rare","Unlikely","Possible","Likely","Almost Certain"];
+  const imp=["","Negligible","Minor","Moderate","Major","Critical"];
+  const evOpts=r.events.map((e,i)=>`<option value="${i}"${s1.event===String(i)?" selected":""}>${e}</option>`).join("");
+  const conOpts=r.consequences.map((c,i)=>`<option value="${i}"${s1.consequence===String(i)?" selected":""}>${c}</option>`).join("");
+  return`<div class="sc">
+    <div class="sc-hdr"><span class="sc-hdr-title">Stage 1 of 3: Assess</span></div>
+    <div class="sc-body">
+      <div class="form-row full" style="margin-bottom:11px"><div class="ff">
+        <label class="fl">Threat Event</label>
+        <select class="fsel" onchange="setS1('${r.id}','event',this.value)"><option value="">Select the threat event...</option>${evOpts}</select>
+      </div></div>
+      <div class="form-row full" style="margin-bottom:13px"><div class="ff">
+        <label class="fl">Primary Consequence</label>
+        <select class="fsel" onchange="setS1('${r.id}','consequence',this.value)"><option value="">Select the primary consequence...</option>${conOpts}</select>
+      </div></div>
+      <div class="form-row">
+        <div class="ff"><label class="fl">Likelihood and Impact</label>
+          <div class="sl-wrap">
+            <div class="sl-row"><span class="sl-lbl">Likelihood</span><input type="range" min="1" max="5" value="${s1.l}" oninput="setRating('${r.id}','l',+this.value)"><span class="sl-val" id="slv-l-${r.id}">${s1.l}</span></div>
+            <div class="sl-hint">${like[s1.l]}</div>
+            <div class="sl-row" style="margin-top:7px"><span class="sl-lbl">Impact</span><input type="range" min="1" max="5" value="${s1.i}" oninput="setRating('${r.id}','i',+this.value)"><span class="sl-val" id="slv-i-${r.id}">${s1.i}</span></div>
+            <div class="sl-hint">${imp[s1.i]}</div>
+          </div>
+        </div>
+        <div class="ff"><label class="fl">Inherent Risk Score</label>
+          <div class="score-meter">
+            <div class="sm-num" id="sm-n-${r.id}" style="color:${col}">${sc}</div>
+            <div class="sm-sev" id="sm-s-${r.id}" style="color:${col}">${scLabel(sc)}</div>
+            <div class="sm-bar"><div class="sm-fill" id="sm-f-${r.id}" style="width:${pct}%;background:${col}"></div></div>
+            <div class="sm-ticks"><span>1</span><span>25</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sc-foot"><button class="btn-next" ${s1.event?"":"disabled"} onclick="advStage('${r.id}',1)">Next: Assign</button></div>
+  </div>`;
+}
+
+/* STAGE 2 */
+function buildS2(r,st){
+  const s2=st.s2;const canNext=s2.owner&&s2.status;
+  const ownerOpts=r.owners.map(o=>`<option value="${o}"${s2.owner===o?" selected":""}>${o}</option>`).join("");
+  return`<div class="sc">
+    <div class="sc-hdr"><span class="sc-hdr-title">Stage 2 of 3: Assign</span></div>
+    <div class="sc-body">
+      <div class="form-row">
+        <div class="ff"><label class="fl">Risk Owner</label>
+          <select class="fsel" onchange="setS2('${r.id}','owner',this.value)"><option value="">Select owner...</option>${ownerOpts}</select>
+        </div>
+        <div class="ff"><label class="fl">Current Status</label>
+          <select class="fsel" onchange="setS2('${r.id}','status',this.value)">
+            <option value="">Select status...</option>
+            ${["Under active investigation","Immediate action required","Pending CRO authorization","Referred to external IR firm"].map(s=>`<option${s2.status===s?" selected":""}>${s}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="sc-foot">
+      <button class="btn-back" onclick="goStage(0)">Back</button>
+      <button class="btn-next" ${canNext?"":"disabled"} onclick="advStage('${r.id}',2)">Next: Treat</button>
+    </div>
+  </div>`;
+}
+
+/* STAGE 3 */
+function buildS3(r,st){
+  const s3=st.s3;const tr=s3.treatment;const tdata=tr?r.treatments[tr]:null;
+  const btns=["avoid","mitigate","transfer","accept"].map(t=>
+    `<button class="t-btn t-btn-${t}${tr===t?" sel":""}" onclick="selTreat('${r.id}','${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`
+  ).join("");
+  let formHtml="";
+  if(tdata){
+    if(tdata.note){
+      formHtml=`<div class="t-note">${tdata.note}</div>`;
+    } else {
+      const rows=(tdata.form||[]).map(f=>{
+        const cur=s3.formVals[f.key]||"";
+        const opts=f.options.map(o=>`<option value="${o}"${cur===o?" selected":""}>${o}</option>`).join("");
+        return`<div class="form-row full" style="margin-bottom:9px"><div class="ff">
+          <label class="fl">${f.label}</label>
+          <select class="fsel" onchange="setS3('${r.id}','${f.key}',this.value)"><option value="">Select...</option>${opts}</select>
+        </div></div>`;
+      }).join("");
+      const canC=canCommit(r.id);
+      formHtml=rows+`<div class="sc-foot" style="padding:8px 0 0;border-top:1px solid var(--brd);margin-top:4px">
+        <button class="btn-back" onclick="goStage(1)">Back</button>
+        <button class="btn-commit" ${canC?"":"disabled"} onclick="commitEntry('${r.id}')">Commit Treatment</button>
+      </div>`;
+    }
+  }
+  return`<div class="sc">
+    <div class="sc-hdr"><span class="sc-hdr-title">Stage 3 of 3: Treat</span></div>
+    <div class="sc-body">
+      <div class="treat-grid">${btns}</div>
+      ${formHtml}
+      ${!tr?`<div class="sc-foot"><button class="btn-back" onclick="goStage(1)">Back</button></div>`:""}
+    </div>
+  </div>`;
+}
+
+function canCommit(rid){
+  const st=ST[rid];const r=RISKS.find(x=>x.id===rid);
+  const tr=st.s3.treatment;if(!tr)return false;
+  const tdata=r.treatments[tr];if(!tdata||tdata.note)return false;
+  return(tdata.form||[]).every(f=>!!st.s3.formVals[f.key]);
+}
+
+/* ACTIONS */
+window.setS1=function(rid,k,v){ST[rid].s1[k]=v;renderWs();renderTable();};
+window.setRating=function(rid,k,v){
+  ST[rid].s1[k]=v;
+  const sc=ST[rid].s1.l*ST[rid].s1.i;const col=scColor(sc);const pct=sc/25*100;
+  const vEl=document.getElementById("slv-"+k+"-"+rid);
+  const nEl=document.getElementById("sm-n-"+rid);const sEl=document.getElementById("sm-s-"+rid);const fEl=document.getElementById("sm-f-"+rid);
+  if(vEl)vEl.textContent=v;
+  if(nEl){nEl.textContent=sc;nEl.style.color=col;}
+  if(sEl){sEl.textContent=scLabel(sc);sEl.style.color=col;}
+  if(fEl){fEl.style.width=pct+"%";fEl.style.background=col;}
+  renderTable();
+};
+window.setS2=function(rid,k,v){ST[rid].s2[k]=v;renderWs();renderTable();};
+window.setS3=function(rid,k,v){ST[rid].s3.formVals[k]=v;renderWs();};
+window.selTreat=function(rid,t){ST[rid].s3.treatment=t;ST[rid].s3.formVals={};renderWs();renderTable();};
+window.advStage=function(rid,s){ST[rid].stage=s;renderWs();};
+window.goStage=function(s){if(activeRid){ST[activeRid].stage=s;renderWs();}};
+
+window.commitEntry=function(rid){
+  if(!canCommit(rid))return;
+  ST[rid].committed=true;
+  renderWs();renderTable();
+  showFeedback(rid);
+};
+window.reviseEntry=function(rid){ST[rid].committed=false;ST[rid].redoUsed=true;renderWs();renderTable();};
+
+function showFeedback(rid){
+  const r=RISKS.find(x=>x.id===rid);const st=ST[rid];
+  const owner=st.s2.owner||"CISO";const tr=st.s3.treatment;const tdata=r.treatments[tr];
+  const ownerCorrect=r.correctOwners.includes(owner);
+  const char=CHARACTERS[owner]||CHARACTERS["CISO"];
+  let tone,msg;
+  if(!ownerCorrect){
+    tone="push";
+    const scopes=SCOPE[r.id]||{};
+    msg=scopes[owner]||"This appears to be outside my scope. It might be better handled by "+r.correctOwners[0]+".";
+  } else {
+    tone=tdata.tone||"pos";
+    msg=tdata.msg||"";
+  }
+  const avEl=document.getElementById("fb-av");
+  avEl.style.background=char.color;
+  if(char.photo){avEl.innerHTML=`<img src="${char.photo}" style="width:100%;height:100%;object-fit:cover">`;}
+  else{avEl.innerHTML="";avEl.textContent=char.name===null?(firstName||"CRO").charAt(0):char.initials;}
+  document.getElementById("fb-name").textContent=char.name===null?firstName:char.name;
+  document.getElementById("fb-role").textContent=char.role;
+  document.getElementById("fb-bar").className="fb-bar "+tone;
+  const badge=document.getElementById("fb-badge");
+  badge.className="fb-badge "+tone;
+  badge.textContent=tone==="pos"?"ACTIONED":tone==="note"?"NOTED":"FLAGGED";
+  document.getElementById("fb-msg").textContent=msg;
+  const canRedo=!st.redoUsed&&tone==="push";
+  document.getElementById("fb-redo").style.display=canRedo?"block":"none";
+  const btns=document.getElementById("fb-btns");
+  if(tone==="pos"||tone==="note"||!canRedo){
+    btns.innerHTML=`<button class="fb-btn-close" onclick="closeFb()">Close</button>`;
+  } else {
+    btns.innerHTML=`<button class="fb-btn-revise" onclick="reviseFb('${rid}')">Revise</button><button class="fb-btn-keep" onclick="closeFb()">Keep as-is</button>`;
+  }
+  document.getElementById("fb-ov").classList.add("open");
+}
+window.closeFb=function(){document.getElementById("fb-ov").classList.remove("open");};
+window.reviseFb=function(rid){closeFb();reviseEntry(rid);openRisk(rid);};
+
+/* SCORING */
+function calcScore(){
+  return Math.round(RISKS.reduce((t,r)=>{
+    const st=ST[r.id];if(!st.committed)return t;
+    let p=0;
+    if(st.s1.event!=="")p+=st.s1.event===String(r.correctEvent)?2:1;
+    if(st.s1.consequence===String(r.correctConsequence))p+=1;
+    if(Math.abs(st.s1.l-r.correctL)<=2)p+=1;
+    if(Math.abs(st.s1.i-r.correctI)<=2)p+=1;
+    if(r.correctOwners.includes(st.s2.owner))p+=1;
+    const tr=st.s3.treatment;if(tr)p+=r.treatments[tr].formScore||0;
+    return t+p;
+  },0));
+}
+
+/* PREVIEW */
+window.openPreview=function(){
+  const d=new Date();
+  const mo=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const ds=mo[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
+  const rows=RISKS.map(r=>{
+    const st=ST[r.id];const sc=st.s1.l*st.s1.i;const tr=st.s3.treatment;
+    const hasScore=sc>0&&(st.stage>0||st.committed);
+    const action=st.s3.formVals["action"]||st.s3.formVals["mechanism"]||st.s3.formVals["justification"]||"";
+    return`<tr style="border-bottom:1px solid rgba(255,255,255,.06)">
+      <td style="padding:8px 10px;font-family:var(--mono);font-size:.61rem;color:var(--muted)">${r.id}</td>
+      <td style="padding:8px 10px;font-size:.73rem;color:var(--txt);max-width:160px">${r.title}</td>
+      <td style="padding:8px 10px;font-size:.7rem;color:var(--sec)">${st.s2.owner||"--"}</td>
+      <td style="padding:8px 10px">${hasScore&&sc>0?`<span class="sc-badge ${scClass(sc)}">${sc}</span>`:`<span class="sc-badge sc-empty">--</span>`}</td>
+      <td style="padding:8px 10px">${tr?`<span class="tl tl-${tr}">${tr}</span>`:'<span style="color:var(--muted);font-size:.7rem">Pending</span>'}</td>
+      <td style="padding:8px 10px;font-size:.71rem;color:var(--sec);max-width:200px">${action||"--"}</td>
+    </tr>`;
+  }).join("");
+  document.getElementById("prev-body").innerHTML=`
+    <div style="border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--txt)">Solis Commerce Ltd</div>
+      <div style="font-size:.64rem;color:var(--sec);margin-top:2px">Risk Treatment Register / INC-55810</div></div>
+      <div style="font-size:.62rem;color:var(--sec);text-align:right;line-height:1.65">Board of Directors<br>INC-55810 / ${ds}<br>Authorized: ${firstName}, CRO</div>
+    </div>
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+        ${["ID","Risk","Owner","Score","Treatment","Action"].map(h=>`<th style="padding:6px 10px;text-align:left;font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">${h}</th>`).join("")}
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+  document.getElementById("prev-ov").classList.add("open");
+};
+window.closePrev=function(){document.getElementById("prev-ov").classList.remove("open");};
+document.getElementById("prev-ov").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open");});
+
+/* SUBMIT */
+window.submitSection=function(){
+  if(submitted)return;submitted=true;
+  const score=Math.min(40,calcScore());
+  document.getElementById("sub-btn").classList.remove("ready");
+  document.getElementById("sub-btn").classList.add("done");
+  document.getElementById("sub-btn").textContent="Submitted";
+  window.parent.postMessage({type:"section_complete",sectionId:3,score,max:40},"*");
+};
+
+/* POPUP */
+setTimeout(()=>{
+  document.getElementById("pop-txt").innerHTML=firstName+", Maya pointed me your way. Five risk items from INC-55810 need treatment decisions before the board packet goes out. I’ve pulled the investigation evidence for each one. If you need more context on any of them, ask Maya directly from the evidence block.";
+  document.getElementById("pop-ov").style.display="flex";
+},800);
+
+renderTable();
+</script>
+</body>
+</html>
