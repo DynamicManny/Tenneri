@@ -75,9 +75,9 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .press-dateline{font-size:.7rem;color:#a0906a}
 .rf{background:#fef3c7;border-bottom:2px solid var(--amb);cursor:pointer;padding:1px 4px;border-radius:3px 3px 0 0;transition:all .18s;display:inline}
 .rf:hover{background:#fde68a}
-.rf.done-any{background:rgba(44,169,188,.1);border-bottom-color:var(--teal);cursor:pointer}
+.rf.done-any{background:#d1fae5;border-bottom-color:var(--grn);cursor:pointer}
 .rf-lbl{font-size:.55rem;vertical-align:super;margin-left:1px;font-weight:700;color:var(--amb)}
-.rf.done-any .rf-lbl{color:var(--teal)}
+.rf.done-any .rf-lbl{color:var(--grn)}
 .rp{display:none;background:#fff;border:1px solid var(--brd2);border-radius:0 8px 8px 8px;padding:11px 13px;margin:6px 0 2px;box-shadow:0 4px 18px rgba(0,0,0,.08);animation:fadein .15s ease}
 .rp.open{display:block}
 .rp-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:7px}
@@ -354,7 +354,7 @@ window.choosePress = function(fieldId, optId, isCorrect, chosenText) {
   if (chosen) { chosen.classList.add("chosen"); chosen.style.opacity="1"; }
   const rf = document.getElementById("rf-" + fieldId);
   if (rf) {
-    rf.innerHTML = chosenText + `<sup class="rf-lbl">&#9998;</sup>`;
+    rf.innerHTML = chosenText + `<sup class="rf-lbl">&#10003;</sup>`;
     rf.className = "rf done-any";
   }
   if (!wasReviewed) updatePressCounter();
@@ -421,20 +421,35 @@ function removeTyping(winId) { const el = document.getElementById(winId + "-typi
 /* ── BRIGITTE CHAT ──────────────────────────────────────────── */
 const CHAT_Q = [
   { q:"GDPR is on the current draft as applicable. Our affected cardholders are outside the EU. Does GDPR actually apply to this breach?",
-    opts:[{id:"a",text:"Yes. We process card data across borders so GDPR applies."},{id:"b",text:"No. GDPR covers EU residents specifically. Our cardholders are not EU-based."},{id:"c",text:"Include it as a precaution. It can only help."}],
-    correct:"b", score:2, reply:"Understood, removing it." },
+    opts:[
+      {id:"a",text:"Yes. We process card data across borders so GDPR applies.",            reply:"I’d flag that. GDPR’s scope is tied to EU residents, not processing location. I’ll note your call but I’m flagging it for legal review."},
+      {id:"b",text:"No. GDPR covers EU residents specifically. Our cardholders are not EU-based.", reply:"Understood, removing it."},
+      {id:"c",text:"Include it as a precaution. It can only help.",                         reply:"Worth flagging: including obligations we aren’t subject to can create ambiguity in a regulatory response. I’ll note your call and check with legal."}
+    ], correct:"b", score:2 },
   { q:"SOX is also on there. We are not a US-listed public company. Should it be on the list?",
-    opts:[{id:"a",text:"Yes. SOX principles apply to any company handling financial data."},{id:"b",text:"No. SOX only applies to US-listed public companies. We are not subject to it."},{id:"c",text:"Partially. Our payment partners may make it relevant."}],
-    correct:"b", score:2, reply:"Taking it off." },
+    opts:[
+      {id:"a",text:"Yes. SOX principles apply to any company handling financial data.",     reply:"I’d want to flag that. SOX is specific to US-listed public companies. I’ll note your call but I’m flagging it for review."},
+      {id:"b",text:"No. SOX only applies to US-listed public companies. We are not subject to it.", reply:"Taking it off."},
+      {id:"c",text:"Partially. Our payment partners may make it relevant.",                 reply:"Indirect relevance through partners isn’t the same as a direct obligation. I’ll hold it on the register with a flag rather than removing it outright, but that needs confirming."}
+    ], correct:"b", score:2 },
   { q:"PCI DSS requires a Qualified Security Assessor for this type of breach. QSA-led investigation or can our internal team handle it?",
-    opts:[{id:"a",text:"Mandatory. Our transaction volume and breach type require an independent QSA."},{id:"b",text:"Optional. The bank decides if a QSA is required."},{id:"c",text:"Internal team is enough. QSA is best practice, not a requirement here."}],
-    correct:"a", score:2, reply:"Confirmed." },
+    opts:[
+      {id:"a",text:"Mandatory. Our transaction volume and breach type require an independent QSA.", reply:"Confirmed."},
+      {id:"b",text:"Optional. The bank decides if a QSA is required.",                     reply:"I’d push back on that gently. For our breach level, PCI DSS makes this fairly explicit. I’ll add it and flag your note for follow-up."},
+      {id:"c",text:"Internal team is enough. QSA is best practice, not a requirement here.", reply:"That may be worth revisiting. Our transaction volume likely puts us in Level 1 territory where external forensics are mandatory. I’ll flag it."}
+    ], correct:"a", score:2 },
   { q:"Do we have a legal obligation to notify the 38,442 affected cardholders directly, or is that our call to make?",
-    opts:[{id:"a",text:"Mandatory. PCI DSS and PIPEDA both require direct cardholder notification."},{id:"b",text:"Discretionary. We can notify as a goodwill gesture if we choose."},{id:"c",text:"Required only if cardholders experience actual financial harm."}],
-    correct:"a", score:2, reply:"Noted." },
+    opts:[
+      {id:"a",text:"Mandatory. PCI DSS and PIPEDA both require direct cardholder notification.", reply:"Noted."},
+      {id:"b",text:"Discretionary. We can notify as a goodwill gesture if we choose.",     reply:"I’d flag that as a risk. Both PCI DSS and PIPEDA carry notification requirements here. I’ll note your call but this one may come back."},
+      {id:"c",text:"Required only if cardholders experience actual financial harm.",         reply:"Worth confirming. The trigger under PIPEDA is risk of significant harm, not actual harm. I’ll flag it."}
+    ], correct:"a", score:2 },
   { q:"IT wants to begin remediating affected systems. The external QSA has not finished evidence collection yet. Do we authorize them?",
-    opts:[{id:"a",text:"Yes. Getting systems clean is the priority right now."},{id:"b",text:"No. Forensic evidence must be preserved before any remediation begins."},{id:"c",text:"Authorize partial remediation on non-critical systems only."}],
-    correct:"b", score:2, reply:"Got it." }
+    opts:[
+      {id:"a",text:"Yes. Getting systems clean is the priority right now.",                 reply:"Noted. Worth flagging that remediation before the QSA completes can affect what they can certify. I’ll action it and flag the risk."},
+      {id:"b",text:"No. Forensic evidence must be preserved before any remediation begins.", reply:"Got it."},
+      {id:"c",text:"Authorize partial remediation on non-critical systems only.",            reply:"Partially noted. Non-critical systems are lower risk, but the QSA may still need a clean forensic picture of the full environment. I’ll flag it."}
+    ], correct:"b", score:2 }
 ];
 const chatState = { step:0, answers:[], done:false };
 
@@ -476,13 +491,14 @@ function showChatOpts(step) {
 
 window.chooseChatOpt = function(step, optId, isCorrect, text) {
   const q = CHAT_Q[step];
+  const opt = q.opts.find(o => o.id === optId);
   chatState.answers.push({ optId, correct:isCorrect, score:isCorrect ? q.score : 0 });
   document.getElementById("chat-opts-wrap").innerHTML = "";
   addChat(text, true, "chat-window", "brigitte");
   addTyping("chat-window", "brigitte");
   setTimeout(() => {
     removeTyping("chat-window");
-    addChat(q.reply, false, "chat-window", "brigitte");
+    addChat(opt ? opt.reply : "Noted.", false, "chat-window", "brigitte");
     chatState.step = step + 1;
     updateChatProg();
     setTimeout(() => showChatOpts(chatState.step), 500);
