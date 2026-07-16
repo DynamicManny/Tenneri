@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PlacetoPay Webhook Tester</title>
+<title> Webhook Tester</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -239,9 +239,7 @@
 
 <div class="shell">
   <div class="header">
-    <div class="badge">SANDBOX TESTER</div>
-    <h1>PlacetoPay Webhook Tester</h1>
-    <p>Generate a valid signature and fire a test notification at your webhook endpoint.</p>
+    <h1>Poncho Webhook Tester</h1>
   </div>
 
   <div class="section">
@@ -250,8 +248,8 @@
   </div>
 
   <div class="section">
-    <label>Secret Key (Transactional Key)</label>
-    <input type="password" id="secretKey" placeholder="Paste your PlacetoPay secret key">
+    <label>Secret Key </label>
+    <input type="password" id="secretKey" placeholder="PlacetoPay secret key goes here">
   </div>
 
   <div class="grid">
@@ -277,7 +275,6 @@
 
   <div class="section">
     <label>Generated Signature</label>
-    <div class="sig-box empty" id="sigBox">Fill in the fields above and click Generate Signature.</div>
   </div>
 
   <div class="btn-row">
