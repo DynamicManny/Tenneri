@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PlacetoPay Webhook Tester</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    background: #0d0f12;
+    color: #c9d1d9;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+
+  .shell {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .header {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #21262d;
+  }
+
+  .header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e6edf3;
+    letter-spacing: -0.3px;
+  }
+
+  .header p {
+    font-size: 13px;
+    color: #6e7681;
+    margin-top: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #1f3a2a;
+    color: #3fb950;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: #8b949e;
+    margin-bottom: 6px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #e6edf3;
+    font-size: 13px;
+    font-family: "SF Mono", "Fira Code", monospace;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  input:focus, select:focus {
+    border-color: #388bfd;
+  }
+
+  select option {
+    background: #161b22;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .sig-box {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #3fb950;
+    word-break: break-all;
+    min-height: 38px;
+    line-height: 1.6;
+  }
+
+  .sig-box.empty {
+    color: #6e7681;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: "SF Mono", monospace;
+    transition: opacity 0.15s;
+  }
+
+  button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  #btnGenerate {
+    background: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    flex: 0 0 auto;
+    padding: 11px 18px;
+  }
+
+  #btnSend {
+    background: #238636;
+    color: #fff;
+  }
+
+  #btnSend:hover:not(:disabled) {
+    background: #2ea043;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #21262d;
+    margin: 28px 0;
+  }
+
+  .result-label {
+    font-size: 12px;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+  }
+
+  .result-box {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 13px;
+    min-height: 80px;
+    display: none;
+  }
+
+  .result-box.visible {
+    display: block;
+  }
+
+  .result-box.ok {
+    border-color: #238636;
+  }
+
+  .result-box.err {
+    border-color: #da3633;
+  }
+
+  .status-line {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .status-line.ok { color: #3fb950; }
+  .status-line.err { color: #f85149; }
+  .status-line.warn { color: #d29922; }
+
+  .body-preview {
+    color: #8b949e;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #3fb95044;
+    border-top-color: #3fb950;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .payload-preview {
+    background: #0d0f12;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 11px;
+    color: #6e7681;
+    white-space: pre;
+    margin-top: 16px;
+    overflow-x: auto;
+  }
+
+  .payload-preview .key { color: #79c0ff; }
+  .payload-preview .str { color: #a5d6ff; }
+  .payload-preview .num { color: #f2cc60; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="header">
+    <div class="badge">SANDBOX TESTER</div>
+    <h1>PlacetoPay Webhook Tester</h1>
+    <p>Generate a valid signature and fire a test notification at your webhook endpoint.</p>
+  </div>
+
+  <div class="section">
+    <label>Webhook URL</label>
+    <input type="text" id="webhookUrl" value="https://www.creativekidsnation.com/_functions/placetopayWebhook">
+  </div>
+
+  <div class="section">
+    <label>Secret Key (Transactional Key)</label>
+    <input type="password" id="secretKey" placeholder="Paste your PlacetoPay secret key">
+  </div>
+
+  <div class="grid">
+    <div class="section">
+      <label>Request ID</label>
+      <input type="text" id="requestId" placeholder="e.g. 1234">
+    </div>
+    <div class="section">
+      <label>Reference</label>
+      <input type="text" id="reference" placeholder="e.g. TEST_123">
+    </div>
+  </div>
+
+  <div class="section">
+    <label>Transaction Status</label>
+    <select id="txStatus">
+      <option value="APPROVED">APPROVED</option>
+      <option value="REJECTED">REJECTED</option>
+      <option value="PENDING">PENDING</option>
+      <option value="FAILED">FAILED</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <label>Generated Signature</label>
+    <div class="sig-box empty" id="sigBox">Fill in the fields above and click Generate Signature.</div>
+  </div>
+
+  <div class="btn-row">
+    <button id="btnGenerate" onclick="generateSignature()">Generate Signature</button>
+    <button id="btnSend" onclick="sendWebhook()" disabled>Send Test Notification</button>
+  </div>
+
+  <div class="payload-preview" id="payloadPreview" style="display:none"></div>
+
+  <hr class="divider">
+
+  <div class="result-label">Response</div>
+  <div class="result-box" id="resultBox">
+    <div class="body-preview" id="resultBody"></div>
+  </div>
+
+</div>
+
+<script>
+let currentSignature = null;
+let currentPayload = null;
+
+async function generateSignature() {
+  const secretKey = document.getElementById("secretKey").value.trim();
+  const requestId = document.getElementById("requestId").value.trim();
+  const txStatus = document.getElementById("txStatus").value;
+  const sigBox = document.getElementById("sigBox");
+
+  if (!secretKey || !requestId) {
+    sigBox.textContent = "Secret key and Request ID are required.";
+    sigBox.className = "sig-box empty";
+    return;
+  }
+
+  const encoder = new TextEncoder();
+  const data = encoder.encode(`${requestId}${txStatus}${secretKey}`);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  currentSignature = `sha256:${hex}`;
+
+  sigBox.textContent = currentSignature;
+  sigBox.className = "sig-box";
+
+  const reference = document.getElementById("reference").value.trim() || "TEST_REF";
+
+  currentPayload = {
+    status: {
+      status: txStatus,
+      reason: txStatus === "APPROVED" ? "00" : "05",
+      message: txStatus === "APPROVED" ? "Transacción aprobada" : "Transacción rechazada",
+      date: new Date().toISOString()
+    },
+    requestId: isNaN(requestId) ? requestId : Number(requestId),
+    reference: reference,
+    signature: currentSignature
+  };
+
+  const preview = document.getElementById("payloadPreview");
+  preview.style.display = "block";
+  preview.innerHTML = syntaxHighlight(JSON.stringify(currentPayload, null, 2));
+
+  document.getElementById("btnSend").disabled = false;
+}
+
+async function sendWebhook() {
+  if (!currentPayload) return;
+
+  const url = document.getElementById("webhookUrl").value.trim();
+  const btn = document.getElementById("btnSend");
+  const resultBox = document.getElementById("resultBox");
+  const resultBody = document.getElementById("resultBody");
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Sending...';
+  resultBox.className = "result-box visible";
+  resultBody.innerHTML = "Waiting for response...";
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(currentPayload)
+    });
+
+    const text = await response.text();
+    const isOk = response.status >= 200 && response.status < 300;
+
+    resultBox.className = `result-box visible ${isOk ? "ok" : "err"}`;
+    resultBody.innerHTML = `<div class="status-line ${isOk ? "ok" : "err"}">${response.status} ${response.statusText}</div><div class="body-preview">${escapeHtml(text)}</div>`;
+
+  } catch (err) {
+    resultBox.className = "result-box visible err";
+    resultBody.innerHTML = `<div class="status-line err">Request Failed</div><div class="body-preview">${escapeHtml(err.message)}\n\nThis usually means:\n1. The webhook URL is not reachable.\n2. The site is not published.\n3. CORS is blocking the request (try from Postman instead).</div>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = "Send Test Notification";
+}
+
+function syntaxHighlight(json) {
+  return json
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) return `<span class="key">${match}</span>`;
+        return `<span class="str">${match}</span>`;
+      }
+      return `<span class="num">${match}</span>`;
+    });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+document.getElementById("txStatus").addEventListener("change", () => {
+  currentSignature = null;
+  document.getElementById("btnSend").disabled = true;
+  document.getElementById("sigBox").textContent = "Fill in the fields above and click Generate Signature.";
+  document.getElementById("sigBox").className = "sig-box empty";
+  document.getElementById("payloadPreview").style.display = "none";
+});
+</script>
+
+</body>
+</html>
