@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title> Webhook Tester</title>
+<title>Webhook Tester</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,7 +30,6 @@
     font-size: 18px;
     font-weight: 600;
     color: #e6edf3;
-    letter-spacing: -0.3px;
   }
 
   .header p {
@@ -38,17 +37,6 @@
     color: #6e7681;
     margin-top: 6px;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-
-  .badge {
-    display: inline-block;
-    background: #1f3a2a;
-    color: #3fb950;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
   }
 
   .section {
@@ -171,17 +159,9 @@
     display: none;
   }
 
-  .result-box.visible {
-    display: block;
-  }
-
-  .result-box.ok {
-    border-color: #238636;
-  }
-
-  .result-box.err {
-    border-color: #da3633;
-  }
+  .result-box.visible { display: block; }
+  .result-box.ok { border-color: #238636; }
+  .result-box.err { border-color: #da3633; }
 
   .status-line {
     font-size: 13px;
@@ -191,7 +171,6 @@
 
   .status-line.ok { color: #3fb950; }
   .status-line.err { color: #f85149; }
-  .status-line.warn { color: #d29922; }
 
   .body-preview {
     color: #8b949e;
@@ -214,9 +193,7 @@
     vertical-align: middle;
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .payload-preview {
     background: #0d0f12;
@@ -228,11 +205,8 @@
     white-space: pre;
     margin-top: 16px;
     overflow-x: auto;
+    display: none;
   }
-
-  .payload-preview .key { color: #79c0ff; }
-  .payload-preview .str { color: #a5d6ff; }
-  .payload-preview .num { color: #f2cc60; }
 </style>
 </head>
 <body>
@@ -248,7 +222,7 @@
   </div>
 
   <div class="section">
-    <label>Secret Key </label>
+    <label>Secret Key</label>
     <input type="password" id="secretKey" placeholder="PlacetoPay secret key goes here">
   </div>
 
@@ -273,7 +247,7 @@
     </select>
   </div>
 
- <div class="section">
+  <div class="section">
     <label>Generated Signature</label>
     <div class="sig-box empty" id="sigBox">Fill in the fields above and click Generate Signature.</div>
   </div>
@@ -283,7 +257,7 @@
     <button id="btnSend" onclick="sendWebhook()" disabled>Send Test Notification</button>
   </div>
 
-  <div class="payload-preview" id="payloadPreview" style="display:none"></div>
+  <pre class="payload-preview" id="payloadPreview"></pre>
 
   <hr class="divider">
 
@@ -291,114 +265,88 @@
   <div class="result-box" id="resultBox">
     <div class="body-preview" id="resultBody"></div>
   </div>
-
 </div>
 
 <script>
-let currentSignature = null;
-let currentPayload = null;
+  var currentPayload = null;
 
-async function generateSignature() {
-  const secretKey = document.getElementById("secretKey").value.trim();
-  const requestId = document.getElementById("requestId").value.trim();
-  const txStatus = document.getElementById("txStatus").value;
-  const sigBox = document.getElementById("sigBox");
+  async function generateSignature() {
+    var secretKey = document.getElementById("secretKey").value.trim();
+    var requestId = document.getElementById("requestId").value.trim();
+    var txStatus = document.getElementById("txStatus").value;
+    var sigBox = document.getElementById("sigBox");
 
-  if (!secretKey || !requestId) {
-    sigBox.textContent = "Secret key and Request ID are required.";
-    sigBox.className = "sig-box empty";
-    return;
+    if (!secretKey || !requestId) {
+      sigBox.textContent = "Secret key and Request ID are required.";
+      sigBox.className = "sig-box empty";
+      return;
+    }
+
+    var encoder = new TextEncoder();
+    var data = encoder.encode(requestId + txStatus + secretKey);
+    var hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    var hex = hashArray.map(function(b) { return b.toString(16).padStart(2, "0"); }).join("");
+    var signature = "sha256:" + hex;
+
+    sigBox.textContent = signature;
+    sigBox.className = "sig-box";
+
+    var reference = document.getElementById("reference").value.trim() || "TEST_REF";
+
+    currentPayload = {
+      status: {
+        status: txStatus,
+        reason: txStatus === "APPROVED" ? "00" : "05",
+        message: txStatus === "APPROVED" ? "Transaccion aprobada" : "Transaccion rechazada",
+        date: new Date().toISOString()
+      },
+      requestId: isNaN(requestId) ? requestId : Number(requestId),
+      reference: reference,
+      signature: signature
+    };
+
+    var preview = document.getElementById("payloadPreview");
+    preview.style.display = "block";
+    preview.textContent = JSON.stringify(currentPayload, null, 2);
+
+    document.getElementById("btnSend").disabled = false;
   }
 
-  const encoder = new TextEncoder();
-  const data = encoder.encode(`${requestId}${txStatus}${secretKey}`);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-  currentSignature = `sha256:${hex}`;
+  async function sendWebhook() {
+    if (!currentPayload) return;
 
-  sigBox.textContent = currentSignature;
-  sigBox.className = "sig-box";
+    var url = document.getElementById("webhookUrl").value.trim();
+    var btn = document.getElementById("btnSend");
+    var resultBox = document.getElementById("resultBox");
+    var resultBody = document.getElementById("resultBody");
 
-  const reference = document.getElementById("reference").value.trim() || "TEST_REF";
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Sending...';
+    resultBox.className = "result-box visible";
+    resultBody.textContent = "Waiting for response...";
 
-  currentPayload = {
-    status: {
-      status: txStatus,
-      reason: txStatus === "APPROVED" ? "00" : "05",
-      message: txStatus === "APPROVED" ? "Transacción aprobada" : "Transacción rechazada",
-      date: new Date().toISOString()
-    },
-    requestId: isNaN(requestId) ? requestId : Number(requestId),
-    reference: reference,
-    signature: currentSignature
-  };
+    try {
+      var response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(currentPayload)
+      });
 
-  const preview = document.getElementById("payloadPreview");
-  preview.style.display = "block";
-  preview.innerHTML = syntaxHighlight(JSON.stringify(currentPayload, null, 2));
+      var text = await response.text();
+      var isOk = response.status >= 200 && response.status < 300;
 
-  document.getElementById("btnSend").disabled = false;
-}
+      resultBox.className = "result-box visible " + (isOk ? "ok" : "err");
+      resultBody.innerHTML = '<div class="status-line ' + (isOk ? "ok" : "err") + '">' + response.status + " " + response.statusText + '</div><div class="body-preview">' + text + '</div>';
 
-async function sendWebhook() {
-  if (!currentPayload) return;
+    } catch (err) {
+      resultBox.className = "result-box visible err";
+      resultBody.innerHTML = '<div class="status-line err">Request Failed</div><div class="body-preview">' + err.message + "\n\nPossible causes:\n1. Webhook URL is not reachable.\n2. Site is not published.\n3. CORS is blocking the request. Try Postman instead." + '</div>';
+    }
 
-  const url = document.getElementById("webhookUrl").value.trim();
-  const btn = document.getElementById("btnSend");
-  const resultBox = document.getElementById("resultBox");
-  const resultBody = document.getElementById("resultBody");
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Sending...';
-  resultBox.className = "result-box visible";
-  resultBody.innerHTML = "Waiting for response...";
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(currentPayload)
-    });
-
-    const text = await response.text();
-    const isOk = response.status >= 200 && response.status < 300;
-
-    resultBox.className = `result-box visible ${isOk ? "ok" : "err"}`;
-    resultBody.innerHTML = `<div class="status-line ${isOk ? "ok" : "err"}">${response.status} ${response.statusText}</div><div class="body-preview">${escapeHtml(text)}</div>`;
-
-  } catch (err) {
-    resultBox.className = "result-box visible err";
-    resultBody.innerHTML = `<div class="status-line err">Request Failed</div><div class="body-preview">${escapeHtml(err.message)}\n\nThis usually means:\n1. The webhook URL is not reachable.\n2. The site is not published.\n3. CORS is blocking the request (try from Postman instead).</div>`;
+    btn.disabled = false;
+    btn.textContent = "Send Test Notification";
   }
-
-  btn.disabled = false;
-  btn.textContent = "Send Test Notification";
-}
-
-function syntaxHighlight(json) {
-  return json
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
-      if (/^"/.test(match)) {
-        if (/:$/.test(match)) return `<span class="key">${match}</span>`;
-        return `<span class="str">${match}</span>`;
-      }
-      return `<span class="num">${match}</span>`;
-    });
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-document.getElementById("txStatus").addEventListener("change", () => {
-  currentSignature = null;
-  document.getElementById("btnSend").disabled = true;
-  document.getElementById("sigBox").textContent = "Fill in the fields above and click Generate Signature.";
-  document.getElementById("sigBox").className = "sig-box empty";
-  document.getElementById("payloadPreview").style.display = "none";
-});
 </script>
 
 </body>
