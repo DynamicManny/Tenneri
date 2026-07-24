@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Governance Audit / INC-55810</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:"DM Sans",sans-serif;background:#080c14;color:#cdd5e8;overflow:hidden}
+:root{
+  --bg:#080c14;--s1:#0d1320;--s2:#121c2e;--s3:#182538;
+  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.11);--b3:rgba(255,255,255,.2);
+  --txt:#e6ecf6;--sec:#909aac;--mut:#3a4560;
+  --grn:#10b981;--grn-d:rgba(16,185,129,.12);--grn-b:rgba(16,185,129,.3);
+  --mono:"JetBrains Mono",monospace;--serif:"Fraunces",Georgia,serif;
+  --pol:#60a5fa;--pol-d:rgba(96,165,250,.12);--pol-b:rgba(96,165,250,.3);
+  --pol-text:#1d4ed8;--pol-light:#eff6ff;
+}
+.p1{--pol:#60a5fa;--pol-d:rgba(96,165,250,.12);--pol-b:rgba(96,165,250,.3);--pol-text:#1d4ed8;--pol-light:#eff6ff}
+.p2{--pol:#f59e0b;--pol-d:rgba(245,158,11,.12);--pol-b:rgba(245,158,11,.3);--pol-text:#92400e;--pol-light:#fffbeb}
+.p3{--pol:#a78bfa;--pol-d:rgba(167,139,250,.12);--pol-b:rgba(167,139,250,.3);--pol-text:#5b21b6;--pol-light:#f5f3ff}
+
+/* ── CHAT INTRO ──────────────────────────── */
+#chat-screen{
+  position:fixed;inset:0;background:var(--bg);z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .7s ease;
+}
+#chat-screen.out{opacity:0;pointer-events:none}
+.chat-window{
+  width:440px;background:var(--s1);border:1px solid var(--b2);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 24px 80px rgba(0,0,0,.7),0 0 60px rgba(96,165,250,.06);
+}
+.chat-hdr{
+  padding:14px 18px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;gap:11px;
+}
+.chat-hdr-av{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,#1e3a8a,#3b82f6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.62rem;font-weight:700;color:#fff;flex-shrink:0;
+  box-shadow:0 0 14px rgba(59,130,246,.35);
+  animation:av-breathe 3s ease infinite;
+}
+@keyframes av-breathe{0%,100%{box-shadow:0 0 14px rgba(59,130,246,.3)}50%{box-shadow:0 0 22px rgba(59,130,246,.55)}}
+.chat-hdr-name{font-size:.82rem;font-weight:700;color:var(--txt)}
+.chat-hdr-role{font-size:.62rem;color:var(--sec)}
+.chat-hdr-status{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.6rem;color:var(--grn)}
+.chat-hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:status-pulse 2s ease infinite}
+@keyframes status-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.chat-msgs{padding:18px 16px;min-height:220px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.chat-msg{display:flex;gap:9px;align-items:flex-end;animation:msg-in .3s ease}
+@keyframes msg-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-msg-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0}
+.chat-msg-user-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#374151,#6b7280);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0}
+.chat-bubble{
+  padding:9px 13px;border-radius:12px;max-width:300px;
+  font-size:.79rem;line-height:1.6;color:var(--txt);
+  background:var(--s2);border:1px solid var(--b1);
+}
+.chat-msg.user .chat-bubble{background:var(--pol);border-color:var(--pol);color:#000;font-weight:500}
+.typing-bubble{padding:10px 14px;background:var(--s2);border:1px solid var(--b1);border-radius:12px;display:flex;gap:5px;align-items:center;width:52px}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);animation:t-bounce 1.2s ease infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes t-bounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
+.chat-reply-area{padding:14px 16px;border-top:1px solid var(--b1)}
+.chat-reply-btn{
+  width:100%;padding:11px 16px;
+  background:transparent;border:1.5px solid var(--b2);border-radius:9px;
+  font-size:.79rem;color:rgba(255,255,255,.55);font-family:"DM Sans",sans-serif;
+  cursor:pointer;text-align:left;transition:all .2s;
+  display:none;animation:btn-appear .4s ease;
+  position:relative;overflow:hidden;
+}
+@keyframes btn-appear{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.chat-reply-btn:hover{border-color:var(--pol);color:var(--txt);background:rgba(96,165,250,.06)}
+.chat-reply-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);transform:translateX(-100%)}
+.chat-reply-btn:hover::before{animation:shimmer .6s ease}
+@keyframes shimmer{to{transform:translateX(100%)}}
+.chat-begin-btn{
+  width:100%;padding:12px 16px;background:var(--pol);border:none;border-radius:9px;
+  font-size:.82rem;font-weight:700;color:#000;font-family:"DM Sans",sans-serif;
+  cursor:pointer;letter-spacing:.01em;transition:all .2s;
+  display:none;animation:btn-appear .4s ease;
+  box-shadow:0 0 24px rgba(96,165,250,.3);
+}
+.chat-begin-btn:hover{opacity:.9;box-shadow:0 0 32px rgba(96,165,250,.45)}
+
+/* ── MAIN APP ─────────────────────────────── */
+#app{
+  display:flex;flex-direction:column;height:100vh;overflow:hidden;
+  opacity:0;transition:opacity .7s ease;pointer-events:none;
+}
+#app.visible{opacity:1;pointer-events:all}
+
+/* TOP BAR */
+#tb{height:50px;min-height:50px;background:rgba(8,12,20,.97);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 20px;gap:14px;z-index:30;backdrop-filter:blur(8px)}
+.tb-brand{display:flex;align-items:center;gap:9px;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.55)}
+.tb-icon{width:26px;height:26px;border-radius:6px;background:var(--pol);display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:800;color:#000;font-family:var(--mono);flex-shrink:0;transition:background .6s}
+.tb-sep{width:1px;height:16px;background:var(--b1)}
+.tb-scenes{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}
+.tb-scene{display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;cursor:pointer;border:1px solid transparent;transition:all .2s}
+.tb-scene:hover{background:rgba(255,255,255,.04)}
+.tb-scene.active{background:var(--pol-d);border-color:var(--pol-b)}
+.tb-scene.locked{opacity:.25;cursor:not-allowed}
+.tb-scene-pip{width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);transition:all .25s}
+.tb-scene.active .tb-scene-pip{background:var(--pol);border-color:var(--pol)}
+.tb-scene.done .tb-scene-pip{background:var(--grn);border-color:var(--grn)}
+.tb-scene-lbl{font-size:.66rem;font-weight:500;color:rgba(255,255,255,.38);transition:color .2s;white-space:nowrap}
+.tb-scene.active .tb-scene-lbl{color:rgba(255,255,255,.88)}
+.tb-scene.done .tb-scene-lbl{color:rgba(255,255,255,.45)}
+.tb-conn{width:22px;height:1px;background:rgba(255,255,255,.08);transition:background .4s}
+.tb-conn.done{background:rgba(16,185,129,.5)}
+.tb-actions{margin-left:auto}
+.btn-prev{padding:5px 13px;border-radius:6px;font-size:.67rem;font-weight:600;font-family:"DM Sans",sans-serif;cursor:pointer;background:transparent;border:1px solid var(--b2);color:rgba(255,255,255,.5);transition:all .18s}
+.btn-prev:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+
+/* WORKSPACE */
+#ws{flex:1;display:flex;overflow:hidden;position:relative}
+
+/* LEFT - DARK CONTEXT */
+#ctx{
+  width:42%;min-width:280px;background:var(--s1);
+  border-right:1px solid rgba(255,255,255,.06);
+  padding:28px 26px 22px;display:flex;flex-direction:column;
+  gap:14px;overflow-x:hidden;overflow-y:auto;position:relative;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent;
+}
+#ctx::-webkit-scrollbar{width:6px}
+#ctx::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:3px}
+#ctx::after{
+  content:"";position:absolute;bottom:-40px;right:-40px;
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,var(--pol-d) 0%,transparent 70%);
+  pointer-events:none;transition:background .6s;
+}
+.ctx-eyebrow{display:flex;align-items:center;gap:9px}
+.ctx-pol-tag{font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.09em;color:var(--pol);background:var(--pol-d);border:1px solid var(--pol-b);padding:3px 10px;border-radius:20px;transition:all .5s}
+
+.ctx-title{font-family:var(--serif);font-size:1.45rem;font-weight:600;color:var(--txt);line-height:1.2;letter-spacing:-.02em}
+.ctx-block{border-radius:9px;padding:13px 15px}
+.ctx-block.old{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)}
+.ctx-block.breach{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.16)}
+.ctx-block-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ctx-block.old .ctx-block-lbl{color:rgba(255,255,255,.26)}
+.ctx-block.breach .ctx-block-lbl{color:rgba(239,68,68,.55)}
+.ctx-block-txt{font-size:.76rem;line-height:1.7}
+.ctx-block.old .ctx-block-txt{color:#7880a0}
+.ctx-block.breach .ctx-block-txt{color:#9aa2b8}
+.ctx-block.breach .ctx-block-txt strong{color:#fca5a5;font-weight:600}
+.ctx-devon{display:flex;gap:10px;align-items:flex-start;padding-top:14px;border-top:1px solid var(--b1);margin-top:auto}
+.ctx-devon-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#fff;flex-shrink:0}
+.ctx-devon-name{font-size:.63rem;font-weight:700;color:rgba(255,255,255,.45);margin-bottom:2px}
+.ctx-devon-msg{font-size:.73rem;color:var(--sec);line-height:1.65}
+.ctx-live{padding-top:14px;border-top:1px solid var(--b1);flex:1;display:flex;flex-direction:column;gap:6px}
+.ctx-live-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.22);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ctx-live-lbl::after{content:"";flex:1;height:1px;background:var(--b1)}
+.ctx-live-body{font-size:.84rem;color:rgba(255,255,255,.72);line-height:1.95;flex:1}
+/* SKELETON */
+.skel-lines{display:flex;flex-direction:column;gap:8px}
+.skel{height:13px;border-radius:4px;background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.04) 75%);background-size:400% 100%;animation:skel-shimmer 2s ease infinite}
+@keyframes skel-shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+.skel-label{font-size:.65rem;color:rgba(255,255,255,.18);font-style:italic;line-height:1.6;display:flex;align-items:center;gap:6px}
+.skel-label::before{content:"";width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);flex-shrink:0}
+@keyframes s-in{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.s-appear{display:inline;animation:s-in .3s ease}
+
+
+/* RIGHT - LIGHT */
+#step{flex:1;background:#f5f1ea;padding:30px 30px 20px;display:flex;flex-direction:column;overflow-y:auto}
+.step-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.step-back{font-size:.67rem;color:#8a7a60;cursor:pointer;padding:4px 10px;border:1px solid #ddd4c4;border-radius:6px;background:transparent;font-family:"DM Sans",sans-serif;transition:all .15s}
+.step-back:hover{border-color:#b0a080;color:#3a2e10;background:rgba(0,0,0,.03)}
+.step-counter{font-family:var(--mono);font-size:.6rem;font-weight:600;color:var(--pol-text);background:var(--pol-light);border:1px solid var(--pol-b);padding:3px 10px;border-radius:20px}
+.step-q{font-family:var(--serif);font-size:1.28rem;font-weight:600;color:#1a1a1a;line-height:1.28;margin-bottom:9px;letter-spacing:-.02em}
+.step-ctx{font-size:.76rem;color:#6a5a40;line-height:1.7;margin-bottom:22px;max-width:450px}
+/* OPTION BLOCKS */
+.opt-block{background:#fff;border:1.5px solid #e0d8ca;border-radius:11px;padding:14px 17px;cursor:pointer;margin-bottom:9px;transition:border-color .14s,background .14s,transform .14s;display:flex;gap:14px;align-items:flex-start}
+.opt-block:last-child{margin-bottom:0}
+.opt-block:hover{border-color:var(--pol);background:var(--pol-light);transform:translateY(-1px)}
+.opt-block.sel{border-color:var(--pol);border-width:2px;background:var(--pol);animation:opt-pop .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes opt-pop{from{transform:scale(.98)}to{transform:scale(1)}}
+.opt-block-key{font-family:var(--mono);font-size:.65rem;font-weight:700;color:#c4b090;padding-top:2px;flex-shrink:0;width:14px;transition:color .14s}
+.opt-block.sel .opt-block-key{color:rgba(0,0,0,.38)}
+.opt-block-txt{font-size:.8rem;color:#2a2010;line-height:1.6;transition:color .14s}
+.opt-block.sel .opt-block-txt{color:#0a0a0a;font-weight:600}
+.step-pips{display:flex;gap:5px;margin-top:auto;padding-top:16px}
+.step-pip{flex:1;background:#ede6da;border-radius:7px;cursor:pointer;transition:all .2s;padding:7px 6px 5px;display:flex;flex-direction:column;align-items:center;gap:3px;border:1px solid #e0d8ca}
+.step-pip:hover{background:#e4dace;border-color:#c8b898}
+.step-pip.done{background:var(--pol-light);border-color:var(--pol-b)}
+.step-pip.active{background:var(--pol-light);border-color:var(--pol-b)}
+.step-pip-bar{width:100%;height:3px;border-radius:2px;background:rgba(0,0,0,.1);transition:background .2s}
+.step-pip.done .step-pip-bar{background:var(--pol)}
+.step-pip.active .step-pip-bar{background:var(--pol);opacity:.5}
+.step-pip-lbl{font-size:.52rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#b0a080;transition:color .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60px}
+.step-pip.done .step-pip-lbl,.step-pip.active .step-pip-lbl{color:var(--pol-text)}
+.review-block{background:#fff;border:1.5px solid #e0d8ca;border-radius:11px;padding:13px 16px;margin-bottom:9px;cursor:pointer;transition:all .15s;display:flex;gap:12px}
+.review-block:hover{border-color:var(--pol);transform:translateY(-1px)}
+.review-cat{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--pol-text);width:110px;flex-shrink:0;padding-top:1px;line-height:1.4}
+.review-txt{font-size:.77rem;color:#2a2010;line-height:1.55;flex:1}
+.review-edit{font-size:.6rem;color:#c4b090;flex-shrink:0;padding-top:1px;transition:color .14s}
+.review-block:hover .review-edit{color:var(--pol-text)}
+.note-section{margin-top:16px}
+.note-prompt{font-size:.73rem;color:#6a5a40;font-style:italic;line-height:1.65;padding:9px 13px;background:var(--pol-light);border-left:2.5px solid var(--pol-b);border-radius:0 7px 7px 0;margin-bottom:11px}
+.note-inner{position:relative}
+textarea.note-txt{width:100%;height:76px;background:#fff;border:1.5px solid #e0d8ca;border-radius:9px;padding:10px 14px;font-size:.78rem;font-family:"DM Sans",sans-serif;color:#1a1a1a;resize:none;outline:none;line-height:1.65;transition:border-color .15s}
+textarea.note-txt:focus{border-color:var(--pol)}
+textarea.note-txt::placeholder{color:#b4a880}
+.note-wc{position:absolute;bottom:8px;right:10px;font-size:.57rem;font-family:var(--mono);color:#c4b090;pointer-events:none}
+.note-wc.warn{color:#92400e}.note-wc.over{color:#991b1b}
+.committed-right{display:flex;flex-direction:column;gap:10px;animation:ws-in .35s ease}
+.committed-sentence{font-size:.8rem;color:#2a2010;line-height:1.8;padding:11px 15px;background:#fff;border:1.5px solid #e0d8ca;border-radius:9px}
+.committed-note{font-size:.77rem;color:#2a3a60;line-height:1.7;padding:11px 15px;background:var(--pol-light);border-left:3px solid var(--pol-b);border-radius:0 9px 9px 0;margin-top:2px}
+
+/* BOTTOM BAR */
+#bb{height:62px;min-height:62px;background:var(--s1);border-top:1px solid var(--b1);display:flex;align-items:center;padding:0 26px;gap:14px}
+
+.btn-action{padding:12px 32px;border-radius:9px;font-size:.78rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:not-allowed;background:rgba(255,255,255,.06);color:rgba(255,255,255,.22);transition:all .25s;letter-spacing:.01em}
+.btn-action.ready{background:var(--pol);color:#000;cursor:pointer;box-shadow:0 0 24px var(--pol-d);animation:btn-ready .4s ease}
+@keyframes btn-ready{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+.btn-action.ready:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 28px var(--pol-b)}
+.btn-green{padding:12px 32px;border-radius:9px;font-size:.78rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:pointer;background:var(--grn);color:#fff;letter-spacing:.01em;box-shadow:0 0 22px rgba(16,185,129,.28);transition:all .2s;display:none}
+.btn-green:hover{opacity:.9;transform:translateY(-1px)}
+.btn-submit-main{padding:12px 32px;border-radius:9px;font-size:.78rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:pointer;background:linear-gradient(135deg,#059669,#047857);color:#fff;letter-spacing:.01em;display:none;box-shadow:0 0 22px rgba(5,150,105,.28);transition:all .2s}
+.btn-submit-main:hover{opacity:.9}
+.btn-submit-main.done{background:#0f4a2a;color:#6ee7b7;cursor:default;box-shadow:none}
+
+/* FLASH */
+#flash{position:fixed;inset:0;z-index:80;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s,background .2s;background:rgba(16,185,129,0)}
+#flash.on{opacity:1;background:rgba(16,185,129,.06)}
+.flash-ring{width:90px;height:90px;border-radius:50%;border:3px solid var(--grn);display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:var(--grn);transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+#flash.on .flash-ring{transform:scale(1)}
+
+/* DONE */
+#done{display:none;position:fixed;inset:0;background:var(--bg);z-index:60;align-items:center;justify-content:center;flex-direction:column;gap:18px}
+#done.show{display:flex;animation:ws-in .5s ease}
+@keyframes ws-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.done-icon{width:72px;height:72px;border-radius:50%;background:var(--grn-d);border:2px solid var(--grn-b);display:flex;align-items:center;justify-content:center;font-size:1.9rem;color:var(--grn)}
+.done-h{font-family:var(--serif);font-size:1.7rem;font-weight:600;color:var(--txt);text-align:center;letter-spacing:-.02em}
+.done-sub{font-size:.8rem;color:var(--sec);max-width:360px;text-align:center;line-height:1.7}
+.done-btns{display:flex;gap:10px;margin-top:6px}
+.done-btn-ghost{padding:9px 20px;border-radius:8px;font-size:.76rem;font-weight:600;font-family:"DM Sans",sans-serif;cursor:pointer;border:1px solid var(--b2);color:var(--sec);background:transparent;transition:all .15s}
+.done-btn-ghost:hover{border-color:var(--b3);color:var(--txt)}
+.done-btn-main{padding:9px 24px;border-radius:8px;font-size:.76rem;font-weight:700;font-family:"DM Sans",sans-serif;cursor:pointer;border:none;background:var(--grn);color:#fff;transition:all .2s}
+.done-btn-main:hover{opacity:.9}
+.done-btn-main.done{background:#0f4a2a;color:#6ee7b7;cursor:default}
+
+/* MEMO */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(7px);z-index:200;align-items:center;justify-content:center;padding:20px}
+.ov.open{display:flex;animation:ws-in .22s ease}
+.ov-box{background:#f5f1eb;border-radius:8px;width:100%;max-width:820px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.ov-hdr{padding:13px 20px;border-bottom:1px solid #e0d8cc;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#f5f1eb;z-index:2}
+.ov-hdr-t{font-size:.78rem;font-weight:700;color:#2a2218}
+.ov-close{background:none;border:none;font-size:.95rem;cursor:pointer;color:#9a8a70}
+.rpt-hdr{background:#0f1a2e;padding:20px 28px;display:flex;align-items:center;gap:13px}
+.rpt-logo{width:34px;height:34px;border-radius:7px;background:linear-gradient(135deg,#1d3a8a,#2ca9bc);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:#fff;font-family:var(--mono)}
+.rpt-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:#fff}
+.rpt-sub{font-size:.56rem;color:rgba(255,255,255,.35);font-family:var(--mono);letter-spacing:.07em;margin-top:1px}
+.rpt-meta{margin-left:auto;text-align:right;font-size:.59rem;color:rgba(255,255,255,.38);line-height:1.7}
+.rpt-meta strong{color:rgba(255,255,255,.68)}
+.rpt-intro{padding:12px 26px;background:#ede8e0;font-size:.72rem;color:#5a4a38;line-height:1.65;font-style:italic;border-bottom:1px solid #d4cab8}
+.rpt-body{padding:14px 20px;display:flex;flex-direction:column;gap:12px;background:#f5f1eb}
+.rpt-pol{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.rpt-ph{padding:12px 16px;background:#fafaf8;border-bottom:1px solid #f0ebe0;display:flex;align-items:center;gap:12px}
+.rpt-pi{font-size:2rem;font-weight:900;color:rgba(0,0,0,.06);font-family:var(--serif);line-height:1;flex-shrink:0}
+.rpt-ptxt{font-size:.82rem;font-weight:700;color:#1a1a1a}
+.rpt-pb{font-size:.65rem;color:#8a6a4a;margin-top:2px}
+.rpt-pb strong{color:#b05040}
+.rpt-cmp{display:grid;grid-template-columns:1fr 26px 1fr;padding:11px 16px;gap:4px;align-items:start}
+.rpt-old-block{background:#fafaf8;border:1px solid #e8e0d0;border-radius:7px;padding:10px 12px}
+.rpt-old-stamp{font-size:.5rem;font-weight:900;text-transform:uppercase;letter-spacing:.18em;color:#9a7a50;margin-bottom:4px}
+.rpt-old-txt{font-size:.71rem;color:#6a5a40;line-height:1.65}
+.rpt-arrow{display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#b0a090;padding-top:18px}
+.rpt-new-block{background:#f0f2f8;border:1px solid #c8cfe8;border-radius:7px;padding:10px 12px}
+.rpt-new-stamp{font-size:.5rem;font-weight:900;text-transform:uppercase;letter-spacing:.18em;color:#1e2a6a;margin-bottom:4px}
+.rpt-new-txt{font-size:.73rem;color:#1a1a2e;line-height:1.7;font-weight:500}
+.rpt-empty{font-size:.7rem;color:#9aaa9a;font-style:italic}
+.rpt-note-block{padding:9px 16px 13px;background:#fafaf8;border-top:1px solid #f0ebe0}
+.rpt-note-lbl{font-size:.51rem;font-weight:900;text-transform:uppercase;letter-spacing:.13em;color:#1e3a8a;margin-bottom:3px}
+.rpt-note-txt{font-size:.71rem;color:#1e2a5a;background:#eff6ff;border-left:3px solid #93c5fd;padding:7px 11px;border-radius:0 5px 5px 0;line-height:1.65}
+.rpt-sigs{margin:0 20px 16px;background:#fff;border-radius:8px;padding:14px 17px;display:grid;grid-template-columns:1fr 1fr;gap:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.rpt-sl{border-bottom:1px solid #c4b49a;height:22px;margin-bottom:5px}
+.rpt-sn{font-size:.74rem;font-weight:700;color:#1a1a1a}
+.rpt-sr{font-size:.63rem;color:#8a7050}
+
+.ctx-toggle{display:flex;gap:0;background:rgba(255,255,255,.04);border-radius:7px;padding:3px;border:1px solid var(--b1);flex-shrink:0}
+.ctx-tb{flex:1;padding:5px 8px;border-radius:5px;font-size:.62rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,.32);font-family:"DM Sans",sans-serif;transition:all .15s;letter-spacing:.01em}
+.ctx-tb.on{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)}
+.ctx-tb:hover:not(.on){color:rgba(255,255,255,.6)}
+
+/* ── NIST AUDIT LAYER ─────────────────────── */
+:root{
+  --func-protect:#2dd4bf;--func-protect-d:rgba(45,212,191,.12);--func-protect-b:rgba(45,212,191,.32);
+  --func-detect:#fb923c;--func-detect-d:rgba(251,146,60,.12);--func-detect-b:rgba(251,146,60,.32);
+}
+.nist-chip{
+  display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.6rem;font-weight:600;
+  letter-spacing:.04em;color:rgba(255,255,255,.5);background:rgba(255,255,255,.03);
+  border:1px solid var(--b1);border-radius:20px;padding:4px 12px 4px 9px;flex-shrink:0;
+}
+.nist-chip-mark{width:14px;height:14px;border-radius:3px;background:linear-gradient(135deg,#1e3a5f,#2d5a8f);display:flex;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#dbeafe;flex-shrink:0}
+.func-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.func-dot.protect{background:var(--func-protect);box-shadow:0 0 6px var(--func-protect)}
+.func-dot.detect{background:var(--func-detect);box-shadow:0 0 6px var(--func-detect)}
+
+.ctx-func-row{display:flex;align-items:center;gap:8px;margin-top:-6px}
+.ctx-func-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:20px;text-transform:uppercase}
+.ctx-func-badge.protect{color:var(--func-protect);background:var(--func-protect-d);border:1px solid var(--func-protect-b)}
+.ctx-func-badge.detect{color:var(--func-detect);background:var(--func-detect-d);border:1px solid var(--func-detect-b)}
+.ctx-cat-code{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.32)}
+
+.nist-ref{
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.62rem;font-weight:700;
+  color:var(--pol-text);background:var(--pol-light);border:1px solid var(--pol-b);
+  padding:3px 10px;border-radius:6px;margin-bottom:14px;letter-spacing:.02em;
+}
+.nist-ref::before{content:"§";opacity:.5;font-weight:400}
+
+/* Maturity tier track */
+.tier-wrap{padding-top:11px;border-top:1px solid var(--b1);flex-shrink:0}
+.tier-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.tier-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3)}
+.tier-state{font-family:var(--mono);font-size:.6rem;font-weight:700;transition:color .4s}
+.tier-track{display:flex;gap:4px}
+.tier-seg{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.07);position:relative;overflow:hidden;transition:background .5s ease}
+.tier-seg.fill{background:var(--pol)}
+.tier-seg.target{background:repeating-linear-gradient(135deg,rgba(255,255,255,.16) 0 4px,transparent 4px 8px)}
+.tier-capline{display:flex;justify-content:space-between;margin-top:6px}
+.tier-cap{font-size:.5rem;color:rgba(255,255,255,.22);letter-spacing:.02em}
+.tier-cap.now{color:rgba(255,255,255,.55);font-weight:600}
+
+/* Report NIST table */
+.rpt-nist-strip{display:flex;align-items:center;gap:8px;padding:9px 0;margin:2px 0 16px;border-top:1px dashed #ddd4c4;border-bottom:1px dashed #ddd4c4}
+.rpt-nist-strip .nist-chip{color:#6a5a40;border-color:#ddd4c4;background:transparent}
+.rpt-nist-strip .nist-chip-mark{background:linear-gradient(135deg,#1e3a5f,#2d5a8f)}
+.rpt-audit-row{display:flex;gap:10px;align-items:center;margin:10px 0 4px;flex-wrap:wrap}
+.rpt-ctrl-badge{font-family:var(--mono);font-size:.62rem;font-weight:700;color:#3a2e10;background:#efe7d8;border:1px solid #ddd4c4;padding:3px 9px;border-radius:5px}
+.rpt-tier-shift{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.62rem;font-weight:700}
+.rpt-tier-before{color:#991b1b}
+.rpt-tier-after{color:#166534}
+.rpt-tier-arrow{color:#b0a080}
+</style>
+</head>
+<body>
+
+<!-- OPENING CHAT -->
+<div id="chat-screen">
+  <div class="chat-window">
+    <div class="chat-hdr">
+      <div class="chat-hdr-av">DS</div>
+      <div><div class="chat-hdr-name">Devon Singh</div><div class="chat-hdr-role">CISO, Solis Commerce</div></div>
+      <div class="chat-hdr-status"><div class="chat-hdr-dot"></div>online</div>
+    </div>
+    <div class="chat-msgs" id="chat-msgs"></div>
+    <div class="chat-reply-area" id="chat-reply-area">
+      <button class="chat-reply-btn" id="chat-reply-btn" onclick="sendReply()"></button>
+      <button class="chat-begin-btn" id="chat-begin-btn" onclick="beginAudit()">Begin Governance Audit &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="p1">
+  <div id="tb">
+    <div class="tb-brand"><div class="tb-icon">SC</div>Governance Audit</div>
+    <div class="tb-sep"></div>
+    <div class="nist-chip"><span class="nist-chip-mark">N</span>NIST CSF &middot; Benchmark Audit</div>
+    <div class="tb-sep"></div>
+    <div class="tb-scenes" id="tb-scenes"></div>
+    <div class="tb-actions"><button class="btn-prev" onclick="openMemo()">Preview Report</button></div>
+  </div>
+  <div id="ws"><div id="ctx"></div><div id="step"></div></div>
+  <div id="bb">
+    <button class="btn-action" id="btn-act" disabled>Update Policy</button>
+    <button class="btn-green" id="btn-next" onclick="goNext()">Next Policy &#8594;</button>
+    <button class="btn-submit-main" id="btn-sub-main" onclick="doSubmit()">Submit Audit to Board</button>
+  </div>
+</div>
+
+<div id="flash"><div class="flash-ring">&#10003;</div></div>
+<div id="done">
+  <div class="done-icon">&#10003;</div>
+  <div class="done-h">All Three Policies Updated</div>
+  <div class="done-sub">The board will have the revised policy register before the meeting. Brigitte Alfred is co-signing the report.</div>
+  <div class="done-btns">
+    <button class="done-btn-ghost" onclick="openMemo()">Preview Report</button>
+    <button class="done-btn-main" id="done-sub-btn" onclick="doSubmit()">Submit Audit to Board</button>
+  </div>
+</div>
+<div class="ov" id="memo-ov">
+  <div class="ov-box">
+    <div class="ov-hdr"><span class="ov-hdr-t">Policy Revision Report / INC-55810</span><button class="ov-close" onclick="closeMemo()">&#10005;</button></div>
+    <div id="memo-body"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+let firstName="CRO";
+try{const s=JSON.parse(localStorage.getItem("rose_v3")||"{}");if(s.userName)firstName=s.userName.split(" ")[0];}catch(e){}
+
+/* ── CHAT SEQUENCE ─────────────────────────── */
+const CHAT_MSGS=[
+  {from:"devon",text:"Hey "+firstName+"."},
+  {from:"devon",text:"I know the timing is rough right now."},
+  {from:"devon",text:"We have a board meeting later today and I need your help before it."},
+  {from:"devon",text:"INC-55810 \u2014 three of our governance policies directly enabled the breach. The vendor-portal-legacy exception, the MAINT-0291 suppression rule, the plaintext credential file. All three existed because our policies allowed them to."},
+  {from:"devon",text:"The board doesn\u2019t want these patched quietly. They want a real audit, benchmarked against NIST CSF, so we can show which controls failed and how far each one moves once it\u2019s fixed."},
+  {from:"devon",text:"Can you take the three failed policies, name the NIST control each one violated, and rewrite them to close the gap? We need this in front of the board before that meeting."},
+];
+const REPLY_TEXT="Sure, I\u2019ll get on that.";
+const DEVON_AFTER_1="Thank you. A couple of things before you start.";
+const DEVON_AFTER_2="The tabs at the top let you move between the three policies, but they only unlock after you\u2019ve completed the current one. Each one opens with a control-mapping question, then the rewrite, then a maturity read against the CSF tiers. The toggle on the left swaps between my notes and your revised version as you build.";
+
+function addMsg(from,text,cb){
+  const msgs=document.getElementById("chat-msgs");
+  // Typing indicator
+  const typing=document.createElement("div");
+  typing.className="chat-msg";
+  if(from==="devon"){
+    typing.innerHTML=`<div class="chat-msg-av">DS</div><div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  }
+  msgs.appendChild(typing);
+  msgs.scrollTop=msgs.scrollHeight;
+  const typingDelay=400+text.length*12;
+  setTimeout(()=>{
+    typing.remove();
+    const el=document.createElement("div");
+    el.className="chat-msg"+(from==="user"?" user":"");
+    const avHtml=from==="devon"
+      ?`<div class="chat-msg-av">DS</div>`
+      :`<div class="chat-msg-user-av">${firstName.charAt(0).toUpperCase()}</div>`;
+    el.innerHTML=`${from!=="user"?avHtml:""}<div class="chat-bubble">${text}</div>${from==="user"?avHtml:""}`;
+    msgs.appendChild(el);
+    msgs.scrollTop=msgs.scrollHeight;
+    if(cb)setTimeout(cb,300);
+  },typingDelay);
+}
+
+let chatIdx=0;
+function runChat(){
+  if(chatIdx>=CHAT_MSGS.length){
+    // Show reply button
+    const btn=document.getElementById("chat-reply-btn");
+    btn.textContent=REPLY_TEXT;
+    btn.style.display="block";
+    return;
+  }
+  const msg=CHAT_MSGS[chatIdx++];
+  const gap=chatIdx===1?0:600;
+  setTimeout(()=>addMsg(msg.from,msg.text,runChat),gap);
+}
+
+window.sendReply=function(){
+  document.getElementById("chat-reply-btn").style.display="none";
+  addMsg("user",REPLY_TEXT,()=>{
+    addMsg("devon",DEVON_AFTER_1,()=>{
+      addMsg("devon",DEVON_AFTER_2,()=>{
+        const begin=document.getElementById("chat-begin-btn");
+        begin.style.display="block";
+      });
+    });
+  });
+};
+
+window.beginAudit=function(){
+  const cs=document.getElementById("chat-screen");
+  const app=document.getElementById("app");
+  cs.classList.add("out");
+  setTimeout(()=>{cs.style.display="none";app.classList.add("visible");},700);
+};
+
+/* ── POLICIES ─────────────────────────────── */
+const TIERS=["Partial","Risk Informed","Repeatable","Adaptive"];
+const POLICIES=[
+  {id:"p1",cls:"p1",short:"Authentication",title:"Authentication and Remote Access",
+   func:"protect",funcLabel:"PROTECT",category:"PR.AC \u2014 Identity Management, Authentication and Access Control",
+   tierBefore:0,tierAfter:2,
+   old:"Remote access to Solis Commerce systems requires valid credentials. Exceptions to authentication requirements may be granted by IT management.",
+   breach:"The <strong>vendor-portal-legacy</strong> MFA exception was created in November 2019 and never revoked. j.alvarez authenticated with password only. No expiry mechanism existed in the policy.",
+   devon:"The exception was the entry point. The policy let IT management grant exceptions indefinitely. You are writing the one that makes exceptions temporary by design.",
+   prompt:"What governance failure does this policy mitigate or prevent, and what operational trade-off does it create?",
+   cats:[
+    {id:"diag",lbl:"NIST Mapping",q:"Which NIST CSF subcategory did this control gap violate?",
+     ctx:"Name the control this policy actually broke before you rewrite a word of it. If the number isn\u2019t in the report, the board will read it as a patch, not a finding.",
+     opts:[{id:"a",s:2,k:"A",f:"PR.AC-7 \u2014 Users, devices, and other assets are authenticated commensurate with the risk of the transaction."},
+           {id:"b",s:1,k:"B",f:"PR.AC-1 \u2014 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes."},
+           {id:"c",s:0,k:"C",f:"DE.CM-1 \u2014 The network is monitored to detect potential cybersecurity events."},
+           {id:"d",s:0,k:"D",f:"ID.GV-3 \u2014 Legal and regulatory requirements regarding cybersecurity are understood and managed."}]},
+    {id:"scope",lbl:"Scope of Application",q:"Who does this policy apply to?",nist:"PR.AC-1",
+     ctx:"The old policy said \u201cSolis systems\u201d and stopped there. Nobody had to name who it actually covered, which is exactly how a vendor account slipped through unquestioned.",
+     opts:[{id:"a",s:0,k:"A",f:"All employees accessing Solis Commerce systems remotely are subject to this policy."},
+           {id:"b",s:2,k:"B",f:"All users with remote access to Solis Commerce systems are subject to this policy."},
+           {id:"c",s:0,k:"C",f:"All third-party and vendor accounts with remote system access are subject to this policy."},
+           {id:"d",s:1,k:"D",f:"All users accessing cardholder data systems remotely are subject to this policy."}]},
+    {id:"auth",lbl:"Authentication Requirement",q:"What authentication is required for remote access?",nist:"PR.AC-7",
+     ctx:"j.alvarez typed a password and walked straight in. Set the bar so that never works alone again, for anyone, on any system.",
+     opts:[{id:"a",s:0,k:"A",f:"Remote access requires a password of minimum 12 characters meeting complexity requirements."},
+           {id:"b",s:0,k:"B",f:"Remote access uses single sign-on with biometric verification where hardware supports it."},
+           {id:"c",s:2,k:"C",f:"Multi-factor authentication is required for all remote access to Solis systems."},
+           {id:"d",s:1,k:"D",f:"Multi-factor authentication is required for cardholder data environment access. Password-only authentication is permitted for general network access."}]},
+    {id:"exc",lbl:"Exception Handling",q:"How must exceptions be approved and documented?",nist:"PR.AC-4",
+     ctx:"Nobody remembers who approved vendor-portal-legacy, or why. Decide who has to sign their name to the next exception, and what they owe you to get it.",
+     opts:[{id:"a",s:2,k:"A",f:"Exceptions require written CISO approval, a documented business justification, and expire automatically after 90 days."},
+           {id:"b",s:0,k:"B",f:"No exceptions to this policy are permitted under any circumstances, even for vendor systems or short-term technical constraints."},
+           {id:"c",s:1,k:"C",f:"Exceptions require written approval from the CISO before they take effect, but no formal justification or duration is specified."},
+           {id:"d",s:0,k:"D",f:"Exceptions may be granted at department head discretion and must be logged in the IT ticketing system for later reference."}]},
+    {id:"life",lbl:"Lifecycle Governance",q:"When do exceptions expire?",nist:"PR.AC-4",
+     ctx:"Seven years. That\u2019s how long the exception sat there after whoever approved it moved on to something else. Decide what stops the next one from outliving everyone who remembers it.",
+     opts:[{id:"a",s:1,k:"A",f:"All active exceptions are reviewed once a year at the annual security audit, regardless of when they were originally approved."},
+           {id:"b",s:0,k:"B",f:"The IT team maintains a running exception log that is reviewed and updated on a monthly basis by the operations team."},
+           {id:"c",s:0,k:"C",f:"Exceptions remain active until manually removed by the manager who originally requested them, with no fixed end date."},
+           {id:"d",s:2,k:"D",f:"All exceptions expire automatically on their documented end date; renewal requires re-approval through the original process."}]},
+   ]},
+  {id:"p2",cls:"p2",short:"Alert Management",title:"Security Alert Management",
+   func:"detect",funcLabel:"DETECT",category:"DE.AE / DE.CM \u2014 Anomalies and Events, Security Continuous Monitoring",
+   tierBefore:0,tierAfter:2,
+   old:"Security alerts generated by the SIEM are routed to the Tier 1 operations queue for review. Maintenance suppression rules may be created during scheduled downtime windows.",
+   breach:"Suppression rule <strong>MAINT-0291-HelpdeskRollout</strong> was created during a maintenance window in February 2026 and never deactivated. It silenced a HIGH severity authentication alert for 3 hours 32 minutes.",
+   devon:"MAINT-0291 outlived its window by 22 days with no one required to check. You are writing the policy that makes silent rules impossible.",
+   prompt:"What systemic failure does this policy address, and what does it demand from the operations team that may not currently exist?",
+   cats:[
+    {id:"diag",lbl:"NIST Mapping",q:"Which NIST CSF subcategory did this control gap violate?",
+     ctx:"MAINT-0291 didn\u2019t fail loudly. It just went quiet, and stayed quiet for 22 days after its window closed. Name what it broke before you decide how to fix it.",
+     opts:[{id:"a",s:1,k:"A",f:"DE.CM-1 \u2014 The network is monitored to detect potential cybersecurity events."},
+           {id:"b",s:2,k:"B",f:"DE.AE-5 \u2014 Incident alert thresholds are established."},
+           {id:"c",s:0,k:"C",f:"PR.AC-7 \u2014 Users, devices, and other assets are authenticated commensurate with the risk of the transaction."},
+           {id:"d",s:0,k:"D",f:"ID.GV-3 \u2014 Legal and regulatory requirements regarding cybersecurity are understood and managed."}]},
+    {id:"resp",lbl:"Alert Response Obligation",q:"How quickly must security alerts be reviewed?",nist:"DE.AE-5",
+     ctx:"For three hours and thirty-two minutes, the alert sat in a queue nobody was required to check. Set the number that makes that impossible.",
+     opts:[{id:"a",s:2,k:"A",f:"All HIGH and CRITICAL severity alerts must be reviewed by Tier 1 within 15 minutes of generation."},
+           {id:"b",s:0,k:"B",f:"Security alerts are reviewed on a best-efforts basis during standard business hours."},
+           {id:"c",s:0,k:"C",f:"Security alerts are triaged on a weekly basis by the security operations team."},
+           {id:"d",s:1,k:"D",f:"HIGH severity alerts must be reviewed within 4 hours. CRITICAL alerts must be reviewed within 1 hour."}]},
+    {id:"auth",lbl:"Suppression Authorization",q:"Who can authorize alert suppression?",nist:"DE.CM-1",
+     ctx:"An IT admin muted a HIGH severity alert on their own authority, mid-maintenance, with no security sign-off. Decide who gets to make that call from here on.",
+     opts:[{id:"a",s:0,k:"A",f:"Suppression rules may be created by any IT administrator during approved maintenance windows."},
+           {id:"b",s:1,k:"B",f:"Suppression rules require IT manager approval prior to activation."},
+           {id:"c",s:0,k:"C",f:"Alert suppression rules are prohibited under all circumstances."},
+           {id:"d",s:2,k:"D",f:"Alert suppression rules require written CISO approval before activation."}]},
+    {id:"dur",lbl:"Suppression Duration",q:"How long can a suppression rule remain active?",nist:"DE.CM-1",
+     ctx:"Nobody set an end date on MAINT-0291, so it just kept running long after the work was done. Cap how long a suppression rule is allowed to outlive its own window.",
+     opts:[{id:"a",s:0,k:"A",f:"Suppression rules remain active until manually deactivated by the administrator who created them, with no automatic expiry."},
+           {id:"b",s:1,k:"B",f:"Suppression rules carry a maximum duration of 7 days from their date of activation, renewable by the same administrator."},
+           {id:"c",s:2,k:"C",f:"Suppression rules expire automatically after 72 hours or at the close of the maintenance window, whichever comes first."},
+           {id:"d",s:0,k:"D",f:"Suppression rules expire at the end of the calendar quarter in which they were originally created and logged."}]},
+    {id:"rev",lbl:"Post-Suppression Review",q:"What happens when a suppression rule expires?",nist:"DE.AE-3",
+     ctx:"MAINT-0291 expired on the 14th of February and nobody ever looked back at what it had been hiding. Decide what has to happen the moment a suppression rule dies.",
+     opts:[{id:"a",s:0,k:"A",f:"Suppression rule closures are logged automatically in the IT ticketing system for historical reference."},
+           {id:"b",s:2,k:"B",f:"Every expired suppression rule requires documented review within 24 hours; findings are escalated to the CISO."},
+           {id:"c",s:1,k:"C",f:"The CISO reviews suppression rule usage as part of the monthly security operations report to the board."},
+           {id:"d",s:0,k:"D",f:"No post-suppression review process is required once the maintenance window has formally closed."}]},
+   ]},
+  {id:"p3",cls:"p3",short:"Credentials",title:"Credential Management",
+   func:"protect",funcLabel:"PROTECT",category:"PR.DS / PR.PT \u2014 Data Security, Protective Technology",
+   tierBefore:0,tierAfter:3,
+   old:"Service accounts must use complex passwords rotated quarterly. Access to shared systems should be documented in the IT asset register.",
+   breach:"svc-helpdesk credentials were stored in <strong>cleartext</strong> at \\\\FS-CORP01\\IT$\\scripts\\legacy_creds.txt with domain-wide read access. The account held db_owner on card_data. No policy prohibited this.",
+   devon:"A plaintext credential file on a shared drive, domain-wide readable, with database owner access. No policy said you couldn\u2019t. You are writing the one that does.",
+   prompt:"What does this policy prevent that the previous policy left open, and where might it create friction for the development team?",
+   cats:[
+    {id:"diag",lbl:"NIST Mapping",q:"Which NIST CSF subcategory did this control gap violate?",
+     ctx:"A password file, sitting in the open, readable by half the company. Name exactly what that failure is before you write a single word of the fix.",
+     opts:[{id:"a",s:0,k:"A",f:"DE.CM-1 \u2014 The network is monitored to detect potential cybersecurity events."},
+           {id:"b",s:1,k:"B",f:"PR.AC-1 \u2014 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes."},
+           {id:"c",s:2,k:"C",f:"PR.DS-5 \u2014 Protections against data leaks are implemented."},
+           {id:"d",s:0,k:"D",f:"ID.GV-3 \u2014 Legal and regulatory requirements regarding cybersecurity are understood and managed."}]},
+    {id:"stor",lbl:"Credential Storage",q:"Where must service account credentials be stored?",nist:"PR.DS-5",
+     ctx:"legacy_creds.txt existed because nobody had ever written down where credentials were supposed to live. Decide that, once and for all.",
+     opts:[{id:"a",s:0,k:"A",f:"Credentials may be stored in files, provided the containing file itself is password-protected and access-restricted."},
+           {id:"b",s:0,k:"B",f:"Credentials stored on shared drives must be protected by folder-level access controls reviewed quarterly."},
+           {id:"c",s:1,k:"C",f:"Service account credentials must be recorded in the IT ticketing system, with access limited to named administrators."},
+           {id:"d",s:2,k:"D",f:"All service account and privileged credentials must be stored in an approved secrets management platform."}]},
+    {id:"scr",lbl:"Scripts and Configuration Files",q:"Can credentials appear in scripts or shared files?",nist:"PR.DS-5",
+     ctx:"legacy_creds.txt existed because a script needed that password and nobody wanted to solve it properly. Close the door it walked through.",
+     opts:[{id:"a",s:2,k:"A",f:"Hardcoded credentials in scripts or configuration files are prohibited; scanning violations must be fixed within 48 hours."},
+           {id:"b",s:1,k:"B",f:"Scripts containing credentials require prior written approval from the IT manager before they can be deployed to production."},
+           {id:"c",s:0,k:"C",f:"Scripts and configuration files are reviewed for credential exposure once a year, during the scheduled security audit."},
+           {id:"d",s:0,k:"D",f:"Developer guidelines recommend against storing credentials directly in scripts or configuration files across all teams."}]},
+    {id:"priv",lbl:"Privilege Governance",q:"What privilege level should service accounts carry?",nist:"PR.AC-4",
+     ctx:"svc-helpdesk had owner rights on the card database, and nobody had ever asked why. Decide how much access a service account gets to justify by default: none.",
+     opts:[{id:"a",s:0,k:"A",f:"Service account privilege levels are set by the requesting department, based on its own stated operational requirements."},
+           {id:"b",s:2,k:"B",f:"Service accounts follow least-privilege by default; owner-level access requires CISO approval and quarterly review."},
+           {id:"c",s:1,k:"C",f:"Accounts with elevated privileges require prior approval from the IT manager before provisioning begins."},
+           {id:"d",s:0,k:"D",f:"Service account privilege levels are documented in the IT asset register at the time of account creation."}]},
+    {id:"ver",lbl:"Compliance Verification",q:"How is compliance with this policy verified?",nist:"PR.PT-1",
+     ctx:"That file sat there for years because nothing was ever looking for it. Decide how often something has to look.",
+     opts:[{id:"a",s:0,k:"A",f:"The IT team conducts a manual credential audit once a year, covering all active shared storage locations."},
+           {id:"b",s:0,k:"B",f:"Development teams self-certify credential compliance on a quarterly basis through a signed attestation form."},
+           {id:"c",s:1,k:"C",f:"New systems and deployments are scanned for credential exposure only at the moment of initial deployment."},
+           {id:"d",s:2,k:"D",f:"Automated scanning for plaintext credentials runs weekly, with findings escalated to the CISO within 24 hours."}]},
+   ]},
+];
+
+const ST={};
+POLICIES.forEach(p=>{ST[p.id]={sel:{},step:0,review:false,just:"",wc:0,committed:false};});
+let cur=0,submitted=false,ctxView="devon";
+
+function cp(){return POLICIES[cur];}
+function cs(){return ST[cp().id];}
+function allSel(pid){return POLICIES.find(x=>x.id===pid).cats.every(c=>!!ST[pid].sel[c.id]);}
+function assembled(pid){return POLICIES.find(x=>x.id===pid).cats.map(c=>{const o=ST[pid].sel[c.id]&&c.opts.find(o=>o.id===ST[pid].sel[c.id]);return o?o.f:null;});}
+function sScore(pid){return POLICIES.find(x=>x.id===pid).cats.reduce((t,c)=>{const o=ST[pid].sel[c.id]&&c.opts.find(o=>o.id===ST[pid].sel[c.id]);return t+(o?o.s:0);},0);}
+function wcount(t){return t.trim()?t.trim().split(/\s+/).length:0;}
+
+function renderAll(anim){ctxView="devon";
+  const app=document.getElementById("app");
+  app.className=cp().cls;
+  document.querySelector(".tb-icon").style.background="var(--pol)";
+  renderScenes();renderCtx();renderStep(anim);renderBB();
+}
+
+function renderScenes(){
+  document.getElementById("tb-scenes").innerHTML=POLICIES.map((p,i)=>{
+    const done=ST[p.id].committed;const active=i===cur;const locked=i>cur&&!done;
+    return(i>0?`<div class="tb-conn${i<=cur||done?" done":""}"></div>`:"")
+      +`<div class="tb-scene${active?" active":done?" done":locked?" locked":""}" onclick="${locked?"":"tryNav("+i+")"}" title="${p.title} — ${p.category}">
+        <span class="func-dot ${p.func}"></span><div class="tb-scene-pip"></div><span class="tb-scene-lbl">${p.short}</span></div>`;
+  }).join("");
+}
+
+function renderCtx(){
+  const p=cp();const s=cs();
+  const sentences=assembled(p.id).filter(Boolean);
+  let liveHtml;
+  if(sentences.length>0){
+    liveHtml=`<div class="ctx-live-body">${sentences.map(f=>`<span class="s-appear">${f} </span>`).join("")}</div>`;
+  } else {
+    liveHtml=`<div class="skel-lines">
+      <div class="skel-label">Your revised policy will appear here</div>
+      <div class="skel" style="width:90%"></div>
+      <div class="skel" style="width:75%"></div>
+      <div class="skel" style="width:82%"></div>
+      <div class="skel" style="width:65%"></div>
+    </div>`;
+  }
+  const toggleHtml=`<div class="ctx-toggle">
+    <button class="ctx-tb${ctxView==='devon'?' on':''}" onclick="setCtxView('devon')">Devon's Notes</button>
+    <button class="ctx-tb${ctxView==='revised'?' on':''}" onclick="setCtxView('revised')">Revised Policy</button>
+  </div>`;
+  const panelContent=ctxView==='devon'
+    ?`<div class="ctx-block old"><div class="ctx-block-lbl">Previous Policy</div><div class="ctx-block-txt">${p.old}</div></div>
+    <div class="ctx-block breach"><div class="ctx-block-lbl">How it failed</div><div class="ctx-block-txt">${p.breach}</div></div>
+    <div class="ctx-devon" style="margin-top:auto"><div class="ctx-devon-av">DS</div><div><div class="ctx-devon-name">Devon Singh</div><div class="ctx-devon-msg">${p.devon}</div></div></div>`
+    :`<div class="ctx-live" style="flex:1;display:flex;flex-direction:column;gap:6px"><div class="ctx-live-lbl">Revised Policy</div>${liveHtml}</div>`;
+  const tierNow=s.committed?p.tierAfter:p.tierBefore;
+  const segs=TIERS.map((t,i)=>`<div class="tier-seg${i<=tierNow?" fill":""}${!s.committed&&i===p.tierAfter?" target":""}"></div>`).join("");
+  const tierHtml=`<div class="tier-wrap">
+    <div class="tier-hdr"><span class="tier-lbl">CSF Implementation Tier</span><span class="tier-state">${TIERS[tierNow]}${!s.committed?` &#8594; target ${TIERS[p.tierAfter]}`:""}</span></div>
+    <div class="tier-track">${segs}</div>
+    <div class="tier-capline">${TIERS.map((t,i)=>`<span class="tier-cap${i===tierNow?" now":""}">${t}</span>`).join("")}</div>
+  </div>`;
+  document.getElementById("ctx").innerHTML=`
+    <div class="ctx-eyebrow"><span class="ctx-pol-tag">POLICY 0${cur+1}</span></div>
+    <div class="ctx-title">${p.title}</div>
+    <div class="ctx-func-row"><span class="ctx-func-badge ${p.func}"><span class="func-dot ${p.func}"></span>${p.funcLabel}</span><span class="ctx-cat-code">${p.category}</span></div>
+    ${toggleHtml}
+    ${panelContent}
+    ${tierHtml}
+  `;
+}
+
+function renderStep(anim){
+  const p=cp();const s=cs();
+  const el=document.getElementById("step");
+  if(s.committed){
+    const sentences=assembled(p.id).filter(Boolean);
+    el.innerHTML=`<div class="committed-right">${sentences.map(f=>`<div class="committed-sentence">${f}</div>`).join("")}${s.just?`<div class="committed-note">${s.just}</div>`:""}</div>`;
+    return;
+  }
+  if(s.review){renderReview(p,s,el,anim);return;}
+  renderCat(p,s,el,anim);
+}
+
+function renderCat(p,s,el,anim){
+  const cat=p.cats[s.step];
+  const opts=cat.opts.map(o=>`<div class="opt-block${s.sel[cat.id]===o.id?" sel":""}" onclick="pick('${p.id}','${cat.id}','${o.id}')">
+    <div class="opt-block-key">${o.k}</div><div class="opt-block-txt">${o.f}</div>
+  </div>`).join("");
+  const pips=p.cats.map((c,i)=>`<div class="step-pip${s.sel[c.id]?" done":i===s.step?" active":""}" onclick="goStep(${i})" title="${c.lbl}"></div>`).join("");
+  el.innerHTML=`<div${anim?' style="animation:ws-in .3s ease"':""}>
+    <div class="step-nav">
+      ${s.step>0?`<button class="step-back" onclick="goStep(${s.step-1})">&#8592; Back</button>`:`<span></span>`}
+      <div class="step-counter">Step ${s.step+1} of ${p.cats.length}</div>
+    </div>
+    <div class="step-q">${cat.q}</div>
+    ${cat.nist?`<div class="nist-ref">${cat.nist}</div>`:""}
+    <div class="step-ctx">${cat.ctx}</div>
+    ${opts}
+    <div class="step-pips">${pips}</div>
+  </div>`;
+}
+function renderReview(p,s,el,anim){
+  const rows=p.cats.map((c,i)=>{
+    const o=s.sel[c.id]&&c.opts.find(x=>x.id===s.sel[c.id]);
+    return`<div class="review-block" onclick="goStep(${i})"><div class="review-cat">${c.lbl}</div><div class="review-txt">${o?o.f:"Not selected"}</div><div class="review-edit">edit</div></div>`;
+  }).join("");
+  const wc=s.wc;
+  el.innerHTML=`<div${anim?' style="animation:ws-in .3s ease"':""}>
+    <div class="step-q" style="margin-bottom:16px">Review your policy</div>${rows}
+    <div class="note-section">
+      <div class="note-prompt">${p.prompt}</div>
+      <div class="note-inner">
+        <textarea class="note-txt" id="note-txt" placeholder="Optional CRO note (200 words max)" oninput="onNote('${p.id}',this.value)">${s.just}</textarea>
+        <span class="note-wc${wc>200?" over":wc>160?" warn":""}" id="note-wc">${wc} / 200</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.setCtxView=function(v){ctxView=v;renderCtx();};
+
+function renderBB(){
+  const p=cp();const s=cs();
+  const act=document.getElementById("btn-act");
+  const nxt=document.getElementById("btn-next");
+  const sub=document.getElementById("btn-sub-main");
+  const allCommitted=POLICIES.every(x=>ST[x.id].committed);
+  act.onclick=null;
+  if(s.committed){
+    act.style.display="none";nxt.style.display=allCommitted?"none":"block";sub.style.display=allCommitted?"block":"none";
+    const nextP=POLICIES[cur+1];
+    if(nextP)nxt.innerHTML="Next: <span style='color:var(--pol);font-weight:800'>"+nextP.short+"</span> &#8594;";
+  } else if(s.review){
+    act.style.display="block";nxt.style.display="none";sub.style.display="none";
+    act.className="btn-action ready";act.disabled=false;act.textContent="Update Policy";act.onclick=doSeal;
+  } else {
+    const sel=Object.keys(s.sel).length;const rem=p.cats.length-sel;
+    act.style.display="block";nxt.style.display="none";sub.style.display="none";
+    if(sel===p.cats.length){
+      act.className="btn-action ready";act.disabled=false;act.textContent="Review Policy &#8594;";
+      act.onclick=()=>{s.review=true;renderStep(true);renderBB();};
+    } else {
+      act.className="btn-action";act.disabled=true;act.textContent="Update Policy";
+    }
+  }
+}
+
+window.pick=function(pid,catId,optId){
+  const p=POLICIES.find(x=>x.id===pid);const s=ST[pid];
+  s.sel[catId]=optId;
+  const nextUnfilled=p.cats.findIndex((c,i)=>i>s.step&&!s.sel[c.id]);
+  if(nextUnfilled>=0){s.step=nextUnfilled;}
+  else if(p.cats.every(c=>!!s.sel[c.id])){s.review=true;}
+  renderCtx();renderStep(true);renderBB();
+};
+window.goStep=function(i){cs().step=i;cs().review=false;renderStep(true);renderBB();};
+window.tryNav=function(i){if(i>cur&&!ST[POLICIES[i].id].committed)return;cur=i;renderAll(true);};
+window.onNote=function(pid,text){
+  const w=wcount(text);ST[pid].just=text;ST[pid].wc=w;
+  const el=document.getElementById("note-wc");
+  if(el){el.textContent=w+" / 200";el.className="note-wc"+(w>200?" over":w>160?" warn":"");}
+};
+function doSeal(){
+  const s=cs();const ta=document.getElementById("note-txt");
+  if(ta){s.just=ta.value;s.wc=wcount(ta.value);}
+  s.committed=true;
+  const flash=document.getElementById("flash");
+  flash.classList.add("on");
+  setTimeout(()=>{
+    flash.classList.remove("on");
+    if(POLICIES.every(x=>ST[x.id].committed)){document.getElementById("done").classList.add("show");}
+    else{renderAll(true);}
+  },700);
+}
+window.doSeal=doSeal;
+window.goNext=function(){const next=POLICIES.findIndex((p,i)=>i>cur);if(next>=0){cur=next;renderAll(true);}};
+window.doSubmit=function(){
+  if(submitted)return;submitted=true;
+  const raw=POLICIES.reduce((t,p)=>{const j=ST[p.id].wc>=50?4:ST[p.id].wc>=20?2:0;return t+sScore(p.id)+j;},0);
+  const score=Math.min(40,Math.round(raw/42*40));
+  ["btn-sub-main","done-sub-btn"].forEach(id=>{const b=document.getElementById(id);if(b){b.classList.add("done");b.textContent="Submitted to Board";}});
+  window.parent.postMessage({type:"section_complete",sectionId:4,score,max:40},"*");
+};
+window.openMemo=function(){
+  const d=new Date();const mo=["January","February","March","April","May","June","July","August","September","October","November","December"];const ds=mo[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
+  const pols=POLICIES.map((p,i)=>{
+    const txt=assembled(p.id).filter(Boolean).join(" ");const note=ST[p.id].just;
+    const committed=ST[p.id].committed;
+    const tierAfter=committed?p.tierAfter:p.tierBefore;
+    return`<div class="rpt-pol">
+      <div class="rpt-ph"><div class="rpt-pi">0${i+1}</div><div><div class="rpt-ptxt">${p.title}</div><div class="rpt-pb">${p.breach}</div></div></div>
+      <div class="rpt-audit-row">
+        <span class="rpt-ctrl-badge">${p.category.split(" \u2014 ")[0]}</span>
+        <span class="rpt-tier-shift"><span class="rpt-tier-before">${TIERS[p.tierBefore]}</span><span class="rpt-tier-arrow">&#8594;</span><span class="rpt-tier-after">${TIERS[tierAfter]}</span></span>
+      </div>
+      <div class="rpt-cmp">
+        <div class="rpt-old-block"><div class="rpt-old-stamp">Previous Policy</div><div class="rpt-old-txt">${p.old}</div></div>
+        <div class="rpt-arrow">&#8594;</div>
+        <div class="rpt-new-block"><div class="rpt-new-stamp">Revised</div>${txt?`<div class="rpt-new-txt">${txt}</div>`:`<div class="rpt-empty">Not yet completed.</div>`}</div>
+      </div>
+      ${note?`<div class="rpt-note-block"><div class="rpt-note-lbl">CRO Note</div><div class="rpt-note-txt">${note}</div></div>`:""}
+    </div>`;
+  }).join("");
+  document.getElementById("memo-body").innerHTML=`
+    <div class="rpt-hdr"><div class="rpt-logo">SC</div><div><div class="rpt-title">Governance Audit Report</div><div class="rpt-sub">NIST CSF BENCHMARK / POST-INCIDENT / INC-55810</div></div><div class="rpt-meta"><strong>CONFIDENTIAL</strong><br>Board of Directors<br>${firstName}, CRO / Brigitte Alfred, GC<br>${ds}</div></div>
+    <div class="rpt-nist-strip"><div class="nist-chip"><span class="nist-chip-mark">N</span>Benchmarked against the NIST Cybersecurity Framework (CSF)</div></div>
+    <div class="rpt-intro">Three governance policies contributed directly to INC-55810, each mapped to the NIST CSF subcategory it failed to satisfy. Each entry shows the previous policy, the control gap it left open, the revised version submitted for board ratification, and the resulting shift in implementation tier.</div>
+    <div class="rpt-body">${pols}</div>
+    <div class="rpt-sigs"><div><div class="rpt-sl"></div><div class="rpt-sn">${firstName}</div><div class="rpt-sr">Chief Risk Officer, Solis Commerce Ltd</div></div><div><div class="rpt-sl"></div><div class="rpt-sn">Brigitte Alfred</div><div class="rpt-sr">General Counsel, Solis Commerce Ltd</div></div></div>`;
+  document.getElementById("memo-ov").classList.add("open");
+};
+window.closeMemo=function(){document.getElementById("memo-ov").classList.remove("open");};
+document.getElementById("memo-ov").addEventListener("click",function(e){if(e.target===this)closeMemo();});
+
+/* START */
+renderAll(false);
+setTimeout(runChat,600);
+</script>
+</body>
+</html>
