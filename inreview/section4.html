@@ -230,10 +230,11 @@ textarea.note-txt::placeholder{color:#b4a880}
 .btn-submit-main.done{background:#0f4a2a;color:#6ee7b7;cursor:default;box-shadow:none}
 
 /* FLASH */
-#flash{position:fixed;inset:0;z-index:80;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s,background .2s;background:rgba(16,185,129,0)}
-#flash.on{opacity:1;background:rgba(16,185,129,.06)}
-.flash-ring{width:90px;height:90px;border-radius:50%;border:3px solid var(--grn);display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:var(--grn);transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
-#flash.on .flash-ring{transform:scale(1)}
+#flash{position:fixed;inset:0;z-index:80;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s,background .2s;background:rgba(148,163,184,0)}
+#flash.on{opacity:1;background:rgba(148,163,184,.05)}
+.flash-badge{display:flex;align-items:center;gap:10px;padding:14px 26px;border-radius:40px;border:1.5px solid rgba(226,232,240,.28);background:rgba(15,23,32,.82);backdrop-filter:blur(6px);font-family:"DM Sans",sans-serif;font-size:.86rem;font-weight:700;letter-spacing:.03em;color:#e2e8f0;transform:scale(.85);opacity:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+#flash.on .flash-badge{transform:scale(1);opacity:1}
+.flash-badge svg{width:18px;height:18px;flex-shrink:0}
 
 /* DONE */
 #done{display:none;position:fixed;inset:0;background:var(--bg);z-index:60;align-items:center;justify-content:center;flex-direction:column;gap:18px}
@@ -381,7 +382,7 @@ textarea.note-txt::placeholder{color:#b4a880}
   </div>
 </div>
 
-<div id="flash"><div class="flash-ring">&#10003;</div></div>
+<div id="flash"><div class="flash-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4M12 4l-6 6M12 4l6 6"/></svg>Submitted</div></div>
 <div id="done">
   <div class="done-icon">&#10003;</div>
   <div class="done-h">All Three Policies Updated</div>
@@ -409,7 +410,7 @@ const CHAT_MSGS=[
   {from:"devon",text:"I know the timing is rough right now."},
   {from:"devon",text:"We have a board meeting later today and I need your help before it."},
   {from:"devon",text:"INC-55810 \u2014 three of our governance policies directly enabled the breach. The vendor-portal-legacy exception, the MAINT-0291 suppression rule, the plaintext credential file. All three existed because our policies allowed them to."},
-  {from:"devon",text:"The board doesn\u2019t want these patched quietly. They want a real audit, benchmarked against NIST CSF, so we can show which controls failed and how far each one moves once it\u2019s fixed."},
+  {from:"devon",text:"The board wants a real audit, benchmarked against NIST CSF, so we can show which controls failed and how far each one moves once it\u2019s fixed."},
   {from:"devon",text:"Can you take the three failed policies, name the NIST control each one violated, and rewrite them to close the gap? We need this in front of the board before that meeting."},
 ];
 const REPLY_TEXT="Sure, I\u2019ll get on that.";
@@ -486,31 +487,31 @@ const POLICIES=[
    prompt:"What governance failure does this policy mitigate or prevent, and what operational trade-off does it create?",
    cats:[
     {id:"diag",lbl:"NIST Mapping",q:"Which NIST CSF subcategory did this control gap violate?",
-     ctx:"Name the control this policy actually broke before you rewrite a word of it. If the number isn\u2019t in the report, the board will read it as a patch, not a finding.",
+     ctx:"Name the control this policy actually broke before you rewrite it.",
      opts:[{id:"a",s:2,k:"A",f:"PR.AC-7 \u2014 Users, devices, and other assets are authenticated commensurate with the risk of the transaction."},
            {id:"b",s:1,k:"B",f:"PR.AC-1 \u2014 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes."},
            {id:"c",s:0,k:"C",f:"DE.CM-1 \u2014 The network is monitored to detect potential cybersecurity events."},
            {id:"d",s:0,k:"D",f:"ID.GV-3 \u2014 Legal and regulatory requirements regarding cybersecurity are understood and managed."}]},
     {id:"scope",lbl:"Scope of Application",q:"Who does this policy apply to?",nist:"PR.AC-1",
-     ctx:"The old policy said \u201cSolis systems\u201d and stopped there. Nobody had to name who it actually covered, which is exactly how a vendor account slipped through unquestioned.",
+     ctx:"The old policy said \u201cSolis systems\u201d and never defined who that meant. That\u2019s how a vendor account slipped through unquestioned.",
      opts:[{id:"a",s:0,k:"A",f:"All employees accessing Solis Commerce systems remotely are subject to this policy."},
            {id:"b",s:2,k:"B",f:"All users with remote access to Solis Commerce systems are subject to this policy."},
            {id:"c",s:0,k:"C",f:"All third-party and vendor accounts with remote system access are subject to this policy."},
            {id:"d",s:1,k:"D",f:"All users accessing cardholder data systems remotely are subject to this policy."}]},
     {id:"auth",lbl:"Authentication Requirement",q:"What authentication is required for remote access?",nist:"PR.AC-7",
-     ctx:"j.alvarez typed a password and walked straight in. Set the bar so that never works alone again, for anyone, on any system.",
+     ctx:"j.alvarez typed a password and walked straight in. Set the standard so a password alone is never enough.",
      opts:[{id:"a",s:0,k:"A",f:"Remote access requires a password of minimum 12 characters meeting complexity requirements."},
            {id:"b",s:0,k:"B",f:"Remote access uses single sign-on with biometric verification where hardware supports it."},
            {id:"c",s:2,k:"C",f:"Multi-factor authentication is required for all remote access to Solis systems."},
            {id:"d",s:1,k:"D",f:"Multi-factor authentication is required for cardholder data environment access. Password-only authentication is permitted for general network access."}]},
     {id:"exc",lbl:"Exception Handling",q:"How must exceptions be approved and documented?",nist:"PR.AC-4",
-     ctx:"Nobody remembers who approved vendor-portal-legacy, or why. Decide who has to sign their name to the next exception, and what they owe you to get it.",
+     ctx:"Nobody remembers who approved vendor-portal-legacy, or why. Decide who has to sign off on the next exception, and what they need to justify it.",
      opts:[{id:"a",s:2,k:"A",f:"Exceptions require written CISO approval, a documented business justification, and expire automatically after 90 days."},
            {id:"b",s:0,k:"B",f:"No exceptions to this policy are permitted under any circumstances, even for vendor systems or short-term technical constraints."},
            {id:"c",s:1,k:"C",f:"Exceptions require written approval from the CISO before they take effect, but no formal justification or duration is specified."},
            {id:"d",s:0,k:"D",f:"Exceptions may be granted at department head discretion and must be logged in the IT ticketing system for later reference."}]},
     {id:"life",lbl:"Lifecycle Governance",q:"When do exceptions expire?",nist:"PR.AC-4",
-     ctx:"Seven years. That\u2019s how long the exception sat there after whoever approved it moved on to something else. Decide what stops the next one from outliving everyone who remembers it.",
+     ctx:"Seven years is how long the exception sat after approval. Decide what stops the next one from outliving everyone who remembers it.",
      opts:[{id:"a",s:1,k:"A",f:"All active exceptions are reviewed once a year at the annual security audit, regardless of when they were originally approved."},
            {id:"b",s:0,k:"B",f:"The IT team maintains a running exception log that is reviewed and updated on a monthly basis by the operations team."},
            {id:"c",s:0,k:"C",f:"Exceptions remain active until manually removed by the manager who originally requested them, with no fixed end date."},
@@ -525,31 +526,31 @@ const POLICIES=[
    prompt:"What systemic failure does this policy address, and what does it demand from the operations team that may not currently exist?",
    cats:[
     {id:"diag",lbl:"NIST Mapping",q:"Which NIST CSF subcategory did this control gap violate?",
-     ctx:"MAINT-0291 didn\u2019t fail loudly. It just went quiet, and stayed quiet for 22 days after its window closed. Name what it broke before you decide how to fix it.",
+     ctx:"MAINT-0291 didn\u2019t fail loudly, it went quiet, and stayed quiet for 22 days after its window closed. Name what it broke before you fix it.",
      opts:[{id:"a",s:1,k:"A",f:"DE.CM-1 \u2014 The network is monitored to detect potential cybersecurity events."},
            {id:"b",s:2,k:"B",f:"DE.AE-5 \u2014 Incident alert thresholds are established."},
            {id:"c",s:0,k:"C",f:"PR.AC-7 \u2014 Users, devices, and other assets are authenticated commensurate with the risk of the transaction."},
            {id:"d",s:0,k:"D",f:"ID.GV-3 \u2014 Legal and regulatory requirements regarding cybersecurity are understood and managed."}]},
     {id:"resp",lbl:"Alert Response Obligation",q:"How quickly must security alerts be reviewed?",nist:"DE.AE-5",
-     ctx:"For three hours and thirty-two minutes, the alert sat in a queue nobody was required to check. Set the number that makes that impossible.",
+     ctx:"The alert sat in the queue for three hours and thirty-two minutes because no one was required to check it. Set the number that fixes that.",
      opts:[{id:"a",s:2,k:"A",f:"All HIGH and CRITICAL severity alerts must be reviewed by Tier 1 within 15 minutes of generation."},
            {id:"b",s:0,k:"B",f:"Security alerts are reviewed on a best-efforts basis during standard business hours."},
            {id:"c",s:0,k:"C",f:"Security alerts are triaged on a weekly basis by the security operations team."},
            {id:"d",s:1,k:"D",f:"HIGH severity alerts must be reviewed within 4 hours. CRITICAL alerts must be reviewed within 1 hour."}]},
     {id:"auth",lbl:"Suppression Authorization",q:"Who can authorize alert suppression?",nist:"DE.CM-1",
-     ctx:"An IT admin muted a HIGH severity alert on their own authority, mid-maintenance, with no security sign-off. Decide who gets to make that call from here on.",
+     ctx:"An IT admin muted a HIGH severity alert on their own authority, with no security sign-off. Decide who gets to make that call.",
      opts:[{id:"a",s:0,k:"A",f:"Suppression rules may be created by any IT administrator during approved maintenance windows."},
            {id:"b",s:1,k:"B",f:"Suppression rules require IT manager approval prior to activation."},
            {id:"c",s:0,k:"C",f:"Alert suppression rules are prohibited under all circumstances."},
            {id:"d",s:2,k:"D",f:"Alert suppression rules require written CISO approval before activation."}]},
     {id:"dur",lbl:"Suppression Duration",q:"How long can a suppression rule remain active?",nist:"DE.CM-1",
-     ctx:"Nobody set an end date on MAINT-0291, so it just kept running long after the work was done. Cap how long a suppression rule is allowed to outlive its own window.",
+     ctx:"Nobody set an end date on MAINT-0291, so it kept running long after the maintenance was done. Cap how long a suppression rule can outlive its window.",
      opts:[{id:"a",s:0,k:"A",f:"Suppression rules remain active until manually deactivated by the administrator who created them, with no automatic expiry."},
            {id:"b",s:1,k:"B",f:"Suppression rules carry a maximum duration of 7 days from their date of activation, renewable by the same administrator."},
            {id:"c",s:2,k:"C",f:"Suppression rules expire automatically after 72 hours or at the close of the maintenance window, whichever comes first."},
            {id:"d",s:0,k:"D",f:"Suppression rules expire at the end of the calendar quarter in which they were originally created and logged."}]},
     {id:"rev",lbl:"Post-Suppression Review",q:"What happens when a suppression rule expires?",nist:"DE.AE-3",
-     ctx:"MAINT-0291 expired on the 14th of February and nobody ever looked back at what it had been hiding. Decide what has to happen the moment a suppression rule dies.",
+     ctx:"MAINT-0291 expired on February 14th and no one reviewed what it had been hiding. Decide what happens the moment a suppression rule expires.",
      opts:[{id:"a",s:0,k:"A",f:"Suppression rule closures are logged automatically in the IT ticketing system for historical reference."},
            {id:"b",s:2,k:"B",f:"Every expired suppression rule requires documented review within 24 hours; findings are escalated to the CISO."},
            {id:"c",s:1,k:"C",f:"The CISO reviews suppression rule usage as part of the monthly security operations report to the board."},
@@ -564,31 +565,31 @@ const POLICIES=[
    prompt:"What does this policy prevent that the previous policy left open, and where might it create friction for the development team?",
    cats:[
     {id:"diag",lbl:"NIST Mapping",q:"Which NIST CSF subcategory did this control gap violate?",
-     ctx:"A password file, sitting in the open, readable by half the company. Name exactly what that failure is before you write a single word of the fix.",
+     ctx:"A password file sitting in the open, readable by half the company. Name what that failure is before you write the fix.",
      opts:[{id:"a",s:0,k:"A",f:"DE.CM-1 \u2014 The network is monitored to detect potential cybersecurity events."},
            {id:"b",s:1,k:"B",f:"PR.AC-1 \u2014 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes."},
            {id:"c",s:2,k:"C",f:"PR.DS-5 \u2014 Protections against data leaks are implemented."},
            {id:"d",s:0,k:"D",f:"ID.GV-3 \u2014 Legal and regulatory requirements regarding cybersecurity are understood and managed."}]},
     {id:"stor",lbl:"Credential Storage",q:"Where must service account credentials be stored?",nist:"PR.DS-5",
-     ctx:"legacy_creds.txt existed because nobody had ever written down where credentials were supposed to live. Decide that, once and for all.",
+     ctx:"legacy_creds.txt existed because no policy said where credentials were supposed to live. Decide that now.",
      opts:[{id:"a",s:0,k:"A",f:"Credentials may be stored in files, provided the containing file itself is password-protected and access-restricted."},
            {id:"b",s:0,k:"B",f:"Credentials stored on shared drives must be protected by folder-level access controls reviewed quarterly."},
            {id:"c",s:1,k:"C",f:"Service account credentials must be recorded in the IT ticketing system, with access limited to named administrators."},
            {id:"d",s:2,k:"D",f:"All service account and privileged credentials must be stored in an approved secrets management platform."}]},
     {id:"scr",lbl:"Scripts and Configuration Files",q:"Can credentials appear in scripts or shared files?",nist:"PR.DS-5",
-     ctx:"legacy_creds.txt existed because a script needed that password and nobody wanted to solve it properly. Close the door it walked through.",
+     ctx:"legacy_creds.txt existed because a script needed that password and no one solved it properly. Close that door.",
      opts:[{id:"a",s:2,k:"A",f:"Hardcoded credentials in scripts or configuration files are prohibited; scanning violations must be fixed within 48 hours."},
            {id:"b",s:1,k:"B",f:"Scripts containing credentials require prior written approval from the IT manager before they can be deployed to production."},
            {id:"c",s:0,k:"C",f:"Scripts and configuration files are reviewed for credential exposure once a year, during the scheduled security audit."},
            {id:"d",s:0,k:"D",f:"Developer guidelines recommend against storing credentials directly in scripts or configuration files across all teams."}]},
     {id:"priv",lbl:"Privilege Governance",q:"What privilege level should service accounts carry?",nist:"PR.AC-4",
-     ctx:"svc-helpdesk had owner rights on the card database, and nobody had ever asked why. Decide how much access a service account gets to justify by default: none.",
+     ctx:"svc-helpdesk had owner rights on the card database and no one had asked why. Decide what a service account gets by default, and what has to be justified to get more.",
      opts:[{id:"a",s:0,k:"A",f:"Service account privilege levels are set by the requesting department, based on its own stated operational requirements."},
            {id:"b",s:2,k:"B",f:"Service accounts follow least-privilege by default; owner-level access requires CISO approval and quarterly review."},
            {id:"c",s:1,k:"C",f:"Accounts with elevated privileges require prior approval from the IT manager before provisioning begins."},
            {id:"d",s:0,k:"D",f:"Service account privilege levels are documented in the IT asset register at the time of account creation."}]},
     {id:"ver",lbl:"Compliance Verification",q:"How is compliance with this policy verified?",nist:"PR.PT-1",
-     ctx:"That file sat there for years because nothing was ever looking for it. Decide how often something has to look.",
+     ctx:"That file sat there for years because nothing was looking for it. Decide how often something should.",
      opts:[{id:"a",s:0,k:"A",f:"The IT team conducts a manual credential audit once a year, covering all active shared storage locations."},
            {id:"b",s:0,k:"B",f:"Development teams self-certify credential compliance on a quarterly basis through a signed attestation form."},
            {id:"c",s:1,k:"C",f:"New systems and deployments are scanned for credential exposure only at the moment of initial deployment."},
@@ -609,7 +610,7 @@ function wcount(t){return t.trim()?t.trim().split(/\s+/).length:0;}
 
 function renderAll(anim){ctxView="devon";
   const app=document.getElementById("app");
-  app.className=cp().cls;
+  app.className="visible "+cp().cls;
   document.querySelector(".tb-icon").style.background="var(--pol)";
   renderScenes();renderCtx();renderStep(anim);renderBB();
 }
