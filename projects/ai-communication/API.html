@@ -36,12 +36,12 @@
 
   <nav class="tabs-wrap">
     <div class="tabs">
-      <button class="tab active" data-tab="t1"><span class="tab-n">01</span><span class="tab-name">APIs All Around You</span></button>
-      <button class="tab" data-tab="t2"><span class="tab-n">02</span><span class="tab-name">Anatomy of a Request</span></button>
-      <button class="tab" data-tab="t3"><span class="tab-n">03</span><span class="tab-name">Try It: API Simulator</span></button>
-      <button class="tab" data-tab="t4"><span class="tab-n">04</span><span class="tab-name">Auth and Keys</span></button>
-      <button class="tab" data-tab="t5"><span class="tab-n">05</span><span class="tab-name">Reading API Docs</span></button>
-      <button class="tab" data-tab="t6"><span class="tab-n">06</span><span class="tab-name">Reinforcement</span></button>
+      <button class="tab active" data-tab="t1"><span class="tab-n">01</span><span class="tab-name">APIs All Around You</span><span class="tab-check">✓</span></button>
+      <button class="tab" data-tab="t2"><span class="tab-n">02</span><span class="tab-name">Anatomy of a Request</span><span class="tab-check">✓</span></button>
+      <button class="tab" data-tab="t3"><span class="tab-n">03</span><span class="tab-name">Try It: API Simulator</span><span class="tab-check">✓</span></button>
+      <button class="tab" data-tab="t4"><span class="tab-n">04</span><span class="tab-name">Auth and Keys</span><span class="tab-check">✓</span></button>
+      <button class="tab" data-tab="t5"><span class="tab-n">05</span><span class="tab-name">Reading API Docs</span><span class="tab-check">✓</span></button>
+      <button class="tab" data-tab="t6"><span class="tab-n">06</span><span class="tab-name">Reinforcement</span><span class="tab-check">✓</span></button>
     </div>
   </nav>
 
@@ -50,13 +50,13 @@
     <!-- ══ TAB 1: APIS ALL AROUND YOU ════════════════════════════ -->
     <div class="panel active" id="panel-t1">
       <div class="editorial-header">
-        <div class="eh-label">Start here</div>
-        <h2 class="eh-title">APIs are already running Solebound</h2>
+        <div class="eh-label">The concept</div>
+        <h2 class="eh-title">APIs are all around you</h2>
         <p class="eh-sub">An API is a defined way for two software systems to talk to each other. You do not need to know how the other system works internally. You just need to know what to ask for and how to ask for it.</p>
       </div>
 
       <div class="prose-card">
-        <p>When a customer places an order on Solebound's Shopify store, Shopify does not email Amara manually. It calls an API. Specifically, it sends an HTTP request to a URL that Amara's Cloud Function is listening on, with the order details packaged as JSON. The function receives the request, reads the data, and does something with it. That exchange is an API call.</p>
+        <p>Solebound is run by Amara, its founder. She has no in-house developer, so she built the backend herself on Google Cloud Functions, and she keeps the shop's tools stitched together with a handful of APIs instead of a full engineering team. When a customer places an order on Solebound's Shopify store, Shopify does not email Amara manually. It calls an API. Specifically, it sends an HTTP request to a URL that Amara's Cloud Function is listening on, with the order details packaged as JSON. The function receives the request, reads the data, and does something with it. That exchange is an API call.</p>
         <p>APIs are how the modern internet works. Every app you have used today has made dozens of them. They are not a developer-only concept. They are the language that connected systems speak to each other, and understanding them is the first step to building those connections.</p>
       </div>
 
@@ -196,6 +196,36 @@
         <div class="eh-label">The security layer</div>
         <h2 class="eh-title">Authentication and API keys</h2>
         <p class="eh-sub">APIs are publicly accessible URLs. Without authentication, anyone who knows the URL could call them. Auth is how an API knows you are allowed to be there.</p>
+      </div>
+
+      <div class="section-label">What happens when a request arrives</div>
+      <div class="analogy-card">
+        <div class="auth-flow">
+          <div class="af-step">
+            <div class="af-icon">📤</div>
+            <div class="af-label">Your app sends a request</div>
+            <div class="af-code">Authorization: Bearer shpat_abc123</div>
+          </div>
+          <div class="an-arrow">→</div>
+          <div class="af-step">
+            <div class="af-icon">🔍</div>
+            <div class="af-label">Solebound's API checks the credential</div>
+            <div class="af-code">Valid key? Right scope? Not expired?</div>
+          </div>
+          <div class="an-arrow">→</div>
+          <div class="af-branch">
+            <div class="af-step af-ok">
+              <div class="af-icon">✅</div>
+              <div class="af-label">Credential checks out</div>
+              <div class="af-code">200 OK + data</div>
+            </div>
+            <div class="af-step af-bad">
+              <div class="af-icon">🚫</div>
+              <div class="af-label">Credential fails</div>
+              <div class="af-code">401 or 403 + error</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="auth-methods" id="auth-methods"></div>
@@ -525,6 +555,9 @@ st.textContent = [
   '.tab.active{color:var(--blue);border-bottom-color:var(--blue)}',
   '.tab-n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;opacity:.7;letter-spacing:1px}',
   '.tab-name{font-size:.85rem;font-weight:600;white-space:nowrap}',
+  '.tab-check{display:none;color:var(--teal);font-size:.78rem;font-weight:700;margin-left:1px}',
+  '.tab.done .tab-check{display:inline}',
+  '.tab.done .tab-n{opacity:.35}',
   '.main{max-width:1100px;margin:0 auto;padding:40px 28px 100px}',
   '.panel{display:none}.panel.active{display:block;animation:slideIn .35s ease}',
   '@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}',
@@ -561,6 +594,17 @@ st.textContent = [
   '.an-label{font-family:"Playfair Display",serif;font-size:.88rem;font-weight:700;color:var(--txt);margin-bottom:4px}',
   '.an-desc{font-size:.82rem;color:var(--muted);line-height:1.5}',
   '.an-arrow{font-size:1.4rem;color:var(--b2);flex-shrink:0}',
+  '.auth-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}',
+  '.af-step{flex:1;min-width:150px;text-align:center;padding:14px 10px;background:var(--card2);border:1px solid var(--b1);border-radius:10px}',
+  '.af-icon{font-size:1.6rem;margin-bottom:6px}',
+  '.af-label{font-family:"Playfair Display",serif;font-size:.86rem;font-weight:700;color:var(--txt);margin-bottom:6px;line-height:1.3}',
+  '.af-code{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--muted);word-break:break-word}',
+  '.af-branch{display:flex;flex-direction:column;gap:8px;flex:1;min-width:170px}',
+  '.af-branch .af-step{min-width:0}',
+  '.af-ok{background:var(--ok-bg);border-color:var(--ok-border)}',
+  '.af-ok .af-code{color:var(--ok-txt)}',
+  '.af-bad{background:var(--warn-bg);border-color:var(--warn-border)}',
+  '.af-bad .af-code{color:var(--warn-txt)}',
   // ANATOMY
   '.request-anatomy{background:var(--card);border:1px solid var(--b1);border-radius:14px;overflow:hidden;box-shadow:var(--sh2);margin-bottom:16px}',
   '.ra-header{padding:10px 18px;background:var(--card2);border-bottom:1px solid var(--b1);font-family:"IBM Plex Mono",monospace;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}',
@@ -697,7 +741,7 @@ st.textContent = [
   '.score-reveal{text-align:center;padding:40px 20px;background:var(--card);border:1px solid var(--b1);border-radius:16px;box-shadow:var(--sh3);animation:slideIn .5s ease;margin-top:20px}',
   '.sr-ring{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:"Playfair Display",serif;font-size:2rem;font-weight:700;color:#fff;box-shadow:var(--sh2)}',
   '.sr-msg{font-size:1rem;color:var(--dim);max-width:480px;margin:0 auto;line-height:1.8}',
-  '@media(max-width:900px){.simulator{grid-template-columns:1fr}.verb-grid{grid-template-columns:1fr 1fr}.status-codes{grid-template-columns:1fr}.auth-body{grid-template-columns:1fr}.ra-detail-inner{grid-template-columns:1fr}.an-col{flex-direction:column;align-items:center}.an-arrow{transform:rotate(90deg)}}',
+  '@media(max-width:900px){.simulator{grid-template-columns:1fr}.verb-grid{grid-template-columns:1fr 1fr}.status-codes{grid-template-columns:1fr}.auth-body{grid-template-columns:1fr}.ra-detail-inner{grid-template-columns:1fr}.an-col{flex-direction:column;align-items:center}.an-arrow{transform:rotate(90deg)}.auth-flow{flex-direction:column}.auth-flow .an-arrow{transform:rotate(90deg)}.af-branch{flex-direction:row;width:100%}}',
   '@media(max-width:640px){.main{padding:24px 16px 80px}.tab-name{font-size:.74rem}.verb-grid{grid-template-columns:1fr}.dr-param{grid-template-columns:1fr}}',
   '.app[data-theme="dark"] .qz-opt,.app[data-theme="dark"] .ep-item{background:var(--card2)}'
 ].join('');
@@ -715,15 +759,39 @@ on($('theme-btn'),'click',function(){
   $('theme-label').textContent=dark?'Dark Mode':'Light Mode';
 });
 
+/* ══════ PROGRESS (localStorage) ═══════════════════════════════ */
+var PROGRESS_KEY='solebound_api_progress';
+var completed={};
+try{completed=JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');}catch(e){completed={};}
+
+function markComplete(id){
+  if(completed[id])return;
+  completed[id]=true;
+  try{localStorage.setItem(PROGRESS_KEY,JSON.stringify(completed));}catch(e){}
+  var btn=document.querySelector('[data-tab="'+id+'"]');
+  if(btn)btn.classList.add('done');
+}
+
+function applySavedProgress(){
+  Object.keys(completed).forEach(function(id){
+    var btn=document.querySelector('[data-tab="'+id+'"]');
+    if(btn)btn.classList.add('done');
+  });
+}
+
 /* ══════ TABS ═══════════════════════════════════════════════════ */
 function switchTab(id){
+  var leaving=document.querySelector('.tab.active');
+  var leavingId=leaving?leaving.getAttribute('data-tab'):null;
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
   var panel=$('panel-'+id),btn=document.querySelector('[data-tab="'+id+'"]');
   if(panel)panel.classList.add('active');
   if(btn)btn.classList.add('active');
   $('page-top').scrollIntoView({behavior:'smooth'});
+  if(leavingId&&leavingId!==id&&leavingId!=='t6')markComplete(leavingId);
 }
+applySavedProgress();
 document.querySelectorAll('.tab').forEach(function(btn){
   btn.addEventListener('click',function(){switchTab(btn.getAttribute('data-tab'));});
 });
@@ -1086,6 +1154,7 @@ buildQuiz();
 
 function showScore(){
   var reveal=$('score-reveal');if(!reveal)return;
+  markComplete('t6');
   reveal.style.display='block';
   var pct=Math.round(quizScore/QUIZ.length*100);
   var color=pct>=80?'linear-gradient(135deg,#1e3a5f,#0a5c52)':pct>=60?'#c67c00':'#8b2a2a';
