@@ -725,7 +725,7 @@ function renderBB(){
   if(s.committed){
     act.style.display="none";nxt.style.display=allCommitted?"none":"block";sub.style.display=allCommitted?"block":"none";
     const nextP=POLICIES[cur+1];
-    if(nextP)nxt.innerHTML="Next: <span style='color:var(--pol);font-weight:800'>"+nextP.short+"</span> &#8594;";
+    if(nextP)nxt.innerHTML="Next: <span style='color:#ffffff;font-weight:800'>"+nextP.short+"</span> &#8594;";
   } else if(s.review){
     act.style.display="block";nxt.style.display="none";sub.style.display="none";
     act.className="btn-action ready";act.disabled=false;act.textContent="Update Policy";act.onclick=doSeal;
