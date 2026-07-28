@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quantum Readiness Assessment / Solis Commerce</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#07080f;color:#e2e8f4;overflow:hidden;font-family:"DM Sans",sans-serif}
+:root{
+  --bg:#07080f;--s1:#0c1020;--s2:#111828;--s3:#172034;
+  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.11);--b3:rgba(255,255,255,.2);
+  --txt:#e6ecf8;--sec:#8a96b0;--mut:#344060;
+  --teal:#2ca9bc;--teal-d:rgba(44,169,188,.12);--teal-b:rgba(44,169,188,.28);
+  --grn:#10b981;--grn-d:rgba(16,185,129,.12);--grn-b:rgba(16,185,129,.3);
+  --amb:#f59e0b;--red:#ef4444;--org:#f97316;
+  --paper:#f8f2e6;--paper-d:#eee0c4;
+  --ink:#1e1408;--ink-sec:#6a5a3a;--ink-mut:#9a8a6a;
+  --stamp:#c01818;
+  --mono:"JetBrains Mono",monospace;--serif:"Fraunces",Georgia,serif;
+}
+/* TRANSMISSION */
+#tx{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:44px 20px;transition:opacity .9s ease}
+#tx.out{opacity:0;pointer-events:none}
+.tx-card{width:620px;max-width:100%;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:34px 38px 30px;box-shadow:0 0 80px rgba(44,169,188,.06),0 24px 60px rgba(0,0,0,.6)}
+.tx-stamp{font-family:var(--mono);font-size:.56rem;letter-spacing:.22em;color:var(--teal);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.tx-stamp::before,.tx-stamp::after{content:"";flex:1;height:1px;background:rgba(44,169,188,.25)}
+.tx-meta{font-family:var(--mono);font-size:.72rem;line-height:2;color:rgba(255,255,255,.62);margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px}
+.tx-meta span{color:rgba(255,255,255,.85)}
+.tx-body{font-size:.9rem;line-height:1.88;color:rgba(255,255,255,.86);min-height:120px}
+.tx-body p{margin-bottom:10px}
+.tx-cursor{display:inline-block;width:2px;height:1em;background:var(--teal);vertical-align:text-bottom;animation:blink .65s step-end infinite;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.tx-sign{font-size:.76rem;color:rgba(255,255,255,.45);margin-top:16px;border-top:1px solid rgba(255,255,255,.07);padding-top:13px;font-family:var(--mono)}
+.tx-btn{margin-top:20px;padding:12px 30px;background:transparent;border:1px solid rgba(44,169,188,.4);border-radius:8px;font-size:.79rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:"DM Sans",sans-serif;color:var(--teal);cursor:pointer;transition:all .2s;display:none;box-shadow:0 0 24px rgba(44,169,188,.08)}
+.tx-btn:hover{background:rgba(44,169,188,.1);border-color:var(--teal)}
+.tx-btn.show{display:inline-block;animation:fadein .5s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* APP */
+#app{display:flex;flex-direction:column;height:100vh;opacity:0;transition:opacity .8s ease;pointer-events:none}
+#app.visible{opacity:1;pointer-events:all}
+/* TOP BAR */
+#tb{height:54px;min-height:54px;background:rgba(7,8,15,.97);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 18px;z-index:30;backdrop-filter:blur(10px)}
+.tb-brand{display:flex;align-items:center;gap:9px}
+.tb-icon{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#0e1a38,#2ca9bc);display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:800;color:#fff;font-family:var(--mono)}
+.tb-title{font-size:.73rem;font-weight:700;color:rgba(255,255,255,.55)}
+.tb-tabs{display:flex;gap:3px;margin-left:18px;padding:0 14px;border-left:1px solid var(--b1);border-right:1px solid var(--b1)}
+.tb-tab{padding:5px 14px;border-radius:7px;cursor:pointer;font-size:.69rem;font-weight:600;color:rgba(255,255,255,.3);transition:all .2s;border:1px solid transparent;font-family:"DM Sans",sans-serif}
+.tb-tab:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.6)}
+.tb-tab.active{background:var(--teal-d);color:var(--teal);border-color:var(--teal-b)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.tb-live{font-size:.62rem;color:rgba(255,255,255,.25);font-family:var(--mono)}
+.tb-live span{color:var(--teal);font-weight:600}
+.btn-ghost{padding:5px 12px;border-radius:6px;font-size:.66rem;font-weight:600;font-family:"DM Sans",sans-serif;cursor:pointer;background:transparent;border:1px solid var(--b2);color:rgba(255,255,255,.45);transition:all .18s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.82)}
+.btn-submit{padding:7px 19px;border-radius:7px;font-size:.7rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:not-allowed;background:rgba(255,255,255,.06);color:rgba(255,255,255,.22);transition:all .22s}
+.btn-submit.ready{background:var(--teal);color:#000;cursor:pointer;box-shadow:0 0 18px rgba(44,169,188,.3)}
+.btn-submit.ready:hover{opacity:.92;transform:translateY(-1px)}
+/* WS */
+#ws{flex:1;overflow:hidden;display:flex;flex-direction:column}
+/* DOSSIER VIEW */
+#dos-view{flex:1;overflow:hidden;display:flex;flex-direction:column;background:#f5f0e8}
+#dos-view.hidden{display:none}
+#folder-grid{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;padding:22px;align-content:start;overflow-y:auto}
+.folder{position:relative;cursor:pointer;padding-top:22px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.22));transition:filter .22s,transform .22s}
+.folder:hover{transform:translateY(-8px) rotate(-1deg);filter:drop-shadow(0 14px 32px rgba(0,0,0,.32))}
+.folder-tab{position:absolute;top:0;left:20px;width:52px;height:22px;border-radius:6px 6px 0 0}
+.folder-body{background:var(--paper);border-radius:3px 8px 5px 5px;padding:14px 13px 16px;min-height:128px;position:relative;overflow:hidden}
+.folder-body::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 20px,rgba(0,0,0,.035) 20px,rgba(0,0,0,.035) 21px);pointer-events:none}
+.folder-wm{position:absolute;bottom:-6px;right:-6px;font-size:3.8rem;opacity:.05;pointer-events:none;user-select:none;line-height:1}
+.folder-stamp{position:absolute;top:10px;right:9px;font-size:.42rem;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:var(--stamp);border:1.5px solid var(--stamp);padding:1px 4px;border-radius:2px;transform:rotate(-7deg);opacity:.75;font-family:var(--mono)}
+.folder-ck{position:absolute;top:10px;left:10px;width:17px;height:17px;border-radius:50%;background:var(--grn);display:none;align-items:center;justify-content:center;font-size:.54rem;color:#fff;font-weight:700;z-index:2}
+.folder.committed .folder-ck{display:flex}
+.folder.committed .folder-body{background:#f2f8f4}
+.folder.committed .folder-stamp{display:none}
+.folder-icon{font-size:1.8rem;display:block;margin-bottom:8px;line-height:1;position:relative;z-index:1}
+.folder-name{font-size:.7rem;font-weight:700;color:var(--ink);line-height:1.3;position:relative;z-index:1}
+.folder-sub{margin-top:7px;font-size:.57rem;font-family:var(--mono);letter-spacing:.03em;position:relative;z-index:1}
+.folder-sub.pending{color:var(--ink-mut)}
+.folder-sub.done{color:#059669;font-weight:600}
+/* OPEN DOSSIER */
+#open-dos{flex:1;display:none;flex-direction:column;overflow:hidden}
+.dos-bar{padding:9px 18px;background:#ede3ce;border-bottom:1px solid #d8caa8;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.dos-bar-back{font-size:.67rem;color:var(--ink-sec);cursor:pointer;padding:5px 11px;border:1px solid #c8b890;border-radius:6px;background:transparent;font-family:"DM Sans",sans-serif;transition:all .15s}
+.dos-bar-back:hover{background:rgba(0,0,0,.04);color:var(--ink)}
+.dos-bar-name{font-size:.8rem;font-weight:700;color:var(--ink);flex:1}
+.dos-bar-prog{font-family:var(--mono);font-size:.6rem;color:var(--ink-mut)}
+.dos-bar-hint{padding:6px 13px;border-radius:6px;font-size:.65rem;font-weight:600;font-family:"DM Sans",sans-serif;cursor:pointer;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#92400e;transition:all .15s}
+.dos-bar-hint:hover{background:rgba(245,158,11,.18)}
+.dos-pages{flex:1;display:grid;grid-template-columns:1fr 8px 1fr;overflow:hidden}
+.dos-page{padding:18px 22px;overflow-y:auto;background:var(--paper);position:relative}
+.dos-spine{background:linear-gradient(180deg,#c8b890,#d8caa8 30%,#c8b890);border-left:1px solid #b8a880;border-right:1px solid #b8a880}
+.dos-classbar{font-family:var(--mono);font-size:.45rem;font-weight:700;letter-spacing:.18em;color:#fff;background:var(--stamp);text-align:center;padding:3px;margin:-18px -22px 13px;text-transform:uppercase}
+.dos-sec-lbl{font-size:.52rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-mut);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.dos-sec-lbl::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.1)}
+.dos-asset-title{font-family:var(--serif);font-size:1.12rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:5px;letter-spacing:-.01em}
+.dos-brief{font-size:.73rem;color:#4a3a20;line-height:1.68;margin-bottom:12px}
+.dos-ctx-lbl{font-size:.53rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mut);margin-bottom:4px}
+.dos-ctx{font-size:.7rem;color:#3a2e18;line-height:1.68;padding:8px 11px;background:rgba(0,0,0,.03);border-radius:5px;border-left:2px solid rgba(0,0,0,.12);margin-bottom:13px}
+/* MOSCA CALC */
+.mosca-wrap{background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.1);border-radius:7px;padding:10px 12px;margin-bottom:12px}
+.mosca-lbl{font-size:.52rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mut);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.mosca-lbl::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.08)}
+.mosca-svg-wrap{width:100%;margin-bottom:8px}
+.mosca-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mosca-ctrl{font-size:.62rem;color:var(--ink-sec)}
+.mosca-ctrl label{display:block;font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-mut);margin-bottom:3px}
+.mosca-ctrl input[type=range]{width:100%;cursor:pointer;accent-color:var(--teal)}
+.mosca-status{text-align:center;font-size:.7rem;font-weight:700;font-family:var(--mono);margin-top:5px;padding:4px 10px;border-radius:4px}
+.mosca-status.open{background:rgba(239,68,68,.12);color:#c01818;border:1px solid rgba(239,68,68,.2)}
+.mosca-status.closed{background:rgba(16,185,129,.1);color:#047857;border:1px solid rgba(16,185,129,.2)}
+/* DIMENSION CARDS */
+.dim-card{border:1.5px solid #ddd4ba;border-radius:8px;overflow:hidden;margin-bottom:7px;transition:border-color .2s}
+.dim-card.answered{border-color:#a7f3d0}
+.dim-card-hdr{padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;background:rgba(255,255,255,.5);user-select:none;transition:background .15s}
+.dim-card.expanded .dim-card-hdr{background:#fff;border-bottom:1px solid #ddd4ba}
+.dim-card.answered .dim-card-hdr{background:#f0f8f2}
+.dim-icon{font-size:.9rem;flex-shrink:0;line-height:1}
+.dim-lbl{font-size:.67rem;font-weight:700;color:var(--ink);flex:1}
+.dim-preview{font-size:.58rem;color:#059669;font-weight:600;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dim-chev{font-size:.52rem;color:var(--ink-mut);transition:transform .2s}
+.dim-card.expanded .dim-chev{transform:rotate(180deg)}
+.dim-body{display:none;padding:9px 12px;background:#fff}
+.dim-card.expanded .dim-body{display:block;animation:sidein .18s ease}
+@keyframes sidein{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.dim-ctx{font-size:.68rem;color:var(--ink-sec);line-height:1.58;margin-bottom:8px;padding:6px 9px;background:rgba(0,0,0,.025);border-radius:4px;border-left:2px solid rgba(0,0,0,.1)}
+.dim-opt{padding:8px 11px;border:1.5px solid #ddd4ba;border-radius:6px;cursor:pointer;margin-bottom:6px;font-size:.7rem;color:var(--ink);line-height:1.42;transition:all .13s;display:flex;gap:8px;align-items:flex-start}
+.dim-opt:last-child{margin-bottom:0}
+.dim-opt:hover{border-color:var(--teal);background:rgba(44,169,188,.04)}
+.dim-opt.sel{border-color:var(--grn);background:rgba(16,185,129,.07)}
+.dim-opt-key{font-family:var(--mono);font-size:.56rem;font-weight:700;color:#c4b09a;flex-shrink:0;padding-top:1px;transition:color .12s}
+.dim-opt.sel .dim-opt-key{color:#059669}
+/* ATTESTATION */
+.attest-zone{margin-top:10px;padding:12px 14px;background:rgba(0,0,0,.04);border-radius:8px;border:1.5px solid rgba(0,0,0,.1);display:none}
+.attest-zone.visible{display:block;animation:fadein .3s ease}
+.attest-check-row{display:flex;align-items:flex-start;gap:9px;margin-bottom:12px}
+.attest-check-row input[type=checkbox]{width:14px;height:14px;cursor:pointer;flex-shrink:0;margin-top:2px;accent-color:var(--ink)}
+.attest-check-row label{font-size:.7rem;color:var(--ink-sec);line-height:1.5;cursor:pointer}
+.attest-panel{display:none;margin-top:2px}
+.attest-panel.show{display:block;animation:fadein .25s ease}
+.attest-sub{font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-mut);margin-bottom:6px}
+.confidence-row{display:flex;gap:6px;margin-bottom:12px}
+.conf-pill{flex:1;padding:7px 4px;text-align:center;border:1.5px solid #ddd4ba;border-radius:6px;cursor:pointer;font-size:.66rem;font-weight:600;color:var(--ink-sec);transition:all .15s;background:transparent;font-family:"DM Sans",sans-serif}
+.conf-pill:hover{border-color:var(--teal);color:var(--ink)}
+.conf-pill.sel{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.rationale-opts{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.rat-opt{padding:8px 11px;border:1.5px solid #ddd4ba;border-radius:6px;cursor:pointer;font-size:.68rem;color:var(--ink-sec);line-height:1.42;transition:all .13s;display:flex;gap:8px}
+.rat-opt:hover{border-color:var(--teal);background:rgba(44,169,188,.04)}
+.rat-opt.sel{border-color:var(--ink);background:rgba(30,20,8,.05);color:var(--ink)}
+.rat-opt-key{font-family:var(--mono);font-size:.56rem;font-weight:700;color:#c4b09a;flex-shrink:0;padding-top:1px}
+.rat-opt.sel .rat-opt-key{color:var(--ink)}
+.btn-authorize{width:100%;padding:10px;border:none;border-radius:7px;font-size:.74rem;font-weight:700;font-family:"DM Sans",sans-serif;cursor:not-allowed;background:rgba(0,0,0,.1);color:rgba(0,0,0,.3);transition:all .22s}
+.btn-authorize.ready{background:var(--ink);color:var(--paper);cursor:pointer}
+.btn-authorize.ready:hover{background:#0e0c06;transform:translateY(-1px)}
+/* DOSSIER FOOTER */
+.dos-foot{padding:10px 18px;background:#ede3ce;border-top:1px solid #d8caa8;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.dos-dots{display:flex;gap:4px}
+.dos-dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.14);transition:background .2s}
+.dos-dot.done{background:var(--ink)}
+/* MATRIX VIEW */
+#matrix-view{flex:1;overflow:hidden;display:none;flex-direction:column;background:var(--bg)}
+#matrix-view.active{display:flex}
+.mat-hdr{padding:14px 20px;border-bottom:1px solid var(--b1);flex-shrink:0}
+.mat-hdr-t{font-size:.76rem;font-weight:700;color:var(--txt)}
+.mat-hdr-s{font-size:.66rem;color:var(--sec);margin-top:2px}
+.mat-main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px}
+.mat-leg{padding:11px 20px;border-top:1px solid var(--b1);display:flex;gap:16px;flex-shrink:0;flex-wrap:wrap}
+.leg-i{display:flex;align-items:center;gap:6px;font-size:.64rem;color:var(--sec)}
+.leg-d{width:10px;height:10px;border-radius:50%}
+/* DEVON */
+#devon-panel{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(calc(100% + 2px));width:680px;max-width:95vw;background:var(--s1);border:1px solid var(--b2);border-bottom:none;border-radius:14px 14px 0 0;box-shadow:0 -8px 50px rgba(0,0,0,.55);z-index:100;transition:transform .42s cubic-bezier(.16,1,.3,1)}
+#devon-panel.open{transform:translateX(-50%) translateY(0)}
+.dev-hdr{padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--b1)}
+.dev-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#fff}
+.dev-name{font-size:.76rem;font-weight:700;color:var(--txt)}
+.dev-role{font-size:.6rem;color:var(--sec)}
+.dev-badge{font-size:.53rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:rgba(245,158,11,.14);color:var(--amb);border:1px solid rgba(245,158,11,.28);margin-left:3px}
+.dev-close{margin-left:auto;background:none;border:none;color:var(--sec);cursor:pointer;font-size:.8rem;padding:3px 7px}
+.dev-body{padding:12px 18px;font-size:.76rem;color:var(--sec);line-height:1.78}
+/* PRIORITY SCREEN */
+#pri-screen{display:none;position:fixed;inset:0;background:#0a0d16;z-index:60;flex-direction:column}
+#pri-screen.show{display:flex;animation:fadein .5s ease}
+.pri-hdr{padding:18px 24px 13px;border-bottom:1px solid var(--b1);flex-shrink:0}
+.pri-hdr-t{font-family:var(--serif);font-size:1.28rem;font-weight:700;color:var(--txt);margin-bottom:3px}
+.pri-hdr-s{font-size:.72rem;color:var(--sec);line-height:1.6;max-width:560px}
+.pri-budget-bar{padding:10px 24px;background:var(--s1);border-bottom:1px solid var(--b1);display:flex;gap:20px;flex-shrink:0}
+.budget-slot{display:flex;align-items:center;gap:8px;font-size:.66rem;color:var(--sec)}
+.budget-slot strong{color:var(--txt);font-weight:700}
+.budget-track{display:flex;gap:3px}
+.budget-pip{width:16px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);transition:background .3s}
+.budget-pip.used.now{background:#ef4444}
+.budget-pip.used.mid{background:#f59e0b}
+.budget-pip.used.future{background:var(--teal)}
+.budget-warning{font-size:.63rem;color:#ef4444;margin-left:6px;animation:pulse .8s ease infinite alternate}
+@keyframes pulse{from{opacity:.6}to{opacity:1}}
+.pri-body{flex:1;display:flex;gap:12px;padding:14px 20px;overflow:hidden}
+.pri-src{width:190px;min-width:190px;display:flex;flex-direction:column;gap:5px}
+.pri-src-lbl{font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.28);margin-bottom:5px}
+.pri-chip{padding:8px 10px;background:var(--s2);border:1px solid var(--b1);border-radius:8px;cursor:pointer;transition:all .16s;font-size:.7rem;color:rgba(255,255,255,.62);display:flex;align-items:center;gap:7px}
+.pri-chip:hover{border-color:var(--b2);color:var(--txt);background:var(--s3)}
+.pri-chip.selected{border-color:var(--teal);background:var(--teal-d);color:var(--txt)}
+.pri-chip.placed{cursor:default;opacity:.5}
+.pri-chip-ico{font-size:.9rem;flex-shrink:0}
+.pri-lane{flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;cursor:pointer;transition:border-color .2s}
+.pri-lane:hover{border-color:var(--b2)}
+.pri-lane-hdr{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding-bottom:7px;border-bottom:1px solid var(--b1);margin-bottom:2px;pointer-events:none}
+.pri-lane-sub{font-size:.58rem;color:rgba(255,255,255,.25);font-weight:400;text-transform:none;letter-spacing:0;margin-top:1px}
+.pri-lane-cap{font-size:.57rem;color:rgba(255,255,255,.2);margin-top:2px;font-family:var(--mono)}
+.lane-now{border-top:3px solid rgba(239,68,68,.4)}.lane-now .pri-lane-hdr{color:#ef4444}
+.lane-mid{border-top:3px solid rgba(245,158,11,.4)}.lane-mid .pri-lane-hdr{color:#f59e0b}
+.lane-future{border-top:3px solid rgba(44,169,188,.4)}.lane-future .pri-lane-hdr{color:var(--teal)}
+.lane-full{opacity:.5;cursor:not-allowed}
+.pri-foot{padding:10px 20px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--s1)}
+.pri-status{font-size:.66rem;color:rgba(255,255,255,.3)}
+.pri-status span{color:var(--teal);font-weight:700}
+.btn-pri{padding:10px 24px;border-radius:8px;font-size:.73rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:not-allowed;background:rgba(255,255,255,.06);color:rgba(255,255,255,.25);transition:all .22s}
+.btn-pri.ready{background:var(--teal);color:#000;cursor:pointer;box-shadow:0 0 22px rgba(44,169,188,.35)}
+.btn-pri.ready:hover{opacity:.9}
+/* CFO EMAIL SCREEN */
+#cfo-screen{display:none;position:fixed;inset:0;background:#07080f;z-index:70;align-items:center;justify-content:center;flex-direction:column;padding:24px}
+#cfo-screen.show{display:flex;animation:fadein .5s ease}
+.email-window{width:580px;max-width:100%;background:var(--s1);border:1px solid var(--b2);border-radius:12px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.email-bar{height:28px;background:#1a2030;display:flex;align-items:center;padding:0 12px;gap:6px}
+.email-bar-dot{width:8px;height:8px;border-radius:50%}
+.email-header{padding:14px 18px;border-bottom:1px solid var(--b1);background:rgba(0,0,0,.15)}
+.email-from-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.email-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1a3a2a,#2a6a4a);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#fff;flex-shrink:0}
+.email-from-name{font-size:.8rem;font-weight:700;color:var(--txt)}
+.email-from-role{font-size:.62rem;color:var(--sec)}
+.email-subject-row{font-size:.68rem;color:var(--sec);padding-left:42px}
+.email-body{padding:16px 18px;font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.78}
+.email-body p{margin-bottom:10px}
+.email-body p:last-child{margin-bottom:0}
+.email-replies{padding:14px 18px;border-top:1px solid var(--b1);display:flex;gap:10px}
+.btn-reply{flex:1;padding:11px 14px;border-radius:8px;font-size:.72rem;font-weight:700;font-family:"DM Sans",sans-serif;border:1.5px solid var(--b2);background:transparent;color:rgba(255,255,255,.6);cursor:pointer;transition:all .18s;line-height:1.35}
+.btn-reply.defend{border-color:rgba(44,169,188,.35);color:var(--teal)}
+.btn-reply.defend:hover{background:var(--teal-d);border-color:var(--teal)}
+.btn-reply.concede{border-color:rgba(255,255,255,.12)}
+.btn-reply.concede:hover{background:rgba(255,255,255,.05);border-color:var(--b3);color:var(--txt)}
+/* CFO RESPONSE */
+#cfo-response{display:none;position:fixed;inset:0;background:#07080f;z-index:75;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:24px}
+#cfo-response.show{display:flex;animation:fadein .5s ease}
+.response-icon{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem}
+.response-icon.defend{background:var(--grn-d);border:2px solid var(--grn-b);color:var(--grn)}
+.response-icon.concede{background:var(--teal-d);border:2px solid var(--teal-b);color:var(--teal)}
+.response-title{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:var(--txt);text-align:center}
+.response-body{font-size:.78rem;color:var(--sec);max-width:440px;text-align:center;line-height:1.75}
+.response-devon{background:var(--s1);border:1px solid var(--b2);border-radius:10px;padding:14px 18px;max-width:480px;display:flex;gap:11px}
+.response-devon-txt{font-size:.75rem;color:var(--sec);line-height:1.72}
+.response-devon-txt strong{color:var(--txt)}
+.btn-complete{padding:11px 28px;border-radius:8px;font-size:.76rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;background:var(--grn);color:#fff;cursor:pointer;transition:all .2s;margin-top:6px}
+.btn-complete:hover{opacity:.9}
+/* FLASH */
+#flash{position:fixed;inset:0;z-index:80;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .18s,background .18s;background:rgba(16,185,129,0)}
+#flash.on{opacity:1;background:rgba(16,185,129,.06)}
+.flash-ring{width:86px;height:86px;border-radius:50%;border:3px solid var(--grn);display:flex;align-items:center;justify-content:center;font-size:2.1rem;color:var(--grn);transform:scale(0);transition:transform .38s cubic-bezier(.34,1.56,.64,1)}
+#flash.on .flash-ring{transform:scale(1)}
+/* MEMO MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(7px);z-index:200;align-items:center;justify-content:center;padding:20px}
+.ov.open{display:flex;animation:fadein .22s ease}
+.ov-box{background:#f5f1eb;border-radius:8px;width:100%;max-width:800px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.ov-hdr{padding:12px 20px;border-bottom:1px solid #e0d8cc;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#f5f1eb}
+.ov-hdr-t{font-size:.76rem;font-weight:700;color:#1a1a1a}
+.ov-close{background:none;border:none;font-size:.92rem;cursor:pointer;color:#9a8a70}
+.memo{padding:24px 32px;font-size:.76rem;color:#1a1a1a;line-height:1.85}
+
+/* CFO EMAIL ANIMATION */
+#cfo-screen{transition:opacity .4s ease}
+#cfo-screen.show{animation:email-slide .5s cubic-bezier(.16,1,.3,1)}
+@keyframes email-slide{from{opacity:0;transform:translateY(20px) scale(.98)}to{opacity:1;transform:none}}
+.email-body p{opacity:0;animation:para-in .4s ease forwards}
+.email-body p:nth-child(1){animation-delay:.3s}
+.email-body p:nth-child(2){animation-delay:.7s}
+.email-body p:nth-child(3){animation-delay:1.1s}
+@keyframes para-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* SUCCESS STAMP */
+.stamp-overlay{position:fixed;inset:0;pointer-events:none;z-index:75;display:flex;align-items:center;justify-content:center;opacity:0}
+.stamp-overlay.show{animation:stamp-seq 2.5s ease forwards}
+@keyframes stamp-seq{0%{opacity:0}15%{opacity:1}70%{opacity:1}100%{opacity:0}}
+.stamp-ring{width:200px;height:200px;border-radius:50%;border:5px solid var(--grn);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;transform:scale(0) rotate(-15deg);animation:none}
+.stamp-overlay.show .stamp-ring{animation:stamp-pop 0.5s cubic-bezier(.34,1.56,.64,1) .2s forwards}
+@keyframes stamp-pop{from{transform:scale(0) rotate(-15deg)}to{transform:scale(1) rotate(-5deg)}}
+.stamp-text{font-family:var(--mono);font-size:.68rem;font-weight:900;letter-spacing:.15em;color:var(--grn);text-transform:uppercase;text-align:center;line-height:1.4}
+.stamp-icon{font-size:2.4rem;color:var(--grn)}
+/* CFO RESPONSE POLISH */
+#cfo-response{background:linear-gradient(160deg,#07080f 60%,#0c1020)}
+.response-devon{animation:rise-in .5s ease .3s both}
+@keyframes rise-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* MATRIX PULSE (for completion) */
+@keyframes dot-pulse{0%,100%{r:11;opacity:.9}50%{r:15;opacity:1;filter:drop-shadow(0 0 12px currentColor)}}
+/* DRAG CHIP */
+.pri-chip[draggable="true"]{cursor:grab}
+.pri-chip[draggable="true"]:active{cursor:grabbing}
+.pri-chip.drag-over{border-color:var(--teal);background:var(--teal-d)}
+.pri-lane.drag-target{border-color:var(--teal-b)!important;background:rgba(44,169,188,.06)!important}
+</style>
+</head>
+<body>
+<div id="tx">
+  <div class="tx-card">
+    <div class="tx-stamp">INCOMING TRANSMISSION</div>
+    <div class="tx-meta" id="tx-meta"></div>
+    <div class="tx-body" id="tx-body"><span class="tx-cursor"></span></div>
+    <div class="tx-sign" id="tx-sign"></div>
+    <button class="tx-btn" id="tx-btn" onclick="beginAssessment()">Acknowledge and Begin Assessment</button>
+  </div>
+</div>
+<div id="app">
+  <div id="tb">
+    <div class="tb-brand"><div class="tb-icon">SC</div><div class="tb-title">Quantum Readiness Assessment</div></div>
+    <div class="tb-tabs">
+      <div class="tb-tab active" id="tab-dos" onclick="switchView('dos')">📁 Dossiers</div>
+      <div class="tb-tab" id="tab-mat" onclick="switchView('mat')">📊 Risk Matrix</div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-live"><span id="tb-count">0</span> / 5 assessed</div>
+      <button class="btn-ghost" onclick="openMemo()">Preview Report</button>
+      <button class="btn-submit" id="btn-submit" disabled onclick="openPriority()">Submit Assessment</button>
+    </div>
+  </div>
+  <div id="ws">
+    <div id="dos-view">
+      <div id="folder-grid"></div>
+      <div id="open-dos">
+        <div class="dos-bar">
+          <button class="dos-bar-back" onclick="closeDossier()">← Dossiers</button>
+          <span class="dos-bar-name" id="dos-name"></span>
+          <span class="dos-bar-prog" id="dos-prog"></span>
+          <button class="dos-bar-hint" onclick="showDevon()">💡 Ask Devon</button>
+        </div>
+        <div class="dos-pages">
+          <div class="dos-page left" id="dos-left"></div>
+          <div class="dos-spine"></div>
+          <div class="dos-page right" id="dos-right"></div>
+        </div>
+        <div class="dos-foot">
+          <div class="dos-dots" id="dos-dots"></div>
+        </div>
+      </div>
+    </div>
+    <div id="matrix-view">
+      <div class="mat-hdr"><div class="mat-hdr-t">Portfolio Risk Matrix</div><div class="mat-hdr-s">Classical posture vs quantum exposure. Dots appear as dossiers are committed.</div></div>
+      <div class="mat-main"><svg id="mat-svg" style="width:100%;height:100%;max-width:580px;max-height:440px" viewBox="0 0 560 420"></svg></div>
+      <div class="mat-leg" id="mat-leg"></div>
+    </div>
+  </div>
+</div>
+<div id="devon-panel">
+  <div class="dev-hdr">
+    <div class="dev-av">DS</div>
+    <div><div class="dev-name">Devon Singh <span class="dev-badge">Intelligence Note</span></div><div class="dev-role">CISO, Solis Commerce</div></div>
+    <button class="dev-close" onclick="closeDevon()">✕</button>
+  </div>
+  <div class="dev-body" id="dev-body"></div>
+</div>
+<div id="pri-screen">
+  <div class="pri-hdr">
+    <div class="pri-hdr-t">Strategic Migration Prioritisation</div>
+    <div class="pri-hdr-s">Assign each asset to a migration lane. Real-world quantum migration budgets impose constraints: Act Now is capped at 2 assets. Make the hard calls.</div>
+  </div>
+  <div class="pri-budget-bar">
+    <div class="budget-slot"><strong>Act Now</strong><div class="budget-track"><div class="budget-pip" id="bp-n-0"></div><div class="budget-pip" id="bp-n-1"></div></div><span style="font-size:.62rem;color:var(--sec);font-family:var(--mono)" id="budget-now-txt">0 / 2 used</span><span id="budget-warning" class="budget-warning" style="display:none">CAPACITY FULL</span></div>
+    <div class="budget-slot"><strong>2026-2028</strong><div class="budget-track"><div class="budget-pip" id="bp-m-0"></div><div class="budget-pip" id="bp-m-1"></div><div class="budget-pip" id="bp-m-2"></div></div><span style="font-size:.62rem;color:var(--sec);font-family:var(--mono)" id="budget-mid-txt">0 / 3 used</span></div>
+    <div class="budget-slot"><strong>Post-2028</strong><span style="font-size:.62rem;color:rgba(255,255,255,.22)">Unlimited</span></div>
+  </div>
+  <div class="pri-body">
+    <div class="pri-src"><div class="pri-src-lbl">Assets</div><div id="pri-source"></div></div>
+    <div class="pri-lane lane-now" id="lane-now"><div class="pri-lane-hdr">⚠️ Act Now<div class="pri-lane-sub">Within 12 months</div><div class="pri-lane-cap">Max 2 assets</div></div></div>
+    <div class="pri-lane lane-mid" id="lane-mid"><div class="pri-lane-hdr">➜ 2026-2028<div class="pri-lane-sub">Planned investment</div><div class="pri-lane-cap">Max 3 assets</div></div></div>
+    <div class="pri-lane lane-future" id="lane-future"><div class="pri-lane-hdr">○ Post-2028<div class="pri-lane-sub">Monitor and plan</div></div></div>
+  </div>
+  <div class="pri-foot">
+    <div class="pri-status"><span id="pri-count">0</span> of 5 assigned</div>
+    <button class="btn-pri" id="btn-pri" disabled onclick="submitToBoard()">Submit to Board</button>
+  </div>
+</div>
+<div id="cfo-screen">
+  <div class="email-window">
+    <div class="email-bar"><div class="email-bar-dot" style="background:#ef4444"></div><div class="email-bar-dot" style="background:#f59e0b"></div><div class="email-bar-dot" style="background:#10b981"></div></div>
+    <div class="email-header">
+      <div class="email-from-row">
+        <div class="email-av">SO</div>
+        <div><div class="email-from-name">Sarah Okonkwo</div><div class="email-from-role">CFO, Solis Commerce</div></div>
+      </div>
+      <div class="email-subject-row">RE: Quantum Assessment / Priority Review</div>
+    </div>
+    <div class="email-body" id="cfo-body"></div>
+    <div class="email-replies" id="cfo-replies"></div>
+  </div>
+</div>
+<div id="cfo-response">
+  <div class="response-icon" id="resp-icon"></div>
+  <div class="response-title" id="resp-title"></div>
+  <div class="response-body" id="resp-body"></div>
+  <div class="response-devon"><div class="dev-av" style="flex-shrink:0">DS</div><div class="response-devon-txt" id="resp-devon"></div></div>
+  <div class="done-actions" style="display:flex;gap:10px;margin-top:6px">
+  <button class="btn-complete" style="background:var(--s2);border:1px solid var(--b2);color:var(--sec)" onclick="openMemo()">Preview Report</button>
+  <button class="btn-complete" onclick="completeSection()">Complete Section</button>
+</div>
+</div>
+<div id="flash"><div class="flash-ring">✓</div></div>
+<div class="stamp-overlay" id="stamp-overlay"><div class="stamp-ring"><div class="stamp-icon">✓</div><div class="stamp-text">Assessment<br>Submitted<br>to Board</div></div></div>
+<div class="ov" id="memo-ov">
+  <div class="ov-box">
+    <div class="ov-hdr"><span class="ov-hdr-t">Quantum Readiness Report / Solis Commerce</span><button class="ov-close" onclick="closeMemo()">✕</button></div>
+    <div class="memo" id="memo-body"></div>
+  </div>
+</div>
+<script>
+"use strict";
+let firstName="CRO";
+try{const s=JSON.parse(localStorage.getItem("rose_v3")||"{}");if(s.userName)firstName=s.userName.split(" ")[0];}catch(e){}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMemo();closeDevon();}});
+
+/* TRANSMISSION */
+function runTransmission(){
+  const meta=document.getElementById("tx-meta");
+  const body=document.getElementById("tx-body");
+  const sign=document.getElementById("tx-sign");
+  const cur=body.querySelector(".tx-cursor");
+  meta.innerHTML=`<span>From:</span> Ryan Thompson, Chair of the Board<br><span>To:</span> ${firstName}, Chief Risk Officer<br><span>Re:</span> Quantum Readiness Assessment / INC-55810`;
+  const paras=[
+    "The immediate work is done. What you accomplished in the past 72 hours fixed the problem in front of us.",
+    "Before the final board report goes out, I need you to answer a harder question. The same cryptographic weaknesses that enabled this breach exist across the entire estate. Quantum computing will make every one of them worse, and our planning horizon needs to account for that.",
+    "Five assets. Classical posture today, after your remediation. Quantum exposure looking forward. Devon has the dossiers ready."
+  ];
+  let t=500;
+  paras.forEach((p,i)=>{
+    t+=i===0?0:650;
+    setTimeout(()=>{
+      const el=document.createElement("p");el.textContent=p;el.style.opacity="0";el.style.transition="opacity .4s ease";
+      body.insertBefore(el,cur);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.opacity="1";}));
+    },t);
+    t+=Math.min(p.length*22,1200);
+  });
+  setTimeout(()=>{
+    cur.remove();
+    sign.textContent="-- Ryan Thompson, Chair of the Board   [END TRANSMISSION]";
+    sign.style.opacity="0";sign.style.transition="opacity .5s";
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{sign.style.opacity="1";}));
+    setTimeout(()=>{document.getElementById("tx-btn").classList.add("show");},350);
+  },t+350);
+}
+window.beginAssessment=function(){
+  document.getElementById("tx").classList.add("out");
+  setTimeout(()=>{
+    document.getElementById("tx").style.display="none";
+    document.getElementById("app").classList.add("visible");
+    renderFolders();initMatrix();
+  },900);
+};
+
+/* ASSET DATA */
+const ASSETS=[
+  {
+    id:"a1",icon:"💳",name:"Card Data Encryption",abbr:"CDE",tab:"#10b981",matC:2,matQ:5,priCorrect:"now",
+    moscaDef:{shelf:5,mig:2,note:"Card data shelf life of 3-5 years may appear favorable, but HNDL collection during INC-55810 means this data is already harvested. The shelf life clock is not the relevant variable."},
+    brief:"AES-256-GCM now protects all 38,442 cardholder records following the 3DES cipher migration. Key CK-2021-07 has been rotated. DB-POS01 access is restricted to named jump hosts.",
+    ctxLeft:"The cipher gap has been closed. AES-256 is NIST-compliant and PCI DSS v4.0 approved. However, 431MB of encrypted card data exfiltrated during INC-55810 remains in adversary possession. No classical remediation can address this exposure.",
+    devon:"NIST IR 8459 flags AES-128 as inadequate against Grover. AES-256 is weakened to ~128-bit equivalent but acceptable short-term. PCI SSC published PQC migration guidance in Q1 2025. Card scheme mandates from Visa and Mastercard are expected around 2027. The 431MB exfiltration is the most pressing issue: that ciphertext cannot be recalled and represents a time-delayed breach in progress.",
+    dims:[
+      {id:"alg",icon:"🔬",lbl:"Algorithm Vulnerability",ctx:"AES-256-GCM now protects cardholder records after the 3DES migration. How does this algorithm hold against quantum attacks?",opts:[
+        {k:"A",t:"AES-256 is quantum-immune. Shor's algorithm only targets RSA and ECC, not symmetric ciphers",s:1},
+        {k:"B",t:"Grover's algorithm halves AES-256's effective key strength to ~128-bit equivalent. Acceptable today but requires a forward plan",s:2},
+        {k:"C",t:"AES-256 is directly broken by quantum computers and provides no quantum protection",s:0},
+      ]},
+      {id:"hndl",icon:"⏳",lbl:"Harvest Now, Decrypt Later",ctx:"431MB of AES-256-encrypted card data was exfiltrated during INC-55810 and remains in adversary possession.",opts:[
+        {k:"A",t:"HNDL exposure is LOW. Migrating to AES-256 retroactively protects the exfiltrated data",s:0},
+        {k:"B",t:"HNDL exposure is CONFIRMED. The 431MB ciphertext is already harvested and awaiting quantum decryption capability",s:2},
+        {k:"C",t:"HNDL risk is THEORETICAL. Adversaries are unlikely to target encrypted card archives this way",s:0},
+      ]},
+      {id:"mosca",icon:"⏱️",lbl:"Mosca's Rule",ctx:"Card data shelf life: 3-5 years (until expiry or cancellation). CRQC estimates: 10-15 years. Migration timeline: ~18 months.",opts:[
+        {k:"A",t:"FAVORABLE. Card shelf life shorter than CRQC estimates. Low urgency under Mosca's equation",s:1},
+        {k:"B",t:"RISK WINDOW OPEN. HNDL collection occurred during INC-55810. Card data may still be valid when CRQC arrives",s:2},
+        {k:"C",t:"NOT APPLICABLE. Mosca's Rule does not apply to symmetrically-encrypted data",s:0},
+      ]},
+      {id:"reg",icon:"⚖️",lbl:"Regulatory Horizon",ctx:"PCI DSS governs cardholder data at Solis. What does the emerging PQC mandate landscape look like?",opts:[
+        {k:"A",t:"No PQC requirements exist for cardholder data before 2030",s:0},
+        {k:"B",t:"PCI SSC issued PQC guidance in 2025; card scheme mandates expected around 2027. Planning must begin now",s:2},
+        {k:"C",t:"PCI DSS v4.0 already mandates PQC implementation for cardholder data encryption",s:0},
+      ]},
+    ],
+    rationales:[
+      {k:"A",t:"Confirmed HNDL exposure from INC-55810 makes immediate PQC planning a board-level obligation, not an optional IT upgrade",s:2},
+      {k:"B",t:"AES-256 quantum vulnerability under Grover's algorithm requires treating all cardholder data as at long-term risk",s:1},
+      {k:"C",t:"PCI DSS compliance timelines suggest migration can proceed in the 2026-2028 cycle without immediate risk",s:0},
+    ]
+  },
+  {
+    id:"a2",icon:"📋",name:"Audit Logs and Archives",abbr:"AUD",tab:"#ef4444",matC:5,matQ:5,priCorrect:"now",
+    moscaDef:{shelf:8,mig:2,note:"Regulatory retention of 7-10 years places these archives squarely within the CRQC harvest window. The Mosca's equation is clearly adverse."},
+    brief:"Long-term encrypted archives spanning years of Solis operations. The 431MB exfiltrated during INC-55810 includes SIEM events, authentication records, service-to-service traffic, and internal communications.",
+    ctxLeft:"This is a closed and irreversible exposure. Future logs are better protected under the revised governance policies. The historical archive breach is permanent and represents the most certain HNDL target in the Solis estate. The attack is already partially executed.",
+    devon:"CSNA 2.0 projects a cryptographically relevant quantum computer within 10-15 years. The 431MB exfiltration is not a hypothetical scenario. The attack is in progress. The only variable is how long until adversaries acquire quantum resources to complete it. Regulatory retention mandates of 7+ years place these archives squarely within the harvest window. AES-256 remains acceptable for new data but PQC key wrapping should be planned for long-retention archives.",
+    dims:[
+      {id:"hndl",icon:"⏳",lbl:"Harvest Now, Decrypt Later",ctx:"The 431MB exfiltrated during INC-55810 includes years of authentication records and internal communications. Classify the HNDL exposure.",opts:[
+        {k:"A",t:"LOW. Audit logs are low-value targets and adversaries are unlikely to harvest them for future decryption",s:0},
+        {k:"B",t:"CONFIRMED AND IMMEDIATE. The ciphertext is already in adversary hands. Only the quantum capability is outstanding",s:2},
+        {k:"C",t:"FUTURE. HNDL risk requires adversaries to first compromise the archive systems, which hasn't occurred",s:0},
+      ]},
+      {id:"mosca",icon:"⏱️",lbl:"Data Shelf Life / Mosca's Rule",ctx:"Audit logs at Solis are retained for regulatory and legal purposes for 7+ years. How does data shelf life interact with the quantum threat timeline?",opts:[
+        {k:"A",t:"LOW. Authentication logs expire in 90 days: short shelf life limits quantum risk significantly",s:0},
+        {k:"B",t:"HIGH. Regulatory retention of 7+ years combined with CRQC estimates of 10-15 years places these archives within the harvest window",s:2},
+        {k:"C",t:"NOT APPLICABLE. Mosca's Rule only applies to RSA-encrypted data, not AES archives",s:0},
+      ]},
+      {id:"alg",icon:"🔬",lbl:"Algorithm Vulnerability",ctx:"Archives use AES-256-GCM. For data with a 7+ year retention requirement, how does this algorithm perform under quantum analysis?",opts:[
+        {k:"A",t:"CRITICAL. AES-256 is fully broken by quantum computers: all archives are immediately at risk",s:0},
+        {k:"B",t:"MANAGED NOW, PLAN REQUIRED. Grover reduces AES-256 to ~128-bit effective strength. For 7+ year retention, PQC key wrapping is the forward requirement",s:2},
+        {k:"C",t:"FULLY SAFE. AES-256 provides complete quantum protection for all archived data indefinitely",s:0},
+      ]},
+      {id:"agil",icon:"🔧",lbl:"Cryptographic Agility",ctx:"When PQC standards are enforced, can the encryption on existing log archives be migrated to protect them?",opts:[
+        {k:"A",t:"HIGH AGILITY. Archives can be re-encrypted with PQC algorithms at migration time",s:1},
+        {k:"B",t:"ZERO AGILITY on exfiltrated data. The 431MB already captured cannot be retroactively protected. The exposure is permanent regardless of any future migration",s:2},
+        {k:"C",t:"HIGH AGILITY. Rotating the encryption key automatically re-protects all archived data",s:0},
+      ]},
+    ],
+    rationales:[
+      {k:"A",t:"The 431MB exfiltration represents a confirmed HNDL breach. Every year without CRQC is borrowed time, not safety",s:2},
+      {k:"B",t:"Regulatory retention requirements of 7+ years create a Mosca's Rule exposure that cannot be addressed retroactively for the exfiltrated data",s:1},
+      {k:"C",t:"AES-256 archive encryption is adequate short-term and migration can be scheduled during the 2026-2028 cycle",s:0},
+    ]
+  },
+  {
+    id:"a3",icon:"🗝️",name:"Key Management",abbr:"KMS",tab:"#f59e0b",matC:2,matQ:5,priCorrect:"now",
+    moscaDef:{shelf:99,mig:2,note:"Key management has no fixed data shelf life: it is foundational infrastructure. The risk is not expiry but cascading failure: a quantum attack on the master key hierarchy compromises all child keys simultaneously."},
+    brief:"FIPS 140-2 HSMs provide hardware-backed key storage with quarterly rotation enforced under the revised credential policy. RSA-based key derivation algorithms underpin the master key hierarchy.",
+    ctxLeft:"Rotation policy is tightened and HSMs provide strong classical protection. The quantum vulnerability is architectural: not how keys are stored, but how they are derived. RSA-based key derivation is directly Shor's-vulnerable, and a successful quantum attack on the master key invalidates all child keys simultaneously.",
+    devon:"NIST FIPS 203 (ML-KEM-1024) is the migration target for key wrapping. FIPS 140-3 Level 3 HSMs with PQC firmware support require post-2024 hardware. Older HSMs need physical replacement, not just reconfiguration. Critical distinction: quarterly rotation schedules are a classical control only. A quantum attack against RSA key derivation renders the entire key hierarchy invalid regardless of how frequently keys are rotated. KMS must lead the migration programme.",
+    dims:[
+      {id:"alg",icon:"🔬",lbl:"Algorithm Vulnerability",ctx:"Solis KMS uses FIPS 140-2 HSMs for key storage with RSA-based master key derivation. What is the quantum vulnerability profile?",opts:[
+        {k:"A",t:"QUANTUM-SAFE. HSM hardware protection eliminates quantum algorithm risk entirely",s:0},
+        {k:"B",t:"SPLIT RISK. Key storage (AES) is quantum-resistant. Master key derivation (RSA) is Shor's-vulnerable. Breaking it unwraps all child keys at once",s:2},
+        {k:"C",t:"FULLY VULNERABLE. All key management operations are broken by quantum attacks",s:0},
+      ]},
+      {id:"hndl",icon:"⏳",lbl:"Harvest Now, Decrypt Later",ctx:"Key management sessions occur over encrypted channels. Does quarterly key rotation protect against HNDL attacks on the key infrastructure?",opts:[
+        {k:"A",t:"FULLY MITIGATED. Quarterly rotation ensures no key is exposed long enough to be HNDL-harvested",s:0},
+        {k:"B",t:"PARTIALLY MITIGATED. Short-lived session keys benefit from rotation, but master key derivation material captured in transit remains HNDL-vulnerable regardless of rotation frequency",s:2},
+        {k:"C",t:"NOT APPLICABLE. HSMs prevent HNDL by keeping all key material in tamper-resistant hardware",s:0},
+      ]},
+      {id:"agil",icon:"🔧",lbl:"Cryptographic Agility",ctx:"Migrating KMS to ML-KEM-1024 requires changes at the HSM level. How complex is this transition?",opts:[
+        {k:"A",t:"HIGH AGILITY. Key management uses a modular software-defined cryptographic layer that can be upgraded to PQC algorithms through a standard configuration change, requiring no hardware modifications",s:0},
+        {k:"B",t:"MEDIUM COMPLEXITY. FIPS 140-3 Level 3 HSMs with PQC firmware are required. Older hardware needs physical replacement, a 12-24 month procurement and deployment cycle",s:2},
+        {k:"C",t:"BLOCKED. Current HSM technology cannot support PQC algorithms under any configuration",s:0},
+      ]},
+      {id:"mosca",icon:"⏱️",lbl:"Mosca's Rule",ctx:"Key management is the foundational layer protecting all encryption in the Solis estate. How does Mosca's Rule apply here?",opts:[
+        {k:"A",t:"FAVORABLE. Rapid key rotation outpaces any realistic quantum attack timeline",s:0},
+        {k:"B",t:"URGENT. HSM hardware refresh takes 12-24 months. A quantum attack on the master key hierarchy invalidates all child keys simultaneously. KMS migration must lead, not follow",s:2},
+        {k:"C",t:"DEFERRED. Key management migration can wait until after data encryption layers are upgraded",s:0},
+      ]},
+    ],
+    rationales:[
+      {k:"A",t:"HSM hardware refresh must lead the migration programme. A quantum attack on the key hierarchy compromises all child keys simultaneously and cannot be undone",s:2},
+      {k:"B",t:"Quarterly key rotation provides adequate protection against HNDL attacks during the quantum transition period",s:0},
+      {k:"C",t:"ML-KEM-1024 migration for key management is technically straightforward and can be deferred to the 2026-2028 cycle",s:0},
+    ]
+  },
+  {
+    id:"a4",icon:"🔏",name:"PKI and Code Signing",abbr:"PKI",tab:"#a78bfa",matC:3,matQ:5,priCorrect:"now",
+    moscaDef:{shelf:99,mig:3,note:"PKI integrity is ongoing infrastructure with no data shelf life. Migration takes 24-36 months due to cascading dependencies. The Mosca's equation is adverse: migration must complete before any CRQC becomes available."},
+    brief:"The internal CA underpins VPN trust, service authentication, secure boot, and code signing across Solis Commerce. RSA-2048 certificates are used throughout the hierarchy, including the root CA.",
+    ctxLeft:"PKI was not a direct remediation target from INC-55810. This exposure has been present throughout the incident and remains unaddressed. Every other security layer in the estate depends on PKI integrity. This is the single highest-impact quantum failure point in the Solis estate.",
+    devon:"NIST SP 800-208 recommends ML-DSA (Dilithium-3) for code signing migration. NIST deprecated RSA-2048 in 2024 as part of the post-quantum transition. NSA CNSS Policy 15 drives commercial migration pressure with a 3-5 year window. Root CA compromise in a quantum attack is undetectable via classical monitoring. Forged signatures appear entirely valid. This is the most critical structural quantum investment Solis Commerce must make.",
+    dims:[
+      {id:"alg",icon:"🔬",lbl:"Algorithm Vulnerability",ctx:"The root CA and full certificate hierarchy use RSA-2048. What is the quantum vulnerability at this foundational layer?",opts:[
+        {k:"A",t:"MODERATE. RSA-2048 in hardware HSMs provides additional protection that partially mitigates Shor's attack",s:0},
+        {k:"B",t:"CRITICAL. Shor's algorithm fully breaks RSA-2048. Deriving the root CA private key compromises the entire certificate trust hierarchy simultaneously and retroactively",s:2},
+        {k:"C",t:"LOW RISK. RSA-2048 sits above the threshold where quantum vulnerability becomes significant. Research suggests only RSA key lengths below 1024 bits face meaningful near-term quantum risk",s:0},
+      ]},
+      {id:"hndl",icon:"⏳",lbl:"Harvest Now, Decrypt Later",ctx:"RSA public keys are embedded in certificates exposed during every TLS handshake across the Solis estate. What is the HNDL implication?",opts:[
+        {k:"A",t:"NOT APPLICABLE. Short certificate validity periods mean there is no long-term HNDL exposure",s:0},
+        {k:"B",t:"ACTIVE. Adversaries collecting TLS traffic today capture RSA public keys. Once a CRQC is available, they derive the private keys and can forge any historical or future signature",s:2},
+        {k:"C",t:"LOW. HNDL applies to encrypted data, not the certificate exchange process",s:0},
+      ]},
+      {id:"agil",icon:"🔧",lbl:"Cryptographic Agility",ctx:"How complex is migrating the Solis PKI hierarchy to ML-DSA (Dilithium-3)?",opts:[
+        {k:"A",t:"LOW COMPLEXITY. Certificate rollover is routine and PQC certs can be issued alongside RSA in parallel",s:0},
+        {k:"B",t:"HIGHEST COMPLEXITY in the estate. Root CA replacement cascades through every certificate, binary, and boot chain, requiring phased hybrid deployment over 24-36 months minimum",s:2},
+        {k:"C",t:"MEDIUM COMPLEXITY. Code signing certificates can be migrated independently of the root CA",s:0},
+      ]},
+      {id:"reg",icon:"⚖️",lbl:"Regulatory Horizon",ctx:"NIST and NSA have issued specific guidance on PKI and code signing migration to PQC. What is the regulatory urgency?",opts:[
+        {k:"A",t:"LOW URGENCY. RSA-2048 was explicitly reviewed in the most recent NIST cryptographic standards guidance and remains on the approved algorithm list through at least 2030, with no current deprecation pathway",s:0},
+        {k:"B",t:"HIGH URGENCY. NIST deprecated RSA-2048 in 2024 as part of the post-quantum transition. NSA CNSS Policy 15 sets a 3-5 year commercial migration window",s:2},
+        {k:"C",t:"DEFERRED. Only government organizations face regulatory mandates for PKI migration",s:0},
+      ]},
+    ],
+    rationales:[
+      {k:"A",t:"Root CA compromise via Shor's algorithm is a single-event, total-estate failure. PKI migration must be sequenced first. Every other layer depends on certificate integrity",s:2},
+      {k:"B",t:"NIST's deprecation of RSA-2048 in 2024 creates a compliance obligation that drives the migration timeline independently of quantum threat materialisation",s:1},
+      {k:"C",t:"Code signing migration can be decoupled from root CA replacement, allowing a phased approach over 3-4 years without immediate urgency",s:0},
+    ]
+  },
+  {
+    id:"a5",icon:"💰",name:"Payment Pipeline",abbr:"PAY",tab:"#f97316",matC:3,matQ:4,priCorrect:"mid",
+    moscaDef:{shelf:4,mig:2,note:"Card data shelf life of 3-5 years combined with HNDL collection of transaction streams creates a race condition. Cards captured in 2026 may still be active when CRQC arrives within the 10-15 year estimate."},
+    brief:"DB-POS01 processes live card transactions and was the primary exfiltration target in INC-55810. Network segmentation has been updated. Database access is restricted to named jump hosts. RSA-protected authentication flows support the database layer.",
+    ctxLeft:"The network segmentation gap is closed and the specific breach path sealed. DB-POS01 continues processing live card transactions at volume, maintaining a persistent high-value target profile. Database authentication still relies on RSA-protected flows that have not been PQC-migrated.",
+    devon:"PCI SSC published its PQC migration guidance in Q1 2025. Visa and Mastercard have internal quantum migration timelines that will become mandatory customer requirements. Enforcement is estimated around 2027. Solis Commerce should treat PCI PQC compliance as a regulatory deadline, not an optional upgrade. The 3-5 year card data shelf life creates a Mosca's Rule race condition: cards captured in 2026 may still be valid when CRQC arrives.",
+    dims:[
+      {id:"reg",icon:"⚖️",lbl:"Regulatory Horizon",ctx:"DB-POS01 processes live payment card transactions under PCI DSS. What does the emerging PQC mandate landscape look like for payment processors?",opts:[
+        {k:"A",t:"DEFERRED. No PQC requirements exist for payment processors before 2030",s:0},
+        {k:"B",t:"APPROACHING. PCI SSC issued PQC guidance in 2025 with card scheme mandates expected around 2027. Solis needs to start planning now",s:2},
+        {k:"C",t:"INAPPLICABLE. PQC for payment processors is governed by HIPAA, not PCI DSS",s:0},
+      ]},
+      {id:"hndl",icon:"⏳",lbl:"Harvest Now, Decrypt Later",ctx:"Live payment transaction data flows through DB-POS01 continuously. How does HNDL apply to a real-time processing system?",opts:[
+        {k:"A",t:"NOT APPLICABLE. Payment transactions are ephemeral and HNDL only affects long-term stored data",s:0},
+        {k:"B",t:"ACTIVE. Encrypted transaction streams can be captured in transit. Card numbers captured in 2026 may remain valid and sensitive when CRQC capabilities arrive",s:2},
+        {k:"C",t:"MITIGATED. Network segmentation updates post-INC-55810 eliminate HNDL risk for the payment pipeline",s:0},
+      ]},
+      {id:"alg",icon:"🔬",lbl:"Algorithm Vulnerability",ctx:"DB-POS01 database authentication uses RSA-protected credential flows. What is the quantum risk at the authentication layer?",opts:[
+        {k:"A",t:"ACCEPTABLE SHORT-TERM. RSA authentication meets current PCI DSS v4.0 requirements and satisfies all present compliance obligations. It carries no immediate quantum implication within the current regulatory window",s:0},
+        {k:"B",t:"VULNERABLE. Shor's algorithm breaks RSA-protected DB authentication. Captured sessions today can be used to impersonate service accounts when CRQC becomes available",s:2},
+        {k:"C",t:"INDIRECT. RSA authentication risk only materialises after Shor's breaks the AES encryption layer first",s:0},
+      ]},
+      {id:"mosca",icon:"⏱️",lbl:"Mosca's Rule",ctx:"Card numbers remain valid until expiry, typically 3-5 years. How does Mosca's Rule apply to the payment pipeline specifically?",opts:[
+        {k:"A",t:"FAVORABLE. 3-5 year card shelf life expires before CRQC estimates. Mosca's equation shows low urgency for the pipeline",s:1},
+        {k:"B",t:"ADVERSE RACE CONDITION. Cards captured in 2026 via HNDL may still be active when CRQC arrives. The shelf life and quantum timeline overlap",s:2},
+        {k:"C",t:"NOT APPLICABLE. Mosca's Rule is not relevant to payment processing infrastructure",s:0},
+      ]},
+    ],
+    rationales:[
+      {k:"A",t:"PCI SSC's 2025 guidance combined with card scheme mandates expected for 2027 creates a regulatory deadline that makes 2026-2028 migration non-discretionary",s:2},
+      {k:"B",t:"RSA authentication vulnerability in DB-POS01 creates immediate HNDL exposure for live transaction flows regardless of network segmentation",s:1},
+      {k:"C",t:"Card data shelf life of 3-5 years means the Mosca's equation is favorable, allowing the pipeline to be scheduled post-2028",s:0},
+    ]
+  },
+];
+
+const ST={};
+ASSETS.forEach(a=>{ST[a.id]={dims:{},openDim:null,attested:false,confidence:null,rationale:null,committed:false,priority:null};});
+let openId=null,selChip=null,submitted=false,curView="dos";
+const BUDGET={now:2,mid:3};
+
+/* VIEW */
+window.switchView=function(v){
+  curView=v;
+  document.getElementById("dos-view").classList.toggle("hidden",v!=="dos");
+  document.getElementById("matrix-view").classList.toggle("active",v==="mat");
+  document.getElementById("tab-dos").classList.toggle("active",v==="dos");
+  document.getElementById("tab-mat").classList.toggle("active",v==="mat");
+};
+
+/* FOLDERS */
+function renderFolders(){
+  const g=document.getElementById("folder-grid");
+  g.innerHTML=ASSETS.map(a=>{
+    const s=ST[a.id];
+    return`<div class="folder${s.committed?" committed":""}" onclick="openDossier('${a.id}')">
+      <div class="folder-tab" style="background:${a.tab}"></div>
+      <div class="folder-body">
+        <div class="folder-wm">${a.icon}</div>
+        <span class="folder-stamp">PENDING</span>
+        <div class="folder-ck">✓</div>
+        <span class="folder-icon">${a.icon}</span>
+        <div class="folder-name">${a.name}</div>
+        <div class="folder-sub ${s.committed?"done":"pending"}">${s.committed?"Assessment signed":"Not yet assessed"}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* OPEN DOSSIER */
+window.openDossier=function(id){
+  openId=id;
+  const a=ASSETS.find(x=>x.id===id);
+  document.getElementById("folder-grid").style.display="none";
+  document.getElementById("open-dos").style.display="flex";
+  document.getElementById("dos-name").textContent=`${a.icon} ${a.name}`;
+  buildLeft(a);buildRight(a);updateDots(id);
+};
+window.closeDossier=function(){
+  openId=null;
+  document.getElementById("open-dos").style.display="none";
+  document.getElementById("folder-grid").style.display="grid";
+  closeDevon();renderFolders();
+  const done=ASSETS.filter(a=>ST[a.id].committed).length;
+  document.getElementById("tb-count").textContent=done;
+  if(done===ASSETS.length){
+    const btn=document.getElementById("btn-submit");
+    btn.disabled=false;btn.className="btn-submit ready";
+  }
+};
+
+function buildLeft(a){
+  const el=document.getElementById("dos-left");
+  el.innerHTML=`
+    <div class="dos-classbar">SOLIS COMMERCE / INC-55810 / CONFIDENTIAL</div>
+    <div class="dos-sec-lbl">Asset Profile</div>
+    <div class="dos-asset-title">${a.icon} ${a.name}</div>
+    <div class="dos-brief">${a.brief}</div>
+    <div class="dos-ctx-lbl">Post-Remediation Posture</div>
+    <div class="dos-ctx">${a.ctxLeft}</div>
+    <div class="mosca-wrap">
+      <div class="mosca-lbl">Mosca's Rule Calculator</div>
+      <div class="mosca-svg-wrap"><svg id="mosca-svg-${a.id}" viewBox="0 0 360 72" style="width:100%;display:block"></svg></div>
+      <div class="mosca-controls">
+        <div class="mosca-ctrl"><label>Data Shelf Life: <span id="msl-val-${a.id}">${a.moscaDef.shelf<50?a.moscaDef.shelf:"N/A"}</span> yr</label>
+          <input type="range" min="1" max="20" value="${Math.min(a.moscaDef.shelf,20)}" ${a.moscaDef.shelf>50?'disabled':''} id="msl-${a.id}" oninput="updateMosca('${a.id}')"></div>
+        <div class="mosca-ctrl"><label>CRQC Arrives: <span id="mcrqc-val-${a.id}">2035</span></label>
+          <input type="range" min="2030" max="2042" value="2035" id="mcrqc-${a.id}" oninput="updateMosca('${a.id}')"></div>
+      </div>
+      <div class="mosca-status" id="mosca-status-${a.id}"></div>
+      <div style="font-size:.6rem;color:var(--ink-mut);margin-top:4px;line-height:1.5">${a.moscaDef.note}</div>
+    </div>
+    `;
+  updateMosca(a.id);
+}
+
+function buildRight(a){
+  const s=ST[a.id];
+  const totalDims=a.dims.length;
+  const doneDims=Object.keys(s.dims).length;
+  document.getElementById("dos-prog").textContent=`${doneDims} / ${totalDims} dimensions`;
+  const cards=a.dims.map((dim,i)=>{
+    const sel=s.dims[dim.id];
+    const isOpen=s.openDim===dim.id;
+    const isDone=!!sel;
+    const selOpt=sel?dim.opts.find(o=>o.k===sel):null;
+    const opts=isOpen?dim.opts.map(o=>`<div class="dim-opt${s.dims[dim.id]===o.k?" sel":""}" onclick="selectDim('${a.id}','${dim.id}','${o.k}')">
+      <span class="dim-opt-key">${o.k}</span><span>${o.t}</span></div>`).join(""):"";
+    return`<div class="dim-card${isOpen?" expanded":""}${isDone?" answered":""}">
+      <div class="dim-card-hdr" onclick="toggleDim('${a.id}','${dim.id}')">
+        <span class="dim-icon">${dim.icon}</span>
+        <span class="dim-lbl">${dim.lbl}</span>
+        ${isDone&&!isOpen?`<span class="dim-preview">${selOpt?selOpt.k+": "+selOpt.t.slice(0,38)+"...":""}</span>`:""}
+        <span class="dim-chev">▾</span>
+      </div>
+      ${isOpen?`<div class="dim-body"><div class="dim-ctx">${dim.ctx}</div>${opts}</div>`:""}
+    </div>`;
+  }).join("");
+  const allDone=doneDims===totalDims;
+  const attestHtml=`<div class="attest-zone${allDone?" visible":""}" id="attest-${a.id}">
+    <div class="attest-check-row">
+      <input type="checkbox" id="attest-chk-${a.id}" ${s.attested?"checked":""} onchange="checkAttest('${a.id}')">
+      <label for="attest-chk-${a.id}">I certify that I have reviewed Devon's intelligence note and accept responsibility for this risk classification.</label>
+    </div>
+    <div class="attest-panel${s.attested?" show":""}" id="attest-panel-${a.id}">
+      <div class="attest-sub">Confidence in this assessment</div>
+      <div class="confidence-row">
+        <button class="conf-pill${s.confidence==='low'?" sel":""}" onclick="setConf('${a.id}','low')">Low</button>
+        <button class="conf-pill${s.confidence==='moderate'?" sel":""}" onclick="setConf('${a.id}','moderate')">Moderate</button>
+        <button class="conf-pill${s.confidence==='high'?" sel":""}" onclick="setConf('${a.id}','high')">High</button>
+      </div>
+      <div class="attest-sub">Select your rationale for the Board Memo</div>
+      <div class="rationale-opts">${a.rationales.map(r=>`<div class="rat-opt${s.rationale===r.k?" sel":""}" onclick="setRat('${a.id}','${r.k}')">
+        <span class="rat-opt-key">${r.k}</span><span>${r.t}</span></div>`).join("")}</div>
+      <button class="btn-authorize${(s.confidence&&s.rationale)?" ready":""}" id="auth-btn-${a.id}" ${s.committed?"disabled":""} onclick="authorizeAsset('${a.id}')">${s.committed?"✓ Signed and Authorized":"Sign and Authorize Assessment →"}</button>
+    </div>
+  </div>`;
+  document.getElementById("dos-right").innerHTML=`
+    <div class="dos-classbar">SOLIS COMMERCE / INC-55810 / CONFIDENTIAL</div>
+    <div class="dos-sec-lbl">Quantum Framework Assessment</div>
+    ${cards}${attestHtml}`;
+  if(!s.openDim&&doneDims===0){s.openDim=a.dims[0].id;buildRight(a);}
+}
+
+function updateDots(pid){
+  const a=ASSETS.find(x=>x.id===pid);const s=ST[pid];
+  const totalDims=a.dims.length;
+  const dots=a.dims.map(d=>`<div class="dos-dot${s.dims[d.id]?" done":""}"></div>`).join("");
+  document.getElementById("dos-dots").innerHTML=dots;
+}
+
+/* MOSCA CALC */
+window.updateMosca=function(id){
+  const a=ASSETS.find(x=>x.id===id);
+  const slShelf=document.getElementById("msl-"+id);
+  const slCrqc=document.getElementById("mcrqc-"+id);
+  if(!slShelf||!slCrqc)return;
+  const shelf=a.moscaDef.shelf>50?20:parseInt(slShelf.value);
+  const crqcYr=parseInt(slCrqc.value);
+  const mig=a.moscaDef.mig;
+  const curYr=2026;
+  document.getElementById("msl-val-"+id).textContent=a.moscaDef.shelf>50?"N/A":shelf;
+  document.getElementById("mcrqc-val-"+id).textContent=crqcYr;
+  // Mosca: shelf + mig > crqcYr - curYr => at risk
+  const crqcFromNow=crqcYr-curYr;
+  const isRisk=a.moscaDef.shelf>50||(shelf+mig>crqcFromNow);
+  const stat=document.getElementById("mosca-status-"+id);
+  if(stat){stat.textContent=isRisk?"RISK WINDOW OPEN":"RISK WINDOW CLOSED";stat.className="mosca-status"+(isRisk?" open":" closed");}
+  // Draw SVG
+  const svg=document.getElementById("mosca-svg-"+id);
+  if(!svg)return;
+  const W=340,H=60,ox=10,oy=5,endYr=2048,ppy=W/(endYr-curYr);
+  const migW=Math.min(mig*ppy,(W-1));
+  const shelfW=a.moscaDef.shelf>50?W-1:Math.min(shelf*ppy,(W-1));
+  const crqcX=Math.min((crqcYr-curYr)*ppy,W-1);
+  const riskStart=Math.max(crqcX-1,0);
+  const overlapMig=crqcX<migW;const overlapShelf=crqcX<shelfW;
+  const migLabel="Migration: "+mig+"yr";
+  const shelfLabel=a.moscaDef.shelf>50?"Shelf life: indefinite":"Shelf life: "+shelf+"yr";
+  const crqcRight=(ox+crqcX)>(W-50);
+  svg.innerHTML=`
+    <text x="${ox}" y="${oy+8}" font-size="8" fill="#6a5a3a" font-family="JetBrains Mono" font-weight="600">${migLabel}</text>
+    <rect x="${ox}" y="${oy+12}" width="${migW}" height="10" fill="${overlapMig?"#ef4444":"#2ca9bc"}" rx="2" opacity=".85"/>
+    <text x="${ox}" y="${oy+32}" font-size="8" fill="${a.moscaDef.shelf>50?"#b09060":"#6a5a3a"}" font-family="JetBrains Mono" font-weight="600">${shelfLabel}</text>
+    <rect x="${ox}" y="${oy+36}" width="${shelfW}" height="10" fill="${overlapShelf?"#ef4444":"#f59e0b"}" rx="2" opacity="${a.moscaDef.shelf>50?0.3:0.75}"/>
+    <line x1="${ox+crqcX}" y1="${oy+9}" x2="${ox+crqcX}" y2="${oy+52}" stroke="#c01818" stroke-width="2" stroke-dasharray="3,2"/>
+    <rect x="${crqcRight?ox+crqcX-52:ox+crqcX+3}" y="${oy+8}" width="48" height="13" fill="#fff0f0" rx="2"/>
+    <text x="${crqcRight?ox+crqcX-28:ox+crqcX+27}" y="${oy+17}" text-anchor="middle" font-size="7.5" fill="#c01818" font-weight="700" font-family="JetBrains Mono">CRQC ${crqcYr}</text>
+    <rect x="${ox}" y="${oy+54}" width="${W}" height="4" fill="rgba(0,0,0,.08)" rx="2"/>
+    <text x="${ox}" y="${oy+67}" font-size="7.5" fill="#9a8a6a" font-family="JetBrains Mono">2026</text>
+    <text x="${ox+W/2}" y="${oy+67}" text-anchor="middle" font-size="7.5" fill="#9a8a6a" font-family="JetBrains Mono">2037</text>
+    <text x="${ox+W}" y="${oy+67}" text-anchor="end" font-size="7.5" fill="#9a8a6a" font-family="JetBrains Mono">2048</text>`;
+};
+
+/* DIM INTERACTION */
+window.toggleDim=function(pid,dimId){
+  const s=ST[pid];s.openDim=s.openDim===dimId?null:dimId;
+  buildRight(ASSETS.find(x=>x.id===pid));
+};
+window.selectDim=function(pid,dimId,key){
+  const s=ST[pid];s.dims[dimId]=key;
+  const a=ASSETS.find(x=>x.id===pid);
+  const next=a.dims.find(d=>!s.dims[d.id]&&d.id!==dimId);
+  s.openDim=next?next.id:null;
+  buildRight(a);updateDots(pid);
+};
+
+/* ATTESTATION */
+window.checkAttest=function(pid){
+  const s=ST[pid];
+  s.attested=document.getElementById("attest-chk-"+pid).checked;
+  const panel=document.getElementById("attest-panel-"+pid);
+  if(panel)panel.classList.toggle("show",s.attested);
+};
+window.setConf=function(pid,val){
+  ST[pid].confidence=val;buildRight(ASSETS.find(x=>x.id===pid));
+};
+window.setRat=function(pid,key){
+  ST[pid].rationale=key;buildRight(ASSETS.find(x=>x.id===pid));
+};
+window.authorizeAsset=function(pid){
+  const s=ST[pid];
+  if(!s.confidence||!s.rationale||s.committed)return;
+  s.committed=true;
+  const flash=document.getElementById("flash");
+  flash.classList.add("on");
+  setTimeout(()=>{flash.classList.remove("on");closeDossier();addMatrixDot(pid);},700);
+};
+
+/* MATRIX */
+const MM=55,MW=400,MH=300;
+function initMatrix(){
+  const svg=document.getElementById("mat-svg");
+  const qW=MW/2,qH=MH/2;
+  const quads=[
+    {x:MM,y:MM,w:qW,h:qH,f:"rgba(239,68,68,.07)",l:"Classical Remediation"},
+    {x:MM+qW,y:MM,w:qW,h:qH,f:"rgba(239,68,68,.15)",l:"Act Now"},
+    {x:MM,y:MM+qH,w:qW,h:qH,f:"rgba(16,185,129,.05)",l:"Monitoring"},
+    {x:MM+qW,y:MM+qH,w:qW,h:qH,f:"rgba(245,158,11,.07)",l:"Quantum Migration"},
+  ];
+  let h=quads.map(q=>`<rect x="${q.x}" y="${q.y}" width="${q.w}" height="${q.h}" fill="${q.f}" rx="2"/>
+    <text x="${q.x+q.w/2}" y="${q.y+q.h/2}" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="rgba(255,255,255,.1)" font-family="JetBrains Mono" font-weight="600" transform="rotate(-30,${q.x+q.w/2},${q.y+q.h/2})">${q.l}</text>`).join("");
+  for(let i=1;i<=4;i++){
+    const gx=MM+i*(MW/5);const gy=MM+i*(MH/5);
+    h+=`<line x1="${gx}" y1="${MM}" x2="${gx}" y2="${MM+MH}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        <line x1="${MM}" y1="${gy}" x2="${MM+MW}" y2="${gy}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+  }
+  h+=`<rect x="${MM}" y="${MM}" width="${MW}" height="${MH}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1" rx="3"/>`;
+  h+=`<text x="${MM+MW/2}" y="${MM+MH+28}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.35)" font-family="DM Sans" font-weight="600">Classical Risk →</text>`;
+  h+=`<text x="${MM-40}" y="${MM+MH/2}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.35)" font-family="DM Sans" font-weight="600" transform="rotate(-90,${MM-40},${MM+MH/2})">↑ Quantum Exposure</text>`;
+  ["Contained","Managed","Monitored","Exposed","Critical"].forEach((l,i)=>{h+=`<text x="${MM+(i+0.5)*(MW/5)}" y="${MM+MH+14}" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,.28)" font-family="JetBrains Mono">${l}</text>`;});
+  ["Q-Safe","Future","Watch","Harvest","Imminent"].forEach((l,i)=>{h+=`<text x="${MM-8}" y="${MM+MH-(i+0.5)*(MH/5)}" text-anchor="end" dominant-baseline="middle" font-size="7.5" fill="rgba(255,255,255,.28)" font-family="JetBrains Mono">${l}</text>`;});
+  svg.innerHTML=h;
+  document.getElementById("mat-leg").innerHTML=ASSETS.map(a=>`<div class="leg-i"><div class="leg-d" style="background:${a.tab}"></div>${a.abbr}: ${a.name}</div>`).join("");
+}
+function addMatrixDot(id){
+  const a=ASSETS.find(x=>x.id===id);
+  const svg=document.getElementById("mat-svg");
+  const cx=MM+((a.matC-0.5)/5)*MW;const cy=MM+MH-((a.matQ-0.5)/5)*MH;
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.innerHTML=`
+    <circle cx="${cx}" cy="${cy}" r="0" fill="${a.tab}" opacity=".9" style="filter:drop-shadow(0 0 7px ${a.tab})">
+      <animate attributeName="r" from="0" to="11" dur=".4s" fill="freeze" calcMode="spline" keySplines="0.34,1.56,0.64,1"/>
+    </circle>
+    <text x="${cx}" y="${cy-14}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.7)" font-family="JetBrains Mono" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur=".5s" fill="freeze"/>${a.abbr}
+    </text>`;
+  svg.appendChild(g);
+}
+
+/* DEVON */
+window.showDevon=function(){if(!openId)return;const a=ASSETS.find(x=>x.id===openId);document.getElementById("dev-body").textContent=a.devon;document.getElementById("devon-panel").classList.add("open");};
+window.closeDevon=function(){document.getElementById("devon-panel").classList.remove("open");};
+
+/* PRIORITY */
+let budgetNow=0,budgetMid=0;
+window.openPriority=function(){
+  document.getElementById("pri-screen").classList.add("show");
+  document.getElementById("pri-source").innerHTML=ASSETS.map(a=>`<div class="pri-chip" id="pc-${a.id}" onclick="chipClick('${a.id}')" draggable="true"><span class="pri-chip-ico">${a.icon}</span><span>${a.name}</span></div>`).join("");
+  ASSETS.forEach(a=>{
+    const chip=document.getElementById("pc-"+a.id);if(!chip)return;
+    chip.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",a.id);selChip=a.id;chip.style.opacity=".45";});
+    chip.addEventListener("dragend",()=>{chip.style.opacity="1";});
+  });
+  ["lane-now","lane-mid","lane-future"].forEach(laneId=>{
+    const lane=document.getElementById(laneId);if(!lane)return;
+    lane.addEventListener("dragover",e=>{e.preventDefault();lane.classList.add("drag-target");});
+    lane.addEventListener("dragleave",()=>lane.classList.remove("drag-target"));
+    lane.addEventListener("drop",e=>{
+      e.preventDefault();lane.classList.remove("drag-target");
+      const id=e.dataTransfer.getData("text/plain")||selChip;
+      if(!id||ST[id].priority)return;
+      placeLane(id,laneId.replace("lane-",""));
+    });
+  });
+};
+function placeLane(id,key){
+  if(key==="now"&&budgetNow>=BUDGET.now){document.getElementById("budget-warning").style.display="inline";setTimeout(()=>{document.getElementById("budget-warning").style.display="none";},2200);return;}
+  if(key==="mid"&&budgetMid>=BUDGET.mid)return;
+  ST[id].priority=key;
+  if(key==="now")budgetNow++;
+  if(key==="mid")budgetMid++;
+  updateBudgetUI();
+  const chip=document.getElementById("pc-"+id);
+  const a=ASSETS.find(x=>x.id===id);
+  const nc=document.createElement("div");nc.className="pri-chip placed";
+  nc.innerHTML=`<span class="pri-chip-ico">${a.icon}</span><span>${a.name}</span>`;
+  document.getElementById("lane-"+key).appendChild(nc);
+  if(chip)chip.remove();
+  selChip=null;
+  document.querySelectorAll(".pri-chip").forEach(c=>c.classList.remove("selected"));
+  const placed=ASSETS.filter(a=>ST[a.id].priority).length;
+  document.getElementById("pri-count").textContent=placed;
+  if(placed===ASSETS.length){const btn=document.getElementById("btn-pri");btn.disabled=false;btn.className="btn-pri ready";}
+}
+window.chipClick=function(id){
+  if(ST[id].priority)return;
+  document.querySelectorAll(".pri-chip").forEach(c=>c.classList.remove("selected"));
+  const chip=document.getElementById("pc-"+id);
+  if(chip){chip.classList.add("selected");selChip=id;}
+};
+// Lane click handled by dragover/drop in openPriority; also support click-on-lane when chip selected
+["lane-now","lane-mid","lane-future"].forEach(laneId=>{
+  setTimeout(()=>{
+    const el=document.getElementById(laneId);if(!el)return;
+    el.addEventListener("click",function(e){
+      if(!selChip||ST[selChip].priority)return;
+      if(e.target.classList.contains("pri-chip"))return; // don't trigger on placed chips
+      placeLane(selChip,laneId.replace("lane-",""));
+    });
+  },0);
+});
+function updateBudgetUI(){
+  for(let i=0;i<2;i++){const p=document.getElementById("bp-n-"+i);if(p)p.classList.toggle("used",i<budgetNow),p.classList.toggle("now",i<budgetNow);}
+  for(let i=0;i<3;i++){const p=document.getElementById("bp-m-"+i);if(p)p.classList.toggle("used",i<budgetMid),p.classList.toggle("mid",i<budgetMid);}
+  document.getElementById("budget-now-txt").textContent=budgetNow+" / 2 used";
+  document.getElementById("budget-mid-txt").textContent=budgetMid+" / 3 used";
+  const nowLane=document.getElementById("lane-now");
+  if(nowLane)nowLane.classList.toggle("lane-full",budgetNow>=BUDGET.now);
+}
+
+/* CFO / SCENARIO LOGIC */
+function evaluatePriorities(){
+  const future=ASSETS.filter(a=>ST[a.id].priority==="future").length;
+  const auditPost=ST["a2"].priority==="future";
+  const pkiPost=ST["a4"].priority==="future";
+  const pkiNow=ST["a4"].priority==="now";
+  const kmsNow=ST["a3"].priority==="now";
+  if(future>=4)return"all-deferred";
+  if(auditPost)return"audit-deferred";
+  if(pkiPost)return"pki-deferred";
+  if(pkiNow&&kmsNow)return"budget-challenge";
+  return"success";
+}
+
+const CFO_SCENARIOS={
+  "all-deferred":{sender:"Ryan Thompson",role:"Chair of the Board",initials:"RT",bg1:"#1a3020",bg2:"#2a5030",
+    subject:"RE: Quantum Assessment / Board Cannot Ratify",
+    body:"<p>I have reviewed your prioritisation.</p><p>Deferring all quantum migration to post-2028 is not a readiness plan. We have a confirmed Harvest Now, Decrypt Later exposure from INC-55810. The board cannot ratify a document that takes no action for the next two years.</p><p>At minimum, the foundational layers and the confirmed breach exposures require immediate classification. Please advise.</p>",
+    replies:[{text:"I will revise the prioritisation to reflect the confirmed exposures.",choice:"revise-deferred",cls:"defend"},{text:"Budget constraints prevent earlier action in the current cycle.",choice:"budget-block",cls:"concede"}]},
+  "audit-deferred":{sender:"Sarah Okonkwo",role:"CFO",initials:"SO",bg1:"#0f1a2e",bg2:"#1a2a3e",
+    subject:"RE: Quantum Assessment / Audit Log Classification",
+    body:"<p>I need to flag something before this goes to the board.</p><p>Your assessment classifies the Audit Logs as a confirmed Harvest Now, Decrypt Later exposure. You then placed it in Post-2028.</p><p>The board will ask you directly why a confirmed breach victim is being deferred for three years.</p>",
+    replies:[{text:"The data is already exfiltrated. Immediate action cannot protect it.",choice:"audit-irreversible",cls:"defend"},{text:"You are right. The classification should reflect the confirmed breach urgency.",choice:"audit-concede",cls:"concede"}]},
+  "pki-deferred":{sender:"Ryan Thompson",role:"Chair of the Board",initials:"RT",bg1:"#1a1a2e",bg2:"#2a2a4e",
+    subject:"RE: Quantum Assessment / PKI Dependency Risk",
+    body:"<p>I have a concern with the PKI classification.</p><p>PKI is the foundational trust layer for every certificate, boot process, and service authentication in the estate. Every other quantum migration depends on it. Deferring it to post-2028 leaves the entire stack exposed at the root while other migrations proceed above it.</p>",
+    replies:[{text:"Noted. The PKI timeline will be re-examined and prioritised appropriately.",choice:"pki-revise",cls:"concede"}]},
+  "budget-challenge":{sender:"Sarah Okonkwo",role:"CFO",initials:"SO",bg1:"#0f1a2e",bg2:"#1a2a3e",
+    subject:"RE: Quantum Assessment / Priority Review",
+    body:"<p>I have reviewed your priority list.</p><p>You have placed both PKI and Key Management in the Act Now lane. That is a $1.4M Year 1 commitment on top of the INC-55810 remediation costs.</p><p>The board will ask whether KMS can move to 2026-2028. Procurement advises an 18-month HSM hardware lead time anyway. Can you defend keeping it in Phase 1, or does it move?</p>",
+    replies:[{text:"Defend Phase 1: KMS and PKI must proceed together.",choice:"defend",cls:"defend"},{text:"Concede: Move KMS to 2026-2028 to reduce Year 1 spend.",choice:"concede",cls:"concede"}]}
+};
+
+const RESPONSE_DATA={
+  "success":{icon:"✓",cls:"defend",title:"Assessment Submitted to Board",body:"The quantum readiness assessment has been submitted. Ryan Thompson will present it at the board meeting.",devon:"<strong>Well structured.</strong> The priorities reflect the dependency hierarchy. Foundational layers first, confirmed exposures addressed, regulatory deadlines mapped. Routing this to Ryan for the board deck."},
+  "defend":{icon:"✓",cls:"defend",title:"Phase 1 Priorities Maintained",body:"The board has accepted your rationale. PKI and KMS remain in the Act Now lane.",devon:"<strong>Correct call.</strong> The key hierarchy underpins everything. Delaying KMS delays PKI. Lead with the dependency chain argument at the board meeting."},
+  "concede":{icon:"▶",cls:"concede",title:"KMS Adjusted to 2026-2028",body:"The adjustment has been noted. KMS moves to the 2026-2028 lane.",devon:"<strong>Note the dependency:</strong> PKI migration depends on the HSM layer. Moving KMS to 2026 effectively delays PKI Phase 1 as well. Ensure the board understands this cascading effect before ratifying."},
+  "audit-irreversible":{icon:"✓",cls:"defend",title:"Board Accepts the Rationale",body:"The board has accepted your reasoning. Post-2028 for archive encryption migration is noted with your explanation on file.",devon:"<strong>Technically correct.</strong> The 431MB cannot be protected retroactively regardless of priority lane. Recommend adding explicit board language explaining this. Otherwise Post-2028 reads as deprioritising a confirmed breach."},
+  "audit-concede":{icon:"▶",cls:"concede",title:"Classification Revised",body:"The board has noted the revision.",devon:"<strong>Clarify for the board:</strong> the 431MB already exfiltrated cannot be protected in any priority lane. The urgency is preventing new collection and ensuring future archives use PQC key wrapping."},
+  "revise-deferred":{icon:"▶",cls:"concede",title:"Board Requests Revision",body:"Assessment submitted. The board will await a revised prioritisation.",devon:"<strong>For future reference:</strong> any confirmed HNDL exposure requires Act Now or written justification for deferral. Post-2028 across the board implies the quantum threat does not materialise for two years, which contradicts CSNA 2.0 projections."},
+  "budget-block":{icon:"▶",cls:"concede",title:"Budget Constraint on Record",body:"The board has recorded the budget constraint. Assessment submitted.",devon:"<strong>The board will likely request</strong> a revised plan prioritising foundational layers at reduced scope. Full deferral is unlikely to be ratified given the confirmed HNDL exposure from INC-55810."},
+  "pki-revise":{icon:"▶",cls:"concede",title:"PKI Timeline Under Review",body:"The board has noted the PKI classification for revision.",devon:"<strong>PKI is a 24-36 month programme</strong> at minimum for a proper root CA transition. Deferring to post-2028 means completion no earlier than 2031, outside any optimistic CRQC window and leaving every other migration without its trust foundation."}
+};
+
+window.submitToBoard=function(){
+  if(submitted)return;submitted=true;
+  document.getElementById("pri-screen").classList.remove("show");
+  const scenario=evaluatePriorities();
+  const score=calcScore();
+  window.parent.postMessage({type:"section_complete",sectionId:5,score,max:40},"*");
+  if(scenario==="success"){showOutcome("success");}
+  else{showCFOEmail(scenario);}
+};
+
+function showCFOEmail(scenario){
+  const cfg=CFO_SCENARIOS[scenario];if(!cfg)return;
+  const av=document.querySelector(".email-av");
+  if(av){av.textContent=cfg.initials;av.style.background="linear-gradient(135deg,"+cfg.bg1+","+cfg.bg2+")";}
+  const nameEl=document.querySelector(".email-from-name");
+  const roleEl=document.querySelector(".email-from-role");
+  const subjEl=document.querySelector(".email-subject-row");
+  if(nameEl)nameEl.textContent=cfg.sender;
+  if(roleEl)roleEl.textContent=cfg.role+", Solis Commerce";
+  if(subjEl)subjEl.textContent=cfg.subject;
+  document.getElementById("cfo-body").innerHTML=cfg.body;
+  const rw=document.getElementById("cfo-replies");
+  if(rw)rw.innerHTML=cfg.replies.map(r=>`<button class="btn-reply ${r.cls}" onclick="replyBoard('${r.choice}')">${r.text}</button>`).join("");
+  document.getElementById("cfo-screen").classList.add("show");
+}
+
+window.replyBoard=function(choice){
+  document.getElementById("cfo-screen").classList.remove("show");
+  setTimeout(()=>showOutcome(choice),300);
+};
+
+function showOutcome(choice){
+  const r=RESPONSE_DATA[choice]||RESPONSE_DATA["success"];
+  const resp=document.getElementById("cfo-response");
+  document.getElementById("resp-icon").className="response-icon "+r.cls;
+  document.getElementById("resp-icon").textContent=r.icon;
+  document.getElementById("resp-title").textContent=r.title;
+  document.getElementById("resp-body").textContent=r.body;
+  document.getElementById("resp-devon").innerHTML=r.devon;
+  resp.classList.add("show");
+  if(r.cls==="defend"){
+    setTimeout(()=>{
+      const st=document.getElementById("stamp-overlay");if(st){st.classList.add("show");setTimeout(()=>st.classList.remove("show"),3000);}
+    },700);
+    matrixCelebrate();
+  }
+}
+
+function matrixCelebrate(){
+  const svg=document.getElementById("mat-svg");if(!svg)return;
+  svg.querySelectorAll("circle").forEach((el,i)=>{
+    setTimeout(()=>{
+      const orig=el.getAttribute("r")||"11";
+      el.setAttribute("r","15");el.style.opacity="1";
+      setTimeout(()=>{el.setAttribute("r",orig);el.style.opacity=".9";},350);
+    },i*120);
+  });
+}
+
+window.completeSection=function(){
+  ["cfo-response","stamp-overlay"].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove("show");});
+  const btn=document.getElementById("btn-submit");
+  if(btn){btn.textContent="Completed ✓";btn.className="btn-submit done";}
+};
+
+/* SCORING */
+function calcScore(){
+  let raw=0;
+  ASSETS.forEach(a=>{
+    const s=ST[a.id];if(!s.committed)return;
+    a.dims.forEach(dim=>{const sel=s.dims[dim.id];if(!sel)return;const opt=dim.opts.find(o=>o.k===sel);raw+=opt?opt.s:0;});
+    const r=a.rationales.find(x=>x.k===s.rationale);raw+=r?r.s:0;
+    const priMap={now:0,mid:1,future:2};
+    const pd=Math.abs((priMap[s.priority]||0)-(priMap[a.priCorrect]||0));
+    raw+=(pd===0?2:pd===1?1:0);
+  });
+  return Math.min(40,Math.round(raw/55*40));
+}
+
+/* MEMO */
+window.openMemo=function(){
+  const d=new Date();const mo=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const ds=mo[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
+  const rows=ASSETS.map(a=>{
+    const s=ST[a.id];if(!s.committed)return`<div style="opacity:.45;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ede4d4"><span style="font-size:.8rem;font-weight:700;color:#1a1a1a">${a.icon} ${a.name}</span><span style="font-size:.7rem;color:#8a7050;margin-left:8px">Not yet assessed</span></div>`;
+    const rat=a.rationales.find(r=>r.k===s.rationale);
+    const pri=s.priority?{now:"Act Now",mid:"2026-2028",future:"Post-2028"}[s.priority]:"Pending";
+    return`<div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #ede4d4">
+      <div style="font-size:.8rem;font-weight:700;color:#1a1a1a;margin-bottom:5px">${a.icon} ${a.name} <span style="font-size:.65rem;font-weight:600;color:#1e3a8a;background:#eff6ff;padding:2px 8px;border-radius:4px;margin-left:6px">${pri}</span></div>
+      ${rat?`<div style="font-size:.73rem;color:#3a2e18;line-height:1.68;padding:7px 10px;background:#fafaf8;border-left:2px solid #c4b49a;border-radius:0 5px 5px 0;margin-bottom:5px">${rat.t}</div>`:""}
+      <div style="font-size:.63rem;color:#8a7050">Confidence: ${s.confidence||"Not rated"}</div>
+    </div>`;
+  }).join("");
+  document.getElementById("memo-body").innerHTML=`
+    <div style="border-bottom:2px solid #1a1a1a;padding-bottom:14px;margin-bottom:16px">
+      <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:#1a1a1a">Solis Commerce Ltd</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin-top:10px;font-size:.73rem;color:#4a3a2a">
+        <span style="font-weight:700">MEMORANDUM</span><span></span>
+        <span style="font-weight:700">To:</span><span>Board of Directors</span>
+        <span style="font-weight:700">From:</span><span>${firstName}, Chief Risk Officer</span>
+        <span style="font-weight:700">Date:</span><span>${ds}</span>
+        <span style="font-weight:700">Re:</span><span>Quantum Readiness Assessment / Post-INC-55810</span>
+      </div>
+    </div>
+    ${rows}`;
+  document.getElementById("memo-ov").classList.add("open");
+};
+window.closeMemo=function(){document.getElementById("memo-ov").classList.remove("open");};
+document.getElementById("memo-ov").addEventListener("click",function(e){if(e.target===this)closeMemo();});
+
+setTimeout(runTransmission,500);
+</script>
+</body>
+</html>
