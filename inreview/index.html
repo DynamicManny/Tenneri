@@ -80,8 +80,11 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 
 /* DESKTOP */
 #desktop{position:fixed;inset:0 0 52px 0;background:#060c14;background-size:cover;background-position:center;background-repeat:no-repeat;display:none;overflow:hidden}
+#desktop::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(44,169,188,.04) 0%,transparent 70%);pointer-events:none;z-index:0}
 #win-container{position:absolute;inset:0;pointer-events:none}
-#win-container .window{pointer-events:all}
+#win-container .window{pointer-events:all;transition:box-shadow .2s ease}
+.window:not(.minimized){box-shadow:0 4px 6px rgba(0,0,0,.15),0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05)}
+.window[style*="z-index: 100"]{box-shadow:0 4px 6px rgba(0,0,0,.2),0 28px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.08),0 0 40px rgba(44,169,188,.04)}
 .desktop-icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:8px;border-radius:10px;transition:background .15s;width:80px}
 .desktop-icon:hover{background:rgba(44,169,188,.12)}
 .di-emoji{font-size:2rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(44,169,188,.3))}
@@ -108,6 +111,7 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 
 /* TASKBAR */
 #taskbar{position:fixed;bottom:0;left:0;right:0;height:52px;background:rgba(6,12,20,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-top:1px solid rgba(44,169,188,.1);display:flex;align-items:center;padding:0 12px;gap:8px;z-index:7000}
+#taskbar::before{content:"";position:absolute;inset:0;top:auto;height:1px;background:linear-gradient(90deg,transparent,rgba(44,169,188,.3),transparent);pointer-events:none}
 .tb-rose-btn{background:rgba(44,169,188,.1);border:1px solid var(--brd2);border-radius:8px;padding:6px 8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;width:36px;height:36px}
 .tb-rose-btn:hover{background:rgba(44,169,188,.2)}
 #taskbar-apps{display:flex;gap:4px;flex:1;overflow-x:auto;padding:0 8px}
@@ -187,11 +191,21 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 
 /* NOTIFICATION POPUP */
 #notif-stack{position:fixed;top:14px;right:14px;z-index:8500;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.notif-card{background:var(--surf2);border:1px solid var(--brd2);border-left:3px solid var(--accent);border-radius:10px;padding:12px 14px;width:280px;box-shadow:var(--shadow);pointer-events:all;cursor:pointer;opacity:0;transform:translateX(20px);transition:all .3s cubic-bezier(.4,0,.2,1)}
+.notif-card{background:rgba(13,18,30,.95);border:1px solid rgba(255,255,255,.12);border-left:3px solid var(--accent);border-radius:12px;padding:12px 14px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);pointer-events:all;cursor:pointer;opacity:0;transform:translateX(24px) scale(.97);transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px)}
 .notif-card.in{opacity:1;transform:none}
-.notif-card.out{opacity:0;transform:translateX(20px)}
-.notif-sender{font-size:.78rem;font-weight:700;color:var(--txt);margin-bottom:1px}
-.notif-prev{font-size:.71rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px}
+.notif-card.out{opacity:0;transform:translateX(24px) scale(.97)}
+.notif-hdr{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.notif-av{width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:700;color:#fff}
+.notif-av img{width:100%;height:100%;object-fit:cover}
+.notif-sender{font-size:.76rem;font-weight:700;color:var(--txt)}
+.notif-role{font-size:.6rem;color:var(--muted)}
+.notif-prev{font-size:.71rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px;padding-left:35px}
+/* Tasks badge in dock */
+.tasks-tb-badge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;border-radius:8px;background:var(--accent);color:#000;font-size:.52rem;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 3px;font-family:var(--mono);box-shadow:0 0 6px rgba(44,169,188,.4)}
+/* Task launch hint */
+.task-launchable{cursor:pointer;transition:background .15s}
+.task-launchable:hover{background:rgba(44,169,188,.06)}
+.task-launch-hint{font-size:.65rem;font-weight:700;color:var(--accent);margin-left:auto;padding:2px 8px;border:1px solid rgba(44,169,188,.3);border-radius:4px;white-space:nowrap}
 .notif-open{font-size:.67rem;font-weight:700;color:var(--accent);background:rgba(44,169,188,.1);border:1px solid var(--brd2);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:var(--fs)}
 
 /* GAME WINDOW */
@@ -263,6 +277,12 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
   .tb-app-icon span{display:none}
   #tb-tray{display:none}
 }
+
+/* Section complete pulse on taskbar icon */
+@keyframes icon-pulse{0%{box-shadow:0 0 0 0 rgba(44,169,188,.6)}70%{box-shadow:0 0 0 8px rgba(44,169,188,0)}100%{box-shadow:0 0 0 0 rgba(44,169,188,0)}}
+.tb-app-icon.pulse{animation:icon-pulse .8s ease 3}
+/* Notification stack enhanced */
+#notif-stack{position:fixed;top:14px;right:14px;z-index:8500;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:310px}
 </style>
 </head>
 <body>
@@ -416,11 +436,7 @@ function runBoot(){
             lg.style.display='flex';
             document.getElementById('lg-name').focus();
             /* Preload section files during boot */
-            ['section2.html','section3.html','section4.html','section5.html','section6.html'].forEach(src=>{
-              const f=document.createElement('iframe');
-              f.src=src;f.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
-              document.body.appendChild(f);
-            });
+            /* Sections preloaded sequentially on completion */
           },600);
         },350);
       },300);
@@ -464,7 +480,7 @@ const IM_INITIAL=[
     id:'r1',sender:'ryan',name:'Ryan Thompson',title:'Board Chair',
     avatar:'photo',time:'09:14',
     badge:'PRIORITY: CRO BRIEFING',
-    text:`[NAME], effective immediately you are appointed Chief Risk Officer of Solis Commerce. A confirmed breach of our cardholder data environment has compromised 38,442 payment card records. The acquiring bank has triggered a mandatory forensic investigation, our legal counsel has been retained, and three class action firms have already filed notices.\n\nI need your complete risk assessment on my desk before the emergency board meeting. Maya will brief you on the technical situation from the ground. Your task list is waiting in the Tasks application. Work through it in order.\n\n— Ryan Thompson`
+    text:`[NAME], effective immediately you are appointed Chief Risk Officer of Solis Commerce. A confirmed breach of our cardholder data environment has compromised 38,442 payment card records. The acquiring bank has triggered a mandatory forensic investigation, our legal counsel has been retained, and three class action firms have already filed notices.\n\nI need your complete risk assessment on my desk before the emergency board meeting. Maya will brief you on the technical situation from the ground. Your task list is waiting in the Tasks application. Work through it in order.\n\n-- Ryan Thompson`
   },
   {
     id:'m1',sender:'maya',name:'Maya Chen',title:'Senior Security Analyst',
@@ -483,18 +499,17 @@ const STRIKE_MSGS=[
 ];
 
 const SECTION_MSGS={
-  2:{sender:'maya',name:'Maya Chen',title:'Senior Security Analyst',avatar:'MC',
-     text:`War Room section complete. Your decisions on the breach response are logged. Moving to the Risk Register next, legal counsel will be referencing it in their advice to the board.`},
-  3:{sender:'maya',name:'Maya Chen',title:'Senior Security Analyst',avatar:'MC',
-     text:`Risk Register received. The legal team is already pulling it into their brief. The Governance Audit is the next section, and it is the one that will be hardest to explain to the board. Be precise.`},
-  4:{sender:'maya',name:'Maya Chen',title:'Senior Security Analyst',avatar:'MC',
-     text:`Governance Audit complete. The gap between policy and practice is significant. Do the Quantum Assessment before you write the Board Paper — the 3DES situation is a long-tail liability the board needs to understand before they vote on anything.`},
-  5:{sender:'maya',name:'Maya Chen',title:'Senior Security Analyst',avatar:'MC',
-     text:`Quantum Assessment complete. The exposure from the exfiltrated data does not end when the classical investigation closes. Make sure that point lands in the Board Paper.`},
+  2:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
+     text:`[FIRST], the press statement is out and Brigitte has reviewed the obligations. That buys us time with the regulators. Move to the Risk Register next. We need every failure point documented before the board meeting.`},
+  3:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
+     text:`[FIRST], five risks treated and on record. The register is locked. Now the governance audit. Three policies enabled this breach and they need to be rewritten before we go anywhere near the board.`},
+  4:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
+     text:`[FIRST], three policies updated and signed. That closes the immediate governance gaps. Before we close this out I need one more thing from you. A quantum readiness assessment. The 3DES situation is a long-tail liability we have not fully mapped.`},
+  5:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
+     text:`[FIRST], that is everything I needed. Five assets assessed, priorities assigned, Sarah has reviewed the budget. The Board Paper is ready for your final input. This is the last step.`},
   6:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
-     text:`[FIRST], Board Paper received. That is all six sections. Submit your final assessment when you are ready. The board will have your complete analysis before the meeting. Well done.`}
+     text:`[FIRST], Board Paper received. That is all six sections. The board has your complete analysis on INC-55810. Well done.`}
 };
-
 const TASKS_DATA=[
   {id:1,context:"You have been appointed Chief Risk Officer following a confirmed breach at Solis Commerce. Your briefing has been delivered by Ryan Thompson (Board Chair) and Maya Chen (Senior Security Analyst). Read both messages carefully before proceeding.",
    title:"Review your incident briefing",appKey:null},
@@ -549,6 +564,17 @@ class ROSe {
       const{sectionId,score,max}=e.data;
       this.sectionScores[sectionId]={score,max};
       this._onSectionComplete(sectionId,score,max);
+    });
+
+    /* ESC key: close context menu, dismiss active notifs */
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){
+        const ctx=document.getElementById('ctx-menu');
+        if(ctx&&ctx.style.display!=='none')ctx.style.display='none';
+        /* Focus top window */
+        const wins=[...document.querySelectorAll('.window:not(.minimized)')];
+        if(wins.length){const top=wins.reduce((a,b)=>+b.style.zIndex>+a.style.zIndex?b:a);const ifr=top.querySelector('iframe');if(ifr)ifr.focus();}
+      }
     });
 
     /* Desktop context menu */
@@ -674,6 +700,7 @@ class ROSe {
     const win=document.createElement('div');
     win.className='window';win.id=id;
     win.style.cssText=`left:${l}px;top:${t}px;width:${w}px;height:${h}px`;
+    win.setAttribute('role','dialog');win.setAttribute('aria-label',title);
     if(opts.flex)win.style.display='flex';win.style.flexDirection='column';
 
     win.innerHTML=`<div class="titlebar" id="tb-${id}">
@@ -744,14 +771,17 @@ class ROSe {
     document.addEventListener('mousemove',e=>{
       if(!dragging)return;
       e.preventDefault();
-      win.style.left=Math.max(0,e.clientX-ix)+'px';
-      win.style.top=Math.max(0,e.clientY-iy)+'px';
+      const tbH=28;
+      const nx=Math.max(0,Math.min(e.clientX-ix,window.innerWidth-win.offsetWidth));
+      const ny=Math.max(tbH,Math.min(e.clientY-iy,window.innerHeight-38));
+      win.style.left=nx+'px';win.style.top=ny+'px';
     });
     document.addEventListener('touchmove',e=>{
       if(!dragging)return;
-      const t=e.touches[0];
-      win.style.left=Math.max(0,t.clientX-ix)+'px';
-      win.style.top=Math.max(0,t.clientY-iy)+'px';
+      const t=e.touches[0];const tbH=28;
+      const nx=Math.max(0,Math.min(t.clientX-ix,window.innerWidth-win.offsetWidth));
+      const ny=Math.max(tbH,Math.min(t.clientY-iy,window.innerHeight-38));
+      win.style.left=nx+'px';win.style.top=ny+'px';
     },{passive:true});
     document.addEventListener('mouseup',()=>dragging=false);
     document.addEventListener('touchend',()=>dragging=false);
@@ -764,6 +794,8 @@ class ROSe {
     document.querySelectorAll('.tb-app-icon').forEach(b=>b.classList.remove('active-win'));
     const proc=this.processes.find(p=>p.id===id);
     if(proc){const tb=document.getElementById('tbi-'+proc.pid);if(tb)tb.classList.add('active-win');}
+    /* Focus iframe for keyboard access */
+    setTimeout(()=>{const ifr=w&&w.querySelector('iframe');if(ifr)ifr.focus();},50);
   }
 
   minWin(id){
@@ -786,7 +818,10 @@ class ROSe {
   _addTaskbarIcon(pid,title,icon){
     const div=document.createElement('div');
     div.className='tb-app-icon';div.id='tbi-'+pid;div.title=title;
-    div.innerHTML=`${icon} <span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${title}</span>`;
+    div.style.position='relative';
+    const badge=title==='Tasks'?`<div class="tasks-tb-badge" id="tasks-tb-badge"></div>`:'';
+    div.innerHTML=`${icon} <span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${title}</span>${badge}`;
+    if(title==='Tasks')setTimeout(()=>this._updateTaskBadge(),100);
     div.onclick=()=>{
       const w=document.getElementById(`win-${pid}`);
       if(!w)return;
@@ -803,6 +838,16 @@ class ROSe {
     if(!body)return;
     body.style.padding='0';
     body.innerHTML=`<iframe src="${src}" style="width:100%;height:100%;border:none" sandbox="allow-scripts allow-same-origin allow-forms allow-modals"></iframe>`;
+    const ifr=body.querySelector('iframe');
+    if(ifr){
+      ifr.addEventListener('load',()=>{
+        try{
+          ifr.contentWindow.postMessage({
+            type:'INIT_SECTION',userName:this.userName,savedScores:this.sectionScores
+          },window.location.origin||'*');
+        }catch(e){}
+      });
+    }
   }
 
   _loadIM(winId){
@@ -860,13 +905,21 @@ class ROSe {
       const thread=document.getElementById('im-thread-'+this.imWindowId);
       if(thread){this._appendIMBubble(thread,msg);return;}
     }
-    /* IM not open — show notif */
-    this._showNotif(msg.name,msg.text.replace('[NAME]',this.userName).substring(0,60)+'...',true);
+    /* IM not open: show notif */
+    const preview=msg.text.replace('[NAME]',this.userName).replace('[FIRST]',this.userName.split(' ')[0]||this.userName).substring(0,70)+(msg.text.length>70?'...':'');
+    this._showNotif(msg.name,preview,true);
   }
 
   _nowTime(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ampm=h>=12?'PM':'AM';h=h%12||12;return h+':'+(m<10?'0'+m:m)+' '+ampm;}
 
   /* ── TASKS APP ─────────────────────────────────────── */
+  _updateTaskBadge(){
+    const done=TASKS_DATA.filter(t=>!!this.taskState[t.id]).length;
+    const total=TASKS_DATA.length;
+    const badge=document.getElementById('tasks-tb-badge');
+    if(badge){badge.textContent=done===total?'✓':`${done}/${total}`;badge.style.background=done===total?'var(--grn)':'var(--accent)';}
+  }
+
   _loadTasks(winId){
     const body=document.getElementById('body-'+winId);if(!body)return;
     const done=TASKS_DATA.filter(t=>!!this.taskState[t.id]).length;
@@ -885,29 +938,32 @@ class ROSe {
   _renderTasks(winId){
     const list=document.getElementById('tasks-list-'+winId);if(!list)return;
     list.innerHTML='';
+    const APP_KEYS={2:'War Room',3:'Risk Register',4:'Governance Audit',5:'Quantum Assessment',6:'Board Paper'};
     TASKS_DATA.forEach((task,i)=>{
       const done=!!this.taskState[task.id];
       const prevDone=i===0||!!this.taskState[TASKS_DATA[i-1].id];
       const locked=!prevDone&&!done;
+      const appKey=APP_KEYS[task.id];
       const div=document.createElement('div');
-      div.className='task-item'+(done?' done':'')+(locked?' locked':'');
+      div.className='task-item'+(done?' done':'')+(locked?' locked':'')+(appKey&&!done&&!locked?' task-launchable':'');
       const ts=this.taskState['ts_'+task.id]||'';
       div.innerHTML=`<div class="task-context">${task.context}</div>
         <div class="task-row">
-          <div class="task-check-vis ${done?'task-check-done':''}">${done?'&#10003;':''}</div>
+          <div class="task-check-vis ${done?'task-check-done':''}">&#10003;</div>
           <span class="task-label">${i+1}. ${task.title}</span>
+          ${appKey&&!done&&!locked?`<span class="task-launch-hint">Open &#8594;</span>`:''}
         </div>
         <div class="task-ts">${ts?'Completed: '+ts:''}</div>`;
+      if(appKey&&!done&&!locked){div.addEventListener('click',()=>{this.openApp(appKey);});}
       list.appendChild(div);
     });
   }
-
-  /* Tasks complete via postMessage only — no manual toggle */
 
   _completeTask(taskId,winId){
     if(this.taskState[taskId])return;
     this.taskState[taskId]=true;
     this.taskState['ts_'+taskId]=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    this._updateTaskBadge();
     const wid=winId||this.tasksWindowId;
     if(wid){
       this._renderTasks(wid);
@@ -958,7 +1014,7 @@ class ROSe {
 
   _loadGame(winId){
     const body=document.getElementById('body-'+winId);if(!body)return;
-    /* Static convincing Solitaire layout — closes automatically */
+    /* Static convincing Solitaire layout, closes automatically */
     const BACK='<div style="width:68px;height:94px;border-radius:5px;background:linear-gradient(135deg,#1565c0,#1e88e5,#1565c0);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0px,rgba(255,255,255,.06) 2px,transparent 2px,transparent 8px);border:1px solid rgba(255,255,255,.15);flex-shrink:0"></div>';
     const EMPTY=`<div style="width:68px;height:94px;border-radius:5px;border:2px dashed rgba(255,255,255,.2);flex-shrink:0"></div>`;
     function card(rank,suit,red){return`<div style="width:68px;height:94px;border-radius:5px;background:#fff;border:1px solid #ccc;flex-shrink:0;padding:4px 5px;box-shadow:1px 2px 5px rgba(0,0,0,.3);font-family:Georgia,serif"><div style="font-size:13px;font-weight:700;color:${red?'#c41200':'#111'};line-height:1"><div>${rank}</div><div>${suit}</div></div><div style="font-size:22px;text-align:center;margin-top:8px;color:${red?'#c41200':'#111'}">${suit}</div></div>`;}
@@ -997,7 +1053,11 @@ class ROSe {
 ROSe.prototype._showNotif=function(sender,preview,clickable){
   const stack=document.getElementById('notif-stack');
   const card=document.createElement('div');card.className='notif-card';
-  card.innerHTML=`<div class="notif-sender">💬 ${sender}</div>
+  const isRyan=sender.toLowerCase().includes('ryan');
+  const avHTML=isRyan
+    ?`<div class="notif-av"><img src="${RYAN_PHOTO}" alt="RT" onerror="this.outerHTML='RT'"></div>`
+    :`<div class="notif-av" style="background:linear-gradient(135deg,#1e3a8a,#2ca9bc)">${sender.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>`;
+  card.innerHTML=`<div class="notif-hdr">${avHTML}<div><div class="notif-sender">${sender}</div><div class="notif-role">${isRyan?'Board Chair':'Solis Commerce'}</div></div></div>
     <div class="notif-prev">${preview}</div>
     ${clickable?`<button class="notif-open" onclick="rose.openApp('Messages');this.closest('.notif-card').classList.add('out')">Open Messages</button>`:''}`;
   stack.appendChild(card);
@@ -1040,18 +1100,51 @@ ROSe.prototype._showIMNotif=function(){
 /* ── SECTION COMPLETE HANDLER ─────────────────────────── */
 ROSe.prototype._onSectionComplete=function(sectionId,score,max){
   /* Map section to task */
-  const taskId=sectionId; /* War Room=2, Risk Register=3, etc. */
+  const taskId=sectionId;
   this._completeTask(taskId);
-  /* Send Maya/Ryan follow-up */
-  const msg=SECTION_MSGS[sectionId];
-  if(msg)setTimeout(()=>this._addIMMessage({...msg}),1000);
+  /* Score-adaptive Ryan follow-up */
+  const msgTemplate=SECTION_MSGS[sectionId];
+  if(msgTemplate){
+    const pct=max>0?score/max:0;
+    let suffix='';
+    if(sectionId===2){suffix=pct>=0.8?' The response decisions were strong.':(pct>=0.6?' Some decisions will need context for the board.':' The board will have questions. Be ready.');}
+    else if(sectionId===3){suffix=pct>=0.8?' The register is clean and defensible.':(pct>=0.6?' A few treatment decisions will need justification.':' Expect the board to probe the ownership assignments.');}
+    else if(sectionId===4){suffix=pct>=0.8?' The revised policies hold up.':(pct>=0.6?' Some provisions may need strengthening before the meeting.':' Be prepared to justify some of the policy language.');}
+    else if(sectionId===5){suffix=pct>=0.8?' The dependency hierarchy is correct.':(pct>=0.6?' Some prioritisation calls will need supporting rationale.':' The board will want more detail on the migration sequencing.');}
+    const msg={...msgTemplate,text:msgTemplate.text+suffix};
+    setTimeout(()=>this._addIMMessage(msg),1000);
+  }
+  /* Sequential preload next section */
+  const nextId=sectionId+1;
+  if(nextId<=6&&!this._preloaded){this._preloaded={};}
+  if(nextId<=6&&!this._preloaded[nextId]){
+    this._preloaded[nextId]=true;
+    const f=document.createElement('iframe');
+    f.src=`section${nextId}.html`;
+    f.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
+    document.body.appendChild(f);
+    /* Send INIT_SECTION to section 6 if open */
+    if(nextId===6){
+      f.onload=()=>{f.contentWindow.postMessage({type:'INIT_SECTION',userName:this.userName,savedScores:this.sectionScores},window.location.origin||'*');};
+    }
+  }
+  /* Notify open section 6 of this score */
+  this.processes.forEach(p=>{
+    if(p.title==='Board Paper'){
+      const frame=document.querySelector('#body-'+p.id+' iframe');
+      if(frame){try{frame.contentWindow.postMessage({type:'score_update',sectionId,score,max},window.location.origin||'*');}catch(e){}}
+    }
+  });
   /* Log SCORM interaction */
   const idx=Object.keys(this.sectionScores).length-1;
   scorm.sv(`cmi.interactions.${idx}.id`,`section-${sectionId}`);
   scorm.sv(`cmi.interactions.${idx}.type`,'numeric');
   scorm.sv(`cmi.interactions.${idx}.learner_response`,String(score));
   scorm.sv(`cmi.interactions.${idx}.result`,score/max>=0.6?'correct':'incorrect');
-  scorm.cm();
+  this._debouncedCommit();
+  /* Pulse the section taskbar icon briefly */
+  const proc=this.processes.find(p=>{const ap=this.apps.find(a=>a.src===`section${sectionId}.html`);return ap&&p.title===ap.name;});
+  if(proc){const tb=document.getElementById('tbi-'+proc.pid);if(tb){tb.classList.add('pulse');setTimeout(()=>tb.classList.remove('pulse'),2500);}}
   this._saveState();
   this._checkAllComplete();
 };
@@ -1080,7 +1173,14 @@ ROSe.prototype._checkAllComplete=function(){
 };
 
 /* ── SAVE / RESTORE ──────────────────────────────────── */
+ROSe.prototype._debouncedCommit=function(){
+  clearTimeout(this._commitT);
+  this._commitT=setTimeout(()=>scorm.cm(),600);
+};
+
 ROSe.prototype._saveState=function(){
+  /* Trim imMessages to prevent SCORM suspend_data overflow */
+  if(this.imMessages.length>40)this.imMessages=this.imMessages.slice(-25);
   const d=JSON.stringify({
     userName:this.userName,
     profScore:this.profScore,
