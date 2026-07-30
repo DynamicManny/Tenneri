@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Board Paper / INC-55810</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#07080f;color:#e2e8f4;overflow:hidden;font-family:"DM Sans",sans-serif}
+:root{
+  --bg:#07080f;--s1:#0c1020;--s2:#111828;
+  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.11);
+  --txt:#e6ecf8;--sec:#8a96b0;
+  --teal:#2ca9bc;--teal-b:rgba(44,169,188,.28);
+  --grn:#10b981;--grn-d:rgba(16,185,129,.12);--grn-b:rgba(16,185,129,.3);
+  --amb:#f59e0b;--red:#ef4444;
+  --paper:#f8f3eb;--paper-d:#ede5d0;--paper-rule:rgba(0,0,0,.05);
+  --ink:#1a1208;--ink-sec:#5a4a30;--ink-mut:#9a8a6a;
+  --stamp:#c01818;
+  --mono:"JetBrains Mono",monospace;--serif:"Fraunces",Georgia,serif;
+}
+/* SHELL */
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+/* TOP BAR */
+#tb{height:48px;min-height:48px;background:rgba(7,8,15,.97);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 18px;gap:14px;z-index:20;backdrop-filter:blur(10px);flex-shrink:0}
+.tb-brand{display:flex;align-items:center;gap:9px}
+.tb-icon{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#0e1a38,#2ca9bc);display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:800;color:#fff;font-family:var(--mono)}
+.tb-title{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.55)}
+.tb-status{margin-left:auto;display:flex;align-items:center;gap:12px}
+.tb-prog-text{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.3)}
+.tb-prog-text span{color:var(--teal);font-weight:600}
+.btn-present{padding:8px 22px;border-radius:8px;font-size:.74rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:not-allowed;background:rgba(255,255,255,.06);color:rgba(255,255,255,.22);transition:all .25s;letter-spacing:.01em}
+.btn-present.ready{background:var(--teal);color:#000;cursor:pointer;box-shadow:0 0 18px rgba(44,169,188,.3)}
+.btn-present.ready:hover{opacity:.92;transform:translateY(-1px)}
+.btn-present.done{background:#0f4a2a;color:#6ee7b7;cursor:default;box-shadow:none}
+/* DOC SCROLL */
+#doc-scroll{flex:1;overflow-y:auto;padding:28px 20px 60px;display:flex;justify-content:center}
+/* THE DOCUMENT */
+#doc{
+  width:100%;max-width:740px;
+  background:var(--paper);
+  border-radius:3px;
+  box-shadow:0 2px 4px rgba(0,0,0,.12),0 16px 56px rgba(0,0,0,.38),0 0 0 1px rgba(0,0,0,.15);
+  position:relative;overflow:hidden;
+}
+/* DRAFT WATERMARK */
+#doc::before{
+  content:"DRAFT";position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:9rem;font-weight:700;
+  color:rgba(200,20,20,.05);letter-spacing:.25em;
+  pointer-events:none;z-index:0;transform:rotate(-30deg);
+  transition:opacity .8s ease;
+}
+#doc.submitted::before{opacity:0}
+/* LETTERHEAD */
+.doc-lh{padding:32px 44px 22px;border-bottom:2px solid var(--ink);position:relative;z-index:1}
+.doc-lh-co{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.doc-lh-class{font-family:var(--mono);font-size:.52rem;font-weight:700;letter-spacing:.18em;color:#fff;background:var(--stamp);padding:2px 8px;border-radius:2px;display:inline-block;margin-top:4px}
+.doc-lh-meta{display:grid;grid-template-columns:auto 1fr;gap:3px 16px;margin-top:14px;font-size:.72rem;color:var(--ink-sec)}
+.doc-lh-k{font-weight:700;color:var(--ink-mut);white-space:nowrap}
+/* SECTIONS */
+.doc-section{padding:24px 44px;border-bottom:1px solid var(--paper-d);position:relative;z-index:1}
+.doc-section:last-of-type{border-bottom:none}
+.doc-sec-hdr{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.doc-sec-num{font-family:var(--mono);font-size:.58rem;color:var(--ink-mut);width:24px;flex-shrink:0}
+.doc-sec-title{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;flex:1}
+.doc-sec-badge{font-size:.56rem;font-weight:700;padding:3px 9px;border-radius:12px;font-family:var(--mono);white-space:nowrap;letter-spacing:.04em}
+.badge-pending{background:rgba(0,0,0,.06);color:var(--ink-mut)}
+.badge-strong{background:rgba(16,185,129,.12);color:#166534;border:1px solid rgba(16,185,129,.25)}
+.badge-adequate{background:rgba(245,158,11,.1);color:#92400e;border:1px solid rgba(245,158,11,.25)}
+.badge-needs-work{background:rgba(239,68,68,.1);color:#991b1b;border:1px solid rgba(239,68,68,.25)}
+/* SKELETON */
+.skeleton-block{display:flex;flex-direction:column;gap:7px;padding:14px 0}
+.skel{height:12px;border-radius:3px;background:linear-gradient(90deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.1) 50%,rgba(0,0,0,.05) 75%);background-size:400% 100%;animation:skel .9s ease infinite}
+@keyframes skel{0%{background-position:100% 0}100%{background-position:0 0}}
+.skel-label{font-size:.65rem;color:var(--ink-mut);font-style:italic}
+/* SECTION CONTENT */
+.sec-content{font-size:.78rem;color:var(--ink-sec);line-height:1.78;animation:content-in .4s ease}
+@keyframes content-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sec-score-row{display:flex;align-items:center;gap:10px;margin-top:11px;padding-top:10px;border-top:1px solid var(--paper-d)}
+.sec-score-label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-mut)}
+.sec-score-pips{display:flex;gap:3px}
+.sec-score-pip{width:10px;height:10px;border-radius:2px;background:rgba(0,0,0,.1)}
+.sec-score-pip.filled-strong{background:#059669}
+.sec-score-pip.filled-adequate{background:#d97706}
+.sec-score-pip.filled-weak{background:#dc2626}
+/* EXECUTIVE SUMMARY */
+.doc-exec{padding:24px 44px;border-bottom:1px solid var(--paper-d);position:relative;z-index:1}
+.exec-label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mut);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.exec-label::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.08)}
+.exec-prompt{font-size:.72rem;color:var(--ink-mut);font-style:italic;line-height:1.58;margin-bottom:11px;padding:8px 12px;background:rgba(0,0,0,.03);border-radius:5px;border-left:2px solid rgba(0,0,0,.1)}
+.exec-inner{position:relative}
+textarea.exec-txt{
+  width:100%;height:130px;background:rgba(255,255,255,.7);
+  border:1.5px solid var(--paper-d);border-radius:7px;
+  padding:11px 14px;font-size:.78rem;font-family:"DM Sans",sans-serif;
+  color:var(--ink);resize:none;outline:none;line-height:1.7;
+  transition:border-color .15s;
+}
+textarea.exec-txt:focus{border-color:rgba(44,169,188,.4);background:#fff}
+textarea.exec-txt::placeholder{color:#c4b49a}
+textarea.exec-txt:disabled{opacity:.65;cursor:not-allowed}
+.exec-wc{position:absolute;bottom:9px;right:11px;font-size:.58rem;font-family:var(--mono);color:#c4b49a;pointer-events:none}
+.exec-wc.ok{color:#059669}
+.exec-hint{font-size:.63rem;color:var(--ink-mut);margin-top:5px;font-style:italic}
+/* SIGNATURES */
+.doc-sigs{padding:24px 44px 32px;position:relative;z-index:1}
+.sigs-intro{font-size:.73rem;color:var(--ink-sec);line-height:1.65;margin-bottom:20px;font-style:italic}
+.sigs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+.sig-line{border-bottom:1px solid #a09060;height:26px;margin-bottom:6px}
+.sig-name{font-size:.76rem;font-weight:700;color:var(--ink);font-family:var(--serif)}
+.sig-role{font-size:.62rem;color:var(--ink-mut)}
+/* SUBMIT OVERLAY */
+#submit-ov{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(7,8,15,.92);backdrop-filter:blur(8px);
+  flex-direction:column;align-items:center;justify-content:center;gap:20px;
+}
+#submit-ov.show{display:flex;animation:fadein .5s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.submit-stamp{
+  width:130px;height:130px;border-radius:50%;
+  border:4px solid var(--grn);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:3px;
+  transform:scale(0) rotate(-15deg);
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1) .2s;
+}
+#submit-ov.show .submit-stamp{transform:scale(1) rotate(-5deg)}
+.stamp-icon{font-size:2.8rem;color:var(--grn)}
+.stamp-text{font-family:var(--mono);font-size:.52rem;font-weight:700;letter-spacing:.14em;color:var(--grn);text-align:center;text-transform:uppercase;line-height:1.4}
+.submit-title{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--txt);text-align:center;letter-spacing:-.01em}
+.submit-ryan{
+  max-width:520px;background:var(--s1);
+  border:1px solid var(--b2);border-radius:12px;
+  padding:16px 20px;display:flex;gap:13px;
+  animation:fadein .5s ease .8s both;
+}
+.ryan-av{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.ryan-av img{width:100%;height:100%;object-fit:cover}
+.ryan-msg-name{font-size:.72rem;font-weight:700;color:var(--txt);margin-bottom:4px}
+.ryan-msg-body{font-size:.78rem;color:var(--sec);line-height:1.7}
+.ryan-cursor{display:inline-block;width:2px;height:.9em;background:var(--teal);vertical-align:text-bottom;animation:blink .65s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* SCORE BREAKDOWN */
+.score-breakdown{
+  max-width:520px;width:100%;
+  background:var(--s1);border:1px solid var(--b2);border-radius:12px;
+  padding:16px 20px;
+  animation:fadein .5s ease 1.2s both;
+}
+.sb-title{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:12px}
+.sb-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:.73rem;color:var(--sec)}
+.sb-row-name{flex:1}
+.sb-row-score{font-family:var(--mono);font-weight:600;color:var(--txt);font-size:.74rem}
+.sb-row-bar{width:80px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.sb-row-fill{height:100%;border-radius:2px;transition:width .6s ease}
+.sb-total{margin-top:12px;padding-top:12px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;font-size:.82rem;font-weight:700;color:var(--txt)}
+.sb-total-score{font-family:var(--mono);font-size:1rem;color:var(--teal)}
+.btn-return{padding:11px 28px;border-radius:8px;font-size:.76rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;background:var(--grn);color:#fff;cursor:pointer;transition:all .2s;animation:fadein .5s ease 1.6s both}
+.btn-return:hover{opacity:.9;transform:translateY(-1px)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="tb">
+    <div class="tb-brand">
+      <div class="tb-icon">SC</div>
+      <div class="tb-title">Board Paper / INC-55810</div>
+    </div>
+    <div class="tb-status">
+      <div class="tb-prog-text"><span id="prog-count">0</span> of 4 sections ready</div>
+      <button class="btn-present" id="btn-present" disabled onclick="presentToBoard()">Present to Board</button>
+    </div>
+  </div>
+  <div id="doc-scroll">
+    <div id="doc">
+      <!-- LETTERHEAD -->
+      <div class="doc-lh">
+        <div class="doc-lh-co">Solis Commerce Ltd</div>
+        <div class="doc-lh-class">CONFIDENTIAL</div>
+        <div class="doc-lh-meta">
+          <span class="doc-lh-k">Document</span><span>Post-Breach Assessment Report</span>
+          <span class="doc-lh-k">Reference</span><span>INC-55810</span>
+          <span class="doc-lh-k">Prepared by</span><span id="lh-prepared">Chief Risk Officer</span>
+          <span class="doc-lh-k">For</span><span>Board of Directors, Emergency Meeting</span>
+          <span class="doc-lh-k">Date</span><span id="lh-date"></span>
+          <span class="doc-lh-k">Status</span><span id="lh-status">In preparation</span>
+        </div>
+      </div>
+      <!-- EXECUTIVE SUMMARY -->
+      <div class="doc-exec">
+        <div class="exec-label">Executive Summary</div>
+        <div class="exec-prompt">Provide an executive-level summary of the incident, the response taken, and the forward-looking risk position. This will open the board presentation. Minimum 50 words.</div>
+        <div class="exec-inner">
+          <textarea class="exec-txt" id="exec-txt" placeholder="Write your executive summary here..." oninput="onExec(this.value)"></textarea>
+          <span class="exec-wc" id="exec-wc">0 / 50 min</span>
+        </div>
+        <div class="exec-hint" id="exec-hint">At least 50 words required to present to the board.</div>
+      </div>
+      <!-- SECTION 1: BREACH RESPONSE -->
+      <div class="doc-section" id="sec-2">
+        <div class="doc-sec-hdr">
+          <span class="doc-sec-num">01</span>
+          <span class="doc-sec-title">Breach Response and Communications</span>
+          <span class="doc-sec-badge badge-pending" id="badge-2">Pending</span>
+        </div>
+        <div id="content-2"><div class="skeleton-block"><div class="skel-label">Awaiting War Room completion</div><div class="skel" style="width:85%"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:78%"></div></div></div>
+      </div>
+      <!-- SECTION 2: RISK REGISTER -->
+      <div class="doc-section" id="sec-3">
+        <div class="doc-sec-hdr">
+          <span class="doc-sec-num">02</span>
+          <span class="doc-sec-title">Risk Register and Treatment</span>
+          <span class="doc-sec-badge badge-pending" id="badge-3">Pending</span>
+        </div>
+        <div id="content-3"><div class="skeleton-block"><div class="skel-label">Awaiting Risk Register completion</div><div class="skel" style="width:80%"></div><div class="skel" style="width:66%"></div><div class="skel" style="width:74%"></div></div></div>
+      </div>
+      <!-- SECTION 3: GOVERNANCE -->
+      <div class="doc-section" id="sec-4">
+        <div class="doc-sec-hdr">
+          <span class="doc-sec-num">03</span>
+          <span class="doc-sec-title">Governance Remediation</span>
+          <span class="doc-sec-badge badge-pending" id="badge-4">Pending</span>
+        </div>
+        <div id="content-4"><div class="skeleton-block"><div class="skel-label">Awaiting Governance Audit completion</div><div class="skel" style="width:82%"></div><div class="skel" style="width:68%"></div><div class="skel" style="width:76%"></div></div></div>
+      </div>
+      <!-- SECTION 4: QUANTUM -->
+      <div class="doc-section" id="sec-5">
+        <div class="doc-sec-hdr">
+          <span class="doc-sec-num">04</span>
+          <span class="doc-sec-title">Quantum Readiness Assessment</span>
+          <span class="doc-sec-badge badge-pending" id="badge-5">Pending</span>
+        </div>
+        <div id="content-5"><div class="skeleton-block"><div class="skel-label">Awaiting Quantum Assessment completion</div><div class="skel" style="width:88%"></div><div class="skel" style="width:62%"></div><div class="skel" style="width:72%"></div></div></div>
+      </div>
+      <!-- SIGNATURES -->
+      <div class="doc-sigs" id="doc-sigs">
+        <div class="sigs-intro">The undersigned certify that this report accurately reflects the post-breach assessment of Solis Commerce Ltd following INC-55810 and submit it to the Board of Directors for ratification.</div>
+        <div class="sigs-grid">
+          <div><div class="sig-line"></div><div class="sig-name" id="sig-cro">Chief Risk Officer</div><div class="sig-role">Solis Commerce Ltd</div></div>
+          <div><div class="sig-line"></div><div class="sig-name">Brigitte Alfred</div><div class="sig-role">General Counsel, Solis Commerce Ltd</div></div>
+          <div><div class="sig-line"></div><div class="sig-name">Ryan Thompson</div><div class="sig-role">Chair of the Board, Solis Commerce Ltd</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SUBMISSION OVERLAY -->
+<div id="submit-ov">
+  <div class="submit-stamp">
+    <div class="stamp-icon">✓</div>
+    <div class="stamp-text">Submitted<br>to Board</div>
+  </div>
+  <div class="submit-title" id="submit-title">Board Paper Presented</div>
+  <div class="submit-ryan">
+    <div class="ryan-av"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=80&h=80&auto=format&fit=crop" alt="RT" onerror="this.style.display='none'"></div>
+    <div>
+      <div class="ryan-msg-name">Ryan Thompson, Chair of the Board</div>
+      <div class="ryan-msg-body" id="ryan-msg"></div>
+    </div>
+  </div>
+  <div class="score-breakdown" id="score-breakdown" style="display:none"></div>
+  <button class="btn-return" onclick="returnToDesktop()">Return to Desktop</button>
+</div>
+<script>
+"use strict";
+const RYAN_PHOTO="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=80&h=80&auto=format&fit=crop";
+let firstName="CRO",scores={},execText="",submitted=false;
+
+/* ── INIT ──────────────────────────────────────────────── */
+(function init(){
+  const d=new Date();
+  const mo=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  document.getElementById("lh-date").textContent=mo[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
+  loadFromStorage();
+  startPolling();
+  listenForParent();
+})();
+
+/* ── STORAGE LOAD ──────────────────────────────────────── */
+function loadFromStorage(){
+  try{
+    const raw=localStorage.getItem("rose_v3");
+    if(!raw)return;
+    const saved=JSON.parse(raw);
+    if(saved.userName)firstName=saved.userName.split(" ")[0];
+    document.getElementById("lh-prepared").textContent=firstName+", Chief Risk Officer";
+    document.getElementById("sig-cro").textContent=firstName;
+    const saved6=saved.sectionScores||{};
+    [2,3,4,5].forEach(id=>{
+      if(saved6[id]&&!scores[id]){
+        scores[id]=saved6[id];
+        populateSection(id);
+      }
+    });
+    updateUI();
+  }catch(e){}
+}
+
+/* ── SCORM-AWARE SAVE ──────────────────────────────────── */
+function saveProgress(s6score){
+  try{
+    const raw=localStorage.getItem("rose_v3");
+    const saved=raw?JSON.parse(raw):{};
+    if(!saved.sectionScores)saved.sectionScores={};
+    saved.sectionScores[6]={score:s6score,max:40};
+    localStorage.setItem("rose_v3",JSON.stringify(saved));
+  }catch(e){}
+  // Attempt SCORM via parent if available
+  try{
+    let api=null,w=window;
+    for(let i=0;i<6;i++){
+      if(w.API_1484_11){api=w.API_1484_11;break;}
+      if(w.parent===w)break;
+      w=w.parent;
+    }
+    if(api){
+      const raw=localStorage.getItem("rose_v3");
+      if(raw)api.SetValue("cmi.suspend_data",raw);
+    }
+  }catch(e){}
+}
+
+/* ── POLLING FOR UPDATES ────────────────────────────────── */
+function startPolling(){
+  if([2,3,4,5].every(id=>scores[id]))return;
+  const timer=setInterval(()=>{
+    try{
+      const raw=localStorage.getItem("rose_v3");
+      if(!raw)return;
+      const saved=JSON.parse(raw);
+      const ss=saved.sectionScores||{};
+      let changed=false;
+      [2,3,4,5].forEach(id=>{
+        if(ss[id]&&!scores[id]){scores[id]=ss[id];populateSection(id);changed=true;}
+      });
+      if(changed)updateUI();
+      if([2,3,4,5].every(id=>scores[id]))clearInterval(timer);
+    }catch(e){}
+  },2000);
+}
+
+/* ── PARENT MESSAGES ─────────────────────────────────── */
+function listenForParent(){
+  window.addEventListener("message",e=>{
+    if(!e.data)return;
+    if(e.data.type==="section_complete"||e.data.type==="score_update"){
+      const{sectionId,score,max}=e.data;
+      if([2,3,4,5].includes(sectionId)&&!scores[sectionId]){
+        scores[sectionId]={score,max};
+        populateSection(sectionId);
+        updateUI();
+      }
+    }
+  });
+}
+
+/* ── SECTION CONTENT ────────────────────────────────────── */
+const SECTION_DATA={
+  2:{
+    title:"Breach Response and Communications",
+    strong:"The breach response and communications strategy was handled decisively. The press statement accurately reflected the incident scope, regulatory obligations were correctly prioritised, and operational response decisions were sound. The board can speak to this with confidence.",
+    adequate:"The breach response was adequate. Some decisions required refinement, particularly around regulatory obligation sequencing. The board should be prepared to address questions on the notification timeline and press statement framing.",
+    needs:"The breach response identified key communications obligations but several decisions require board-level clarification. Additional context on the press statement framing and regulatory prioritisation may be requested."
+  },
+  3:{
+    title:"Risk Register and Treatment",
+    strong:"Five risks were correctly identified, owned, and treated. Assessment of likelihood, impact, and treatment strategy reflects sound judgment across the full attack chain. The risk register is board-ready and supports the governance remediation work in Section 03.",
+    adequate:"The risk register covers the primary breach vectors with adequate treatment decisions. Some scoring and ownership assignments require further justification if the board requests a detailed walk-through.",
+    needs:"The risk register documents the key breach vectors. Several treatment decisions and ownership assignments will require additional context if the board examines the residual risk positions in detail."
+  },
+  4:{
+    title:"Governance Remediation",
+    strong:"Three governance policies that directly enabled INC-55810 have been rewritten and authorised. The revised policies close the specific gaps that were exploited: exception lifecycle governance, alert suppression lifecycle, and credential management standards.",
+    adequate:"The governance audit identified the key policy failures and produced revised policies. Some provisions may need strengthening before the board paper can fully close the governance chapter of INC-55810.",
+    needs:"Policy revisions have been produced for the three governance failures. The board will likely request additional justification for some provisions given their direct connection to the breach mechanism."
+  },
+  5:{
+    title:"Quantum Readiness Assessment",
+    strong:"Five critical assets have been assessed across algorithm vulnerability, Harvest Now, Decrypt Later exposure, Mosca's Rule, and migration complexity. The prioritisation reflects the correct dependency hierarchy. Solis Commerce has a credible quantum readiness position to present to the board.",
+    adequate:"The quantum assessment covers the primary cryptographic exposure areas. Some asset prioritisation decisions and framework conclusions will require supporting rationale if the board requests detailed quantum risk analysis.",
+    needs:"A quantum readiness baseline has been established. The board should treat this as an initial assessment; several findings require deeper technical validation before committing to a formal quantum migration programme."
+  }
+};
+
+function getLevel(s){
+  const pct=s.score/s.max;
+  if(pct>=0.8)return"strong";
+  if(pct>=0.6)return"adequate";
+  return"needs";
+}
+function getBadgeCls(level){return{strong:"badge-strong",adequate:"badge-adequate",needs:"badge-needs-work"}[level];}
+function getBadgeTxt(level,score,max){
+  const labels={strong:"Strong , ",adequate:"Adequate , ",needs:"Needs work , "};
+  return labels[level]+score+" / "+max;
+}
+function buildPips(score,max,level){
+  const total=10;const filled=Math.round((score/max)*total);
+  const cls="filled-"+(level==="strong"?"strong":level==="adequate"?"adequate":"weak");
+  return Array.from({length:total},(_,i)=>`<div class="sec-score-pip${i<filled?" "+cls:""}"></div>`).join("");
+}
+
+function populateSection(id){
+  const s=scores[id];if(!s)return;
+  const data=SECTION_DATA[id];if(!data)return;
+  const level=getLevel(s);
+  // Badge
+  const badge=document.getElementById("badge-"+id);
+  if(badge){badge.className="doc-sec-badge "+getBadgeCls(level);badge.textContent=getBadgeTxt(level,s.score,s.max);}
+  // Content
+  const content=document.getElementById("content-"+id);
+  if(content){
+    content.innerHTML=`<div class="sec-content">
+      <p>${data[level]}</p>
+      <div class="sec-score-row">
+        <span class="sec-score-label">Assessment score</span>
+        <div class="sec-score-pips">${buildPips(s.score,s.max,level)}</div>
+        <span style="font-size:.62rem;font-family:var(--mono);color:var(--ink-mut);margin-left:6px">${s.score} / ${s.max}</span>
+      </div>
+    </div>`;
+  }
+}
+
+/* ── EXEC SUMMARY ───────────────────────────────────────── */
+function countWords(t){return t.trim()?t.trim().split(/\s+/).length:0;}
+function onExec(txt){
+  execText=txt;
+  const w=countWords(txt);
+  const wcEl=document.getElementById("exec-wc");
+  const hint=document.getElementById("exec-hint");
+  if(wcEl){wcEl.textContent=w+" / 50 min";wcEl.className="exec-wc"+(w>=50?" ok":"");}
+  if(hint){hint.textContent=w>=50?"Ready. Add more detail if needed for the board.":"At least "+Math.max(0,50-w)+" more word"+(50-w!==1?"s":"")+" needed.";}
+  updateUI();
+}
+
+/* ── UI STATE ───────────────────────────────────────────── */
+function updateUI(){
+  const sectsDone=[2,3,4,5].filter(id=>scores[id]).length;
+  document.getElementById("prog-count").textContent=sectsDone;
+  const execReady=countWords(execText)>=50;
+  const btn=document.getElementById("btn-present");
+  if(submitted){btn.className="btn-present done";btn.textContent="Submitted";return;}
+  const ready=sectsDone>0&&execReady; // at least 1 section + exec summary
+  btn.disabled=!ready;
+  btn.className="btn-present"+(ready?" ready":"");
+  if(sectsDone===4)document.getElementById("lh-status").textContent="Ready for presentation";
+  else document.getElementById("lh-status").textContent=sectsDone+" of 4 sections complete";
+}
+
+/* ── SCORING ─────────────────────────────────────────────── */
+function calcScore(){
+  const priorBonus=[2,3,4,5].filter(id=>scores[id]).length*5;
+  const w=countWords(execText);
+  const execScore=w>=150?20:w>=100?15:w>=50?10:0;
+  return Math.min(40,priorBonus+execScore);
+}
+
+/* ── PRESENT TO BOARD ────────────────────────────────────── */
+function presentToBoard(){
+  if(submitted)return;
+  const w=countWords(execText);
+  if(w<50)return;
+  submitted=true;
+  const s6=calcScore();
+  // Disable textarea
+  const ta=document.getElementById("exec-txt");
+  if(ta)ta.disabled=true;
+  // Mark doc submitted (lifts DRAFT)
+  document.getElementById("doc").classList.add("submitted");
+  document.getElementById("lh-status").textContent="Submitted to Board";
+  // Save
+  saveProgress(s6);
+  // Fire to parent index
+  window.parent.postMessage({type:"section_complete",sectionId:6,score:s6,max:40},"*");
+  // Show overlay
+  setTimeout(()=>showCeremony(s6),300);
+}
+
+/* ── CEREMONY ─────────────────────────────────────────────── */
+const RYAN_MSG_PARTS=[
+  s=>`${s}. That is all six sections. `,
+  ()=>"The board has your complete analysis on INC-55810 , the response, the risks, the governance failures corrected, and the quantum exposure mapped. ",
+  s=>s>=32?"What you produced here is a thorough and credible piece of work. You handled a serious incident with the rigour it demanded. The board will vote with confidence.":"The assessment covers the ground the board needs. There are areas to strengthen, but you have given them something to work with. Well done.",
+];
+function buildRyanMsg(totalScore){
+  return RYAN_MSG_PARTS[0](firstName)+RYAN_MSG_PARTS[1]()+RYAN_MSG_PARTS[2](totalScore);
+}
+function showCeremony(s6){
+  const ov=document.getElementById("submit-ov");
+  ov.classList.add("show");
+  const total=Object.values(scores).reduce((a,s)=>a+(s.score||0),0)+s6;
+  const maxTotal=[2,3,4,5].reduce((a,id)=>a+(scores[id]?scores[id].max:40),0)+40;
+  // Typewriter Ryan message
+  const fullMsg=buildRyanMsg(total);
+  const msgEl=document.getElementById("ryan-msg");
+  msgEl.innerHTML='<span class="ryan-cursor"></span>';
+  const cur=msgEl.querySelector(".ryan-cursor");
+  let ci=0;
+  const typer=setInterval(()=>{
+    if(ci<fullMsg.length){
+      const span=document.createElement("span");span.textContent=fullMsg[ci++];
+      msgEl.insertBefore(span,cur);
+    } else {
+      clearInterval(typer);
+      cur.remove();
+      setTimeout(()=>showScoreBreakdown(s6,total,maxTotal),400);
+    }
+  },28);
+}
+function showScoreBreakdown(s6,total,maxTotal){
+  const sb=document.getElementById("score-breakdown");
+  if(!sb)return;
+  const sections=[
+    {name:"War Room",id:2},{name:"Risk Register",id:3},
+    {name:"Governance Audit",id:4},{name:"Quantum Assessment",id:5},
+    {name:"Board Paper",id:6,override:s6}
+  ];
+  const rows=sections.map(s=>{
+    const sc=s.id===6?s6:(scores[s.id]?.score||0);
+    const mx=s.id===6?40:(scores[s.id]?.max||40);
+    const pct=Math.round(sc/mx*100);
+    const col=pct>=80?"#10b981":pct>=60?"#f59e0b":"#ef4444";
+    return`<div class="sb-row">
+      <span class="sb-row-name">${s.name}</span>
+      <div class="sb-row-bar"><div class="sb-row-fill" style="width:${pct}%;background:${col}"></div></div>
+      <span class="sb-row-score">${sc} / ${mx}</span>
+    </div>`;
+  }).join("");
+  const totalPct=maxTotal>0?Math.round(total/maxTotal*100):0;
+  const totalCol=totalPct>=80?"#10b981":totalPct>=60?"#f59e0b":"#ef4444";
+  sb.innerHTML=`<div class="sb-title">Assessment Score Breakdown</div>${rows}
+    <div class="sb-total"><span>Total</span><span class="sb-total-score" style="color:${totalCol}">${total} / ${maxTotal} (${totalPct}%)</span></div>`;
+  sb.style.display="block";
+}
+
+/* ── RETURN ──────────────────────────────────────────────── */
+function returnToDesktop(){
+  document.getElementById("submit-ov").classList.remove("show");
+  document.getElementById("btn-present").className="btn-present done";
+  document.getElementById("btn-present").textContent="Submitted";
+}
+</script>
+</body>
+</html>
