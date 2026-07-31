@@ -3,21 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tenneri | eLearning Built for Retention</title>
-<meta name="description" content="Tenneri designs interactive learning environments that meet every student and employee where they are. Built inside the LMS your institution already runs.">
+<title>Tenneri | Instructional Design Built with Code</title>
+<meta name="description" content="Instructional design and eLearning development by Tenneri. Custom courses, simulations, and labs for higher ed and corporate teams, built on any LMS.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://tenneri.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tenneri.com/">
-<meta property="og:title" content="Tenneri | Learning Environments Built for Every Learner">
-<meta property="og:description" content="Tenneri designs learning experiences that make the material stick.">
-<meta property="og:image" content="https://tenneri.com/Ten-Logo.png">
+<meta property="og:site_name" content="Tenneri">
+<meta property="og:title" content="Tenneri | Instructional Design Built in Code">
+<meta property="og:description" content="Instructional design and eLearning development for higher ed and corporate teams, built in code.">
+<meta property="og:image" content="https://tenneri.com/Ten-OG.png">
 <meta property="og:locale" content="en_US">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tenneri | Learning Environments Built for Every Learner">
-<meta name="twitter:description" content="Tenneri designs learning experiences that make the material stick.">
-<meta name="geo.region" content="US">
-<meta name="geo.region" content="CA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tenneri | Instructional Design & eLearning Development">
+<meta name="twitter:description" content="Instructional design and eLearning development for higher ed and corporate teams, built in code.">
 <link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +24,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"Tenneri","url":"https://tenneri.com","logo":"https://tenneri.com/Ten-Logo.png","email":"ramano@tenneri.com","founder":{"@type":"Person","name":"Ramano Stoute","jobTitle":"Founder and Instructional Designer"},"areaServed":["US","CA","GB"],"serviceType":["Instructional Design","eLearning Development","LMS Course Design","Adaptive Learning","Corporate Training Design"]}
+{"@context":"https://schema.org","@type":"Organization","name":"Tenneri","url":"https://tenneri.com","logo":"https://tenneri.com/Ten-Logo.png","email":"ramano@tenneri.com","founder":{"@type":"Person","name":"Ramano Stoute","jobTitle":"Founder and Instructional Designer","sameAs":["https://www.linkedin.com/in/ramano-stoute/"]},"areaServed":["US","CA","GB"],"serviceType":["Instructional Design","eLearning Development","LMS Course Design","Adaptive Learning","Corporate Training Design"]}
 </script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -96,6 +95,9 @@ nav.scrolled .n-logo-name{font-size:0;opacity:0;width:0;margin:0}
 .pain-frame strong{color:var(--navy);font-weight:600}
 .pain-panel{display:none}
 .pain-panel.on{display:block}
+.case-strip.pain-panel{display:none}
+.case-strip.pain-panel.on{display:grid}
+@media (max-width:860px){.case-strip.pain-panel.on{display:grid}}
 .pain-cards{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
 .pain-card{background:var(--white);padding:32px 36px;display:grid;grid-template-columns:32px 1fr;gap:18px;align-items:start;transition:background .25s;position:relative}
 .pain-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .35s var(--ease)}
@@ -114,6 +116,25 @@ nav.scrolled .n-logo-name{font-size:0;opacity:0;width:0;margin:0}
 .method-p-n{font-family:var(--f-m);font-size:.62rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;display:block}
 .method-p-title{font-family:var(--f-d);font-size:1.15rem;font-weight:500;color:var(--ink);margin-bottom:8px}
 .method-p-body{font-size:.9rem;color:var(--body);line-height:1.7}
+.build-intro,.cases-intro,.faq-intro{text-align:center;max-width:640px;margin-left:auto;margin-right:auto}
+.build-intro .label,.cases-intro .label,.faq-intro .label{justify-content:center}
+.build-sub,.faq-sub{margin-left:auto;margin-right:auto}
+#problem>.wrap>.label{justify-content:center;text-align:center}
+.build-h2-accent{color:var(--navy-lt)}
+.about-subhead{font-family:var(--f-d);font-style:italic;font-size:1.25rem;color:var(--navy);margin:28px 0 10px;font-weight:500}
+.about-subhead:first-of-type{margin-top:0}
+.btn-shine{position:relative;overflow:hidden}
+.btn-shine::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(115deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%{left:-60%}45%{left:130%}100%{left:130%}}
+.btn-shine:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(27,45,79,.28)}
+.problem-vid{max-width:520px;margin:0 auto 52px}
+.problem-vid-lead{font-family:var(--f-d);font-size:1.2rem;font-style:italic;font-weight:400;color:var(--navy);text-align:center;line-height:1.4;margin-bottom:20px}
+.problem-vid-card{border-radius:10px;box-shadow:0 16px 44px rgba(15,14,12,.14)}
+.rail-dot{position:relative}
+.rail-dot::after{content:attr(title);position:absolute;left:16px;top:50%;transform:translateY(-50%) translateX(-6px);white-space:nowrap;font-family:var(--f-m);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);background:var(--white);padding:5px 12px;border-radius:3px;border:1px solid var(--rule);box-shadow:0 6px 18px rgba(15,14,12,.1);opacity:0;pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.rail-dot:hover::after{opacity:1;transform:translateY(-50%) translateX(0)}
+.rail-dot:hover{background:var(--gold-lt);transform:scale(1.5)}
+.rail-dot.active:hover{background:var(--gold)}
 .method-p-body strong{color:var(--dim);font-weight:600}
 .method-close-row .rd1{transition-delay:.18s}
 .method-close-row .rd2{transition-delay:.36s}
@@ -198,7 +219,7 @@ nav.scrolled .n-logo-name{font-size:0;opacity:0;width:0;margin:0}
 .vid-caption-body strong{color:var(--dim);font-weight:600}
 .peek-label{font-family:var(--f-m);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .peek-label::before{content:'';width:14px;height:1px;background:var(--muted);flex-shrink:0}
-.peek-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:8px;overflow:hidden;margin-bottom:40px}
+.peek-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--rule);border-radius:8px;overflow:hidden;margin:0 auto 40px;max-width:640px}
 .peek-card{background:var(--white);position:relative;overflow:hidden;cursor:pointer}
 .peek-card:hover .peek-overlay{opacity:.5}
 .peek-vid-ratio{padding-top:56.25%;position:relative;background:var(--navy-dk)}
@@ -443,12 +464,12 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
 .hero-contact-line{text-align:center;width:100%;margin-top:18px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.04em;color:var(--muted);opacity:0;animation:up .8s var(--ease) .8s forwards}
 .hero-contact-line a{color:var(--navy);text-decoration:none;border-bottom:1px solid rgba(27,45,79,.3);padding-bottom:1px;transition:color .2s,border-color .2s}
 .hero-contact-line a:hover{color:var(--navy-lt);border-color:var(--navy-lt)}
-.btn-hero-primary{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;background:var(--navy);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--navy);transition:background .2s,transform .2s}
-.btn-hero-primary:hover{background:var(--navy-lt);transform:translateY(-1px)}
-.btn-hero-gold{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;background:var(--gold);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--gold);box-shadow:0 4px 16px rgba(184,145,60,.3);transition:background .2s,transform .2s}
-.btn-hero-gold:hover{background:var(--gold-lt);transform:translateY(-1px)}
+.btn-hero-primary{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;background:var(--gold);color:#fff;border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--gold);transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 6px 20px rgba(184,145,60,.3)}
+.btn-hero-primary:hover{background:var(--gold-lt);border-color:var(--gold-lt);transform:translateY(-2px);box-shadow:0 10px 26px rgba(184,145,60,.4)}
 .btn-hero-secondary{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border:1.5px solid var(--rule);color:var(--dim);border-radius:3px;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s,transform .2s;background:transparent;cursor:pointer}
 .btn-hero-secondary:hover{border-color:var(--navy);color:var(--navy);transform:translateY(-1px)}
+.btn-arrow-down{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
 .dashboard{background:var(--navy-dk);border-bottom:1px solid rgba(255,255,255,.06);overflow:hidden;position:relative}
 .dashboard::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
 .dashboard-inner{position:relative;z-index:1;padding:64px 52px}
@@ -613,9 +634,9 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
   <ul class="n-links">
     <li><a href="#build">The Work</a></li>
     <li><a href="https://tenneri.com/projects/" target="_blank">Projects</a></li>
-    <li><a href="#cases">Results</a></li>
-    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#results">Results</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="https://calendly.com/tenneri/new-meeting" target="_blank" class="n-cta">Book a Call</a></li>
   </ul>
   <button class="n-ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -623,20 +644,18 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
 <div class="mob-nav" id="mob">
   <a href="#build" onclick="closeMob()">The Work</a>
   <a href="https://tenneri.com/projects/" target="_blank" onclick="closeMob()">Projects</a>
-  <a href="#cases" onclick="closeMob()">Results</a>
-  <a href="#faq" onclick="closeMob()">FAQ</a>
+  <a href="#results" onclick="closeMob()">Results</a>
   <a href="#about" onclick="closeMob()">About</a>
+  <a href="#faq" onclick="closeMob()">FAQ</a>
   <a href="https://calendly.com/tenneri/new-meeting" target="_blank" onclick="closeMob()">Book a Call</a>
 </div>
 <div class="progress-rail" id="progress-rail" aria-hidden="true">
   <button class="rail-dot" data-target="hero" title="Top"></button>
   <button class="rail-dot" data-target="problem" title="The Problem"></button>
-  <button class="rail-dot" data-target="dashboard" title="Dashboard"></button>
   <button class="rail-dot" data-target="build" title="The Work"></button>
-  <button class="rail-dot" data-target="cases" title="Results"></button>
-  <button class="rail-dot" data-target="faq" title="FAQ"></button>
+  <button class="rail-dot" data-target="results" title="Results"></button>
   <button class="rail-dot" data-target="about" title="About"></button>
-  <button class="rail-dot" data-target="process" title="How It Works"></button>
+  <button class="rail-dot" data-target="faq" title="FAQ"></button>
 </div>
 <button class="back-top" id="back-top" aria-label="Back to top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
@@ -644,18 +663,17 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
 <section class="hero" id="hero" data-section="hero">
   <div class="ghost" id="ghost" aria-hidden="true">TENNERI</div>
   <div class="hero-inner">
-    <span class="hero-kicker">Instructional Design, Built in Code</span>
-    <h1 class="hero-h">Information alone does not change<br>how <em>learners perform.</em></h1>
+    <h1 class="hero-h">Instructional Design<br><em>Built with Code.</em></h1>
     <div style="width:40px;height:1px;background:var(--gold);margin:28px auto;opacity:0;animation:up .8s var(--ease) .35s forwards"></div>
-    <p class="hero-sub">Tell me who you are, and I'll show you what's relevant to your situation.</p>
+    <p class="hero-sub">I create for higher ed and corporate.</p>
     <div class="path-selector" id="path-selector">
       <span class="path-label">I am</span>
-      <button class="path-btn" data-path="academic"><span class="path-btn-icon">🎓</span>In Higher Ed</button>
+      <button class="path-btn active" data-path="academic"><span class="path-btn-icon">🎓</span>In Higher Ed</button>
       <button class="path-btn" data-path="corporate"><span class="path-btn-icon">🏢</span>In Corporate</button>
     </div>
     <div class="hero-cta-row">
-      <a href="#build" class="btn-hero-secondary">See how it works ↓</a>
-      <a href="https://tenneri.com/projects/" target="_blank" class="btn-hero-primary">All Projects →</a>
+      <a href="#problem" class="btn-hero-secondary">See how it works <span class="btn-arrow-down">↓</span></a>
+      <a href="https://tenneri.com/projects/" target="_blank" class="btn-hero-primary btn-shine">All Projects →</a>
     </div>
     <p class="hero-contact-line">Prefer to <a href="#contact" id="hero-contact-link">send a message</a> instead?</p>
   </div>
@@ -674,7 +692,6 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
     <span class="ticker-item">Adaptive Assessment<span class="ticker-sep"></span></span>
     <span class="ticker-item">WCAG 2.1 AA<span class="ticker-sep"></span></span>
     <span class="ticker-item">Zero Vendor Dependency<span class="ticker-sep"></span></span>
-    <span class="ticker-item">Native LMS Builds<span class="ticker-sep"></span></span>
     <span class="ticker-item">Brightspace / D2L<span class="ticker-sep"></span></span>
     <span class="ticker-item">Moodle<span class="ticker-sep"></span></span>
     <span class="ticker-item">Canvas<span class="ticker-sep"></span></span>
@@ -687,109 +704,68 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
     <span class="ticker-item">Adaptive Assessment<span class="ticker-sep"></span></span>
     <span class="ticker-item">WCAG 2.1 AA<span class="ticker-sep"></span></span>
     <span class="ticker-item">Zero Vendor Dependency<span class="ticker-sep"></span></span>
-    <span class="ticker-item">Native LMS Builds<span class="ticker-sep"></span></span>
   </div>
 </div>
 <section class="sec pain" id="problem" data-section="problem">
   <div class="wrap">
-    <div class="label r">Is this your situation?</div>
-    <h2 class="display r pain-heading">What problems are you<br>hoping to solve?</h2>
-    <div class="pain-toggle r" role="group">
-      <button class="pain-toggle-btn on" data-audience="academic">Higher Education</button>
-      <button class="pain-toggle-btn" data-audience="corporate">Corporate</button>
-    </div>
+    <div class="label r">My approach</div>
 
     <div class="pain-panel on" id="pain-academic">
-      <p class="pain-frame r">Static courses break student engagement and kill learning outcomes. By building natively in code, I deliver environments with built-in WCAG accessibility that never breaks, feeding real-time performance data straight into your LMS gradebook via SCORM and xAPI.</p>
-      <div class="pain-cards r">
-        <div class="pain-card"><div class="pain-n">01</div><div>
-          <p class="pain-q">"Social media and AI have changed how students absorb information. The course has not changed with it."</p>
-          <p class="pain-p">The same student who cannot focus through a 40-minute lecture will spend three hours going down a YouTube rabbit hole. Attention is not the problem. The design is.</p>
-        </div></div>
-        <div class="pain-card"><div class="pain-n">02</div><div>
-          <p class="pain-q">"Most courses are still built for the reader who takes notes and finishes every page. That's one kind of learner in a room full of different ones."</p>
-          <p class="pain-p">Readers, watchers, and doers are all in the same room. When the path through the material only works for one type, the others quietly fall behind.</p>
-        </div></div>
-        <div class="pain-card"><div class="pain-n">03</div><div>
-          <p class="pain-q">"You added a tool. Students treated it like optional extra credit."</p>
-          <p class="pain-p">When the experience lives outside the course, students leave it outside the course. The solution was never another tab.</p>
-        </div></div>
+      <div class="problem-vid r rd1">
+        <p class="problem-vid-lead">I create labs, simulations, and activities designed to be educational and immersive.</p>
+        <div class="peek-card problem-vid-card" data-title="Simulated OS Environment" data-type="Cybersecurity &middot; Technical Training" data-vimeo="1169432149">
+          <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432149?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="rose-demo-preview"></iframe></div>
+          <div class="peek-overlay"><div class="peek-play">▶</div></div>
+          <div class="peek-info"><div class="peek-title">This is a full operating system, built and housed in Brightspace</div><div class="peek-type">Graded labs and simulations, sandboxed inside the LMS</div></div>
+        </div>
       </div>
     </div>
     <div class="pain-panel" id="pain-corporate">
-      <p class="pain-frame r"> I engineer custom browser-based simulations, bypassing generic authoring tool limits. By wrapping the mechanics entirely around your specific performance gaps, I ensure skills are mastered, not just clicked past.</p>
-     
-      <div class="pain-cards r">
-        <div class="pain-card"><div class="pain-n">01</div><div>
-          <p class="pain-q">"Employees complete the training. Nothing changes on the floor."</p>
-          <p class="pain-p">Completion and retention are two different outcomes. When training doesn't explain why it matters to the specific person taking it, the click-through becomes a ritual rather than a learning experience.</p>
-        </div></div>
-        <div class="pain-card"><div class="pain-n">02</div><div>
-          <p class="pain-q">"Mandatory training is the room nobody wants to be in. The phone comes out within minutes."</p>
-          <p class="pain-p">When the material has no face and no consequence, employees process it on autopilot. The quiz gets retaken until the passing score appears. Nothing sticks.</p>
-        </div></div>
-        <div class="pain-card"><div class="pain-n">03</div><div>
-          <p class="pain-q">"We bought a learning platform. Our L&amp;D team spent more time managing it than designing for it."</p>
-          <p class="pain-p">External platforms create overhead. Integration issues, licensing negotiations, and adoption friction often consume more resources than the training itself delivers.</p>
-        </div></div>
+      <div class="problem-vid r rd1">
+        <p class="problem-vid-lead">I create simulations and scenarios designed to be practical and engaging.</p>
+        <div class="peek-card problem-vid-card" data-title="Custom LMS Applications" data-type="Training &middot; Phishing Simulation" data-vimeo="1169432096">
+          <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432096?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="barracuda-demo-preview"></iframe></div>
+          <div class="peek-overlay"><div class="peek-play">▶</div></div>
+          <div class="peek-info"><div class="peek-title">Training your team wants to finish</div><div class="peek-type">A tool where users detect and clasify phishing attempts</div></div>
+        </div>
       </div>
     </div>
 
     <div class="method-close r">
-      <h3 class="method-close-title">Here's how I design for it.</h3>
-      <div class="method-close-row">
+      <h3 class="method-close-title">Here are my core creation principles.</h3>
+      <div class="method-close-row" id="method-academic">
         <div class="method-p r">
           <div class="method-p-n">01</div>
           <div class="method-p-title">Built for retention</div>
-          <div class="method-p-body">Every activity teaches or reinforces something text alone can't.</div>
+          <div class="method-p-body">Building on active recall, every module has integrated activities reinforces something reading alone can't.</div>
         </div>
         <div class="method-p r rd1">
           <div class="method-p-n">02</div>
           <div class="method-p-title">Built to be finished</div>
-          <div class="method-p-body">The goal is creating content where skipping ahead feels like a loss to the learner.</div>
+          <div class="method-p-body">I use Universal Design for Learning to make sure the same material works for readers, watchers, and doers alike.</div>
         </div>
         <div class="method-p r rd2">
           <div class="method-p-n">03</div>
-          <div class="method-p-title">Built with code</div>
-          <div class="method-p-body">HTML, CSS, and JavaScript are the foundations every LMS runs on. Build in that language directly and the result runs anywhere, with none of an authoring tool's creative limits.</div>
+          <div class="method-p-title">LMS compatible</div>
+          <div class="method-p-body">I code using clean, standard web technologies (HTML/CSS/JS). That means your content is accessible by default (WCAG 2.1 AA), and syncs automatically with your gradebook via xAPI or SCORM.</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-<section class="dashboard" id="dashboard" data-section="dashboard">
-  <div class="dashboard-inner">
-    <div class="dash-header">
-      <div>
-        <div class="dash-eyebrow">Performance data</div>
-        <h2 class="dash-title">What changes when the design<br><em>is treated as seriously as the content.</em></h2>
-      </div>
-    </div>
-    <div class="dash-grid r">
-      <div class="dash-card">
-        <div class="dash-card-label">Program completion</div>
-        <div class="dash-card-val">~60%</div>
-        <div class="dash-card-sub">Cohort 1 to cohort 2, same instructors and course length. Replaced a paid third-party platform with coding practice built natively into the LMS.</div>
-        <div class="dash-card-trend">↑ Hiring managers cited stronger technical readiness</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">Completion, free program</div>
-        <div class="dash-card-val" data-target="66" data-suffix="%">66%</div>
-        <div class="dash-card-sub">No incentive tied to finishing. Built on the same design principles proven in the redesign above.</div>
-        <div class="dash-card-trend">↑ Zero completion incentive required</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">New infrastructure required</div>
-        <div class="dash-card-val">$0</div>
-        <div class="dash-card-sub">I build everything myself and deploy it directly into the platform you already run.</div>
-        <div class="dash-card-trend">↑ No IT security review needed</div>
-      </div>
-    </div>
-    <div class="dash-row2 r rd1">
-      <div class="dash-quote-panel dash-quote-panel-full">
-        <div class="dash-q-mark">"</div>
-        <p class="dash-q-text">When we moved awayfrom DataCamp, the obvious next step was picking up another paid tool. Coddy was on the table at five dollars a seat. Turned out we didn't need to look anywhere else. The same functionality got built directly into our own LMS, and I didn't know that was even possible.</p>
-        <span class="dash-q-attr">Director of Training · Cybersecurity & AI Program</span>
+      <div class="method-close-row" id="method-corporate" style="display:none">
+        <div class="method-p r">
+          <div class="method-p-n">01</div>
+          <div class="method-p-title">Built for retention</div>
+          <div class="method-p-body">Building on active recall, every scenario I create reinforces the judgment call itself.</div>
+        </div>
+        <div class="method-p r rd1">
+          <div class="method-p-n">02</div>
+          <div class="method-p-title">Built for the role</div>
+          <div class="method-p-body">Every scenario is grounded around the role, so that the training is more likely to stick.</div>
+        </div>
+        <div class="method-p r rd2">
+          <div class="method-p-n">03</div>
+          <div class="method-p-title">Platform compatible</div>
+          <div class="method-p-body">Everything is designed to work on any system you run. Completion syncs straight to HR or your GRC platform.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -798,149 +774,13 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
   <div class="wrap">
     <div class="build-intro">
       <div class="label r">What I build</div>
-      <h2 class="display r">A friction-free experience,<br><em>built directly inside</em> the platform you already run.</h2>
-      <p class="build-sub r" id="build-sub">I turn static curriculum into interactive browser simulations; engineered using HTML, CSS & Javascript, all content is WCAG compliance and has SCORM or xAPI gradebook syncing.</p>
+      <h2 class="display r build-h2-accent">A couple more, for the curious.</h2>
     </div>
-    <div class="sim-toggle r" role="group" aria-label="Simulator view">
-      <button class="sim-toggle-btn on" data-sim="academic">Higher Education</button>
-      <button class="sim-toggle-btn" data-sim="corporate">Corporate / L&amp;D</button>
-    </div>
-    <div class="build-showcase r">
-      <div class="build-col">
-        <div class="build-tag bt-l" id="sim-tag">A Tenneri-built course module</div>
-        <div class="build-col-body">
-          <div class="lms sim-view on" id="sim-academic">
-            <div class="lms-chrome">
-              <div class="lms-dots"><div class="lms-dot ld-r"></div><div class="lms-dot ld-y"></div><div class="lms-dot ld-g"></div></div>
-              <div class="lms-bar"><span class="lms-url">yourschool.lms.com / ACCT101 / Week-6</span></div>
-            </div>
-            <div class="lms-nav">
-              <span class="lms-nav-title">ACCT 101, Week 6: Debits &amp; Credits</span>
-              <div class="lms-tabs">
-                <div class="lms-tab on" data-panel="overview">Overview</div>
-                <div class="lms-tab" data-panel="activities">Activities</div>
-                <div class="lms-tab" data-panel="progress">Progress</div>
-              </div>
-            </div>
-            <div class="lms-panel on" id="panel-overview">
-              <div class="lms-prog"><span class="lms-prog-lbl">Module progress</span><div class="lms-prog-track"><div class="lms-prog-fill" style="width:60%"></div></div><span class="lms-prog-pct">60%</span></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Concept Overview</div><div class="lms-act-type">Short-form summary · For every learner type</div></div><span class="lms-bdg bdg-done">✓ Done</span></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">📊</div><div class="lms-act-info"><div class="lms-act-name">Journal Entry Scenario Lab</div><div class="lms-act-type">Simulation · Decision-based · Self-paced</div></div><span class="lms-bdg bdg-live">Live</span></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">🧩</div><div class="lms-act-info"><div class="lms-act-name">Debit or Credit? Challenge</div><div class="lms-act-type">Game · Instant reinforcement</div></div><span class="lms-bdg bdg-open">Unlocked</span></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">📋</div><div class="lms-act-info"><div class="lms-act-name">Knowledge Check</div><div class="lms-act-type">Scored · Auto-syncs to gradebook</div></div><span class="lms-bdg bdg-next">Next</span></div></div>
-            </div>
-            <div class="lms-panel" id="panel-activities">
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Concept Overview</div><div class="lms-act-type">3 minutes · Video + text summary</div></div><span class="lms-bdg bdg-done">✓ Done</span></div><div class="lms-act-expanded"><p class="lms-act-desc">A condensed walkthrough for the learner who absorbs by watching. <strong>No prior knowledge assumed.</strong></p></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">📊</div><div class="lms-act-info"><div class="lms-act-name">Journal Entry Scenario Lab</div><div class="lms-act-type">15-20 minutes · Hands-on simulation</div></div><span class="lms-bdg bdg-live">Live</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Learners work through a real scenario before assessment. <strong>Decisions have consequences.</strong> Wrong entries show the downstream effect.</p></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">🧩</div><div class="lms-act-info"><div class="lms-act-name">Debit or Credit? Challenge</div><div class="lms-act-type">5 minutes · Game · Repeatable</div></div><span class="lms-bdg bdg-open">Unlocked</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Reinforcement that doesn't feel like repetition. <strong>Learners replay voluntarily.</strong></p></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">📋</div><div class="lms-act-info"><div class="lms-act-name">Knowledge Check</div><div class="lms-act-type">10 questions · Gradebook sync</div></div><span class="lms-bdg bdg-next">Next</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Scores sync automatically. <strong>No manual entry.</strong> Unlocks once the scenario lab is complete.</p></div></div>
-            </div>
-            <div class="lms-panel" id="panel-progress">
-              <div class="prog-ring-wrap">
-                <svg width="64" height="64" viewBox="0 0 64 64">
-                  <defs><linearGradient id="prog-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#b8913c"/><stop offset="100%" style="stop-color:#2a4270"/></linearGradient></defs>
-                  <circle class="prog-ring-bg" cx="32" cy="32" r="28"/>
-                  <circle class="prog-ring-fill" cx="32" cy="32" r="28"/>
-                  <text class="prog-ring-text" x="32" y="30">60%</text>
-                  <text class="prog-ring-sub" x="32" y="40">complete</text>
-                </svg>
-                <div class="prog-ring-info"><div class="prog-ring-label">Module progress</div><div class="prog-ring-detail">2 of 4 activities complete. On track for Friday's deadline.</div></div>
-              </div>
-              <div class="prog-checklist">
-                <div class="prog-item"><div class="prog-item-icon pi-done">✓</div><span class="prog-item-name done">Concept Overview</span><span class="lms-bdg bdg-done" style="font-size:.55rem">Done</span></div>
-                <div class="prog-item"><div class="prog-item-icon pi-active">→</div><span class="prog-item-name active">Journal Entry Scenario Lab</span><span class="lms-bdg bdg-live">In progress</span></div>
-                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Debit or Credit? Challenge</span><span class="lms-bdg bdg-open">Unlocked</span></div>
-                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Knowledge Check</span><span class="lms-bdg bdg-next">Locked</span></div>
-              </div>
-              <div class="prog-next"><span>→</span><span>Continue: <strong>Journal Entry Scenario Lab</strong></span></div>
-            </div>
-          </div>
-          <div class="lms sim-view" id="sim-corporate" style="display:none">
-            <div class="lms-chrome">
-              <div class="lms-dots"><div class="lms-dot ld-r"></div><div class="lms-dot ld-y"></div><div class="lms-dot ld-g"></div></div>
-              <div class="lms-bar"><span class="lms-url">yourcompany.lms.com / GRC-2026 / Module-3</span></div>
-            </div>
-            <div class="lms-nav">
-              <span class="lms-nav-title">Cyber Risk &amp; Reporting Obligations, Module 3</span>
-              <div class="lms-tabs">
-                <div class="lms-tab on" data-panel="corp-overview">Overview</div>
-                <div class="lms-tab" data-panel="corp-activities">Activities</div>
-                <div class="lms-tab" data-panel="corp-progress">Progress</div>
-              </div>
-            </div>
-            <div class="lms-panel on" id="panel-corp-overview">
-              <div class="lms-prog"><span class="lms-prog-lbl">Certification progress</span><div class="lms-prog-track"><div class="lms-prog-fill" style="width:75%"></div></div><span class="lms-prog-pct">75%</span></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Policy Briefing</div><div class="lms-act-type">10 minutes · Role-specific · Required</div></div><span class="lms-bdg bdg-done">✓ Certified</span></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎯</div><div class="lms-act-info"><div class="lms-act-name">Phishing Scenario Lab</div><div class="lms-act-type">Simulation · Real-world threat vectors</div></div><span class="lms-bdg bdg-live">Active</span></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">⚖️</div><div class="lms-act-info"><div class="lms-act-name">Escalation Decision Exercise</div><div class="lms-act-type">Scenario · Regulatory consequence mapping</div></div><span class="lms-bdg bdg-open">Unlocked</span></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">✅</div><div class="lms-act-info"><div class="lms-act-name">Compliance Attestation</div><div class="lms-act-type">Required · Syncs to HR system</div></div><span class="lms-bdg bdg-next">Required</span></div></div>
-            </div>
-            <div class="lms-panel" id="panel-corp-activities">
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎬</div><div class="lms-act-info"><div class="lms-act-name">Policy Briefing</div><div class="lms-act-type">10 minutes · Role-specific</div></div><span class="lms-bdg bdg-done">✓ Certified</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Not a PDF. A structured walkthrough of what the policy means for this specific role and what a violation looks like in practice. <strong>Context first, rule second.</strong></p></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-b">🎯</div><div class="lms-act-info"><div class="lms-act-name">Phishing Scenario Lab</div><div class="lms-act-type">15 minutes · Simulated threat environment</div></div><span class="lms-bdg bdg-live">Active</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Employees work through a simulated phishing attempt using real-looking headers and attachment types. <strong>Wrong decisions show the full consequence chain</strong> before it happens in reality.</p></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-g">⚖️</div><div class="lms-act-info"><div class="lms-act-name">Escalation Decision Exercise</div><div class="lms-act-type">10 minutes · Regulatory scenario</div></div><span class="lms-bdg bdg-open">Unlocked</span></div><div class="lms-act-expanded"><p class="lms-act-desc">A GRC incident unfolds across three departments. The employee chooses the correct escalation path. <strong>Each choice maps to a real regulatory framework.</strong> GDPR, SOC 2, ISO 27001.</p></div></div>
-              <div class="lms-act"><div class="lms-act-row"><div class="lms-ico li-v">✅</div><div class="lms-act-info"><div class="lms-act-name">Compliance Attestation</div><div class="lms-act-type">Required · Auto-syncs to HR system</div></div><span class="lms-bdg bdg-next">Required</span></div><div class="lms-act-expanded"><p class="lms-act-desc">Formal completion record syncs automatically to your HR or GRC platform. <strong>No manual tracking, no spreadsheet chasing.</strong> Audit-ready on day one.</p></div></div>
-            </div>
-            <div class="lms-panel" id="panel-corp-progress">
-              <div class="prog-ring-wrap">
-                <svg width="64" height="64" viewBox="0 0 64 64">
-                  <defs><linearGradient id="prog-grad-corp" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#b8913c"/><stop offset="100%" style="stop-color:#2a4270"/></linearGradient></defs>
-                  <circle class="prog-ring-bg" cx="32" cy="32" r="28"/>
-                  <circle class="prog-ring-fill" cx="32" cy="32" r="28" stroke="url(#prog-grad-corp)" style="stroke-dashoffset:47"/>
-                  <text class="prog-ring-text" x="32" y="30">75%</text>
-                  <text class="prog-ring-sub" x="32" y="40">certified</text>
-                </svg>
-                <div class="prog-ring-info"><div class="prog-ring-label">Certification progress</div><div class="prog-ring-detail">3 of 4 modules complete. Attestation due before end of quarter.</div></div>
-              </div>
-              <div class="prog-checklist">
-                <div class="prog-item"><div class="prog-item-icon pi-done">✓</div><span class="prog-item-name done">Policy Briefing</span><span class="lms-bdg bdg-done" style="font-size:.55rem">Certified</span></div>
-                <div class="prog-item"><div class="prog-item-icon pi-active">→</div><span class="prog-item-name active">Phishing Scenario Lab</span><span class="lms-bdg bdg-live">In progress</span></div>
-                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Escalation Decision Exercise</span><span class="lms-bdg bdg-open">Unlocked</span></div>
-                <div class="prog-item"><div class="prog-item-icon pi-lock">○</div><span class="prog-item-name">Compliance Attestation</span><span class="lms-bdg bdg-next">Required</span></div>
-              </div>
-              <div class="prog-next"><span>→</span><span>Continue: <strong>Phishing Scenario Lab</strong></span></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="build-col">
-        <div class="build-tag bt-r">Module in motion</div>
-        <div class="build-col-body">
-          <div class="vid-wrap">
-            <div class="vid-frame" id="main-vid-frame" title="Click to watch in full view">
-              <iframe src="https://player.vimeo.com/video/1169432122?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="module-demo"></iframe>
-              <div class="vid-popout-overlay" id="vid-popout-overlay">
-                <div class="vid-popout-btn"><span class="vid-popout-icon">▶</span><span class="vid-popout-label">Watch in full view</span></div>
-              </div>
-            </div>
-            <div class="vid-toggle" id="vid-toggle" role="button" aria-expanded="false">
-              <span class="vid-toggle-label">About this demo</span>
-              <span class="vid-toggle-icon" id="vid-toggle-icon">▼</span>
-            </div>
-            <div class="vid-caption-body" id="vid-caption">
-              <strong>Module Architecture and Course Structure.</strong> Tabbed layouts, embedded activities, and interactive content living inside a single course page. No external platforms, no additional logins, no infrastructure.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="peek-label r">There is more where that came from</p>
     <div class="peek-strip r">
-      <div class="peek-card" data-title="Simulated OS Environment" data-type="Cybersecurity · Technical Training" data-vimeo="1169432149">
-        <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432149?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="rose-demo"></iframe></div>
-        <div class="peek-overlay"><div class="peek-play">▶</div></div>
-        <div class="peek-info"><div class="peek-title">Simulated OS Environment</div><div class="peek-type">Cybersecurity · Technical Training</div></div>
-      </div>
       <div class="peek-card" data-title="Adaptive Assignments" data-type="Assessment · Gradebook Integration" data-vimeo="1169432083">
         <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432083?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="assignment-demo"></iframe></div>
         <div class="peek-overlay"><div class="peek-play">▶</div></div>
         <div class="peek-info"><div class="peek-title">Adaptive Assignments</div><div class="peek-type">Assessment · Gradebook Integration</div></div>
-      </div>
-      <div class="peek-card" data-title="Custom LMS Applications" data-type="Training · Phishing Simulation" data-vimeo="1169432096">
-        <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432096?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="barracuda-demo"></iframe></div>
-        <div class="peek-overlay"><div class="peek-play">▶</div></div>
-        <div class="peek-info"><div class="peek-title">Custom LMS Applications</div><div class="peek-type">Training · Phishing Simulation</div></div>
       </div>
       <div class="peek-card" data-title="Games &amp; Gamification" data-type="Engagement · Voluntary Completion" data-vimeo="1169432107">
         <div class="peek-vid-ratio"><iframe src="https://player.vimeo.com/video/1169432107?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="jeopardy-demo"></iframe></div>
@@ -948,140 +788,126 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
         <div class="peek-info"><div class="peek-title">Games &amp; Gamification</div><div class="peek-type">Engagement · Voluntary Completion</div></div>
       </div>
     </div>
-    <div class="build-cta r">
+    <div class="build-cta r" style="justify-content:center">
       <div class="btn-pair">
-        <a href="https://tenneri.com/projects/ai-communication/" target="_blank" class="btn-nv">Try a live demo →</a>
+        <a href="https://tenneri.com/projects/ai-communication/" target="_blank" class="btn-nv btn-shine">Try a live demo →</a>
         <a href="https://tenneri.com/projects/" target="_blank" class="btn-ln">All projects</a>
       </div>
     </div>
   </div>
 </section>
-<section class="sec cases" id="cases" data-section="cases">
+<section class="sec cases" id="results" data-section="results">
   <div class="wrap">
     <div class="cases-intro">
-      <div class="label r">Results in the wild</div>
-      <h2 class="display r">Three different problems.<br><em>One consistent outcome.</em></h2>
-      <p class="cases-intro-sub r">Learners who finished. Learners who wanted more. Learners who forgot they didn't want to be there.</p>
+      <div class="label r">Case Studies</div>
+      <h2 class="display r">Find the real problem,<br><em>then design for it.</em></h2>
     </div>
     <div class="case-strips">
-      <div class="case-strip r">
+      <div class="case-strip pain-panel on r" id="case-academic">
         <div class="case-strip-left">
-          <div class="case-strip-vertical">Higher Education · Data Science</div>
+          <div class="case-strip-vertical">Case Study · Quantum, AI &amp; Cybersecurity</div>
           <div class="case-strip-metrics">
             <div class="case-strip-metric">
-              <div class="case-strip-stat" style="font-size:1.8rem;line-height:1.15">~60%</div>
-              <div class="case-strip-stat-label">Completion increase<br>cohort 1 to cohort 2</div>
+              <div class="case-strip-stat" style="font-size:1.6rem;line-height:1.2">16 Weeks</div>
+              <div class="case-strip-stat-label">Curriculum</div>
             </div>
             <div class="case-strip-metric">
-              <div class="case-strip-stat" style="font-size:1.8rem;line-height:1.15">Retired</div>
-              <div class="case-strip-stat-label">Third-party coding<br>platform</div>
+              <div class="case-strip-stat" data-count-target="66" data-count-suffix="%">0%</div>
+              <div class="case-strip-stat-label">Voluntary Completion Rate</div>
             </div>
           </div>
         </div>
         <div class="case-strip-right">
-          <h3 class="case-strip-title">When the redesign outlasted the vendor</h3>
-          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>Part of the course ran on a paid third-party coding platform. Students often stayed there instead of coming back to the main course, and completion in the first cohort reflected it.</div>
-          <p class="case-strip-body">Cohort 2 was redesigned directly from cohort 1's feedback. Coding practice moved off the third-party platform and was rebuilt natively inside the LMS, with the same instructors and course length held constant. <strong>Completion rose by roughly 60 percent.</strong> Hiring managers who later took on graduates from the redesigned cohort independently reported they arrived more technically ready, and specifically noted that students kept using the tool itself after the course ended, simply because they found it useful. Several students who had struggled with the first version came back in cohort 3 as QA testers, and said concepts they were now meeting elsewhere felt easier to follow here than where they'd first learned them.</p>
+          <h3 class="case-strip-title">Interleaving Complex STEM Topics</h3>
+          <p class="case-strip-body">Designing a 16-week course spanning quantum computing, AI, and cybersecurity meant managing serious cognitive load. Instead of treating them as three isolated subjects, I interleaved the concepts so that quantum principles re-emerged a week later through a cybersecurity lens, and again through an AI lens. <strong>Each domain became a gateway back into the other two, rather than a fourth thing to memorize.</strong></p>
           <div class="case-strip-quote">
-            "I must say this version was much, much better compared to the first."
-            <span class="case-strip-attr">A learner · Data Science Program · second attempt after redesign</span>
-          </div>
-        </div>
-      </div>
-      <div class="case-strip r rd1">
-        <div class="case-strip-left">
-          <div class="case-strip-vertical">Higher Education · Emerging Technology</div>
-          <div class="case-strip-metrics">
-            <div class="case-strip-metric">
-              <div class="case-strip-stat" style="font-size:1.6rem;line-height:1.2">Asked for<br>more</div>
-              <div class="case-strip-stat-label">End-of-course<br>learner response</div>
-            </div>
-            <div class="case-strip-metric">
-              <div class="case-strip-stat">66%</div>
-              <div class="case-strip-stat-label">Completion, free<br>program</div>
-            </div>
-          </div>
-        </div>
-        <div class="case-strip-right">
-          <h3 class="case-strip-title">Making the unintuitive feel inevitable</h3>
-          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>A quantum computing course where the material itself was never the real problem. The challenge was sequence and analogy: keeping a genuinely difficult subject from losing the learner in the first ten minutes.</div>
-          <p class="case-strip-body">Every concept was built directly on the one before it, developed alongside subject matter experts who caught anything introduced too soon. Difficult ideas moved through analogy, application, and scenario in that order, so learners hit recognition instead of confusion. <strong>The real constraint was the sequence, not the subject.</strong> It ran free to attend with no incentive tied to finishing, and still saw two out of three learners complete it.</p>
-          <div class="case-strip-quote">
-            "When is the next one? I want to keep going."
+            "When is the next module coming out? I want to keep going."
             <span class="case-strip-attr">Multiple learners · end-of-course feedback</span>
           </div>
         </div>
       </div>
-      <div class="case-strip r rd2">
+      <div class="case-strip pain-panel r" id="case-corporate">
         <div class="case-strip-left">
-          <div class="case-strip-vertical">Corporate · Mandatory Compliance</div>
+          <div class="case-strip-vertical">Case Study · Enterprise AI Training</div>
           <div class="case-strip-metrics">
             <div class="case-strip-metric">
-              <div class="case-strip-stat">&lt;60%</div>
-              <div class="case-strip-stat-label">Completion before<br>redesign</div>
+              <div class="case-strip-stat" style="font-size:1.3rem;line-height:1.3">Cohort-over-<br>Cohort</div>
+              <div class="case-strip-stat-label">Comparative Analysis</div>
             </div>
             <div class="case-strip-metric">
-              <div class="case-strip-stat">&gt;90%</div>
-              <div class="case-strip-stat-label">Completion after<br>redesign</div>
+              <div class="case-strip-stat" data-count-target="100" data-count-suffix="%">0%</div>
+              <div class="case-strip-stat-label">Skill Gap Pinpointing</div>
             </div>
           </div>
         </div>
         <div class="case-strip-right">
-          <h3 class="case-strip-title">The room nobody wants to be in</h3>
-          <div class="case-strip-process"><span class="case-strip-process-label">The need</span>Mandatory GRC and compliance training that employees clicked through on autopilot. The missing piece was relevance: nobody had connected the policy to what could actually happen to that employee.</div>
-          <p class="case-strip-body">The redesign led with the personal why: what happens to this specific role in this specific scenario if this goes wrong. Scenario-based modules put employees inside real situations, mapped to GDPR, SOC 2, and ISO 27001 frameworks. <strong>People stopped going through the motions and started paying attention.</strong></p>
-          <div class="case-strip-quote">
-            "I actually understood why we have these policies. I had been clicking through that training for three years and this is the first time it made sense."
-            <span class="case-strip-attr">An employee · Systems Training Coordinator · Compliance Redesign</span>
-          </div>
+          <h3 class="case-strip-title">Closing the Gap in Enterprise AI Training</h3>
+          <p class="case-strip-body">Learners in a workforce program were passing quizzes but struggling in job placements. An update based on general manager feedback still missed the mark; proving that identifying a skill gap and measuring its depth are two different challenges. I partnered closely with placement managers to unpack the role at a granular level, pinpointing the exact practical skills needed on the floor. Rebuilding the course around these real-world demands eliminated the bloat and produced learners ready to perform on day one.</strong></p>
         </div>
       </div>
     </div>
   </div>
 </section>
+<section class="sec about" id="about" data-section="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-aside r">
+        <div class="about-frame">
+          <img src="https://tenneri.com/about-photo.png" alt="Ramano Stoute, Founder of Tenneri" id="about-photo">
+          <div class="about-overlay">
+            <div class="about-name" id="about-name">Ramano Stoute</div>
+            <div class="about-role" id="about-role">Founder &amp; Principal ID</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-body r rd1">
+        <div class="label">About</div>
+        <h2 class="display">A bit about me.</h2>
+
+        <div class="team-tabs" role="tablist">
+          <button class="team-tab on" data-name="Ramano Stoute" data-role="Founder &amp; Principal ID" data-bio="Owns the instructional strategy on every project: needs analysis, learning objectives, sequencing, and assessment design." data-photo="https://tenneri.com/about-photo.png">Founder &amp; Principal ID</button>
+          <button class="team-tab" data-name="Stoute, Ramano" data-role="Lab &amp; Scenario Engineer" data-bio="Builds the interactive labs, simulations, and adaptive logic that turn a concept into something a learner can actually do." data-photo="https://tenneri.com/about-photo-moustache.png">Lab &amp; Scenario Engineer</button>
+          <button class="team-tab" data-name="Ramano A. Stoute" data-role="Multimedia Director" data-bio="Handles the interface, motion, and visual polish that make a build feel finished instead of merely functional." data-photo="https://tenneri.com/about-photo-alt.png">Multimedia Director</button>
+        </div>
+
+        <div class="team-panel">
+          <div class="team-panel-name" id="team-name">Ramano Stoute</div>
+          <div class="team-panel-bio" id="team-bio">Owns the instructional strategy on every project: needs analysis, learning objectives, sequencing, and assessment design.</div>
+        </div>
+
+        <h4 class="about-subhead">The Picasso Effect</h4>
+        <p>I'm a third-generation teacher. I loved being in the classroom, and in most of my classes, I'd draw while explaining a concept so it would actually stick, mapping out a process on the whiteboard until it looked less like a lecture and more like a diagram of how the idea worked.</p>
+        <p>My students ironically called me Picasso.</p>
+        <p>The drawings weren't good. But the concepts stuck anyway, and that was always the only part I cared about.</p>
+
+        <h4 class="about-subhead">Why I Built Tenneri</h4>
+        <p>I stepped into instructional design because I wanted training materials to do the real heavy lifting. Instead of repeating the same explanation five times a week, I wanted to build courses that could to guide a learner through the tough spots on their own.</p>
+        <p>That whiteboard habit never really left. It just changed shape.</p>
+        <p>A sketch that used to get erased at the end of class now lives on as an interactive lab A sketch that used to get erased at the end of class now lives on as an interactive lab where learners can experiment and test theories, turning wrong turns into intentional stepping stones rather than dead ends.</p>
+
+        <div class="about-sig">
+          <div class="about-sig-name">Ramano Stoute</div>
+          <div class="about-sig-role">Founder, Tenneri &nbsp;·&nbsp; Instructional Designer and eLearning Developer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="sec faq" id="faq" data-section="faq">
   <div class="wrap">
     <div class="faq-intro">
       <div class="label r">Before you reach out</div>
-      <h2 class="display r">What is the first thing<br><em>holding you back?</em></h2>
-      <p class="faq-sub r">Select what resonates and I will surface the answer that matters to your situation.</p>
-    </div>
-    <div class="faq-adaptive r">
-      <div class="faq-question-block">
-        <p class="faq-question-prompt">What is your <em>biggest concern</em> about a project like this?</p>
-        <div class="faq-choices">
-          <button class="faq-choice" data-answer="ownership">Who owns what gets built</button>
-          <button class="faq-choice" data-answer="faculty">How much this lands on your team</button>
-          <button class="faq-choice" data-answer="cost">What the investment looks like</button>
-          <button class="faq-choice" data-answer="evaluate">I'm not ready to commit yet</button>
-        </div>
-        <button class="faq-reset" id="faq-reset">← Ask something else</button>
-      </div>
-      <div class="faq-answer-block" id="answer-ownership">
-        <div class="faq-answer-label">On ownership</div>
-        <div class="faq-answer-text">You own it completely. Every file is delivered in standard web formats your LMS administrator can open, edit, and maintain independently. No proprietary format, no locked system, no ongoing dependency. <strong>You get a permanent institutional asset, not a vendor relationship.</strong></div>
-      </div>
-      <div class="faq-answer-block" id="answer-faculty">
-        <div class="faq-answer-label">On your team's workload</div>
-        <div class="faq-answer-text">Less than you expect. Subject matter experts provide the knowledge and the learning outcomes. I handle the instructional engineering, the activity design, the sequencing, and the build. <strong>Most engagements require a few focused conversations, not sustained time commitments.</strong> Your faculty or L&D team are the source material, not the project managers.</div>
-      </div>
-      <div class="faq-answer-block" id="answer-cost">
-        <div class="faq-answer-label">On investment</div>
-        <div class="faq-answer-text">Projects scale with scope. The 20-minute call exists specifically to scope what makes sense before any figure is discussed. <strong>You'll know exactly what gets built, what it costs, and what your learners will experience before any commitment is made.</strong> No retainers, no surprise add-ons, no ongoing licensing.</div>
-      </div>
-      <div class="faq-answer-block" id="answer-evaluate">
-        <div class="faq-answer-label">On evaluating without committing</div>
-        <div class="faq-answer-text">Several builds are live on <a href="https://tenneri.com/projects/" target="_blank">the projects page</a>, including the AI Communication module and the SIEM breach investigation lab. No login, no form, no commitment. You can also <a href="https://tenneri.com/overview" target="_blank">read a shareable overview</a>, formatted for forwarding to a dean or an L&D director. Or reach me at <a href="mailto:ramano@tenneri.com">ramano@tenneri.com</a>. <strong>No pitch, no pressure.</strong></div>
-      </div>
+      <h2 class="display r">FAQs</h2>
     </div>
     <div class="faq-list r">
       <div class="faq-item">
         <div class="faq-q" role="button" aria-expanded="false">If you stop working with me, what happens to everything that was built?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
-        <div class="faq-a"><div class="faq-a-inner">You own it completely. Every file is delivered in standard web formats your LMS administrator can open, edit, and maintain independently. There is no proprietary format, no locked system, no ongoing dependency. A platform update won't break a native build the way it might break an external integration, because the code lives inside your system rather than calling out to mine. You get a permanent asset, not a vendor relationship.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">You own it completely. Every file is delivered in standard web formats your LMS administrator can open, edit, and maintain independently. There is no proprietary format, no locked system, no ongoing dependency. A platform update won't break this the way it might break an external integration, because the code lives inside your system instead of calling out to mine. You get a permanent asset, not a vendor relationship.</div></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" role="button" aria-expanded="false">Doesn't custom code just mean more maintenance down the line?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
-        <div class="faq-a"><div class="faq-a-inner">Less than a platform dependency does. Nothing in a native build calls out to an external vendor's server, so there is no third-party update that can break it overnight and no license renewal that quietly changes what you have access to. It is stable at launch and sandboxed by design, which is also a security advantage. Once a build is configured for a cohort, it stays configured. The same lab can run every semester without being rebuilt. And because the logic is written from scratch rather than assembled from a template, things like rotating scenarios or randomized variables can be built in from day one, so a student who retakes the same lab three times gets three different versions of it, which most authoring tools cannot do out of the box.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Less than depending on an outside platform does. Nothing here calls out to an external vendor's server, so there is no third-party update that can break it overnight and no license renewal that quietly changes what you have access to. Once it is built for a cohort, it stays working, the same lab can run every semester without being rebuilt. And because it is written from scratch instead of assembled from a template, things like rotating scenarios or randomized variables can be built in from day one, so a student who retakes a lab three times gets three different versions of it.</div></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" role="button" aria-expanded="false">How much of this lands on your faculty or L&amp;D team's plate?<span class="faq-icon-wrap"><svg class="faq-icon-svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
@@ -1158,76 +984,6 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
     </div>
   </div>
 </section>
-<section class="sec about" id="about" data-section="about">
-  <div class="wrap">
-    <div class="about-grid">
-      <div class="about-aside r">
-        <div class="about-frame">
-          <img src="https://tenneri.com/about-photo.png" alt="Ramano Stoute, Founder of Tenneri" id="about-photo">
-          <div class="about-overlay">
-            <div class="about-name" id="about-name">Ramano Stoute</div>
-            <div class="about-role" id="about-role">Founder &amp; Principal ID</div>
-          </div>
-        </div>
-      </div>
-      <div class="about-body r rd1">
-        <div class="label">Meet the team</div>
-        <h2 class="display">The people behind<br><em>every build.</em></h2>
-
-        <div class="team-tabs" role="tablist">
-          <button class="team-tab on" data-name="Ramano Stoute" data-role="Founder &amp; Principal ID" data-bio="Owns the instructional strategy on every project: needs analysis, learning objectives, sequencing, and assessment design.">Founder &amp; Principal ID</button>
-          <button class="team-tab" data-name="Stoute, Ramano" data-role="Lab &amp; Scenario Engineer" data-bio="Builds the interactive labs, simulations, and adaptive logic that turn a concept into something a learner can actually do.">Lab &amp; Scenario Engineer</button>
-          <button class="team-tab" data-name="Ramano A. Stoute" data-role="Multimedia Director" data-bio="Handles the interface, motion, and visual polish that make a build feel finished instead of merely functional.">Multimedia Director</button>
-        </div>
-
-        <div class="team-panel">
-          <div class="team-panel-name" id="team-name">Ramano Stoute</div>
-          <div class="team-panel-bio" id="team-bio">Owns the instructional strategy on every project: needs analysis, learning objectives, sequencing, and assessment design.</div>
-        </div>
-
-        <p>I come from a family of educators, and teaching was always the assumption in my household. What I never inherited was a set of principles. Everything I built early on was intuitive, driven by wanting the process itself to be enjoyable, regardless of the subject.</p>
-
-        <p>That intuition started with being a student who hated cookie cutter courses, the ones where the summary at the end told you everything you needed and the rest was safe to skip. I design against that instinct in every build I ship.</p>
-
-        <p>The moment this became more than a personal habit: a program I redesigned saw completion rise by roughly 60 percent between cohorts, and the paid third-party platform it once depended on got retired entirely. The content stayed mostly the same. The design did not. That is when Tenneri became something I could offer other people, not just something I built for myself.</p>
-
-        <p>The methodology behind that habit has held up outside my own projects too. A Fortune 100 company took it through final round interviews for a Senior Instructional Designer role and made an offer. Their Group Manager of Learning Strategy and Experience Design and Senior Manager of Learning Development both flagged the depth of the process as the reason. Unfortunately, circumstances on my end meant I could not accept.</p>
-
-        <div class="about-sig">
-          <div class="about-sig-name">Ramano Stoute</div>
-          <div class="about-sig-role">Founder, Tenneri &nbsp;·&nbsp; Instructional Designer and eLearning Developer</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec process" id="process" data-section="process">
-  <div class="wrap">
-    <div class="process-head">
-      <div class="label r">How it works</div>
-      <h2 class="display r">Three steps. <em>No guesswork.</em></h2>
-      <p class="process-sub r">What happens after you reach out. Before any proposal, any contract, or any commitment.</p>
-    </div>
-<div class="process-steps">
-  <div class="ps r">
-    <div class="ps-n">Step 01 <span class="ps-icon">💬</span></div>
-    <h3 class="ps-title">You tell me what's not working.</h3>
-    <p class="ps-body">A 20-minute conversation where I listen to what your program or organization needs.</p>
-  </div>
-  <div class="ps r rd1">
-    <div class="ps-n">Step 02 <span class="ps-icon">💡</span></div>
-    <h3 class="ps-title">I show you what's possible.</h3>
-    <p class="ps-body">Inside the system you already have. <strong>No new tools, no new infrastructure, no new budget line.</strong></p>
-  </div>
-  <div class="ps r rd2">
-    <div class="ps-n">Step 03 <span class="ps-icon">🛠️</span></div>
-    <h3 class="ps-title">We scope the first build together.</h3>
-    <p class="ps-body">You'll know exactly what gets built, what it costs, and what your learners will experience before anything is agreed.</p>
-  </div>
-</div>
-</section>
-
 <div class="cta">
   <div class="cta-mesh"></div>
   <div class="cta-inner">
@@ -1250,8 +1006,8 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
     <ul class="foot-links">
       <li><a href="https://tenneri.com/projects/">Projects</a></li>
       <li><a href="https://tenneri.com/overview" target="_blank">Overview PDF</a></li>
-      <li><a href="#faq">FAQ</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#faq">FAQ</a></li>
       <li><a href="https://calendly.com/tenneri/new-meeting" target="_blank">Book a Call</a></li>
     </ul>
     <span class="foot-copy">© 2026 Tenneri</span>
@@ -1270,6 +1026,9 @@ footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52p
 
 <script>
 (function(){
+function smoothTo(el){
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
 'use strict';
 var sb=document.getElementById('scroll-bar');
 window.addEventListener('scroll',function(){sb.style.width=Math.min(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100,100)+'%';},{passive:true});
@@ -1301,14 +1060,27 @@ function animateCounter(el){
 }
 setTimeout(function(){document.querySelectorAll('.hero-met-n[data-target]').forEach(animateCounter);},700);
 
-document.querySelectorAll('.pain-toggle-btn').forEach(function(btn){
+document.querySelectorAll('.path-btn').forEach(function(btn){
   btn.addEventListener('click',function(){
-    document.querySelectorAll('.pain-toggle-btn').forEach(function(b){b.classList.remove('on');});
-    btn.classList.add('on');
-    var a=btn.getAttribute('data-audience');
-    document.querySelectorAll('.pain-panel').forEach(function(p){p.classList.remove('on');});
-    var t=document.getElementById('pain-'+a);
-    if(t)t.classList.add('on');
+    document.querySelectorAll('.path-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    var a=btn.getAttribute('data-path');
+
+    document.querySelectorAll('#problem .pain-panel').forEach(function(p){p.classList.remove('on');});
+    var pt=document.getElementById('pain-'+a);
+    if(pt)pt.classList.add('on');
+
+    var ma=document.getElementById('method-academic');
+    var mc=document.getElementById('method-corporate');
+    if(ma)ma.style.display=(a==='academic')?'grid':'none';
+    if(mc)mc.style.display=(a==='corporate')?'grid':'none';
+
+    document.querySelectorAll('#results .pain-panel').forEach(function(p){p.classList.remove('on');});
+    var ct=document.getElementById('case-'+a);
+    if(ct)ct.classList.add('on');
+
+    var prob=document.getElementById('problem');
+    if(prob)smoothTo(prob);
   });
 });
 
@@ -1390,7 +1162,7 @@ if(trigger&&expand){
     trigger.setAttribute('aria-expanded',String(isOpen));
     expand.setAttribute('aria-hidden',String(!isOpen));
     if(isOpen){
-      setTimeout(function(){trigger.scrollIntoView({behavior:'smooth',block:'start'});},100);
+      setTimeout(function(){smoothTo(trigger);},100);
     }
   });
   var heroContactLink=document.getElementById('hero-contact-link');
@@ -1402,7 +1174,7 @@ if(trigger&&expand){
       if(!expand.classList.contains('open')){
         trigger.click();
       }else{
-        trigger.scrollIntoView({behavior:'smooth',block:'start'});
+        smoothTo(trigger);
       }
     });
   }
@@ -1460,7 +1232,7 @@ if(rail){
   dots.forEach(function(dot){
     dot.addEventListener('click',function(){
       var target=document.getElementById(dot.getAttribute('data-target'));
-      if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+      if(target)smoothTo(target);
     });
   });
   function updateRail(){
@@ -1482,77 +1254,6 @@ if(rail){
   updateRail();
 }
 
-function animateNum(el){
-  var target=parseInt(el.getAttribute('data-target'));
-  var suffix=el.getAttribute('data-suffix')||'';
-  if(!target)return;
-  var start=performance.now();
-  var dur=1000;
-  function tick(now){
-    var p=Math.min((now-start)/dur,1);
-    var e=1-Math.pow(1-p,3);
-    el.textContent=Math.round(e*target)+suffix;
-    if(p<1)requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-var dash=document.getElementById('dashboard');
-if(dash){
-  var dashDone=false;
-  new IntersectionObserver(function(entries){
-    if(entries[0].isIntersecting&&!dashDone){
-      dashDone=true;
-      document.querySelectorAll('.dash-card-val[data-target]').forEach(animateNum);
-      document.querySelectorAll('.dash-bar-fill').forEach(function(bar){
-        var w=bar.getAttribute('data-w');
-        if(w)setTimeout(function(){bar.style.width=w;},200);
-      });
-    }
-  },{threshold:.2}).observe(dash);
-}
-
-document.querySelectorAll('.path-btn').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('.path-btn').forEach(function(b){b.classList.remove('active');});
-    btn.classList.add('active');
-    var path=btn.getAttribute('data-path');
-    if(path==='academic'){
-      var ab=document.querySelector('[data-audience="academic"]');
-      if(ab)ab.click();
-      var sa=document.querySelector('[data-sim="academic"]');
-      if(sa)sa.click();
-    } else if(path==='corporate'){
-      var cb=document.querySelector('[data-audience="corporate"]');
-      if(cb)cb.click();
-      var sb=document.querySelector('[data-sim="corporate"]');
-      if(sb)sb.click();
-    }
-    setTimeout(function(){
-      var prob=document.getElementById('problem');
-      if(prob)prob.scrollIntoView({behavior:'smooth',block:'start'});
-    },200);
-  });
-});
-  
-var faqChoices=document.querySelectorAll('.faq-choice');
-var faqAnswers=document.querySelectorAll('.faq-answer-block');
-var faqReset=document.getElementById('faq-reset');
-faqChoices.forEach(function(btn){
-  btn.addEventListener('click',function(){
-    faqChoices.forEach(function(b){b.classList.remove('selected');});
-    btn.classList.add('selected');
-    faqAnswers.forEach(function(a){a.classList.remove('show');});
-    var answer=document.getElementById('answer-'+btn.getAttribute('data-answer'));
-    if(answer){answer.classList.add('show');answer.scrollIntoView({behavior:'smooth',block:'nearest'});}
-    if(faqReset)faqReset.classList.add('show');
-  });
-});
-if(faqReset)faqReset.addEventListener('click',function(){
-  faqChoices.forEach(function(b){b.classList.remove('selected');});
-  faqAnswers.forEach(function(a){a.classList.remove('show');});
-  faqReset.classList.remove('show');
-});
-
 var teamTabs=document.querySelectorAll('.team-tab');
 var teamName=document.getElementById('team-name');
 var teamBio=document.getElementById('team-bio');
@@ -1566,18 +1267,55 @@ teamTabs.forEach(function(tab){
     var name=tab.getAttribute('data-name');
     var role=tab.getAttribute('data-role');
     var bio=tab.getAttribute('data-bio');
+    var photo=tab.getAttribute('data-photo');
     if(aboutPhoto)aboutPhoto.classList.add('fading');
     setTimeout(function(){
       if(teamName)teamName.textContent=name;
       if(teamBio)teamBio.textContent=bio;
       if(aboutName)aboutName.textContent=name;
       if(aboutRole)aboutRole.textContent=role;
+      if(aboutPhoto&&photo)aboutPhoto.src=photo;
       if(aboutPhoto)aboutPhoto.classList.remove('fading');
     },250);
   });
 });
+var countEls=document.querySelectorAll('[data-count-target]');
+if(countEls.length){
+  var counted=new WeakSet();
+  function animateCount(el){
+    var target=parseInt(el.getAttribute('data-count-target'),10);
+    var suffix=el.getAttribute('data-count-suffix')||'';
+    var start=performance.now(),dur=1100;
+    function tick(now){
+      var p=Math.min((now-start)/dur,1);
+      var e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(e*target)+suffix;
+      if(p<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  var countObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting&&!counted.has(entry.target)){
+        counted.add(entry.target);
+        animateCount(entry.target);
+      }
+    });
+  },{threshold:.4});
+  countEls.forEach(function(el){countObs.observe(el);});
+}
 
 })();
+</script>
+
+<script type="module">
+  try{
+    var mod=await import('https://cdn.jsdelivr.net/npm/motion@11/+esm');
+    var animate=mod.animate, scroll=mod.scroll;
+    document.querySelectorAll('.peek-card').forEach(function(el,i){
+      scroll(animate(el,{opacity:[0.4,1],transform:['translateY(24px)','translateY(0px)']}),{target:el,offset:['start 90%','start 60%']});
+    });
+  }catch(e){}
 </script>
 </body>
 </html>
