@@ -75,9 +75,9 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .press-dateline{font-size:.7rem;color:#a0906a}
 .rf{background:#fef3c7;border-bottom:2px solid var(--amb);cursor:pointer;padding:1px 4px;border-radius:3px 3px 0 0;transition:all .18s;display:inline}
 .rf:hover{background:#fde68a}
-.rf.done-any{background:#d1fae5;border-bottom-color:var(--grn);cursor:pointer}
+.rf.done-any{background:var(--brd);border-bottom-color:var(--brd2);cursor:pointer}
 .rf-lbl{font-size:.55rem;vertical-align:super;margin-left:1px;font-weight:700;color:var(--amb)}
-.rf.done-any .rf-lbl{color:var(--grn)}
+.rf.done-any .rf-lbl{color:var(--muted)}
 .rp{display:none;background:#fff;border:1px solid var(--brd2);border-radius:0 8px 8px 8px;padding:11px 13px;margin:6px 0 2px;box-shadow:0 4px 18px rgba(0,0,0,.08);animation:fadein .15s ease}
 .rp.open{display:block}
 .rp-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:7px}
@@ -311,7 +311,7 @@ function restoreState(st, wasSubmitted) {
       const o = f.options.find(x => x.id === optId); if (!o) return;
       pressState[fid] = { optId, correct: optId === f.correct, score: optId === f.correct ? f.score : 0 };
       const rf = document.getElementById("rf-" + fid);
-      if (rf) { rf.innerHTML = o.text + `<sup class="rf-lbl">&#10003;</sup>`; rf.className = "rf done-any"; }
+      if (rf) { rf.innerHTML = o.text + `<sup class="rf-lbl">&#9998;</sup>`; rf.className = "rf done-any"; }
     });
     if (Object.keys(pressState).length) updatePressCounter();
   }
@@ -469,7 +469,7 @@ window.choosePress = function(fieldId, optId, isCorrect, chosenText) {
   if (chosen) { chosen.classList.add("chosen"); chosen.style.opacity="1"; }
   const rf = document.getElementById("rf-" + fieldId);
   if (rf) {
-    rf.innerHTML = chosenText + `<sup class="rf-lbl">&#10003;</sup>`;
+    rf.innerHTML = chosenText + `<sup class="rf-lbl">&#9998;</sup>`;
     rf.className = "rf done-any";
   }
   if (!wasReviewed) updatePressCounter();
