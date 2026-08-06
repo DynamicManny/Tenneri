@@ -103,14 +103,15 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#080c14;color:
 .tb-icon{width:26px;height:26px;border-radius:6px;background:var(--pol);display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:800;color:#000;font-family:var(--mono);flex-shrink:0;transition:background .6s}
 .tb-sep{width:1px;height:16px;background:var(--b1)}
 .tb-scenes{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}
-.tb-scene{display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;cursor:pointer;border:1px solid transparent;transition:all .2s}
+.tb-scene{display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;cursor:pointer;border:1px solid transparent;transition:all .2s;background:none;font:inherit;color:inherit}
 .tb-scene:hover{background:rgba(255,255,255,.04)}
 .tb-scene.active{background:var(--pol-d);border-color:var(--pol-b)}
-.tb-scene.locked{opacity:.25;cursor:not-allowed}
+.tb-scene.locked{opacity:.25;cursor:not-allowed;pointer-events:none}
+.tb-scene:not(.locked):focus-visible{outline:2px solid var(--pol);outline-offset:2px}
 .tb-scene-pip{width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);transition:all .25s}
 .tb-scene.active .tb-scene-pip{background:var(--pol);border-color:var(--pol)}
 .tb-scene.done .tb-scene-pip{background:var(--grn);border-color:var(--grn)}
-.tb-scene-lbl{font-size:.66rem;font-weight:500;color:rgba(255,255,255,.38);transition:color .2s;white-space:nowrap}
+.tb-scene-lbl{font-size:.66rem;font-weight:500;color:rgba(255,255,255,.62);transition:color .2s;white-space:nowrap}
 .tb-scene.active .tb-scene-lbl{color:rgba(255,255,255,.88)}
 .tb-scene.done .tb-scene-lbl{color:rgba(255,255,255,.45)}
 .tb-conn{width:22px;height:1px;background:rgba(255,255,255,.08);transition:background .4s}
@@ -146,7 +147,7 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#080c14;color:
 .ctx-block.old{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)}
 .ctx-block.breach{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.16)}
 .ctx-block-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-.ctx-block.old .ctx-block-lbl{color:rgba(255,255,255,.26)}
+.ctx-block.old .ctx-block-lbl{color:rgba(255,255,255,.55)}
 .ctx-block.breach .ctx-block-lbl{color:rgba(239,68,68,.55)}
 .ctx-block-txt{font-size:.76rem;line-height:1.7}
 .ctx-block.old .ctx-block-txt{color:#7880a0}
@@ -179,18 +180,20 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#080c14;color:
 .step-q{font-family:var(--serif);font-size:1.28rem;font-weight:600;color:#1a1a1a;line-height:1.28;margin-bottom:9px;letter-spacing:-.02em}
 .step-ctx{font-size:.76rem;color:#6a5a40;line-height:1.7;margin-bottom:22px;max-width:450px}
 /* OPTION BLOCKS */
-.opt-block{background:#fff;border:1.5px solid #e0d8ca;border-radius:11px;padding:14px 17px;cursor:pointer;margin-bottom:9px;transition:border-color .14s,background .14s,transform .14s;display:flex;gap:14px;align-items:flex-start}
+.opt-block{background:#fff;border:1.5px solid #e0d8ca;border-radius:11px;padding:14px 17px;cursor:pointer;margin-bottom:9px;transition:border-color .14s,background .14s,transform .14s;display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;font:inherit;box-sizing:border-box}
 .opt-block:last-child{margin-bottom:0}
+.opt-block:focus-visible{outline:2px solid var(--pol);outline-offset:2px}
 .opt-block:hover{border-color:var(--pol);background:var(--pol-light);transform:translateY(-1px)}
-.opt-block.sel{border-color:var(--pol);border-width:2px;background:var(--pol);animation:opt-pop .25s cubic-bezier(.34,1.56,.64,1)}
+.opt-block.sel{border-color:var(--pol);border-width:2px;background:var(--pol-light);box-shadow:0 0 0 3px var(--pol-b);animation:opt-pop .25s cubic-bezier(.34,1.56,.64,1)}
 @keyframes opt-pop{from{transform:scale(.98)}to{transform:scale(1)}}
 .opt-block-key{font-family:var(--mono);font-size:.65rem;font-weight:700;color:#c4b090;padding-top:2px;flex-shrink:0;width:14px;transition:color .14s}
-.opt-block.sel .opt-block-key{color:rgba(0,0,0,.38)}
+.opt-block.sel .opt-block-key{color:var(--pol-text)}
 .opt-block-txt{font-size:.8rem;color:#2a2010;line-height:1.6;transition:color .14s}
-.opt-block.sel .opt-block-txt{color:#0a0a0a;font-weight:600}
+.opt-block.sel .opt-block-txt{color:var(--pol-text);font-weight:600}
 .step-pips{display:flex;gap:5px;margin-top:auto;padding-top:16px}
-.step-pip{flex:1;background:#ede6da;border-radius:7px;cursor:pointer;transition:all .2s;padding:7px 6px 5px;display:flex;flex-direction:column;align-items:center;gap:3px;border:1px solid #e0d8ca}
+.step-pip{flex:1;background:#ede6da;border-radius:8px;cursor:pointer;transition:all .2s;padding:9px 6px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;border:1.5px solid #e0d8ca;font:inherit;min-height:48px;touch-action:manipulation}
 .step-pip:hover{background:#e4dace;border-color:#c8b898}
+.step-pip:focus-visible{outline:2px solid var(--pol);outline-offset:2px}
 .step-pip.done{background:var(--pol-light);border-color:var(--pol-b)}
 .step-pip.active{background:var(--pol-light);border-color:var(--pol-b)}
 .step-pip-bar{width:100%;height:3px;border-radius:2px;background:rgba(0,0,0,.1);transition:background .2s}
@@ -261,7 +264,7 @@ textarea.note-txt::placeholder{color:#b4a880}
 .rpt-logo{width:34px;height:34px;border-radius:7px;background:linear-gradient(135deg,#1d3a8a,#2ca9bc);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:#fff;font-family:var(--mono)}
 .rpt-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:#fff}
 .rpt-sub{font-size:.56rem;color:rgba(255,255,255,.35);font-family:var(--mono);letter-spacing:.07em;margin-top:1px}
-.rpt-meta{margin-left:auto;text-align:right;font-size:.59rem;color:rgba(255,255,255,.38);line-height:1.7}
+.rpt-meta{margin-left:auto;text-align:right;font-size:.59rem;color:rgba(255,255,255,.62);line-height:1.7}
 .rpt-meta strong{color:rgba(255,255,255,.68)}
 .rpt-intro{padding:12px 26px;background:#ede8e0;font-size:.72rem;color:#5a4a38;line-height:1.65;font-style:italic;border-bottom:1px solid #d4cab8}
 .rpt-body{padding:14px 20px;display:flex;flex-direction:column;gap:12px;background:#f5f1eb}
@@ -344,6 +347,24 @@ textarea.note-txt::placeholder{color:#b4a880}
 .rpt-tier-before{color:#991b1b}
 .rpt-tier-after{color:#166534}
 .rpt-tier-arrow{color:#b0a080}
+
+@media (max-width: 768px) {
+  html,body{overflow:auto;height:auto}
+  #app{height:auto;min-height:100vh;overflow:visible}
+  #ws{flex-direction:column;overflow:visible;height:auto}
+  #ctx{width:100%!important;min-width:0!important;min-height:120px;max-height:240px;overflow-y:auto;border-right:none;border-bottom:1px solid var(--b1)}
+  #step{flex:none;overflow-y:visible;padding-bottom:80px}
+  #bb{position:sticky;bottom:0;z-index:20}
+  .tb-scene-lbl{display:none}
+  .tb-scene{padding:4px 8px}
+  #tb{padding:0 12px;gap:8px}
+}
+@media (max-width: 480px) {
+  #ctx{max-height:180px}
+  .opt-block{padding:11px 13px}
+  .step-pip{min-height:40px;padding:6px 4px}
+}
+
 </style>
 </head>
 <body>
@@ -374,7 +395,7 @@ textarea.note-txt::placeholder{color:#b4a880}
     <div class="tb-scenes" id="tb-scenes"></div>
     <div class="tb-actions"><button class="btn-prev" onclick="openMemo()">Preview Report</button></div>
   </div>
-  <div id="ws"><div id="ctx"></div><div id="step"></div></div>
+  <div id="ws"><div id="ctx" aria-live="polite" aria-atomic="true" aria-label="Live policy preview"></div><div id="step"></div></div>
   <div id="bb">
     <button class="btn-action" id="btn-act" disabled>Update Policy</button>
     <button class="btn-green" id="btn-next" onclick="goNext()">Next Policy &#8594;</button>
@@ -402,15 +423,84 @@ textarea.note-txt::placeholder{color:#b4a880}
 <script>
 "use strict";
 let firstName="CRO";
-try{const s=JSON.parse(localStorage.getItem("rose_v3")||"{}");if(s.userName)firstName=s.userName.split(" ")[0];}catch(e){}
+
+/* ═══ STATE SYNC (index.html is the single source of truth) ═══════
+   Up:   section_state {sectionId:4, state} on every mutation
+         section_complete {sectionId:4, score, max} on submit
+   Down: INIT_SECTION {userName, savedScores, sectionState} on load
+   This file never touches localStorage.                            */
+const SECTION_ID=4;
+let stateRestored=false;
+
+function serializeState(){
+  const stC={};
+  Object.entries(ST).forEach(([pid,p])=>{
+    stC[pid]={sel:p.sel,step:p.step,review:p.review,just:p.just,wc:p.wc,committed:p.committed};
+  });
+  return{st:stC,cur:cur,sub:submitted};
+}
+
+function pushState(){
+  try{window.parent.postMessage({type:"section_state",sectionId:SECTION_ID,state:serializeState()},"*");}catch(e){}
+}
+
+window.addEventListener("message",function(e){
+  const d=e.data;
+  if(!d||d.type!=="INIT_SECTION")return;
+  if(d.userName){
+    firstName=d.userName.split(" ")[0]||firstName;
+    if(chatIdx===0)CHAT_MSGS[0].text="Hey "+firstName+".";
+  }
+  const st=d.sectionState&&d.sectionState[SECTION_ID];
+  const sc=d.savedScores&&d.savedScores[SECTION_ID];
+  if(st||sc)restoreState(st||{},!!sc);
+});
+try{if(window.parent!==window)window.parent.postMessage({type:"request_init"},"*");}catch(e){}
+
+function hasProgress(st){
+  if(!st.st)return false;
+  return Object.values(st.st).some(p=>p.committed||p.just||(p.sel&&Object.keys(p.sel).length));
+}
+
+function restoreState(saved,wasSubmitted){
+  if(stateRestored)return;
+  stateRestored=true;
+  const resume=hasProgress(saved)||wasSubmitted||saved.sub;
+  if(saved.st){
+    Object.entries(saved.st).forEach(([pid,p])=>{
+      if(!ST[pid])return;
+      ST[pid].sel=p.sel||{};
+      ST[pid].step=p.step||0;
+      ST[pid].review=!!p.review;
+      ST[pid].just=p.just||"";
+      ST[pid].wc=p.wc||0;
+      ST[pid].committed=!!p.committed;
+    });
+  }
+  if(typeof saved.cur==="number"&&POLICIES[saved.cur])cur=saved.cur;
+  if(wasSubmitted||saved.sub)submitted=true;
+  if(!resume)return; /* nothing meaningful saved: let the intro chat run */
+  /* Skip the Devon intro and land directly in the audit */
+  const csEl=document.getElementById("chat-screen");
+  const app=document.getElementById("app");
+  csEl.style.display="none";
+  app.classList.add("visible");
+  renderAll(false);
+  if(POLICIES.every(x=>ST[x.id].committed))document.getElementById("done").classList.add("show");
+  if(submitted)["btn-sub-main","done-sub-btn"].forEach(id=>{const b=document.getElementById(id);if(b){b.classList.add("done");b.textContent="Submitted to Board";}});
+}
+document.addEventListener("keydown",function(e){
+  if(e.key!=="Escape")return;
+  if(document.getElementById("memo-ov").classList.contains("open")){closeMemo();}
+});
 
 /* ── CHAT SEQUENCE ─────────────────────────── */
 const CHAT_MSGS=[
   {from:"devon",text:"Hey "+firstName+"."},
   {from:"devon",text:"I know the timing is rough right now."},
   {from:"devon",text:"We have a board meeting later today and I need your help before it."},
-  {from:"devon",text:"INC-55810 \u2014 three of our governance policies directly enabled the breach. The vendor-portal-legacy exception, the MAINT-0291 suppression rule, the plaintext credential file. All three existed because our policies allowed them to."},
-  {from:"devon",text:"The board wants a real audit, benchmarked against NIST CSF, so we can show which controls failed and how far each one moves once it\u2019s fixed."},
+  {from:"devon",text:"INC-55810 happened because three of our governance policies directly enabled the breach. The vendor-portal-legacy exception, the MAINT-0291 suppression rule, and the plaintext credential file."},
+  {from:"devon",text:"The board wants an audit, benchmarked against NIST CSF, so we can show which controls failed and how far each one moves once it\u2019s fixed."},
   {from:"devon",text:"Can you take the three failed policies, name the NIST control each one violated, and rewrite them to close the gap? We need this in front of the board before that meeting."},
 ];
 const REPLY_TEXT="Sure, I\u2019ll get on that.";
@@ -619,8 +709,8 @@ function renderScenes(){
   document.getElementById("tb-scenes").innerHTML=POLICIES.map((p,i)=>{
     const done=ST[p.id].committed;const active=i===cur;const locked=i>cur&&!done;
     return(i>0?`<div class="tb-conn${i<=cur||done?" done":""}"></div>`:"")
-      +`<div class="tb-scene${active?" active":done?" done":locked?" locked":""}" onclick="${locked?"":"tryNav("+i+")"}" title="${p.title} — ${p.category}">
-        <span class="func-dot ${p.func}"></span><div class="tb-scene-pip"></div><span class="tb-scene-lbl">${p.short}</span></div>`;
+      +`<button class="tb-scene${active?" active":done?" done":locked?" locked":""}" type="button" ${locked?'disabled aria-disabled="true"':'onclick="tryNav('+i+')"'} aria-label="${p.short}${done?' - done':active?' - current':''}" aria-current="${active?'step':'false'}">
+        <span class="func-dot ${p.func}" aria-hidden="true"></span><div class="tb-scene-pip" aria-hidden="true"></div><span class="tb-scene-lbl">${p.short}</span></button>`;
   }).join("");
 }
 
@@ -679,10 +769,10 @@ function renderStep(anim){
 
 function renderCat(p,s,el,anim){
   const cat=p.cats[s.step];
-  const opts=cat.opts.map(o=>`<div class="opt-block${s.sel[cat.id]===o.id?" sel":""}" onclick="pick('${p.id}','${cat.id}','${o.id}')">
-    <div class="opt-block-key">${o.k}</div><div class="opt-block-txt">${o.f}</div>
-  </div>`).join("");
-  const pips=p.cats.map((c,i)=>`<div class="step-pip${s.sel[c.id]?" done":i===s.step?" active":""}" onclick="goStep(${i})" title="${c.lbl}"></div>`).join("");
+  const opts=cat.opts.map(o=>`<button class="opt-block${s.sel[cat.id]===o.id?" sel":""}" type="button" onclick="pick('${p.id}','${cat.id}','${o.id}')" aria-pressed="${s.sel[cat.id]===o.id}">
+    <div class="opt-block-key" aria-hidden="true">${o.k}</div><div class="opt-block-txt">${o.f}</div>
+  </button>`).join("");
+  const pips=p.cats.map((c,i)=>`<button class="step-pip${s.sel[c.id]?" done":i===s.step?" active":""}" type="button" onclick="goStep(${i})" aria-label="${c.lbl}${s.sel[c.id]?' (done)':i===s.step?' (current)':''}" aria-current="${i===s.step?'step':'false'}"><div class="step-pip-bar"></div><div class="step-pip-lbl">${i+1}</div></button>`).join("");
   el.innerHTML=`<div${anim?' style="animation:ws-in .3s ease"':""}>
     <div class="step-nav">
       ${s.step>0?`<button class="step-back" onclick="goStep(${s.step-1})">&#8592; Back</button>`:`<span></span>`}
@@ -706,7 +796,7 @@ function renderReview(p,s,el,anim){
     <div class="note-section">
       <div class="note-prompt">${p.prompt}</div>
       <div class="note-inner">
-        <textarea class="note-txt" id="note-txt" placeholder="Optional CRO note (200 words max)" oninput="onNote('${p.id}',this.value)">${s.just}</textarea>
+        <textarea class="note-txt" id="note-txt" placeholder="CRO note (200 words max)" oninput="onNote('${p.id}',this.value)">${s.just}</textarea>
         <span class="note-wc${wc>200?" over":wc>160?" warn":""}" id="note-wc">${wc} / 200</span>
       </div>
     </div>
@@ -748,18 +838,27 @@ window.pick=function(pid,catId,optId){
   if(nextUnfilled>=0){s.step=nextUnfilled;}
   else if(p.cats.every(c=>!!s.sel[c.id])){s.review=true;}
   renderCtx();renderStep(true);renderBB();
+  pushState();
 };
-window.goStep=function(i){cs().step=i;cs().review=false;renderStep(true);renderBB();};
-window.tryNav=function(i){if(i>cur&&!ST[POLICIES[i].id].committed)return;cur=i;renderAll(true);};
+window.goStep=function(i){cs().step=i;cs().review=false;renderStep(true);renderBB();pushState();};
+window.tryNav=function(i){if(i>cur&&!ST[POLICIES[i].id].committed)return;cur=i;renderAll(true);pushState();};
 window.onNote=function(pid,text){
+  const words=text.trim()?text.trim().split(/\s+/):[];
+  if(words.length>200){
+    text=words.slice(0,200).join(" ");
+    const ta=document.getElementById("note-txt");
+    if(ta&&ta.value!==text)ta.value=text;
+  }
   const w=wcount(text);ST[pid].just=text;ST[pid].wc=w;
   const el=document.getElementById("note-wc");
-  if(el){el.textContent=w+" / 200";el.className="note-wc"+(w>200?" over":w>160?" warn":"");}
+  if(el){el.textContent=w+" / 200";el.className="note-wc"+(w>=200?" over":w>160?" warn":"");}
+  pushState();
 };
 function doSeal(){
   const s=cs();const ta=document.getElementById("note-txt");
   if(ta){s.just=ta.value;s.wc=wcount(ta.value);}
   s.committed=true;
+  pushState();
   const flash=document.getElementById("flash");
   flash.classList.add("on");
   setTimeout(()=>{
@@ -769,12 +868,13 @@ function doSeal(){
   },700);
 }
 window.doSeal=doSeal;
-window.goNext=function(){const next=POLICIES.findIndex((p,i)=>i>cur);if(next>=0){cur=next;renderAll(true);}};
+window.goNext=function(){const next=POLICIES.findIndex((p,i)=>i>cur);if(next>=0){cur=next;renderAll(true);pushState();}};
 window.doSubmit=function(){
   if(submitted)return;submitted=true;
   const raw=POLICIES.reduce((t,p)=>{const j=ST[p.id].wc>=50?4:ST[p.id].wc>=20?2:0;return t+sScore(p.id)+j;},0);
   const score=Math.min(40,Math.round(raw/42*40));
   ["btn-sub-main","done-sub-btn"].forEach(id=>{const b=document.getElementById(id);if(b){b.classList.add("done");b.textContent="Submitted to Board";}});
+  pushState();
   window.parent.postMessage({type:"section_complete",sectionId:4,score,max:40},"*");
 };
 window.openMemo=function(){
@@ -804,13 +904,20 @@ window.openMemo=function(){
     <div class="rpt-body">${pols}</div>
     <div class="rpt-sigs"><div><div class="rpt-sl"></div><div class="rpt-sn">${firstName}</div><div class="rpt-sr">Chief Risk Officer, Solis Commerce Ltd</div></div><div><div class="rpt-sl"></div><div class="rpt-sn">Brigitte Alfred</div><div class="rpt-sr">General Counsel, Solis Commerce Ltd</div></div></div>`;
   document.getElementById("memo-ov").classList.add("open");
+  requestAnimationFrame(()=>{const b=document.querySelector("#memo-ov .ov-close");if(b)b.focus();});
 };
 window.closeMemo=function(){document.getElementById("memo-ov").classList.remove("open");};
-document.getElementById("memo-ov").addEventListener("click",function(e){if(e.target===this)closeMemo();});
+document.getElementById("memo-ov").addEventListener("click",function(e){
+  if(e.target===this&&!e._fromScroll)closeMemo();
+});
+document.getElementById("memo-ov").addEventListener("touchstart",function(){this._ts=Date.now();});
+document.getElementById("memo-ov").addEventListener("touchend",function(e){
+  if(Date.now()-this._ts<200&&e.target===this)closeMemo();
+});
 
 /* START */
 renderAll(false);
-setTimeout(runChat,600);
+setTimeout(()=>{if(!document.getElementById("app").classList.contains("visible"))runChat();},600);
 </script>
 </body>
 </html>
