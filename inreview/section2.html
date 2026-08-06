@@ -17,7 +17,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
   --grn:#059669;--grn-bg:#ecfdf5;--grn-brd:#a7f3d0;
   --mono:"JetBrains Mono",monospace;
 }
-#shell{display:flex;height:100vh;overflow:hidden;width:100%;max-width:100vw}
+#shell{display:flex;height:100vh;overflow:hidden}
 /* SIDEBAR */
 #sb{width:220px;min-width:220px;background:var(--navy);display:flex;flex-direction:column}
 .sb-top{padding:16px 14px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
@@ -27,7 +27,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .sb-item{width:calc(100% - 8px);margin:1px 4px;background:none;border:none;text-align:left;padding:8px 12px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:9px;font-family:"DM Sans",sans-serif;font-size:.77rem;color:rgba(255,255,255,.48);transition:all .15s}
 .sb-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.78)}
 .sb-item.active{background:rgba(44,169,188,.14);color:#7dd8e8;border:1px solid rgba(44,169,188,.18)}
-.sb-ck{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;justify-items:center;font-size:.48rem;flex-shrink:0;transition:all .3s;line-height:1;padding-bottom:0}
+.sb-ck{width:15px;height:15px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.5rem;flex-shrink:0;transition:all .3s}
 .sb-ck.done{background:var(--grn);border-color:var(--grn);color:#fff;animation:popin .3s cubic-bezier(.16,1,.3,1)}
 @keyframes popin{from{transform:scale(0)}to{transform:scale(1)}}
 .sb-foot{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.06)}
@@ -40,7 +40,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .sub-btn.ready:hover{background:#2393a5}
 .sub-btn.done{background:var(--grn);border-color:var(--grn);color:#fff;cursor:default}
 /* CONTENT */
-#content{flex:1;overflow-y:auto;overflow-x:hidden;padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+#content{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
 .tab-pane{display:none;flex-direction:column;gap:14px;animation:fadein .2s ease}
 .tab-pane.active{display:flex}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
@@ -49,7 +49,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .card-hdr{padding:11px 15px;border-bottom:1px solid var(--brd);background:#fafbfd;display:flex;align-items:center;justify-content:space-between}
 .card-title{font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sec)}
 /* TASK CARDS */
-.tc{background:var(--card);border:1px solid var(--brd);border-left:3px solid var(--brd2);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:13px;cursor:pointer;transition:all .18s;width:100%;box-sizing:border-box}
+.tc{background:var(--card);border:1px solid var(--brd);border-left:3px solid var(--brd2);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:13px;cursor:pointer;transition:all .18s}
 .tc:hover{border-color:var(--teal-brd);border-left-color:var(--teal);box-shadow:0 2px 14px rgba(44,169,188,.09);transform:translateY(-1px)}
 .tc.done{border-left-color:var(--grn)}
 .tc-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-top:1px}
@@ -64,25 +64,21 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 /* PRESS */
 .press-wrap{background:#fdf8f0;border:1px solid #ede0c4;border-radius:8px;overflow:hidden}
 .press-toolbar{padding:8px 14px;border-bottom:1px solid #ede0c4;display:flex;align-items:center;gap:8px;background:#faf5eb}
-.press-filename{font-family:var(--mono);font-size:.62rem;color:#6a5a3a;flex:1;text-align:center}
-.read-btn{font-size:.65rem;background:#fff;border:1px solid #ede0c4;border-radius:5px;padding:4px 10px;cursor:pointer;color:#6a5a3a;font-family:"DM Sans",sans-serif}
+.press-filename{font-family:var(--mono);font-size:.62rem;color:#8a7a5a;flex:1;text-align:center}
+.read-btn{font-size:.65rem;background:#fff;border:1px solid #ede0c4;border-radius:5px;padding:4px 10px;cursor:pointer;color:#8a7a5a;font-family:"DM Sans",sans-serif}
 .read-btn:hover{background:#fdf8f0}
-.press-doc{padding:22px 28px;font-size:.82rem;line-height:1.9;color:#2a2218;max-width:100%;overflow-x:hidden;word-break:break-word}
+.press-doc{padding:22px 28px;font-size:.82rem;line-height:1.9;color:#2a2218}
 .press-doc p{margin-bottom:13px}
 .press-hdr{text-align:center;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid #ede0c4}
-.press-release-lbl{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7a6a4a;margin-bottom:6px}
+.press-release-lbl{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a0906a;margin-bottom:6px}
 .press-title-txt{font-size:.95rem;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:4px}
-.press-dateline{font-size:.7rem;color:#7a6a4a}
-.rf{background:#fef3c7;border:none;border-bottom:2px solid var(--amb);cursor:pointer;padding:2px 5px;border-radius:3px 3px 0 0;transition:all .18s;display:inline;font:inherit;line-height:inherit;color:inherit;vertical-align:baseline}
+.press-dateline{font-size:.7rem;color:#a0906a}
+.rf{background:#fef3c7;border-bottom:2px solid var(--amb);cursor:pointer;padding:1px 4px;border-radius:3px 3px 0 0;transition:all .18s;display:inline}
 .rf:hover{background:#fde68a}
-.rf:focus-visible{outline:2px solid #d97706;outline-offset:2px;background:#fde68a}
 .rf.done-any{background:#d1fae5;border-bottom-color:var(--grn);cursor:pointer}
-.rf.done-any:focus-visible{outline-color:var(--grn)}
-.rf.done-correct{background:#bbf7d0;border-bottom-color:#059669}
-.rf.done-incorrect{background:#fee2e2;border-bottom-color:#dc2626}
 .rf-lbl{font-size:.55rem;vertical-align:super;margin-left:1px;font-weight:700;color:var(--amb)}
 .rf.done-any .rf-lbl{color:var(--grn)}
-.rp{display:none;background:#fff;border:1px solid var(--brd2);border-radius:0 8px 8px 8px;padding:11px 13px;margin:6px 0 2px;box-shadow:0 4px 18px rgba(0,0,0,.08);animation:fadein .15s ease;max-width:100%;overflow-x:hidden}
+.rp{display:none;background:#fff;border:1px solid var(--brd2);border-radius:0 8px 8px 8px;padding:11px 13px;margin:6px 0 2px;box-shadow:0 4px 18px rgba(0,0,0,.08);animation:fadein .15s ease}
 .rp.open{display:block}
 .rp-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:7px}
 .rp-current{background:var(--amb-bg);border:1px solid var(--amb-brd);border-radius:5px;padding:6px 10px;font-size:.73rem;color:#92400e;margin-bottom:9px;font-style:italic;line-height:1.5}
@@ -98,11 +94,11 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .modal{background:#fdf8f0;border:1px solid #ede0c4;border-radius:12px;width:100%;max-width:640px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideup .25s cubic-bezier(.16,1,.3,1)}
 @keyframes slideup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .modal-hdr{padding:12px 16px;border-bottom:1px solid #ede0c4;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#faf5eb}
-.modal-close{background:none;border:none;font-size:1.1rem;cursor:pointer;color:#6a5a3a;padding:2px 6px}
+.modal-close{background:none;border:none;font-size:1.1rem;cursor:pointer;color:#8a7a5a;padding:2px 6px}
 .modal-body{padding:24px 32px;font-size:.82rem;line-height:1.9;color:#2a2218}
 .modal-body p{margin-bottom:12px}
 /* CHAT */
-.chat-window{display:flex;flex-direction:column;gap:12px;max-height:360px;overflow-y:auto;padding:4px 2px;scroll-behavior:smooth}
+.chat-window{display:flex;flex-direction:column;gap:12px;max-height:400px;overflow-y:auto;padding:4px 2px}
 .chat-msg{display:flex;gap:9px;align-items:flex-start;animation:fadein .3s ease}
 .chat-msg.student{flex-direction:row-reverse}
 .chat-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;overflow:hidden}
@@ -117,8 +113,6 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 @keyframes tdot{0%,80%,100%{transform:scale(.7);opacity:.5}40%{transform:scale(1);opacity:1}}
 .chat-opts{display:flex;flex-direction:column;gap:6px;margin-top:4px;animation:fadein .3s ease}
 .chat-opt{border:1px solid var(--brd);border-radius:8px;padding:9px 13px;cursor:pointer;font-size:.76rem;color:var(--sec);transition:all .15s;background:#fff;text-align:left;line-height:1.4}
-.chat-opt:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.chat-opt:focus-visible,.maya-opt:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .chat-opt:hover{border-color:var(--teal-brd);background:var(--teal-bg);color:var(--txt)}
 /* COMPLETION OVERLAY */
 #completion-overlay{display:none;position:fixed;inset:0;background:rgba(15,21,37,.55);backdrop-filter:blur(4px);z-index:300;align-items:center;justify-content:center;padding:24px}
@@ -140,31 +134,6 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 .mp-text{font-size:.78rem;color:var(--sec);line-height:1.7;border-top:1px solid var(--brd);padding-top:10px}
 .mp-dismiss{width:100%;margin-top:12px;background:var(--navy);color:#fff;border:none;border-radius:7px;padding:9px;font-size:.76rem;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif}
 .mp-dismiss:hover{background:#2d3352}
-
-@media (max-width: 768px) {
-  /* ── Stack layout vertically on small screens ── */
-  html,body{overflow:auto;height:auto}
-  #shell{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
-  #sb{width:100%!important;min-width:0!important;height:auto;flex-direction:row;overflow-x:auto;overflow-y:hidden;flex-shrink:0;padding:6px 10px;gap:6px;border-right:none;border-bottom:1px solid rgba(255,255,255,.08)}
-  #sb .sb-avatar-wrap,.sb-brief,.sb-score-box,#progress-labels,.sb-foot,.sb-sec,.sb-inc{display:none}
-  #sb .sb-top{padding:6px 10px;border:none}
-  #sb .sb-brand{font-size:.72rem}
-  #sb .sb-item{padding:7px 11px;font-size:.69rem;white-space:nowrap;flex-shrink:0;border-radius:6px}
-  #content{overflow-y:visible;flex:1;overflow:visible;padding:14px 14px 60px}
-  /* Cards full-width, no overflow */
-  .tc{flex-direction:column;gap:8px}
-  .tc-ico{width:32px;height:32px;font-size:.95rem}
-  .press-wrap,.press-doc{max-width:100%;overflow-x:hidden;word-break:break-word}
-  .press-doc{padding:14px 16px}
-  .rp{position:fixed;bottom:0;left:0;right:0;margin:0;border-radius:12px 12px 0 0;z-index:200;padding:16px 16px 24px;box-shadow:0 -8px 40px rgba(0,0,0,.2)}
-  .chat-window,.maya-chat{max-height:50vh}
-  .press-filename{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  /* Submission button floats at bottom */
-  .sub-btn{display:none}
-  /* Fallback submit at bottom on mobile */
-}
-
-#ck-o::before{content:"";display:block;width:0;height:0;border-style:solid;border-width:4px 0 4px 7px;border-color:transparent transparent transparent rgba(255,255,255,.7);margin-left:1px}
 </style>
 </head>
 <body>
@@ -175,7 +144,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
       <div class="sb-inc">SOLIS COMMERCE / INC-55810</div>
     </div>
     <div class="sb-sec">Tasks</div>
-    <button class="sb-item active" onclick="showTab('overview')" id="nav-overview"><span class="sb-ck" id="ck-o"></span> Overview</button>
+    <button class="sb-item active" onclick="showTab('overview')" id="nav-overview"><span class="sb-ck" id="ck-o">&#9654;</span> Overview</button>
     <button class="sb-item" onclick="showTab('press')" id="nav-press"><span class="sb-ck" id="ck-p"></span> Press Statement</button>
     <button class="sb-item" onclick="showTab('chat')" id="nav-chat"><span class="sb-ck" id="ck-c"></span> Obligations Review</button>
     <button class="sb-item" onclick="showTab('maya')" id="nav-maya"><span class="sb-ck" id="ck-m"></span> Response Decisions</button>
@@ -232,7 +201,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
           <span style="font-size:.62rem;color:var(--grn)">Active now</span>
         </div>
         <div style="padding:16px">
-          <div class="chat-window" id="chat-window" aria-live="polite" aria-atomic="false" role="log"></div>
+          <div class="chat-window" id="chat-window"></div>
           <div id="chat-opts-wrap" style="margin-top:10px"></div>
         </div>
       </div>
@@ -245,7 +214,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
           <span style="font-size:.62rem;color:var(--grn)">Active now</span>
         </div>
         <div style="padding:16px">
-          <div class="chat-window" id="maya-window" aria-live="polite" aria-atomic="false" role="log"></div>
+          <div class="chat-window" id="maya-window"></div>
           <div id="maya-opts-wrap" style="margin-top:10px"></div>
         </div>
       </div>
@@ -276,7 +245,7 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 </div>
 
 <!-- BRIGITTE POPUP -->
-<div id="msg-overlay" role="dialog" aria-modal="true" aria-label="Message from Brigitte Alfred">
+<div id="msg-overlay">
   <div id="msg-popup">
     <div class="mp-hdr">
       <div class="mp-av"><img src="https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" alt="Brigitte Alfred"></div>
@@ -291,16 +260,125 @@ html,body{height:100%;background:#f2f4f8;font-family:"DM Sans",system-ui,sans-se
 "use strict";
 
 let firstName = "CRO";
-try {
-  const s = JSON.parse(localStorage.getItem("rose_v3") || "{}") || {};
-  if (s.userName) firstName = s.userName.split(" ")[0];
-} catch(e) {}
-/* Supplement with INIT_SECTION from parent index */
-window.addEventListener("message", function(e) {
-  if (e.data && e.data.type === "INIT_SECTION" && e.data.userName) {
-    firstName = e.data.userName.split(" ")[0] || firstName;
-  }
+
+/* ═══ STATE SYNC (index.html is the single source of truth) ═══════
+   Up:   section_state {sectionId:2, state} on every choice
+         section_complete {sectionId:2, score, max} on submit
+   Down: INIT_SECTION {userName, savedScores, sectionState} on load
+   Storage lives in index (SCORM suspend_data + localStorage).
+   This file never touches localStorage.                            */
+const SECTION_ID = 2;
+let stateRestored = false;
+
+function serializeState() {
+  return {
+    p: Object.fromEntries(Object.entries(pressState).map(([k,v]) => [k, v.optId])),
+    c: chatState.answers.map(a => a.optId),
+    m: mayaState.answers.map(a => a.optId),
+    sub: submitted
+  };
+}
+
+function pushState() {
+  try { window.parent.postMessage({ type:"section_state", sectionId:SECTION_ID, state:serializeState() }, "*"); } catch(e) {}
+}
+
+function applyName() {
+  /* Refresh any name-bearing UI that may have rendered before INIT arrived */
+  const mp = document.getElementById("mp-text");
+  if (mp && mp.dataset.tpl) mp.innerHTML = mp.dataset.tpl.replace("[FIRST]", firstName);
+}
+
+window.addEventListener("message", e => {
+  const d = e.data;
+  if (!d || d.type !== "INIT_SECTION") return;
+  if (d.userName) { firstName = d.userName.split(" ")[0] || firstName; applyName(); }
+  const st = d.sectionState && d.sectionState[SECTION_ID];
+  const sc = d.savedScores && d.savedScores[SECTION_ID];
+  if (st || sc) restoreState(st || {}, !!sc);
 });
+/* Ask the parent for our init payload (covers load-order races) */
+try { if (window.parent !== window) window.parent.postMessage({ type:"request_init" }, "*"); } catch(e) {}
+
+function restoreState(st, wasSubmitted) {
+  if (stateRestored) return;
+  stateRestored = true;
+
+  /* Press release selections */
+  if (st.p) {
+    Object.entries(st.p).forEach(([fid, optId]) => {
+      const f = PRESS_FIELDS.find(x => x.id === fid); if (!f) return;
+      const o = f.options.find(x => x.id === optId); if (!o) return;
+      pressState[fid] = { optId, correct: optId === f.correct, score: optId === f.correct ? f.score : 0 };
+      const rf = document.getElementById("rf-" + fid);
+      if (rf) { rf.innerHTML = o.text + `<sup class="rf-lbl">&#10003;</sup>`; rf.className = "rf done-any"; }
+    });
+    if (Object.keys(pressState).length) updatePressCounter();
+  }
+
+  /* Brigitte chat: instant replay of answered turns, resume from next */
+  if (st.c && st.c.length) {
+    chatInited = true;
+    addChat(firstName + ", it’s Brigitte again.", false, "chat-window", "brigitte");
+    addChat("Some things don’t look right to me and I need your call on them.", false, "chat-window", "brigitte");
+    st.c.forEach((optId, i) => {
+      const q = CHAT_Q[i]; if (!q) return;
+      const o = q.opts.find(x => x.id === optId); if (!o) return;
+      chatState.answers.push({ optId, correct: optId === q.correct, score: optId === q.correct ? q.score : 0 });
+      addChat(q.q, false, "chat-window", "brigitte");
+      addChat(o.text, true, "chat-window", "brigitte");
+      addChat(o.reply, false, "chat-window", "brigitte");
+    });
+    chatState.step = chatState.answers.length;
+    updateChatProg();
+    if (chatState.step >= CHAT_Q.length) {
+      chatState.done = true;
+      addChat("That’s everything I needed.  I'll get this over to legal.", false, "chat-window", "brigitte");
+      document.getElementById("ck-c").className = "sb-ck done";
+      document.getElementById("ck-c").textContent = "✓";
+      document.getElementById("tc-chat").classList.add("done");
+    } else {
+      showChatOpts(chatState.step);
+    }
+  }
+
+  /* Maya chat: same replay pattern */
+  if (st.m && st.m.length) {
+    mayaInited = true;
+    addChat(firstName + ", it’s Maya. Ryan asked me to coordinate with you on a few decisions that need your authorization before we can move on them.", false, "maya-window", "maya");
+    st.m.forEach((optId, i) => {
+      const q = MAYA_Q[i]; if (!q) return;
+      const o = q.opts.find(x => x.id === optId); if (!o) return;
+      mayaState.answers.push({ optId, score: o.score });
+      addChat(q.q, false, "maya-window", "maya");
+      addChat(o.text, true, "maya-window", "maya");
+      addChat(q.reply, false, "maya-window", "maya");
+    });
+    mayaState.step = mayaState.answers.length;
+    document.getElementById("tp-maya").style.width = (mayaState.step / MAYA_Q.length * 100) + "%";
+    if (mayaState.step >= MAYA_Q.length) {
+      mayaState.done = true;
+      addChat("That’s all five. Everything is logged. Good decisions.", false, "maya-window", "maya");
+      document.getElementById("ck-m").className = "sb-ck done";
+      document.getElementById("ck-m").textContent = "✓";
+      document.getElementById("tc-maya").classList.add("done");
+    } else {
+      showMayaOpts(mayaState.step);
+    }
+  }
+
+  updateOverall();
+
+  /* Already submitted: lock the section */
+  if (wasSubmitted || st.sub) {
+    submitted = true;
+    const btn = document.getElementById("sub-btn");
+    btn.classList.remove("ready");
+    btn.classList.add("done");
+    btn.textContent = "Submitted";
+    document.getElementById("sb-lbl").textContent = "Section submitted";
+  }
+}
 
 /* ── PRESS DATA ─────────────────────────────────────────────── */
 const PRESS_FIELDS = [
@@ -342,7 +420,7 @@ function buildPress() {
   const doc = document.getElementById("press-doc");
   function rf(id) {
     const f = PRESS_FIELDS.find(x => x.id === id);
-    return `<button class="rf" id="rf-${id}" type="button" onclick="openReview('${id}')" aria-expanded="false" aria-haspopup="true">${f.draft}<sup class="rf-lbl" aria-hidden="true">&#9998;</sup></button>`;
+    return `<span class="rf" id="rf-${id}" onclick="openReview('${id}')">${f.draft}<sup class="rf-lbl">&#9998;</sup></span>`;
   }
   doc.innerHTML = `
     <div class="press-hdr">
@@ -366,22 +444,10 @@ function buildPress() {
 buildPress();
 
 window.openReview = function(id) {
-  window._modalTrigger = document.getElementById("rf-" + id);
   const existing = document.querySelector(".rp.open");
   const panel = document.getElementById("rp-" + id);
-  if (existing && existing !== panel) {
-    existing.classList.remove("open");
-    const prevBtn = document.querySelector(".rf[aria-expanded='true']");
-    if (prevBtn) prevBtn.setAttribute("aria-expanded", "false");
-  }
-  if (panel.classList.contains("open")) {
-    panel.classList.remove("open");
-    const btn = document.getElementById("rf-" + id);
-    if (btn) btn.setAttribute("aria-expanded", "false");
-    return;
-  }
-  const btn = document.getElementById("rf-" + id);
-  if (btn) btn.setAttribute("aria-expanded", "true");
+  if (existing && existing !== panel) existing.classList.remove("open");
+  if (panel.classList.contains("open")) { panel.classList.remove("open"); return; }
   const f = PRESS_FIELDS.find(x => x.id === id);
   const cur = pressState[id] ? f.options.find(o => o.id === pressState[id].optId) : null;
   panel.innerHTML = `<div class="rp-lbl">Select the accurate statement</div>
@@ -404,10 +470,10 @@ window.choosePress = function(fieldId, optId, isCorrect, chosenText) {
   const rf = document.getElementById("rf-" + fieldId);
   if (rf) {
     rf.innerHTML = chosenText + `<sup class="rf-lbl">&#10003;</sup>`;
-    rf.className = "rf done-any " + (isCorrect ? "done-correct" : "done-incorrect");
-    rf.setAttribute("aria-label", `Reviewed: ${chosenText}${isCorrect ? " (correct)" : " (consider reviewing)"}`);
+    rf.className = "rf done-any";
   }
   if (!wasReviewed) updatePressCounter();
+  pushState();
   setTimeout(() => { if (panel) panel.classList.remove("open"); }, 800);
 };
 
@@ -426,9 +492,9 @@ function updatePressCounter() {
 window.openFullBriefing = function() {
   document.getElementById("modal-body").innerHTML = `
     <div style="text-align:center;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid #ede0c4">
-      <div style="font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7a6a4a;margin-bottom:5px">Press Release &bull; Draft v1.2 &bull; Confidential</div>
+      <div style="font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a0906a;margin-bottom:5px">Press Release &bull; Draft v1.2 &bull; Confidential</div>
       <div style="font-size:.95rem;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:3px">SOLIS COMMERCE ANNOUNCES SECURITY INCIDENT<br>AFFECTING CUSTOMER PAYMENT DATA</div>
-      <div style="font-size:.7rem;color:#7a6a4a">TORONTO, ONTARIO &bull; ${PRESS_DATE}</div>
+      <div style="font-size:.7rem;color:#a0906a">TORONTO, ONTARIO &bull; ${PRESS_DATE}</div>
     </div>
     <p>Solis Commerce Ltd ("Solis") today announced a security incident affecting the payment card data of approximately 40,000 customers.</p>
     <p>The Company determined that the incident resulted from an isolated technical error, allowing an unauthorized party to access its cardholder data environment on ${PRESS_DATE}.</p>
@@ -438,13 +504,8 @@ window.openFullBriefing = function() {
     <p>Affected customers are advised to contact their bank directly if they notice any suspicious account activity. Contact: 1-800-SOLIS-01.</p>
   `;
   document.getElementById("modal").classList.add("open");
-  requestAnimationFrame(() => { const btn = document.querySelector("#modal .modal-close"); if(btn) btn.focus(); });
 };
-window.closeModal = function() {
-  document.getElementById("modal").classList.remove("open");
-  /* Return focus to the trigger that opened it */
-  if(window._modalTrigger){window._modalTrigger.focus();window._modalTrigger=null;}
-};
+window.closeModal = function() { document.getElementById("modal").classList.remove("open"); };
 document.getElementById("modal").addEventListener("click", e => { if (e.target === document.getElementById("modal")) closeModal(); });
 
 /* ── SHARED CHAT UTILITIES ──────────────────────────────────── */
@@ -460,7 +521,7 @@ function addChat(text, isStudent, winId, senderClass) {
     div.innerHTML = `<div class="chat-av"><img src="${src}" alt="${name}"></div><div class="chat-content"><div class="chat-sender">${name}</div><div class="chat-bubble">${text}</div></div>`;
   }
   win.appendChild(div);
-  requestAnimationFrame(() => { win.scrollTop = win.scrollHeight; });
+  win.scrollTop = win.scrollHeight;
 }
 
 function addTyping(winId, senderClass) {
@@ -469,7 +530,7 @@ function addTyping(winId, senderClass) {
   div.className = "chat-msg"; div.id = winId + "-typing";
   const src = senderClass === "brigitte" ? "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop" : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
   div.innerHTML = `<div class="chat-av"><img src="${src}" alt="typing"></div><div class="chat-content"><div class="chat-bubble"><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div></div></div>`;
-  win.appendChild(div); requestAnimationFrame(() => { win.scrollTop = win.scrollHeight; });
+  win.appendChild(div); win.scrollTop = win.scrollHeight;
 }
 function removeTyping(winId) { const el = document.getElementById(winId + "-typing"); if (el) el.remove(); }
 
@@ -548,6 +609,7 @@ window.chooseChatOpt = function(step, optId, isCorrect, text) {
   const q = CHAT_Q[step];
   const opt = q.opts.find(o => o.id === optId);
   chatState.answers.push({ optId, correct:isCorrect, score:isCorrect ? q.score : 0 });
+  pushState();
   document.getElementById("chat-opts-wrap").innerHTML = "";
   addChat(text, true, "chat-window", "brigitte");
   addTyping("chat-window", "brigitte");
@@ -637,6 +699,7 @@ function showMayaOpts(step) {
 window.chooseMayaOpt = function(step, optId, score, text) {
   const q = MAYA_Q[step];
   mayaState.answers.push({ optId, score });
+  pushState();
   document.getElementById("maya-opts-wrap").innerHTML = "";
   addChat(text, true, "maya-window", "maya");
   addTyping("maya-window", "maya");
@@ -673,8 +736,6 @@ window.showTab = function(id) {
   document.querySelectorAll(".sb-item").forEach(b => b.classList.remove("active"));
   document.getElementById("tab-" + id).classList.add("active");
   document.getElementById("nav-" + id).classList.add("active");
-  /* Reset scroll position at top of new tab */
-  const content = document.getElementById("content"); if (content) content.scrollTop = 0;
   if (id==="chat" && !chatInited) { chatInited=true; setTimeout(initChat,300); }
   if (id==="maya" && !mayaInited) { mayaInited=true; setTimeout(initMaya,300); }
 };
@@ -692,7 +753,8 @@ window.submitSection = function() {
   document.getElementById("sub-btn").classList.remove("ready");
   document.getElementById("sub-btn").classList.add("done");
   document.getElementById("sub-btn").textContent = "Submitted";
-  window.parent.postMessage({type:"section_complete", sectionId:2, score:total, max:40}, window.location.origin || "*");
+  pushState();
+  window.parent.postMessage({type:"section_complete", sectionId:2, score:total, max:40}, "*");
   setTimeout(() => {
     document.getElementById("comp-msg").innerHTML = firstName + ", I’ve just been briefed on your decisions across all three workstreams. The relevant teams are deployed and we’re in motion. I knew I had the right person for this role.";
     document.getElementById("completion-overlay").style.display = "flex";
@@ -700,19 +762,12 @@ window.submitSection = function() {
 };
 
 /* ── BRIGITTE POPUP ──────────────────────────────────────────── */
-window.dismissMsg = function() { document.getElementById("msg-overlay").style.display="none"; const btn=document.querySelector(".rp.open .rp-close"); if(btn)btn.focus(); };
-
-/* ESC to close any open overlay/panel */
-document.addEventListener("keydown", function(e) {
-  if (e.key === "Escape") {
-    closeModal();
-    dismissMsg();
-    document.querySelectorAll(".rp.open").forEach(p => p.classList.remove("open"));
-    document.querySelectorAll(".rf[aria-expanded='true']").forEach(b => { b.setAttribute("aria-expanded","false"); b.focus(); });
-  }
-});
+window.dismissMsg = function() { document.getElementById("msg-overlay").style.display="none"; };
 setTimeout(() => {
-  document.getElementById("mp-text").innerHTML = firstName + ", it’s Brigitte. Ryan has briefed me. I’ve drafted the press statement and the obligations register but both need your sign-off before anything moves. I also have questions for you on the obligations side.";
+  if (stateRestored || submitted) return; /* returning session: skip the intro */
+  const mp = document.getElementById("mp-text");
+  mp.dataset.tpl = "[FIRST], it’s Brigitte. Ryan has briefed me. I’ve drafted the press statement and the obligations register but both need your sign-off before anything moves. I also have questions for you on the obligations side.";
+  mp.innerHTML = mp.dataset.tpl.replace("[FIRST]", firstName);
   document.getElementById("msg-overlay").style.display = "flex";
 }, 800);
 </script>
