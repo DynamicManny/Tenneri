@@ -32,6 +32,7 @@ html,body{height:100%;background:#07080f;color:#e2e8f4;overflow:hidden;font-fami
 .tb-prog-text span{color:var(--teal);font-weight:600}
 .btn-present{padding:8px 22px;border-radius:8px;font-size:.74rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;cursor:not-allowed;background:rgba(255,255,255,.06);color:rgba(255,255,255,.22);transition:all .25s;letter-spacing:.01em}
 .btn-present.ready{background:var(--teal);color:#000;cursor:pointer;box-shadow:0 0 18px rgba(44,169,188,.3)}
+.btn-present:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
 .btn-present.ready:hover{opacity:.92;transform:translateY(-1px)}
 .btn-present.done{background:#0f4a2a;color:#6ee7b7;cursor:default;box-shadow:none}
 /* DOC SCROLL */
@@ -68,6 +69,8 @@ html,body{height:100%;background:#07080f;color:#e2e8f4;overflow:hidden;font-fami
 .doc-sec-title{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;flex:1}
 .doc-sec-badge{font-size:.56rem;font-weight:700;padding:3px 9px;border-radius:12px;font-family:var(--mono);white-space:nowrap;letter-spacing:.04em}
 .badge-pending{background:rgba(0,0,0,.06);color:var(--ink-mut)}
+@keyframes secFlash{0%{background:rgba(44,169,188,.12)}100%{background:transparent}}
+.doc-section.sec-flash{animation:secFlash 1.6s ease-out}
 .badge-strong{background:rgba(16,185,129,.12);color:#166534;border:1px solid rgba(16,185,129,.25)}
 .badge-adequate{background:rgba(245,158,11,.1);color:#92400e;border:1px solid rgba(245,158,11,.25)}
 .badge-needs-work{background:rgba(239,68,68,.1);color:#991b1b;border:1px solid rgba(239,68,68,.25)}
@@ -100,6 +103,7 @@ textarea.exec-txt{
   transition:border-color .15s;
 }
 textarea.exec-txt:focus{border-color:rgba(44,169,188,.4);background:#fff}
+textarea.exec-txt:focus-visible{outline:2px solid rgba(44,169,188,.5);outline-offset:1px}
 textarea.exec-txt::placeholder{color:#c4b49a}
 textarea.exec-txt:disabled{opacity:.65;cursor:not-allowed}
 .exec-wc{position:absolute;bottom:9px;right:11px;font-size:.58rem;font-family:var(--mono);color:#c4b49a;pointer-events:none}
@@ -161,6 +165,22 @@ textarea.exec-txt:disabled{opacity:.65;cursor:not-allowed}
 .sb-total-score{font-family:var(--mono);font-size:1rem;color:var(--teal)}
 .btn-return{padding:11px 28px;border-radius:8px;font-size:.76rem;font-weight:700;font-family:"DM Sans",sans-serif;border:none;background:var(--grn);color:#fff;cursor:pointer;transition:all .2s;animation:fadein .5s ease 1.6s both}
 .btn-return:hover{opacity:.9;transform:translateY(-1px)}
+
+@media (max-width: 768px) {
+  html,body{overflow:auto;height:auto}
+  #app{height:auto;min-height:100vh;overflow:visible}
+  #doc-scroll{padding:14px 10px 40px}
+  #doc{border-radius:2px}
+  .doc-lh{padding:22px 20px 16px}
+  .doc-exec{padding:16px 20px}
+  .doc-section{padding:16px 20px}
+  .doc-sigs{padding:16px 20px 24px}
+  .sigs-grid{grid-template-columns:1fr;gap:16px}
+  .exec-txt{height:110px}
+  #submit-ov{padding:16px}
+  .score-breakdown,.submit-ryan{max-width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -195,10 +215,11 @@ textarea.exec-txt:disabled{opacity:.65;cursor:not-allowed}
         <div class="exec-label">Executive Summary</div>
         <div class="exec-prompt">Provide an executive-level summary of the incident, the response taken, and the forward-looking risk position. This will open the board presentation. Minimum 50 words.</div>
         <div class="exec-inner">
-          <textarea class="exec-txt" id="exec-txt" placeholder="Write your executive summary here..." oninput="onExec(this.value)"></textarea>
+          <textarea class="exec-txt" id="exec-txt" aria-label="Executive summary" aria-describedby="exec-hint" placeholder="Write your executive summary here..." oninput="onExec(this.value)"></textarea>
           <span class="exec-wc" id="exec-wc">0 / 50 min</span>
         </div>
         <div class="exec-hint" id="exec-hint">At least 50 words required to present to the board.</div>
+        <div class="exec-hint" style="opacity:.55">Your draft saves automatically as you write.</div>
       </div>
       <!-- SECTION 1: BREACH RESPONSE -->
       <div class="doc-section" id="sec-2">
@@ -249,7 +270,7 @@ textarea.exec-txt:disabled{opacity:.65;cursor:not-allowed}
   </div>
 </div>
 <!-- SUBMISSION OVERLAY -->
-<div id="submit-ov">
+<div id="submit-ov" role="dialog" aria-modal="true" aria-label="Board paper submitted">
   <div class="submit-stamp">
     <div class="stamp-icon">✓</div>
     <div class="stamp-text">Submitted<br>to Board</div>
@@ -275,83 +296,77 @@ let firstName="CRO",scores={},execText="",submitted=false;
   const d=new Date();
   const mo=["January","February","March","April","May","June","July","August","September","October","November","December"];
   document.getElementById("lh-date").textContent=mo[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
-  loadFromStorage();
-  startPolling();
   listenForParent();
+  /* Ask the parent for our init payload (covers load-order races) */
+  try{if(window.parent!==window)window.parent.postMessage({type:"request_init"},"*");}catch(e){}
 })();
 
-/* ── STORAGE LOAD ──────────────────────────────────────── */
-function loadFromStorage(){
-  try{
-    const raw=localStorage.getItem("rose_v3");
-    if(!raw)return;
-    const saved=JSON.parse(raw);
-    if(saved.userName)firstName=saved.userName.split(" ")[0];
-    document.getElementById("lh-prepared").textContent=firstName+", Chief Risk Officer";
-    document.getElementById("sig-cro").textContent=firstName;
-    const saved6=saved.sectionScores||{};
-    [2,3,4,5].forEach(id=>{
-      if(saved6[id]&&!scores[id]){
-        scores[id]=saved6[id];
-        populateSection(id);
-      }
-    });
-    updateUI();
-  }catch(e){}
+/* ═══ STATE SYNC (index.html is the single source of truth) ═══════
+   Up:   section_state {sectionId:6, state} as the summary is written
+         section_complete {sectionId:6, score, max} on submit
+   Down: INIT_SECTION {userName, savedScores, sectionState} on load
+         score_update pushed live as other sections are submitted
+   This file never touches localStorage or the SCORM API directly. */
+const SECTION_ID=6;
+let stateRestored=false;
+
+function serializeState(){return{x:execText,sub:submitted};}
+function pushState(){
+  try{window.parent.postMessage({type:"section_state",sectionId:SECTION_ID,state:serializeState()},"*");}catch(e){}
 }
 
-/* ── SCORM-AWARE SAVE ──────────────────────────────────── */
-function saveProgress(s6score){
-  try{
-    const raw=localStorage.getItem("rose_v3");
-    const saved=raw?JSON.parse(raw):{};
-    if(!saved.sectionScores)saved.sectionScores={};
-    saved.sectionScores[6]={score:s6score,max:40};
-    localStorage.setItem("rose_v3",JSON.stringify(saved));
-  }catch(e){}
-  // Attempt SCORM via parent if available
-  try{
-    let api=null,w=window;
-    for(let i=0;i<6;i++){
-      if(w.API_1484_11){api=w.API_1484_11;break;}
-      if(w.parent===w)break;
-      w=w.parent;
-    }
-    if(api){
-      const raw=localStorage.getItem("rose_v3");
-      if(raw)api.SetValue("cmi.suspend_data",raw);
-    }
-  }catch(e){}
+function applyName(){
+  document.getElementById("lh-prepared").textContent=firstName+", Chief Risk Officer";
+  document.getElementById("sig-cro").textContent=firstName;
 }
 
-/* ── POLLING FOR UPDATES ────────────────────────────────── */
-function startPolling(){
-  if([2,3,4,5].every(id=>scores[id]))return;
-  const timer=setInterval(()=>{
-    try{
-      const raw=localStorage.getItem("rose_v3");
-      if(!raw)return;
-      const saved=JSON.parse(raw);
-      const ss=saved.sectionScores||{};
-      let changed=false;
-      [2,3,4,5].forEach(id=>{
-        if(ss[id]&&!scores[id]){scores[id]=ss[id];populateSection(id);changed=true;}
-      });
-      if(changed)updateUI();
-      if([2,3,4,5].every(id=>scores[id]))clearInterval(timer);
-    }catch(e){}
-  },2000);
+function restoreState(saved,wasSubmitted){
+  if(stateRestored)return;
+  stateRestored=true;
+  if(saved.x){
+    execText=saved.x;
+    const ta=document.getElementById("exec-txt");
+    if(ta)ta.value=execText;
+    refreshExecUI();
+  }
+  if(wasSubmitted||saved.sub){
+    submitted=true;
+    const ta=document.getElementById("exec-txt");
+    if(ta)ta.disabled=true;
+    document.getElementById("doc").classList.add("submitted");
+    document.getElementById("lh-status").textContent="Submitted to Board";
+  }
+  updateUI();
 }
 
 /* ── PARENT MESSAGES ─────────────────────────────────── */
 function listenForParent(){
   window.addEventListener("message",e=>{
     if(!e.data)return;
+    /* INIT_SECTION: parent sends name, saved scores and saved state */
+    if(e.data.type==="INIT_SECTION"){
+      if(e.data.userName){firstName=e.data.userName.split(" ")[0]||firstName;applyName();}
+      if(e.data.savedScores){
+        Object.entries(e.data.savedScores).forEach(([id,sc])=>{
+          const nId=parseInt(id);
+          if([2,3,4,5].includes(nId)&&!scores[nId]){
+            scores[nId]=sc;
+            populateSection(nId);
+          }
+        });
+        updateUI();
+      }
+      const st=e.data.sectionState&&e.data.sectionState[SECTION_ID];
+      const sc6=e.data.savedScores&&e.data.savedScores[SECTION_ID];
+      if(st||sc6)restoreState(st||{},!!sc6);
+      return;
+    }
+    /* score_update: individual section completion pushed live from parent */
     if(e.data.type==="section_complete"||e.data.type==="score_update"){
       const{sectionId,score,max}=e.data;
       if([2,3,4,5].includes(sectionId)&&!scores[sectionId]){
         scores[sectionId]={score,max};
-        populateSection(sectionId);
+        populateSection(sectionId,true);
         updateUI();
       }
     }
@@ -403,7 +418,7 @@ function buildPips(score,max,level){
   return Array.from({length:total},(_,i)=>`<div class="sec-score-pip${i<filled?" "+cls:""}"></div>`).join("");
 }
 
-function populateSection(id){
+function populateSection(id,live){
   const s=scores[id];if(!s)return;
   const data=SECTION_DATA[id];if(!data)return;
   const level=getLevel(s);
@@ -422,18 +437,27 @@ function populateSection(id){
       </div>
     </div>`;
   }
+  /* Live arrival: draw the eye to the section that just filled in */
+  if(live){
+    const sec=document.getElementById("sec-"+id);
+    if(sec){sec.classList.remove("sec-flash");void sec.offsetWidth;sec.classList.add("sec-flash");}
+  }
 }
 
 /* ── EXEC SUMMARY ───────────────────────────────────────── */
 function countWords(t){return t.trim()?t.trim().split(/\s+/).length:0;}
-function onExec(txt){
-  execText=txt;
-  const w=countWords(txt);
+function refreshExecUI(){
+  const w=countWords(execText);
   const wcEl=document.getElementById("exec-wc");
   const hint=document.getElementById("exec-hint");
   if(wcEl){wcEl.textContent=w+" / 50 min";wcEl.className="exec-wc"+(w>=50?" ok":"");}
   if(hint){hint.textContent=w>=50?"Ready. Add more detail if needed for the board.":"At least "+Math.max(0,50-w)+" more word"+(50-w!==1?"s":"")+" needed.";}
+}
+function onExec(txt){
+  execText=txt;
+  refreshExecUI();
   updateUI();
+  pushState();
 }
 
 /* ── UI STATE ───────────────────────────────────────────── */
@@ -443,9 +467,14 @@ function updateUI(){
   const execReady=countWords(execText)>=50;
   const btn=document.getElementById("btn-present");
   if(submitted){btn.className="btn-present done";btn.textContent="Submitted";return;}
-  const ready=sectsDone>0&&execReady; // at least 1 section + exec summary
+  const ready=sectsDone>0&&execReady;
   btn.disabled=!ready;
   btn.className="btn-present"+(ready?" ready":"");
+  /* Nudge focus to exec textarea once all 4 sections are in */
+  if(sectsDone===4&&!execText&&!submitted){
+    const ta=document.getElementById("exec-txt");
+    if(ta&&document.activeElement!==ta)setTimeout(()=>ta.focus(),400);
+  }
   if(sectsDone===4)document.getElementById("lh-status").textContent="Ready for presentation";
   else document.getElementById("lh-status").textContent=sectsDone+" of 4 sections complete";
 }
@@ -471,8 +500,8 @@ function presentToBoard(){
   // Mark doc submitted (lifts DRAFT)
   document.getElementById("doc").classList.add("submitted");
   document.getElementById("lh-status").textContent="Submitted to Board";
-  // Save
-  saveProgress(s6);
+  // Save (index owns SCORM and storage)
+  pushState();
   // Fire to parent index
   window.parent.postMessage({type:"section_complete",sectionId:6,score:s6,max:40},"*");
   // Show overlay
@@ -498,17 +527,22 @@ function showCeremony(s6){
   const msgEl=document.getElementById("ryan-msg");
   msgEl.innerHTML='<span class="ryan-cursor"></span>';
   const cur=msgEl.querySelector(".ryan-cursor");
-  let ci=0;
+  let ci=0,finished=false;
+  const finish=()=>{
+    if(finished)return;finished=true;
+    clearInterval(typer);
+    msgEl.textContent=fullMsg;
+    setTimeout(()=>showScoreBreakdown(s6,total,maxTotal),200);
+    ov.removeEventListener("click",finish);
+  };
   const typer=setInterval(()=>{
     if(ci<fullMsg.length){
       const span=document.createElement("span");span.textContent=fullMsg[ci++];
       msgEl.insertBefore(span,cur);
-    } else {
-      clearInterval(typer);
-      cur.remove();
-      setTimeout(()=>showScoreBreakdown(s6,total,maxTotal),400);
-    }
+    } else finish();
   },28);
+  /* Click anywhere to skip the typewriter */
+  ov.addEventListener("click",finish);
 }
 function showScoreBreakdown(s6,total,maxTotal){
   const sb=document.getElementById("score-breakdown");
@@ -542,6 +576,12 @@ function returnToDesktop(){
   document.getElementById("btn-present").className="btn-present done";
   document.getElementById("btn-present").textContent="Submitted";
 }
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){
+    const ov=document.getElementById("submit-ov");
+    if(ov&&ov.classList.contains("show"))returnToDesktop();
+  }
+});
 </script>
 </body>
 </html>
