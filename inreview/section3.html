@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Risk Register / INC-55810</title>
+<title>Risk Register | INC-55810</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -19,9 +19,9 @@ html,body{height:100%;font-family:"DM Sans",system-ui,sans-serif;color:#e2e8f0;o
   --grn:#10b981;--grn-d:rgba(16,185,129,.14);--grn-b:rgba(16,185,129,.3);
   --mono:"JetBrains Mono",monospace;
 }
-#shell{display:flex;height:100vh;overflow:hidden;width:100%;max-width:100vw}
+#shell{display:flex;height:100vh;overflow:hidden}
 /* LEFT PANEL (combined register + nav) */
-#lp{width:290px;min-width:290px;background:#0d1117;border-right:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+#lp{width:290px;min-width:290px;background:#0d1117;border-right:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden}
 .lp-brand{padding:14px 14px 10px;border-bottom:1px solid var(--brd)}
 .lp-brand-name{font-family:"Fraunces",serif;font-size:.92rem;font-weight:700;color:#fff}
 .lp-brand-inc{font-family:var(--mono);font-size:.52rem;color:rgba(255,255,255,.22);letter-spacing:.07em;margin-top:2px}
@@ -31,29 +31,26 @@ html,body{height:100%;font-family:"DM Sans",system-ui,sans-serif;color:#e2e8f0;o
 .lp-from-role{font-size:.57rem;color:rgba(255,255,255,.24)}
 .lp-prog{padding:9px 14px;border-bottom:1px solid var(--brd)}
 .lp-prog-row{display:flex;justify-content:space-between;margin-bottom:4px}
-.lp-prog-lbl{font-size:.59rem;color:rgba(255,255,255,.55)}
+.lp-prog-lbl{font-size:.59rem;color:rgba(255,255,255,.28)}
 .lp-prog-val{font-size:.59rem;font-weight:700;font-family:var(--mono);color:rgba(255,255,255,.55)}
 .lp-pbar{height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
 .lp-pfill{height:100%;background:var(--teal);border-radius:2px;transition:width .4s ease;width:0%}
 /* REGISTER TABLE */
-.lp-table-hdr{padding:7px 14px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lp-table-hdr{padding:7px 14px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
 .lp-table-title{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.07em}
-.lp-table-sub{font-size:.57rem;color:rgba(255,255,255,.45)}
-.lp-table-wrap{flex:1;overflow-y:auto;overflow-x:hidden}
-table.rt{width:100%;border-collapse:collapse;table-layout:fixed}
+.lp-table-sub{font-size:.57rem;color:rgba(255,255,255,.18)}
+.lp-table-wrap{flex:1;overflow-y:auto}
+table.rt{width:100%;border-collapse:collapse}
 table.rt th{padding:6px 10px;text-align:left;font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--brd);background:#080d14;position:sticky;top:0;white-space:nowrap}
-th:nth-child(1){width:46px}th:nth-child(2){width:auto}th:nth-child(3){width:44px}th:nth-child(4){width:40px}th:nth-child(5){width:34px}
 table.rt td{padding:9px 10px;border-bottom:1px solid var(--brd);vertical-align:middle}
 table.rt tr{cursor:pointer;transition:background .12s}
-table.rt tr:focus{outline:2px solid var(--teal);outline-offset:-2px;background:rgba(44,169,188,.06)}
-table.rt tr:focus td{background:rgba(44,169,188,.06)}
 table.rt tr:hover td{background:rgba(255,255,255,.03)}
 table.rt tr.active td{background:rgba(44,169,188,.07)}
 table.rt tr.active{box-shadow:inset 2px 0 0 var(--teal)}
 .rt-id{font-family:var(--mono);font-size:.58rem;color:var(--muted);white-space:nowrap}
-.rt-title{font-size:.7rem;color:var(--txt);font-weight:500;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rt-title{font-size:.7rem;color:var(--txt);font-weight:500;line-height:1.35;max-width:110px}
 .sc-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:18px;border-radius:3px;font-family:var(--mono);font-size:.62rem;font-weight:700}
-.sc-empty{background:rgba(255,255,255,.05);color:rgba(255,255,255,.45)}
+.sc-empty{background:rgba(255,255,255,.05);color:rgba(255,255,255,.18)}
 .sc-low{background:rgba(16,185,129,.2);color:#10b981}
 .sc-med{background:rgba(245,158,11,.2);color:#f59e0b}
 .sc-hi{background:rgba(239,68,68,.18);color:#f87171}
@@ -76,7 +73,7 @@ table.rt tr.active{box-shadow:inset 2px 0 0 var(--teal)}
 .sub-btn.ready:hover{background:#259eaf}
 .sub-btn.done{background:var(--grn);border-color:var(--grn);color:#fff;cursor:default}
 /* WORKSPACE */
-#ws{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;min-width:0}
+#ws{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 .ws-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:40px}
 .ws-empty-icon{font-size:2.2rem;margin-bottom:12px;opacity:.25}
 .ws-empty-txt{font-size:.78rem;line-height:1.7;max-width:240px}
@@ -204,61 +201,6 @@ input[type=range]{flex:1;accent-color:var(--teal);cursor:pointer}
 .pop-txt{font-size:.75rem;color:var(--sec);line-height:1.7;border-top:1px solid var(--brd);padding-top:10px}
 .pop-btn{width:100%;margin-top:11px;background:var(--teal);color:#fff;border:none;border-radius:7px;padding:9px;font-size:.74rem;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif}
 .pop-btn:hover{background:#259eaf}
-
-/* ── RESPONSIVE: stack layout on small viewports ── */
-@media (max-width: 768px) {
-  html,body{overflow:auto;height:auto}
-  #shell{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
-
-  /* Left panel becomes a compact register strip at the top */
-  #lp{
-    width:100%!important;min-width:0!important;
-    height:auto;flex-direction:column;
-    border-right:none;border-bottom:1px solid var(--brd);
-    overflow:visible;flex-shrink:0
-  }
-  /* Hide decorative chrome, keep the essentials */
-  .lp-brand,.lp-from,.lp-prog{display:none}
-  /* Show a slim header with progress summary */
-  .lp-table-hdr{padding:7px 12px}
-  /* Table stays readable, capped height with inner scroll */
-  #lp-table-wrap{max-height:180px;overflow-y:auto}
-  table.rt th,table.rt td{padding:6px 8px}
-  /* Footer buttons go horizontal */
-  .lp-foot{flex-direction:row;gap:8px;padding:8px 12px}
-  .prev-btn,.sub-btn{flex:1;text-align:center}
-
-  /* Right workspace scrolls normally below */
-  #ws{overflow-y:visible;min-height:0;padding-bottom:24px}
-  .ws-empty{padding:20px}
-
-  /* Range sliders: full width */
-  .sl-wrap{padding:10px}
-  input[type="range"]{width:100%}
-
-  /* Modals: full width */
-  #fb-box,#prev-box{width:95vw;max-height:90vh;overflow-y:auto}
-}
-
-@media (max-width: 480px) {
-  #lp-table-wrap{max-height:140px}
-  table.rt{font-size:.68rem}
-  .rt-id{font-size:.55rem}
-}
-
-tr.rt-row:focus,tr[role="button"]:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
-tr[role="button"]{cursor:pointer}
-
-
-/* ── Register collapse ── */
-.lp-collapse-btn{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:.5rem;padding:2px 4px;margin-left:auto;transition:transform .25s,color .15s;line-height:1;flex-shrink:0}
-.lp-collapse-btn:hover{color:rgba(255,255,255,.7)}
-.lp-collapse-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:2px}
-#lp-table-wrap{transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .25s ease}
-#lp-table-wrap.collapsed{max-height:0!important;overflow:hidden;opacity:0}
-#lp.collapsed #lp-table-wrap{max-height:0!important;overflow:hidden;opacity:0}
-#lp-table-hdr:hover .lp-table-title{color:rgba(255,255,255,.7)}
-
 </style>
 </head>
 <body>
@@ -280,14 +222,13 @@ tr[role="button"]{cursor:pointer}
       <div class="lp-prog-row"><span class="lp-prog-lbl">Risks treated</span><span class="lp-prog-val" id="lp-val">0 / 5</span></div>
       <div class="lp-pbar"><div class="lp-pfill" id="lp-pfill"></div></div>
     </div>
-    <div class="lp-table-hdr" id="lp-table-hdr" onclick="toggleRegister()" title="Collapse/expand register" style="cursor:pointer;user-select:none">
+    <div class="lp-table-hdr">
       <span class="lp-table-title">Live Register</span>
-      <span class="lp-table-sub" id="lp-table-sub">Click a row to open</span>
-      <button class="lp-collapse-btn" id="lp-collapse-btn" aria-label="Collapse register" aria-expanded="true" type="button">&#9650;</button>
+      <span class="lp-table-sub">Click a row to open</span>
     </div>
-    <div class="lp-table-wrap" id="lp-table-wrap">
+    <div class="lp-table-wrap">
       <table class="rt">
-        <thead><tr><th>ID</th><th>Risk</th><th>Score</th><th>Treat</th><th></th></tr></thead>
+        <thead><tr><th>ID</th><th>Risk</th><th>Score</th><th>Treat.</th><th></th></tr></thead>
         <tbody id="reg-tbody"></tbody>
       </table>
     </div>
@@ -311,7 +252,7 @@ tr[role="button"]{cursor:pointer}
 </div>
 
 <!-- FEEDBACK MODAL -->
-<div id="fb-ov" role="dialog" aria-modal="true" aria-label="Risk feedback">
+<div id="fb-ov">
   <div id="fb-box">
     <div class="fb-bar" id="fb-bar"></div>
     <div class="fb-inner">
@@ -328,7 +269,7 @@ tr[role="button"]{cursor:pointer}
 </div>
 
 <!-- PREVIEW MODAL -->
-<div id="prev-ov" role="dialog" aria-modal="true" aria-label="Risk register preview">
+<div id="prev-ov">
   <div id="prev-box">
     <div class="prev-hdr"><span style="font-size:.8rem;font-weight:700;color:var(--txt)">Risk Treatment Register</span><button class="prev-close" onclick="closePrev()">x</button></div>
     <div class="prev-body" id="prev-body"></div>
@@ -336,7 +277,7 @@ tr[role="button"]{cursor:pointer}
 </div>
 
 <!-- DEVON POPUP -->
-<div id="pop-ov" role="dialog" aria-modal="true" aria-label="Devon Singh, CISO">
+<div id="pop-ov">
   <div id="pop-box">
     <div class="pop-hdr">
       <div class="pop-av">DS</div>
@@ -350,10 +291,65 @@ tr[role="button"]{cursor:pointer}
 <script>
 "use strict";
 let firstName="CRO";
-try{const s=JSON.parse(localStorage.getItem("rose_v3")||"{}");if(s.userName)firstName=s.userName.split(" ")[0];}catch(e){}
-window.addEventListener("message",function(e){
-  if(e.data&&e.data.type==="INIT_SECTION"&&e.data.userName)firstName=e.data.userName.split(" ")[0]||firstName;
+
+/* ═══ STATE SYNC (index.html is the single source of truth) ═══════
+   Up:   section_state {sectionId:3, state} on every mutation
+         section_complete {sectionId:3, score, max} on submit
+   Down: INIT_SECTION {userName, savedScores, sectionState} on load
+   This file never touches localStorage.                            */
+const SECTION_ID=3;
+let stateRestored=false;
+
+function serializeState(){
+  const stC={};
+  Object.entries(ST).forEach(([rid,s])=>{
+    stC[rid]={stage:s.stage,s1:s.s1,s2:s.s2,s3:s.s3,committed:s.committed,redoUsed:s.redoUsed};
+  });
+  return{st:stC,sub:submitted};
+}
+
+function pushState(){
+  try{window.parent.postMessage({type:"section_state",sectionId:SECTION_ID,state:serializeState()},"*");}catch(e){}
+}
+
+function applyName(){
+  const pt=document.getElementById("pop-txt");
+  if(pt&&pt.dataset.tpl)pt.innerHTML=pt.dataset.tpl.replace("[FIRST]",firstName);
+}
+
+window.addEventListener("message",e=>{
+  const d=e.data;
+  if(!d||d.type!=="INIT_SECTION")return;
+  if(d.userName){firstName=d.userName.split(" ")[0]||firstName;applyName();}
+  const st=d.sectionState&&d.sectionState[SECTION_ID];
+  const sc=d.savedScores&&d.savedScores[SECTION_ID];
+  if(st||sc)restoreState(st||{},!!sc);
 });
+try{if(window.parent!==window)window.parent.postMessage({type:"request_init"},"*");}catch(e){}
+
+function restoreState(saved,wasSubmitted){
+  if(stateRestored)return;
+  stateRestored=true;
+  if(saved.st){
+    Object.entries(saved.st).forEach(([rid,s])=>{
+      if(!ST[rid])return;
+      ST[rid].stage=s.stage||0;
+      if(s.s1)Object.assign(ST[rid].s1,s.s1);
+      if(s.s2)Object.assign(ST[rid].s2,s.s2);
+      if(s.s3){ST[rid].s3.treatment=s.s3.treatment||"";ST[rid].s3.formVals=s.s3.formVals||{};}
+      ST[rid].committed=!!s.committed;
+      ST[rid].redoUsed=!!s.redoUsed;
+    });
+  }
+  if(wasSubmitted||saved.sub){
+    submitted=true;
+    const btn=document.getElementById("sub-btn");
+    btn.classList.remove("ready");
+    btn.classList.add("done");
+    btn.textContent="Submitted";
+  }
+  renderTable();
+}
 
 const MAYA_PHOTO = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=160&h=160&fit=crop";
 const BRIGITTE_PHOTO = "https://images.unsplash.com/photo-1699106674693-589465a2aa62?q=80&w=160&h=160&auto=format&fit=crop";
@@ -481,7 +477,7 @@ function renderTable(){
     const tLabel=tr?`<span class="tl tl-${tr}">${tr.slice(0,3)}</span>`:'<span style="color:var(--muted);font-size:.65rem">--</span>';
     const done=st.committed;
     const pip=[0,1,2].map(i=>`<div class="pip${done||st.stage>i?" done":st.stage===i&&i>0?" act":""}"></div>`).join("");
-    return`<tr id="rt-${r.id}" class="${r.id===activeRid?"active":""}" onclick="openRisk('${r.id}')" role="button" tabindex="0" aria-label="${r.id}: ${r.title}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openRisk('${r.id}')}">
+    return`<tr id="rt-${r.id}" class="${r.id===activeRid?"active":""}" onclick="openRisk('${r.id}')">
       <td class="rt-id">${r.id}</td>
       <td class="rt-title">${r.title}</td>
       <td>${badge}</td>
@@ -500,7 +496,6 @@ window.openRisk=function(rid){
   activeRid=rid;
   document.getElementById("ws-empty").style.display="none";
   document.getElementById("ws-risk").style.display="flex";
-  const ws=document.getElementById("ws");if(ws)ws.scrollTop=0;
   renderWs();renderTable();
 };
 function renderWs(){
@@ -528,7 +523,7 @@ function renderBody(r,st){
   const evHtml=`<div class="ev-block">
     <div class="ev-hdr">
       <span class="ev-title">Investigation Evidence</span>
-      <button class="hint-btn" onclick="toggleHint('${r.id}')"><span class="maya-dot"></span>${hintOpen?"Ask Maya":"Ask Maya About This"}</button>
+      <button class="hint-btn" onclick="toggleHint('${r.id}')"><span class="maya-dot"></span>${hintOpen?"Ask Maya About This":"Ask Maya About This"}</button>
     </div>
     <div class="ev-grid">${r.evidence.map(e=>`<span class="ev-k">${e.k}</span><span class="ev-v ${e.c}">${e.v}</span>`).join("")}</div>
     <div class="hint-card${hintOpen?" open":""}">
@@ -585,9 +580,9 @@ function buildS1(r,st){
       <div class="form-row">
         <div class="ff"><label class="fl">Likelihood and Impact</label>
           <div class="sl-wrap">
-            <div class="sl-row"><span class="sl-lbl">Likelihood</span><input type="range" min="1" max="5" value="${s1.l}" oninput="setRating('${r.id}','l',+this.value)" aria-label="Likelihood" aria-valuetext="${like[s1.l]}"><span class="sl-val" id="slv-l-${r.id}">${s1.l}</span></div>
+            <div class="sl-row"><span class="sl-lbl">Likelihood</span><input type="range" min="1" max="5" value="${s1.l}" oninput="setRating('${r.id}','l',+this.value)"><span class="sl-val" id="slv-l-${r.id}">${s1.l}</span></div>
             <div class="sl-hint">${like[s1.l]}</div>
-            <div class="sl-row" style="margin-top:7px"><span class="sl-lbl">Impact</span><input type="range" min="1" max="5" value="${s1.i}" oninput="setRating('${r.id}','i',+this.value)" aria-label="Impact" aria-valuetext="${imp[s1.i]}"><span class="sl-val" id="slv-i-${r.id}">${s1.i}</span></div>
+            <div class="sl-row" style="margin-top:7px"><span class="sl-lbl">Impact</span><input type="range" min="1" max="5" value="${s1.i}" oninput="setRating('${r.id}','i',+this.value)"><span class="sl-val" id="slv-i-${r.id}">${s1.i}</span></div>
             <div class="sl-hint">${imp[s1.i]}</div>
           </div>
         </div>
@@ -675,7 +670,7 @@ function canCommit(rid){
 }
 
 /* ACTIONS */
-window.setS1=function(rid,k,v){ST[rid].s1[k]=v;renderWs();renderTable();};
+window.setS1=function(rid,k,v){ST[rid].s1[k]=v;renderWs();renderTable();pushState();};
 window.setRating=function(rid,k,v){
   ST[rid].s1[k]=v;
   const sc=ST[rid].s1.l*ST[rid].s1.i;const col=scColor(sc);const pct=sc/25*100;
@@ -685,21 +680,22 @@ window.setRating=function(rid,k,v){
   if(nEl){nEl.textContent=sc;nEl.style.color=col;}
   if(sEl){sEl.textContent=scLabel(sc);sEl.style.color=col;}
   if(fEl){fEl.style.width=pct+"%";fEl.style.background=col;}
-  renderTable();
+  renderTable();  pushState();
 };
-window.setS2=function(rid,k,v){ST[rid].s2[k]=v;renderWs();renderTable();};
-window.setS3=function(rid,k,v){ST[rid].s3.formVals[k]=v;renderWs();};
-window.selTreat=function(rid,t){ST[rid].s3.treatment=t;ST[rid].s3.formVals={};renderWs();renderTable();};
-window.advStage=function(rid,s){ST[rid].stage=s;renderWs();};
-window.goStage=function(s){if(activeRid){ST[activeRid].stage=s;renderWs();}};
+window.setS2=function(rid,k,v){ST[rid].s2[k]=v;renderWs();renderTable();pushState();};
+window.setS3=function(rid,k,v){ST[rid].s3.formVals[k]=v;renderWs();pushState();};
+window.selTreat=function(rid,t){ST[rid].s3.treatment=t;ST[rid].s3.formVals={};renderWs();renderTable();pushState();};
+window.advStage=function(rid,s){ST[rid].stage=s;renderWs();pushState();};
+window.goStage=function(s){if(activeRid){ST[activeRid].stage=s;renderWs();pushState();}};
 
 window.commitEntry=function(rid){
   if(!canCommit(rid))return;
   ST[rid].committed=true;
+  pushState();
   renderWs();renderTable();
   showFeedback(rid);
 };
-window.reviseEntry=function(rid){ST[rid].committed=false;ST[rid].redoUsed=true;renderWs();renderTable();};
+window.reviseEntry=function(rid){ST[rid].committed=false;ST[rid].redoUsed=true;renderWs();renderTable();pushState();};
 
 function showFeedback(rid){
   const r=RISKS.find(x=>x.id===rid);const st=ST[rid];
@@ -735,9 +731,8 @@ function showFeedback(rid){
     btns.innerHTML=`<button class="fb-btn-revise" onclick="reviseFb('${rid}')">Revise</button><button class="fb-btn-keep" onclick="closeFb()">Keep as-is</button>`;
   }
   document.getElementById("fb-ov").classList.add("open");
-  requestAnimationFrame(()=>{const btn=document.querySelector("#fb-ov .fb-btn-close,#fb-ov .fb-btn-keep");if(btn)btn.focus();});
 }
-window.closeFb=function(){document.getElementById("fb-ov").classList.remove("open");if(window._fbTrigger){window._fbTrigger.focus();window._fbTrigger=null;}};
+window.closeFb=function(){document.getElementById("fb-ov").classList.remove("open");};
 window.reviseFb=function(rid){closeFb();reviseEntry(rid);openRisk(rid);};
 
 /* SCORING */
@@ -786,9 +781,8 @@ window.openPreview=function(){
       <tbody>${rows}</tbody>
     </table>`;
   document.getElementById("prev-ov").classList.add("open");
-  requestAnimationFrame(()=>{const btn=document.querySelector("#prev-ov .prev-close");if(btn)btn.focus();});
 };
-window.closePrev=function(){document.getElementById("prev-ov").classList.remove("open");const tr=document.getElementById("rt-"+activeRid);if(tr)tr.focus();};
+window.closePrev=function(){document.getElementById("prev-ov").classList.remove("open");};
 document.getElementById("prev-ov").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open");});
 
 /* SUBMIT */
@@ -798,49 +792,20 @@ window.submitSection=function(){
   document.getElementById("sub-btn").classList.remove("ready");
   document.getElementById("sub-btn").classList.add("done");
   document.getElementById("sub-btn").textContent="Submitted";
-  window.parent.postMessage({type:"section_complete",sectionId:3,score,max:40},window.location.origin||"*");
+  pushState();
+  window.parent.postMessage({type:"section_complete",sectionId:3,score,max:40},"*");
 };
 
 /* POPUP */
 setTimeout(()=>{
-  document.getElementById("pop-txt").innerHTML=firstName+", Maya pointed me your way. Five risk items from INC-55810 need treatment decisions before the board packet goes out. I’ve pulled the investigation evidence for each one. If you need more context on any of them, ask Maya directly from the evidence block.";
+  if(stateRestored||submitted)return; /* returning session: skip the intro */
+  const pt=document.getElementById("pop-txt");
+  pt.dataset.tpl="[FIRST], Maya pointed me your way. Five risk items from INC-55810 need treatment decisions before the board packet goes out. I’ve pulled the investigation evidence for each one. If you need more context on any of them, ask Maya directly from the evidence block.";
+  pt.innerHTML=pt.dataset.tpl.replace("[FIRST]",firstName);
   document.getElementById("pop-ov").style.display="flex";
-  requestAnimationFrame(()=>{const btn=document.querySelector("#pop-ov .pop-btn");if(btn)btn.focus();});
 },800);
 
 renderTable();
-
-
-/* ── Register collapse/expand ── */
-let _lpOpen = true;
-function toggleRegister() {
-  _lpOpen = !_lpOpen;
-  const wrap = document.getElementById("lp-table-wrap");
-  const btn  = document.getElementById("lp-collapse-btn");
-  const sub  = document.getElementById("lp-table-sub");
-  if (_lpOpen) {
-    wrap.classList.remove("collapsed");
-    btn.innerHTML = "&#9650;";
-    btn.setAttribute("aria-expanded","true");
-    btn.setAttribute("aria-label","Collapse register");
-    sub.style.display = "";
-  } else {
-    wrap.classList.add("collapsed");
-    btn.innerHTML = "&#9660;";
-    btn.setAttribute("aria-expanded","false");
-    btn.setAttribute("aria-label","Expand register");
-    sub.style.display = "none";
-  }
-}
-/* ── Global ESC handler ── */
-document.addEventListener("keydown",function(e){
-  if(e.key!=="Escape")return;
-  if(document.getElementById("fb-ov").classList.contains("open")){closeFb();return;}
-  if(document.getElementById("prev-ov").classList.contains("open")){closePrev();return;}
-  if(document.getElementById("pop-ov").style.display==="flex"){
-    document.getElementById("pop-ov").style.display="none";return;
-  }
-});
 </script>
 </body>
 </html>
