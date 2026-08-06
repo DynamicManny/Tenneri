@@ -80,11 +80,8 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 
 /* DESKTOP */
 #desktop{position:fixed;inset:0 0 52px 0;background:#060c14;background-size:cover;background-position:center;background-repeat:no-repeat;display:none;overflow:hidden}
-#desktop::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(44,169,188,.04) 0%,transparent 70%);pointer-events:none;z-index:0}
 #win-container{position:absolute;inset:0;pointer-events:none}
-#win-container .window{pointer-events:all;transition:box-shadow .2s ease}
-.window:not(.minimized){box-shadow:0 4px 6px rgba(0,0,0,.15),0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05)}
-.window[style*="z-index: 100"]{box-shadow:0 4px 6px rgba(0,0,0,.2),0 28px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.08),0 0 40px rgba(44,169,188,.04)}
+#win-container .window{pointer-events:all}
 .desktop-icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:8px;border-radius:10px;transition:background .15s;width:80px}
 .desktop-icon:hover{background:rgba(44,169,188,.12)}
 .di-emoji{font-size:2rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(44,169,188,.3))}
@@ -111,7 +108,6 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 
 /* TASKBAR */
 #taskbar{position:fixed;bottom:0;left:0;right:0;height:52px;background:rgba(6,12,20,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-top:1px solid rgba(44,169,188,.1);display:flex;align-items:center;padding:0 12px;gap:8px;z-index:7000}
-#taskbar::before{content:"";position:absolute;inset:0;top:auto;height:1px;background:linear-gradient(90deg,transparent,rgba(44,169,188,.3),transparent);pointer-events:none}
 .tb-rose-btn{background:rgba(44,169,188,.1);border:1px solid var(--brd2);border-radius:8px;padding:6px 8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;width:36px;height:36px}
 .tb-rose-btn:hover{background:rgba(44,169,188,.2)}
 #taskbar-apps{display:flex;gap:4px;flex:1;overflow-x:auto;padding:0 8px}
@@ -132,6 +128,30 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 .a11y-note{font-size:.65rem;color:var(--muted);line-height:1.6;margin-top:10px;padding-top:8px;border-top:1px solid rgba(44,169,188,.1)}
 #tb-save-indicator{font-size:.6rem;color:var(--green);opacity:0;transition:opacity .3s;margin-right:8px}
 #tb-save-indicator.show{opacity:1}
+
+/* PROGRESS CHIP */
+#tb-progress{display:none;align-items:center;gap:6px;font-size:.6rem;color:var(--dim);font-family:var(--fm);margin-right:10px}
+#tb-progress .tbp-bar{width:52px;height:4px;background:rgba(44,169,188,.15);border-radius:2px;overflow:hidden;display:block}
+#tb-progress .tbp-fill{display:block;height:100%;width:0%;background:var(--green);border-radius:2px;transition:width .6s ease}
+
+/* QA CONSOLE */
+#qa-panel{position:fixed;bottom:56px;right:14px;width:340px;z-index:99999;background:rgba(10,22,28,.97);border:1px solid rgba(44,169,188,.35);border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,.6);font-family:var(--fm);color:var(--txt);overflow:hidden;animation:fadein .25s ease}
+#qa-panel .qa-hdr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid rgba(44,169,188,.2)}
+#qa-panel .qa-x{background:none;border:none;color:var(--dim);font-size:1rem;cursor:pointer;line-height:1}
+#qa-panel .qa-body{padding:10px 12px;font-size:.66rem}
+#qa-panel .qa-row{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px;color:var(--dim)}
+#qa-panel .qa-row span:last-child{color:var(--txt);text-align:right}
+#qa-panel .qa-meter{height:5px;background:rgba(44,169,188,.12);border-radius:3px;overflow:hidden;margin:2px 0 10px}
+#qa-panel .qa-fill{height:100%;background:var(--green);transition:width .4s ease}
+#qa-panel .qa-fill.warn{background:#e0a63c}
+#qa-panel .qa-tbl{width:100%;border-collapse:collapse;margin-bottom:8px}
+#qa-panel .qa-tbl th{text-align:left;font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;padding:3px 4px;border-bottom:1px solid rgba(44,169,188,.15)}
+#qa-panel .qa-tbl td{padding:4px;border-bottom:1px solid rgba(44,169,188,.07)}
+#qa-panel .qa-actions{display:flex;gap:8px;padding:0 12px 12px}
+#qa-panel .qa-btn{flex:1;background:rgba(44,169,188,.12);border:1px solid rgba(44,169,188,.3);color:var(--txt);font-family:var(--fm);font-size:.62rem;padding:6px 8px;border-radius:6px;cursor:pointer}
+#qa-panel .qa-btn:hover{background:rgba(44,169,188,.22)}
+#qa-panel .qa-btn.qa-danger{border-color:rgba(224,90,90,.4);color:#e08a8a}
+#qa-panel .qa-btn.qa-danger:hover{background:rgba(224,90,90,.15)}
 
 /* APP GRID (start) */
 #app-grid{position:fixed;bottom:60px;left:12px;background:var(--surf2);border:1px solid var(--brd2);border-radius:12px;padding:14px;box-shadow:var(--shadow);display:none;z-index:6000;width:300px}
@@ -191,21 +211,11 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
 
 /* NOTIFICATION POPUP */
 #notif-stack{position:fixed;top:14px;right:14px;z-index:8500;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.notif-card{background:rgba(13,18,30,.95);border:1px solid rgba(255,255,255,.12);border-left:3px solid var(--accent);border-radius:12px;padding:12px 14px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);pointer-events:all;cursor:pointer;opacity:0;transform:translateX(24px) scale(.97);transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px)}
+.notif-card{background:var(--surf2);border:1px solid var(--brd2);border-left:3px solid var(--accent);border-radius:10px;padding:12px 14px;width:280px;box-shadow:var(--shadow);pointer-events:all;cursor:pointer;opacity:0;transform:translateX(20px);transition:all .3s cubic-bezier(.4,0,.2,1)}
 .notif-card.in{opacity:1;transform:none}
-.notif-card.out{opacity:0;transform:translateX(24px) scale(.97)}
-.notif-hdr{display:flex;align-items:center;gap:9px;margin-bottom:6px}
-.notif-av{width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:700;color:#fff}
-.notif-av img{width:100%;height:100%;object-fit:cover}
-.notif-sender{font-size:.76rem;font-weight:700;color:var(--txt)}
-.notif-role{font-size:.6rem;color:var(--muted)}
-.notif-prev{font-size:.71rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px;padding-left:35px}
-/* Tasks badge in dock */
-.tasks-tb-badge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;border-radius:8px;background:var(--accent);color:#000;font-size:.52rem;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 3px;font-family:var(--mono);box-shadow:0 0 6px rgba(44,169,188,.4)}
-/* Task launch hint */
-.task-launchable{cursor:pointer;transition:background .15s}
-.task-launchable:hover{background:rgba(44,169,188,.06)}
-.task-launch-hint{font-size:.65rem;font-weight:700;color:var(--accent);margin-left:auto;padding:2px 8px;border:1px solid rgba(44,169,188,.3);border-radius:4px;white-space:nowrap}
+.notif-card.out{opacity:0;transform:translateX(20px)}
+.notif-sender{font-size:.78rem;font-weight:700;color:var(--txt);margin-bottom:1px}
+.notif-prev{font-size:.71rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px}
 .notif-open{font-size:.67rem;font-weight:700;color:var(--accent);background:rgba(44,169,188,.1);border:1px solid var(--brd2);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:var(--fs)}
 
 /* GAME WINDOW */
@@ -277,12 +287,6 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
   .tb-app-icon span{display:none}
   #tb-tray{display:none}
 }
-
-/* Section complete pulse on taskbar icon */
-@keyframes icon-pulse{0%{box-shadow:0 0 0 0 rgba(44,169,188,.6)}70%{box-shadow:0 0 0 8px rgba(44,169,188,0)}100%{box-shadow:0 0 0 0 rgba(44,169,188,0)}}
-.tb-app-icon.pulse{animation:icon-pulse .8s ease 3}
-/* Notification stack enhanced */
-#notif-stack{position:fixed;top:14px;right:14px;z-index:8500;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:310px}
 </style>
 </head>
 <body>
@@ -369,6 +373,7 @@ html,body{height:100%;overflow:hidden;background:#060c14;font-family:"DM Sans",s
     </svg>
   </button>
   <div id="taskbar-apps"></div>
+  <span id="tb-progress" title="Assessment progress"><span class="tbp-bar"><span class="tbp-fill" id="tbp-fill"></span></span><span id="tbp-label">0/5</span></span>
   <span id="tb-save-indicator">&#10003; Saved</span>
   <div class="tb-a11y" id="tb-a11y" onclick="this.classList.toggle('open')" title="Accessibility shortcuts" role="button" aria-expanded="false">
     <span aria-hidden="true">Aa</span>
@@ -401,7 +406,7 @@ const scorm=(function(){
 })();
 const SR=scorm.init();
 if(SR){scorm.sv('cmi.completion_status','incomplete');scorm.cm();}
-window.addEventListener('beforeunload',()=>{try{scorm.cm();scorm.tm();}catch(e){}});
+window.addEventListener('beforeunload',()=>{try{if(window.rose&&rose._ssT){clearTimeout(rose._ssT);rose._saveState();}scorm.cm();scorm.tm();}catch(e){}});
 
 /* ═══ PASSWORD ═══════════════════════════════════════════════════ */
 const ACCESS_CODE='QU@IC$';
@@ -436,7 +441,11 @@ function runBoot(){
             lg.style.display='flex';
             document.getElementById('lg-name').focus();
             /* Preload section files during boot */
-            /* Sections preloaded sequentially on completion */
+            ['section2.html','section3.html','section4.html','section5.html','section6.html'].forEach(src=>{
+              const f=document.createElement('iframe');
+              f.src=src;f.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
+              document.body.appendChild(f);
+            });
           },600);
         },350);
       },300);
@@ -508,7 +517,7 @@ const SECTION_MSGS={
   5:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
      text:`[FIRST], that is everything I needed. Five assets assessed, priorities assigned, Sarah has reviewed the budget. The Board Paper is ready for your final input. This is the last step.`},
   6:{sender:'ryan',name:'Ryan Thompson',title:'Board Chair',avatar:'photo',
-     text:`[FIRST], Board Paper received. That is all six sections. The board has your complete analysis on INC-55810. Well done.`}
+     text:`[FIRST], Board Paper received. That is all six sections. The board has your complete analysis on INC-55810.`}
 };
 const TASKS_DATA=[
   {id:1,context:"You have been appointed Chief Risk Officer following a confirmed breach at Solis Commerce. Your briefing has been delivered by Ryan Thompson (Board Chair) and Maya Chen (Senior Security Analyst). Read both messages carefully before proceeding.",
@@ -539,6 +548,7 @@ class ROSe {
     this.imMessages=[];
     this.taskState={};
     this.sectionScores={};
+    this.sectionState={};   /* per-section internal state, keyed by sectionId */
     this.imWindowId=null;
     this.tasksWindowId=null;
     this.loginTime=null;
@@ -560,18 +570,37 @@ class ROSe {
   _setupListeners(){
     /* postMessage from section iframes */
     window.addEventListener('message',e=>{
-      if(!e.data||e.data.type!=='section_complete')return;
-      const{sectionId,score,max}=e.data;
-      this.sectionScores[sectionId]={score,max};
-      this._onSectionComplete(sectionId,score,max);
+      const d=e.data;
+      if(!d||!d.type)return;
+
+      /* Final score submitted by a section */
+      if(d.type==='section_complete'){
+        const{sectionId,score,max}=d;
+        if(!sectionId||this.sectionScores[sectionId])return; /* ignore duplicates */
+        this.sectionScores[sectionId]={score,max};
+        this._onSectionComplete(sectionId,score,max);
+        return;
+      }
+
+      /* Incremental in-progress state pushed up by a section */
+      if(d.type==='section_state'){
+        if(!d.sectionId||d.state===undefined)return;
+        this.sectionState[d.sectionId]=d.state;
+        this._saveStateSoon();
+        return;
+      }
+
+      /* Section asks for its init payload (covers load-order races) */
+      if(d.type==='request_init'){
+        try{e.source.postMessage(this._initPayload(),'*');}catch(err){}
+      }
     });
 
-    /* ESC key: close context menu, dismiss active notifs */
+    /* ESC key: close context menu, focus top window */
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'){
         const ctx=document.getElementById('ctx-menu');
         if(ctx&&ctx.style.display!=='none')ctx.style.display='none';
-        /* Focus top window */
         const wins=[...document.querySelectorAll('.window:not(.minimized)')];
         if(wins.length){const top=wins.reduce((a,b)=>+b.style.zIndex>+a.style.zIndex?b:a);const ifr=top.querySelector('iframe');if(ifr)ifr.focus();}
       }
@@ -610,6 +639,7 @@ class ROSe {
     this._buildAppGrid();
     this._placeDesktopIcons();
     this._restoreState();
+    this._updateProgress();
     this._startTimer();
     /* Pulse A11y button for 5 seconds to show its location */
     setTimeout(()=>{
@@ -635,6 +665,18 @@ class ROSe {
       if(dd)dd.textContent=days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
     };
     tick();setInterval(tick,1000);
+    /* QA console trigger: 5 rapid clicks on the clock (author tool) */
+    const trayEl=document.getElementById('tb-tray');
+    if(trayEl&&!trayEl._qaWired){
+      trayEl._qaWired=true;
+      let n=0,t0=0;
+      trayEl.addEventListener('click',()=>{
+        const now=Date.now();
+        if(now-t0>2000)n=0;
+        t0=now;
+        if(++n>=5){n=0;this._devToggle();}
+      });
+    }
   }
 
   _startTimer(){
@@ -700,7 +742,6 @@ class ROSe {
     const win=document.createElement('div');
     win.className='window';win.id=id;
     win.style.cssText=`left:${l}px;top:${t}px;width:${w}px;height:${h}px`;
-    win.setAttribute('role','dialog');win.setAttribute('aria-label',title);
     if(opts.flex)win.style.display='flex';win.style.flexDirection='column';
 
     win.innerHTML=`<div class="titlebar" id="tb-${id}">
@@ -771,16 +812,15 @@ class ROSe {
     document.addEventListener('mousemove',e=>{
       if(!dragging)return;
       e.preventDefault();
-      const tbH=28;
       const nx=Math.max(0,Math.min(e.clientX-ix,window.innerWidth-win.offsetWidth));
-      const ny=Math.max(tbH,Math.min(e.clientY-iy,window.innerHeight-38));
+      const ny=Math.max(28,Math.min(e.clientY-iy,window.innerHeight-38));
       win.style.left=nx+'px';win.style.top=ny+'px';
     });
     document.addEventListener('touchmove',e=>{
       if(!dragging)return;
-      const t=e.touches[0];const tbH=28;
+      const t=e.touches[0];
       const nx=Math.max(0,Math.min(t.clientX-ix,window.innerWidth-win.offsetWidth));
-      const ny=Math.max(tbH,Math.min(t.clientY-iy,window.innerHeight-38));
+      const ny=Math.max(28,Math.min(t.clientY-iy,window.innerHeight-38));
       win.style.left=nx+'px';win.style.top=ny+'px';
     },{passive:true});
     document.addEventListener('mouseup',()=>dragging=false);
@@ -794,7 +834,7 @@ class ROSe {
     document.querySelectorAll('.tb-app-icon').forEach(b=>b.classList.remove('active-win'));
     const proc=this.processes.find(p=>p.id===id);
     if(proc){const tb=document.getElementById('tbi-'+proc.pid);if(tb)tb.classList.add('active-win');}
-    /* Focus iframe for keyboard access */
+    /* Focus iframe */
     setTimeout(()=>{const ifr=w&&w.querySelector('iframe');if(ifr)ifr.focus();},50);
   }
 
@@ -818,10 +858,7 @@ class ROSe {
   _addTaskbarIcon(pid,title,icon){
     const div=document.createElement('div');
     div.className='tb-app-icon';div.id='tbi-'+pid;div.title=title;
-    div.style.position='relative';
-    const badge=title==='Tasks'?`<div class="tasks-tb-badge" id="tasks-tb-badge"></div>`:'';
-    div.innerHTML=`${icon} <span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${title}</span>${badge}`;
-    if(title==='Tasks')setTimeout(()=>this._updateTaskBadge(),100);
+    div.innerHTML=`${icon} <span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${title}</span>`;
     div.onclick=()=>{
       const w=document.getElementById(`win-${pid}`);
       if(!w)return;
@@ -841,11 +878,7 @@ class ROSe {
     const ifr=body.querySelector('iframe');
     if(ifr){
       ifr.addEventListener('load',()=>{
-        try{
-          ifr.contentWindow.postMessage({
-            type:'INIT_SECTION',userName:this.userName,savedScores:this.sectionScores
-          },window.location.origin||'*');
-        }catch(e){}
+        try{ifr.contentWindow.postMessage(this._initPayload(),'*');}catch(e){}
       });
     }
   }
@@ -906,20 +939,14 @@ class ROSe {
       if(thread){this._appendIMBubble(thread,msg);return;}
     }
     /* IM not open: show notif */
-    const preview=msg.text.replace('[NAME]',this.userName).replace('[FIRST]',this.userName.split(' ')[0]||this.userName).substring(0,70)+(msg.text.length>70?'...':'');
-    this._showNotif(msg.name,preview,true);
+    const _first=this.userName.split(' ')[0]||this.userName;
+    const _preview=msg.text.replace('[NAME]',this.userName).replace(/\[FIRST\]/g,_first).substring(0,70)+(msg.text.length>70?'...':'');
+    this._showNotif(msg.name,_preview,true);
   }
 
   _nowTime(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ampm=h>=12?'PM':'AM';h=h%12||12;return h+':'+(m<10?'0'+m:m)+' '+ampm;}
 
   /* ── TASKS APP ─────────────────────────────────────── */
-  _updateTaskBadge(){
-    const done=TASKS_DATA.filter(t=>!!this.taskState[t.id]).length;
-    const total=TASKS_DATA.length;
-    const badge=document.getElementById('tasks-tb-badge');
-    if(badge){badge.textContent=done===total?'✓':`${done}/${total}`;badge.style.background=done===total?'var(--grn)':'var(--accent)';}
-  }
-
   _loadTasks(winId){
     const body=document.getElementById('body-'+winId);if(!body)return;
     const done=TASKS_DATA.filter(t=>!!this.taskState[t.id]).length;
@@ -938,32 +965,29 @@ class ROSe {
   _renderTasks(winId){
     const list=document.getElementById('tasks-list-'+winId);if(!list)return;
     list.innerHTML='';
-    const APP_KEYS={2:'War Room',3:'Risk Register',4:'Governance Audit',5:'Quantum Assessment',6:'Board Paper'};
     TASKS_DATA.forEach((task,i)=>{
       const done=!!this.taskState[task.id];
       const prevDone=i===0||!!this.taskState[TASKS_DATA[i-1].id];
       const locked=!prevDone&&!done;
-      const appKey=APP_KEYS[task.id];
       const div=document.createElement('div');
-      div.className='task-item'+(done?' done':'')+(locked?' locked':'')+(appKey&&!done&&!locked?' task-launchable':'');
+      div.className='task-item'+(done?' done':'')+(locked?' locked':'');
       const ts=this.taskState['ts_'+task.id]||'';
       div.innerHTML=`<div class="task-context">${task.context}</div>
         <div class="task-row">
-          <div class="task-check-vis ${done?'task-check-done':''}">&#10003;</div>
+          <div class="task-check-vis ${done?'task-check-done':''}">${done?'&#10003;':''}</div>
           <span class="task-label">${i+1}. ${task.title}</span>
-          ${appKey&&!done&&!locked?`<span class="task-launch-hint">Open &#8594;</span>`:''}
         </div>
         <div class="task-ts">${ts?'Completed: '+ts:''}</div>`;
-      if(appKey&&!done&&!locked){div.addEventListener('click',()=>{this.openApp(appKey);});}
       list.appendChild(div);
     });
   }
+
+  /* Tasks complete via postMessage only, no manual toggle */
 
   _completeTask(taskId,winId){
     if(this.taskState[taskId])return;
     this.taskState[taskId]=true;
     this.taskState['ts_'+taskId]=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    this._updateTaskBadge();
     const wid=winId||this.tasksWindowId;
     if(wid){
       this._renderTasks(wid);
@@ -1053,11 +1077,7 @@ class ROSe {
 ROSe.prototype._showNotif=function(sender,preview,clickable){
   const stack=document.getElementById('notif-stack');
   const card=document.createElement('div');card.className='notif-card';
-  const isRyan=sender.toLowerCase().includes('ryan');
-  const avHTML=isRyan
-    ?`<div class="notif-av"><img src="${RYAN_PHOTO}" alt="RT" onerror="this.outerHTML='RT'"></div>`
-    :`<div class="notif-av" style="background:linear-gradient(135deg,#1e3a8a,#2ca9bc)">${sender.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>`;
-  card.innerHTML=`<div class="notif-hdr">${avHTML}<div><div class="notif-sender">${sender}</div><div class="notif-role">${isRyan?'Board Chair':'Solis Commerce'}</div></div></div>
+  card.innerHTML=`<div class="notif-sender">💬 ${sender}</div>
     <div class="notif-prev">${preview}</div>
     ${clickable?`<button class="notif-open" onclick="rose.openApp('Messages');this.closest('.notif-card').classList.add('out')">Open Messages</button>`:''}`;
   stack.appendChild(card);
@@ -1099,10 +1119,10 @@ ROSe.prototype._showIMNotif=function(){
 
 /* ── SECTION COMPLETE HANDLER ─────────────────────────── */
 ROSe.prototype._onSectionComplete=function(sectionId,score,max){
-  /* Map section to task */
   const taskId=sectionId;
   this._completeTask(taskId);
-  /* Score-adaptive Ryan follow-up */
+
+  /* Score-adaptive Ryan message */
   const msgTemplate=SECTION_MSGS[sectionId];
   if(msgTemplate){
     const pct=max>0?score/max:0;
@@ -1114,37 +1134,38 @@ ROSe.prototype._onSectionComplete=function(sectionId,score,max){
     const msg={...msgTemplate,text:msgTemplate.text+suffix};
     setTimeout(()=>this._addIMMessage(msg),1000);
   }
-  /* Sequential preload next section */
+
+  /* Push score_update to every open section iframe (sections ignore what they don't need) */
+  this.processes.forEach(p=>{
+    const frame=document.querySelector('#body-'+p.id+' iframe');
+    if(frame){try{frame.contentWindow.postMessage({type:'score_update',sectionId,score,max},'*');}catch(e){}}
+  });
+  this._updateProgress();
+
+  /* Sequential preload: load next section in background */
   const nextId=sectionId+1;
-  if(nextId<=6&&!this._preloaded){this._preloaded={};}
-  if(nextId<=6&&!this._preloaded[nextId]){
-    this._preloaded[nextId]=true;
-    const f=document.createElement('iframe');
-    f.src=`section${nextId}.html`;
-    f.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
-    document.body.appendChild(f);
-    /* Send INIT_SECTION to section 6 if open */
-    if(nextId===6){
-      f.onload=()=>{f.contentWindow.postMessage({type:'INIT_SECTION',userName:this.userName,savedScores:this.sectionScores},window.location.origin||'*');};
+  if(nextId<=6){
+    if(!this._preloaded)this._preloaded={};
+    if(!this._preloaded[nextId]){
+      this._preloaded[nextId]=true;
+      const f=document.createElement('iframe');
+      f.src=`section${nextId}.html`;
+      f.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
+      document.body.appendChild(f);
+      /* If preloading Board Paper, send INIT_SECTION when it loads */
+      if(nextId===6){
+        f.addEventListener('load',()=>{try{f.contentWindow.postMessage(this._initPayload(),'*');}catch(e){}});
+      }
     }
   }
-  /* Notify open section 6 of this score */
-  this.processes.forEach(p=>{
-    if(p.title==='Board Paper'){
-      const frame=document.querySelector('#body-'+p.id+' iframe');
-      if(frame){try{frame.contentWindow.postMessage({type:'score_update',sectionId,score,max},window.location.origin||'*');}catch(e){}}
-    }
-  });
+
   /* Log SCORM interaction */
   const idx=Object.keys(this.sectionScores).length-1;
   scorm.sv(`cmi.interactions.${idx}.id`,`section-${sectionId}`);
   scorm.sv(`cmi.interactions.${idx}.type`,'numeric');
   scorm.sv(`cmi.interactions.${idx}.learner_response`,String(score));
   scorm.sv(`cmi.interactions.${idx}.result`,score/max>=0.6?'correct':'incorrect');
-  this._debouncedCommit();
-  /* Pulse the section taskbar icon briefly */
-  const proc=this.processes.find(p=>{const ap=this.apps.find(a=>a.src===`section${sectionId}.html`);return ap&&p.title===ap.name;});
-  if(proc){const tb=document.getElementById('tbi-'+proc.pid);if(tb){tb.classList.add('pulse');setTimeout(()=>tb.classList.remove('pulse'),2500);}}
+  scorm.cm();
   this._saveState();
   this._checkAllComplete();
 };
@@ -1178,8 +1199,39 @@ ROSe.prototype._debouncedCommit=function(){
   this._commitT=setTimeout(()=>scorm.cm(),600);
 };
 
+/* Single INIT payload sent down to every section iframe */
+ROSe.prototype._initPayload=function(){
+  return{
+    type:'INIT_SECTION',
+    userName:this.userName,
+    savedScores:this.sectionScores,
+    sectionState:this.sectionState
+  };
+};
+
+/* Debounced save: batches rapid section_state pushes into one write */
+ROSe.prototype._saveStateSoon=function(){
+  clearTimeout(this._ssT);
+  const ind=document.getElementById('tb-save-indicator');
+  if(ind){ind.innerHTML='&#9679; Saving&hellip;';ind.classList.add('show');}
+  this._ssT=setTimeout(()=>this._saveState(),400);
+};
+
+/* Taskbar progress chip: sections 2-6 submitted */
+ROSe.prototype._updateProgress=function(){
+  const el=document.getElementById('tb-progress');if(!el)return;
+  const done=[2,3,4,5,6].filter(id=>this.sectionScores[id]).length;
+  el.style.display='flex';
+  const fill=document.getElementById('tbp-fill');
+  const lbl=document.getElementById('tbp-label');
+  if(fill)fill.style.width=(done/5*100)+'%';
+  if(lbl)lbl.textContent=done+'/5';
+  el.title=done===5?'All assessment sections submitted':done+' of 5 assessment sections submitted';
+};
+
 ROSe.prototype._saveState=function(){
-  /* Trim imMessages to prevent SCORM suspend_data overflow */
+  clearTimeout(this._ssT);
+  /* Trim to prevent suspend_data overflow */
   if(this.imMessages.length>40)this.imMessages=this.imMessages.slice(-25);
   const d=JSON.stringify({
     userName:this.userName,
@@ -1188,12 +1240,69 @@ ROSe.prototype._saveState=function(){
     gameDisabled:this.gameDisabled,
     imMessages:this.imMessages,
     taskState:this.taskState,
-    sectionScores:this.sectionScores
+    sectionScores:this.sectionScores,
+    sectionState:this.sectionState
   });
+  this._lastSaveBytes=d.length;
+  if(d.length>58000)console.warn('[ROSe] suspend_data payload at '+d.length+' bytes, approaching SCORM 2004 64KB limit.');
   if(scorm.ready()){scorm.sv('cmi.suspend_data',d);scorm.cm();}
   try{localStorage.setItem('rose_v3',d);}catch(e){}
   const ind=document.getElementById('tb-save-indicator');
-  if(ind){ind.classList.add('show');clearTimeout(ind._t);ind._t=setTimeout(()=>ind.classList.remove('show'),2000);}
+  if(ind){ind.innerHTML='&#10003; Saved';ind.classList.add('show');clearTimeout(ind._t);ind._t=setTimeout(()=>ind.classList.remove('show'),2000);}
+  this._devRefresh();
+};
+
+/* ═══ QA CONSOLE (author tool: click the taskbar clock 5x fast) ═══ */
+ROSe.prototype._devToggle=function(){
+  let p=document.getElementById('qa-panel');
+  if(p){p.remove();return;}
+  p=document.createElement('div');
+  p.id='qa-panel';
+  p.innerHTML=`
+    <div class="qa-hdr"><span>&#9881; ROSe QA Console</span><button class="qa-x" onclick="document.getElementById('qa-panel').remove()">&times;</button></div>
+    <div class="qa-body" id="qa-body"></div>
+    <div class="qa-actions">
+      <button class="qa-btn" onclick="rose._devCopyState()">Copy state JSON</button>
+      <button class="qa-btn qa-danger" onclick="rose._devReset()">Reset all progress</button>
+    </div>`;
+  document.body.appendChild(p);
+  this._devRefresh();
+};
+
+ROSe.prototype._devRefresh=function(){
+  const b=document.getElementById('qa-body');
+  if(!b)return;
+  const names={2:'War Room',3:'Risk Register',4:'Governance Audit',5:'Quantum Assessment',6:'Board Paper'};
+  const bytes=this._lastSaveBytes||0;
+  const pct12=Math.min(100,Math.round(bytes/4096*100));
+  const pct04=Math.min(100,Math.round(bytes/65536*100));
+  const rows=[2,3,4,5,6].map(id=>{
+    const sc=this.sectionScores[id];
+    const st=this.sectionState[id];
+    return`<tr><td>${id}. ${names[id]}</td>
+      <td>${sc?sc.score+'/'+sc.max:'&mdash;'}</td>
+      <td>${st!==undefined?'&#10003;':'&mdash;'}</td></tr>`;
+  }).join('');
+  b.innerHTML=`
+    <div class="qa-row"><span>Persistence</span><span>${scorm.ready()?'SCORM + localStorage':'localStorage only (no LMS)'}</span></div>
+    <div class="qa-row"><span>Payload size</span><span>${bytes.toLocaleString()} B &middot; ${pct12}% of 1.2 cap &middot; ${pct04}% of 2004 cap</span></div>
+    <div class="qa-meter"><div class="qa-fill${bytes>3600?' warn':''}" style="width:${pct12}%"></div></div>
+    <table class="qa-tbl"><tr><th>Section</th><th>Score</th><th>State</th></tr>${rows}</table>
+    <div class="qa-row"><span>Professionalism</span><span>${this.profScore}/5 &middot; strikes: ${this.gameStrikes}</span></div>`;
+};
+
+ROSe.prototype._devCopyState=function(){
+  const raw=localStorage.getItem('rose_v3')||JSON.stringify({sectionScores:this.sectionScores,sectionState:this.sectionState});
+  const done=()=>this._showNotif('QA Console','State JSON copied to clipboard.',false);
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(raw).then(done).catch(()=>prompt('Copy state:',raw));}
+  else prompt('Copy state:',raw);
+};
+
+ROSe.prototype._devReset=function(){
+  if(!confirm('Reset ALL progress? Scores, section state, messages and tasks will be wiped.'))return;
+  try{localStorage.removeItem('rose_v3');}catch(e){}
+  if(scorm.ready()){scorm.sv('cmi.suspend_data','');scorm.cm();}
+  location.reload();
 };
 
 ROSe.prototype._restoreState=function(){
@@ -1209,7 +1318,15 @@ ROSe.prototype._restoreState=function(){
   this.imMessages=saved.imMessages||[];
   this.taskState=saved.taskState||{};
   this.sectionScores=saved.sectionScores||{};
+  this.sectionState=saved.sectionState||{};
   if(this.gameDisabled)this._buildAppGrid();
+  /* Welcome back: quiet confirmation that progress restored */
+  const done=[2,3,4,5,6].filter(id=>this.sectionScores[id]).length;
+  if(done>0||Object.keys(this.taskState).length>0){
+    const first=(this.userName||'').split(' ')[0];
+    setTimeout(()=>this._showNotif('ROSe',`Welcome back, ${first}. Your session has been restored${done?` (${done} of 5 sections submitted)`:''}.`,false),1500);
+  }
+  this._updateProgress();
 };
 
 /* ═══ TYPING INDICATOR ══════════════════════════════════════════ */
