@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Activity</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg:        #f0f4f8;
+            --surface:   #ffffff;
+            --surface-2: #e8edf3;
+            --border:    #c8d3e0;
+            --text:      #1a2332;
+            --muted:     #4a5568;
+            --accent:    #2563eb;
+            --mono:      'JetBrains Mono', monospace;
+            --sans:      'Inter', sans-serif;
+
+            /* Accessible log colours: dark text on tinted bg */
+            --log-alert-bg:   #fff1f2;
+            --log-alert-bd:   #fca5a5;
+            --log-alert-text: #7f1d1d;
+            --log-warn-bg:    #fffbeb;
+            --log-warn-bd:    #fcd34d;
+            --log-warn-text:  #78350f;
+            --log-good-bg:    #f0fdf4;
+            --log-good-bd:    #86efac;
+            --log-good-text:  #14532d;
+            --log-info-bg:    var(--surface-2);
+            --log-info-bd:    var(--border);
+            --log-info-text:  var(--text);
+
+            /* Status pill: dark text on tinted bg */
+            --pill-live-bg:   #f0fdf4;
+            --pill-live-bd:   #86efac;
+            --pill-live-text: #14532d;
+            --pill-col-bg:    #fffbeb;
+            --pill-col-bd:    #fcd34d;
+            --pill-col-text:  #78350f;
+            --pill-done-bg:   #eff6ff;
+            --pill-done-bd:   #93c5fd;
+            --pill-done-text: #1e3a8a;
+
+            /* Intro notice boxes */
+            --notice-bg:  #fffbeb;
+            --notice-bd:  #fcd34d;
+            --guide-bg:   #eff6ff;
+            --guide-bd:   #93c5fd;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .page-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 0.75rem; }
+
+        .badge {
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .page-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+        .session-id {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            background: var(--surface-2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* LAYOUT */
+        .page-body { padding: 1.5rem 2rem; max-width: 1400px; margin: 0 auto; }
+
+        /* INTRO */
+        #how-it-works {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .how-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+
+        .how-intro {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+        }
+
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .how-card {
+            background: var(--surface-2);
+            border-radius: 8px;
+            padding: 1rem 1.1rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .how-card-title { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+        .how-card-body  { font-size: 0.78rem; color: var(--muted); line-height: 1.65; }
+
+        .fingerprint-explainer {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .fingerprint-explainer strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 0.3rem; }
+
+        .notice-box {
+            background: var(--notice-bg);
+            border: 1px solid var(--notice-bd);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            font-size: 0.82rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .notice-box strong { font-weight: 600; color: var(--text); }
+
+        .screenshot-guide {
+            background: var(--guide-bg);
+            border: 1px solid var(--guide-bd);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            font-size: 0.82rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .screenshot-guide strong { font-weight: 600; display: block; margin-bottom: 0.4rem; color: var(--text); }
+        .screenshot-guide ol { padding-left: 1.2rem; }
+        .screenshot-guide ol li { margin-bottom: 0.3rem; }
+
+        .start-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .start-btn:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+
+        /* DASHBOARD */
+        #dashboard { display: none; }
+
+        /* 3-col always, compress on small screens */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: start;
+        }
+
+        @media (max-width: 780px) {
+            .dash-grid { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+            .page-body  { padding: 1rem; }
+        }
+
+        @media (max-width: 520px) {
+            .dash-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-2);
+            flex-shrink: 0;
+        }
+
+        .panel-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+        }
+
+        .panel-status {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .status-live { background: var(--pill-live-bg); color: var(--pill-live-text); border: 1px solid var(--pill-live-bd); }
+        .status-collecting { background: var(--pill-col-bg); color: var(--pill-col-text); border: 1px solid var(--pill-col-bd); }
+        .status-done { background: var(--pill-done-bg); color: var(--pill-done-text); border: 1px solid var(--pill-done-bd); }
+
+        .panel-body { padding: 0.85rem 1rem; flex: 1; }
+
+        .stat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--surface-2);
+        }
+
+        .stat-row:last-child { border-bottom: none; }
+
+        .stat-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+        }
+
+        .stat-value {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--text);
+            word-break: break-all;
+        }
+
+        /* SESSION BAR */
+        .session-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .timer-label { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+        .timer-display { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; color: var(--text); }
+
+        .progress-track {
+            flex: 1; min-width: 80px; height: 5px;
+            background: var(--surface-2); border-radius: 10px;
+            overflow: hidden; border: 1px solid var(--border);
+        }
+
+        .progress-fill {
+            height: 100%; background: var(--accent);
+            border-radius: 10px; transition: width 1s linear; width: 0%;
+        }
+
+        /* COUNTERS */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 0.6rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .counter-card {
+            background: var(--surface-2);
+            border-radius: 7px;
+            padding: 0.7rem 0.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .counter-num {
+            font-family: var(--mono);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .counter-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+
+        /* LOG FEED — fills remaining space */
+        .log-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            max-height: 420px;
+        }
+
+        .log-card {
+            border-radius: 6px;
+            padding: 0.5rem 0.7rem;
+            border: 1px solid var(--log-info-bd);
+            background: var(--log-info-bg);
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .log-card.type-alert { background: var(--log-alert-bg); border-color: var(--log-alert-bd); }
+        .log-card.type-warn  { background: var(--log-warn-bg);  border-color: var(--log-warn-bd);  }
+        .log-card.type-good  { background: var(--log-good-bg);  border-color: var(--log-good-bd);  }
+
+        .log-icon { font-size: 0.85rem; line-height: 1.5; flex-shrink: 0; }
+        .log-content { flex: 1; }
+
+        .log-msg {
+            font-size: 0.78rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: var(--log-info-text);
+        }
+
+        .log-card.type-alert .log-msg { color: var(--log-alert-text); }
+        .log-card.type-warn  .log-msg { color: var(--log-warn-text);  }
+        .log-card.type-good  .log-msg { color: var(--log-good-text);  }
+
+        .log-time {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 0.15rem;
+        }
+
+        /* HEATMAP */
+        #heatmap-canvas {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            display: block;
+            cursor: crosshair;
+        }
+
+        .heatmap-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 0.35rem;
+            font-family: var(--mono);
+        }
+
+        /* REFLECTION */
+        #reflection-panel {
+            display: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .reflection-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .reflection-intro { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.65; }
+        .reflection-q { font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
+
+        textarea {
+            width: 100%;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem 0.75rem;
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            color: var(--text);
+            resize: vertical;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            min-height: 70px;
+        }
+
+        textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <div class="header-left">
+        <span class="badge">Portfolio Activity</span>
+        <span class="page-title">Digital Exposure Analysis</span>
+    </div>
+    <span class="session-id" id="session-id">SESSION: ----</span>
+</header>
+
+<div class="page-body">
+
+    <!-- INTRO -->
+    <div id="how-it-works">
+        <h1 class="how-title">What does a website actually see when you visit it?</h1>
+        <p class="how-intro">
+            Every time you open a tab, websites can collect information about your device, browser, and behaviour without ever asking for your name or password. This activity runs the same collection techniques on your own browser so you can see exactly what is exposed. Nothing leaves your device. Everything you see is generated locally and disappears when you close the tab.
+        </p>
+
+        <div class="how-grid">
+            <div class="how-card">
+                <div class="how-card-title">Device Fingerprinting</div>
+                <div class="how-card-body">Your browser, screen, fonts, and hardware form a fingerprint that identifies you across sites even without cookies.</div>
+            </div>
+            <div class="how-card">
+                <div class="how-card-title">Network Exposure</div>
+                <div class="how-card-body">Your IP address and sometimes your local network address can be detected, narrowing your approximate location.</div>
+            </div>
+            <div class="how-card">
+                <div class="how-card-title">Behavioural Tracking</div>
+                <div class="how-card-body">Sites track where you click, when you switch tabs, where your cursor moves, and how long you stay.</div>
+            </div>
+            <div class="how-card">
+                <div class="how-card-title">Passive Signals</div>
+                <div class="how-card-body">Battery level, connected devices, timezone, and language are readable without any permission prompt.</div>
+            </div>
+        </div>
+
+        <div class="fingerprint-explainer">
+            <strong>How device fingerprinting works</strong>
+            Every browser renders audio, graphics, and fonts slightly differently depending on the device hardware and software. This activity generates a hash from your audio processor output, canvas rendering, installed fonts, and CPU performance. Combined, those values are unique enough to identify your device across websites without cookies. Clearing your browser history does not change this fingerprint.
+        </div>
+
+        <div class="notice-box">
+            <strong>Try this during the session.</strong> After clicking Start, switch to another tab or browse somewhere else, then come back. Real websites collect data while you are gone and log exactly when you left and returned. This activity does the same so you can see it in real time. Note: keystrokes in other apps or tabs are protected by your operating system and cannot be captured here. That boundary is itself an important security concept.
+        </div>
+
+        <div class="screenshot-guide">
+            <strong>What to capture for your portfolio:</strong>
+            <ol>
+                <li>The Device and Network panel once values have populated.</li>
+                <li>The Activity Log and cursor heatmap after switching tabs at least once.</li>
+                <li>The Fingerprint panel showing your audio, canvas, and font values.</li>
+            </ol>
+        </div>
+
+        <button class="start-btn" id="start-btn">Start Session</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+
+        <div class="session-bar">
+            <div>
+                <div class="timer-label">Time remaining</div>
+                <div class="timer-display" id="timer-display">05:00</div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted);" id="live-scroll">Scroll depth: 0%</div>
+            <div style="font-size:0.75rem;color:var(--muted);" id="live-idle">Idle: 0s</div>
+            <div style="font-size:0.75rem;color:var(--muted);" id="live-away">Away time: 0s</div>
+        </div>
+
+        <div class="dash-grid">
+
+            <!-- DEVICE AND NETWORK -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Device and Network</span>
+                    <span class="panel-status status-collecting" id="status-device">Collecting</span>
+                </div>
+                <div class="panel-body">
+                    <div class="stat-row"><span class="stat-label">Browser</span><span class="stat-value" id="v-browser">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Operating System</span><span class="stat-value" id="v-os">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Screen Resolution</span><span class="stat-value" id="v-screen">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Viewport Size</span><span class="stat-value" id="v-viewport">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Colour Depth</span><span class="stat-value" id="v-color">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Pixel Ratio</span><span class="stat-value" id="v-dpr">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Timezone</span><span class="stat-value" id="v-tz">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Language</span><span class="stat-value" id="v-lang">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Browser History Depth</span><span class="stat-value" id="v-hist">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Plugin Count</span><span class="stat-value" id="v-plugins">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Cookies Enabled</span><span class="stat-value" id="v-cookies">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Network Type</span><span class="stat-value" id="v-net">...</span></div>
+                    <div class="stat-row"><span class="stat-label">WebRTC Local IP</span><span class="stat-value" id="v-webrtc">Checking...</span></div>
+                    <div class="stat-row"><span class="stat-label">Adblocker</span><span class="stat-value" id="v-adblock">Checking...</span></div>
+                    <div class="stat-row"><span class="stat-label">Battery</span><span class="stat-value" id="v-battery">Checking...</span></div>
+                    <div class="stat-row"><span class="stat-label">Touch Points</span><span class="stat-value" id="v-touch">...</span></div>
+                    <div class="stat-row"><span class="stat-label">CPU Threads</span><span class="stat-value" id="v-cpu">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Device Memory</span><span class="stat-value" id="v-mem">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Microphones / Cameras</span><span class="stat-value" id="v-media">Checking...</span></div>
+                    <div class="stat-row"><span class="stat-label">Do Not Track</span><span class="stat-value" id="v-dnt">...</span></div>
+                    <div class="stat-row"><span class="stat-label">Installed Fonts (sample)</span><span class="stat-value" id="v-fonts">Checking...</span></div>
+                </div>
+            </div>
+
+            <!-- FINGERPRINT + HEATMAP -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Fingerprint</span>
+                    <span class="panel-status status-collecting" id="status-fp">Building</span>
+                </div>
+                <div class="panel-body">
+                    <div class="stat-row"><span class="stat-label">Audio Fingerprint</span><span class="stat-value" id="v-audio">Processing...</span></div>
+                    <div class="stat-row"><span class="stat-label">Canvas Fingerprint</span><span class="stat-value" id="v-canvas">Processing...</span></div>
+                    <div class="stat-row"><span class="stat-label">CPU Benchmark</span><span class="stat-value" id="v-bench">Running...</span></div>
+                    <div class="stat-row"><span class="stat-label">Combined Device Hash</span><span class="stat-value" id="fp-hash">Generating...</span></div>
+                    <div style="margin-top:1rem;">
+                        <div class="stat-label" style="margin-bottom:0.5rem;">Cursor Heatmap</div>
+                        <canvas id="heatmap-canvas" height="200"></canvas>
+                        <div class="heatmap-legend"><span>Low activity</span><span>High activity</span></div>
+                    </div>
+                    <div style="margin-top:1rem;">
+                        <div class="stat-row"><span class="stat-label">Max Scroll Depth</span><span class="stat-value" id="v-scroll">0%</span></div>
+                        <div class="stat-row"><span class="stat-label">Total Away Time</span><span class="stat-value" id="v-away">0s</span></div>
+                        <div class="stat-row"><span class="stat-label">Longest Idle Streak</span><span class="stat-value" id="v-idlemax">0s</span></div>
+                        <div class="stat-row"><span class="stat-label">Paste Events</span><span class="stat-value" id="v-paste">0</span></div>
+                        <div class="stat-row"><span class="stat-label">Right-Click Attempts</span><span class="stat-value" id="v-rclick">0</span></div>
+                        <div class="stat-row"><span class="stat-label">Copy Events</span><span class="stat-value" id="v-copy">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVITY LOG -->
+            <div class="panel" style="min-height:500px;">
+                <div class="panel-header">
+                    <span class="panel-title">Activity Log</span>
+                    <span class="panel-status status-live">Live</span>
+                </div>
+                <div class="panel-body" style="display:flex;flex-direction:column;height:100%;">
+                    <div class="counter-grid">
+                        <div class="counter-card">
+                            <div class="counter-num" id="c-clicks">0</div>
+                            <div class="counter-label">Clicks</div>
+                        </div>
+                        <div class="counter-card">
+                            <div class="counter-num" id="c-tabs">0</div>
+                            <div class="counter-label">Tab Switches</div>
+                        </div>
+                        <div class="counter-card">
+                            <div class="counter-num" id="c-keys">0</div>
+                            <div class="counter-label">Keystrokes</div>
+                        </div>
+                    </div>
+                    <div class="log-feed" id="log-feed"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="reflection-panel">
+            <div class="reflection-title">Portfolio Reflection</div>
+            <p class="reflection-intro">Answer the questions below. Copy your responses and attach them alongside your screenshots.</p>
+            <div class="reflection-q">1. Which data point surprised you most and why?</div>
+            <textarea placeholder="Write your response here..."></textarea>
+            <div class="reflection-q">2. A real website storing this data could build a profile over time. What could that profile include, and who might want it?</div>
+            <textarea placeholder="Write your response here..."></textarea>
+            <div class="reflection-q">3. What is one thing you could change about how you browse to reduce your exposure?</div>
+            <textarea placeholder="Write your response here..."></textarea>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ── UTILITIES ──
+    function cyrb53(str) {
+        let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+        for (let i = 0, ch; i < str.length; i++) {
+            ch = str.charCodeAt(i);
+            h1 = Math.imul(h1 ^ ch, 2654435761);
+            h2 = Math.imul(h2 ^ ch, 1597334677);
+        }
+        h1 = Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+        h2 = Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+        return 4294967296*(2097151&h2)+(h1>>>0);
+    }
+
+    function parseUA(ua) {
+        if (/Firefox\/(\d+)/.test(ua)) return 'Firefox ' + ua.match(/Firefox\/(\d+)/)[1];
+        if (/Edg\/(\d+)/.test(ua))    return 'Edge '    + ua.match(/Edg\/(\d+)/)[1];
+        if (/OPR\/(\d+)/.test(ua))    return 'Opera '   + ua.match(/OPR\/(\d+)/)[1];
+        if (/Chrome\/(\d+)/.test(ua)) return 'Chrome '  + ua.match(/Chrome\/(\d+)/)[1];
+        if (/Safari/.test(ua))        return 'Safari';
+        return 'Unknown';
+    }
+
+    function parseOS(ua) {
+        if (/Windows NT 10/.test(ua)) return 'Windows 10/11';
+        if (/Windows NT 6/.test(ua))  return 'Windows 8 or older';
+        if (/Mac OS X/.test(ua))      return 'macOS ' + (ua.match(/Mac OS X ([\d_]+)/)||['',''])[1].replace(/_/g,'.');
+        if (/Android (\d+)/.test(ua)) return 'Android ' + ua.match(/Android (\d+)/)[1];
+        if (/iPhone|iPad/.test(ua))   return 'iOS';
+        if (/Linux/.test(ua))         return 'Linux';
+        return 'Unknown';
+    }
+
+    function set(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+    // ── COUNTERS ──
+    let clicks = 0, tabs = 0, keys = 0, pastes = 0, rclicks = 0, copies = 0;
+    function bump(counter) {
+        if (counter === 'click')  { clicks++;  set('c-clicks', clicks);  }
+        if (counter === 'tab')    { tabs++;    set('c-tabs',   tabs);    }
+        if (counter === 'key')    { keys++;    set('c-keys',   keys);    }
+        if (counter === 'paste')  { pastes++;  set('v-paste',  pastes);  }
+        if (counter === 'rclick') { rclicks++; set('v-rclick', rclicks); }
+        if (counter === 'copy')   { copies++;  set('v-copy',   copies);  }
+    }
+
+    // ── LOG ──
+    const ICONS = { alert: '🚨', warn: '⚠️', good: '✓', info: '·' };
+    function log(msg, type = 'info') {
+        const feed = document.getElementById('log-feed');
+        const t = new Date().toLocaleTimeString('en-GB', { hour12: false });
+        const card = document.createElement('div');
+        card.className = 'log-card type-' + type;
+        card.innerHTML = `<span class="log-icon">${ICONS[type]||'·'}</span>
+            <div class="log-content">
+                <div class="log-msg">${msg}</div>
+                <div class="log-time">${t}</div>
+            </div>`;
+        feed.prepend(card);
+    }
+
+    // ── HEATMAP ──
+    let heatPoints = [];
+    let hmCanvas, hmCtx, hmW, hmH;
+
+    function initHeatmap() {
+        hmCanvas = document.getElementById('heatmap-canvas');
+        hmW = hmCanvas.offsetWidth;
+        hmH = 200;
+        hmCanvas.width  = hmW;
+        hmCanvas.height = hmH;
+        hmCtx = hmCanvas.getContext('2d');
+        hmCtx.fillStyle = '#e8edf3';
+        hmCtx.fillRect(0,0,hmW,hmH);
+    }
+
+    function addHeatPoint(x, y) {
+        // Normalize to heatmap canvas coords
+        const rx = (x / window.innerWidth)  * hmW;
+        const ry = (y / window.innerHeight) * hmH;
+        heatPoints.push({ x: rx, y: ry });
+        renderHeatmap();
+    }
+
+    function renderHeatmap() {
+        hmCtx.clearRect(0,0,hmW,hmH);
+        hmCtx.fillStyle = '#e8edf3';
+        hmCtx.fillRect(0,0,hmW,hmH);
+        heatPoints.forEach(p => {
+            const grad = hmCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,18);
+            grad.addColorStop(0, 'rgba(37,99,235,0.18)');
+            grad.addColorStop(1, 'rgba(37,99,235,0)');
+            hmCtx.fillStyle = grad;
+            hmCtx.beginPath();
+            hmCtx.arc(p.x,p.y,18,0,Math.PI*2);
+            hmCtx.fill();
+        });
+    }
+
+    // ── SCROLL DEPTH ──
+    let maxScroll = 0;
+    function trackScroll() {
+        const docH   = document.body.scrollHeight - window.innerHeight;
+        const pct    = docH > 0 ? Math.round((window.scrollY / docH) * 100) : 0;
+        if (pct > maxScroll) {
+            maxScroll = pct;
+            set('v-scroll', maxScroll + '%');
+            document.getElementById('live-scroll').textContent = 'Scroll depth: ' + maxScroll + '%';
+        }
+    }
+
+    // ── IDLE TRACKING ──
+    let idleStart  = Date.now();
+    let idleMaxMs  = 0;
+    let lastActive = Date.now();
+
+    function resetIdle() {
+        const gap = Date.now() - lastActive;
+        if (gap > idleMaxMs) { idleMaxMs = gap; set('v-idlemax', (idleMaxMs/1000).toFixed(1) + 's'); }
+        lastActive = Date.now();
+        idleStart  = Date.now();
+    }
+
+    function idleTick() {
+        const idleSec = ((Date.now() - lastActive) / 1000).toFixed(0);
+        document.getElementById('live-idle').textContent = 'Idle: ' + idleSec + 's';
+    }
+
+    // ── AWAY TIME ──
+    let awayStart = null;
+    let totalAwayMs = 0;
+
+    // ── RECON MODULES ──
+    async function getWebRTCIP() {
+        return new Promise(resolve => {
+            try {
+                const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+                pc.createDataChannel('');
+                pc.createOffer().then(o => pc.setLocalDescription(o));
+                pc.onicecandidate = e => {
+                    if (!e.candidate) return;
+                    const m = /(\d+\.\d+\.\d+\.\d+)/.exec(e.candidate.candidate);
+                    if (m) { pc.close(); resolve(m[1]); }
+                };
+                setTimeout(() => resolve('Not exposed / blocked'), 3000);
+            } catch(e) { resolve('API unavailable'); }
+        });
+    }
+
+    function getAudioFingerprint() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const analyser = ctx.createAnalyser();
+            const gain = ctx.createGain();
+            gain.gain.value = 0;
+            osc.connect(analyser); analyser.connect(gain); gain.connect(ctx.destination);
+            osc.start(0);
+            const buf = new Float32Array(analyser.frequencyBinCount);
+            analyser.getFloatFrequencyData(buf);
+            osc.stop(); ctx.close();
+            return '0x' + cyrb53(buf.slice(0,20).join(',')).toString(16).toUpperCase();
+        } catch(e) { return 'Blocked'; }
+    }
+
+    function getCanvasFingerprint() {
+        try {
+            const c = document.createElement('canvas');
+            const ctx = c.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = "14px 'Arial'";
+            ctx.fillStyle = '#f60'; ctx.fillRect(125,1,62,20);
+            ctx.fillStyle = '#069'; ctx.fillText('CyberRecon', 2, 15);
+            ctx.fillStyle = 'rgba(102,204,0,0.7)'; ctx.fillText('CyberRecon', 4, 17);
+            return '0x' + cyrb53(c.toDataURL()).toString(16).toUpperCase();
+        } catch(e) { return 'Blocked'; }
+    }
+
+    function getCPUBenchmark() {
+        const s = performance.now();
+        for (let i = 0; i < 1e7; i++) { Math.sqrt(i) * Math.atan(i); }
+        return (performance.now() - s).toFixed(1) + ' ms';
+    }
+
+    function getInstalledFonts() {
+        const base = ['monospace','sans-serif','serif'];
+        const list = ['Arial','Calibri','Comic Sans MS','Courier New','Georgia','Impact','Segoe UI','Times New Roman','Trebuchet MS','Verdana','Tahoma','Helvetica','Lucida Console','Palatino'];
+        const c = document.createElement('canvas');
+        const ctx = c.getContext('2d');
+        const found = list.filter(font => base.some(b => {
+            ctx.font = '72px ' + b;
+            const bw = ctx.measureText('mmmmmmmmmmlli').width;
+            ctx.font = `72px '${font}',${b}`;
+            return ctx.measureText('mmmmmmmmmmlli').width !== bw;
+        }));
+        return found.length
+            ? found.slice(0,6).join(', ') + (found.length > 6 ? ` +${found.length-6} more` : '')
+            : 'Enumeration blocked';
+    }
+
+    async function checkAdblock() {
+        try {
+            await fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', { method:'HEAD', mode:'no-cors' });
+            return 'Not detected';
+        } catch(e) { return 'Active'; }
+    }
+
+    // ── INIT ──
+    const DURATION = 300;
+    let remaining = DURATION, timerInterval, sessionDone = false;
+
+    document.getElementById('session-id').textContent =
+        'SESSION: ' + Math.random().toString(36).substr(2,8).toUpperCase();
+
+    document.getElementById('start-btn').addEventListener('click', async () => {
+        document.getElementById('how-it-works').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        initHeatmap();
+
+        log('Session started. Collecting device and network telemetry.', 'good');
+
+        // Sync values
+        const ua = navigator.userAgent;
+        set('v-browser', parseUA(ua));
+        set('v-os',      parseOS(ua));
+        set('v-screen',  `${screen.width} x ${screen.height}`);
+        set('v-viewport',`${window.innerWidth} x ${window.innerHeight}`);
+        set('v-color',   screen.colorDepth + '-bit');
+        set('v-dpr',     window.devicePixelRatio + 'x');
+        set('v-tz',      Intl.DateTimeFormat().resolvedOptions().timeZone);
+        set('v-lang',    navigator.language || 'Unknown');
+        set('v-hist',    history.length + ' pages deep');
+        set('v-plugins', (navigator.plugins ? navigator.plugins.length : 0) + ' detected');
+        set('v-cookies', navigator.cookieEnabled ? 'Yes' : 'No');
+        set('v-touch',   navigator.maxTouchPoints > 0 ? `Yes (${navigator.maxTouchPoints} points)` : 'No');
+        set('v-cpu',     (navigator.hardwareConcurrency || 'Unknown') + ' threads');
+        set('v-mem',     navigator.deviceMemory ? navigator.deviceMemory + ' GB (approx)' : 'Not exposed');
+        set('v-dnt',     navigator.doNotTrack === '1' ? 'Enabled (sites may ignore it)' : 'Not set');
+
+        const conn = navigator.connection || navigator.mozConnection;
+        set('v-net', conn ? `${conn.effectiveType || 'Unknown'} / ${conn.rtt || '?'} ms RTT` : 'Not available');
+
+        log('Basic device profile collected.', 'info');
+
+        // Async: WebRTC
+        getWebRTCIP().then(ip => {
+            set('v-webrtc', ip);
+            log(ip.includes('blocked') || ip.includes('unavailable')
+                ? 'WebRTC IP leak blocked by browser.'
+                : `Local IP exposed via WebRTC: ${ip}`, ip.includes('blocked') ? 'good' : 'alert');
+        });
+
+        // Async: Adblock
+        checkAdblock().then(r => {
+            set('v-adblock', r);
+            log(r === 'Active' ? 'Adblocker detected. Some vectors blocked.' : 'No adblocker detected.', r === 'Active' ? 'good' : 'warn');
+        });
+
+        // Async: Battery
+        if (navigator.getBattery) {
+            navigator.getBattery().then(b => {
+                set('v-battery', `${Math.round(b.level*100)}% (${b.charging?'Charging':'On battery'})`);
+                log('Battery status read without permission.', 'warn');
+            }).catch(() => set('v-battery', 'Not available'));
+        } else { set('v-battery', 'Not supported'); }
+
+        // Async: Media devices
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            navigator.mediaDevices.enumerateDevices().then(devs => {
+                const mic = devs.filter(d => d.kind==='audioinput').length;
+                const cam = devs.filter(d => d.kind==='videoinput').length;
+                set('v-media', `${mic} microphone(s), ${cam} camera(s)`);
+                log(`Peripheral inventory: ${mic} mic(s), ${cam} camera(s). No prompt shown.`, 'warn');
+            }).catch(() => set('v-media', 'Enumeration blocked'));
+        } else { set('v-media', 'Not supported'); }
+
+        // Fingerprint (deferred slightly)
+        setTimeout(() => {
+            const audio  = getAudioFingerprint();
+            const canvas = getCanvasFingerprint();
+            const bench  = getCPUBenchmark();
+            const fonts  = getInstalledFonts();
+
+            set('v-audio',  audio);
+            set('v-canvas', canvas);
+            set('v-bench',  bench + ' execution time');
+            set('v-fonts',  fonts);
+
+            const hash = 'FP-' + cyrb53(`${audio}-${canvas}-${fonts}-${bench}`).toString(16).toUpperCase();
+            set('fp-hash', hash);
+
+            document.getElementById('status-fp').textContent     = 'Complete';
+            document.getElementById('status-fp').className       = 'panel-status status-done';
+            document.getElementById('status-device').textContent = 'Complete';
+            document.getElementById('status-device').className   = 'panel-status status-done';
+
+            log('Device fingerprint generated from audio, canvas, fonts, and CPU.', 'good');
+        }, 800);
+
+        // ── EVENT LISTENERS ──
+
+        document.addEventListener('mousemove', e => {
+            if (sessionDone) return;
+            addHeatPoint(e.clientX, e.clientY);
+            resetIdle();
+        });
+
+        document.addEventListener('click', e => {
+            if (sessionDone) return;
+            bump('click');
+            log('Click recorded.', 'info');
+            resetIdle();
+        });
+
+        document.addEventListener('contextmenu', e => {
+            if (sessionDone) return;
+            bump('rclick');
+            log('Right-click attempt detected.', 'warn');
+        });
+
+        document.addEventListener('keydown', e => {
+            if (sessionDone) return;
+            bump('key');
+            log(`Keystroke captured: [${e.key}]`, 'info');
+            resetIdle();
+        });
+
+        document.addEventListener('paste', () => {
+            if (sessionDone) return;
+            bump('paste');
+            log('Paste event detected. Content type readable.', 'alert');
+        });
+
+        document.addEventListener('copy', () => {
+            if (sessionDone) return;
+            bump('copy');
+            log('Copy event detected.', 'warn');
+        });
+
+        document.addEventListener('scroll', () => {
+            if (sessionDone) return;
+            trackScroll();
+            resetIdle();
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (sessionDone) return;
+            if (document.hidden) {
+                tabs++;
+                document.getElementById('c-tabs').textContent = tabs;
+                awayStart = Date.now();
+                log('Tab left. Background collection continues.', 'alert');
+            } else {
+                if (awayStart) {
+                    totalAwayMs += Date.now() - awayStart;
+                    awayStart = null;
+                    const awaySec = (totalAwayMs / 1000).toFixed(0);
+                    set('v-away', awaySec + 's');
+                    document.getElementById('live-away').textContent = 'Away time: ' + awaySec + 's';
+                }
+                log('Tab returned to focus.', 'warn');
+            }
+        });
+
+        // Idle ticker
+        setInterval(idleTick, 1000);
+
+        // Session timer
+        timerInterval = setInterval(() => {
+            remaining--;
+            const m = Math.floor(remaining / 60);
+            const s = remaining % 60;
+            document.getElementById('timer-display').textContent =
+                String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+            document.getElementById('progress-fill').style.width =
+                ((DURATION - remaining) / DURATION * 100) + '%';
+            if (remaining <= 0) { clearInterval(timerInterval); endSession(); }
+        }, 1000);
+    });
+
+    function endSession() {
+        sessionDone = true;
+        document.getElementById('timer-display').textContent = 'Done';
+        document.getElementById('reflection-panel').style.display = 'block';
+        log('Session ended. Capture your screenshots now.', 'good');
+    }
+</script>
+</body>
+</html>
