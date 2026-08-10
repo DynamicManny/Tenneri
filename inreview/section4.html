@@ -917,7 +917,7 @@ document.getElementById("memo-ov").addEventListener("touchend",function(e){
 
 /* START */
 renderAll(false);
-setTimeout(()=>{if(!document.getElementById("app").classList.contains("visible"))runChat();},600);
+setTimeout(()=>{const cs=document.getElementById("chat-screen");if(cs.style.display!=="none")runChat();},600);
 </script>
 </body>
 </html>
