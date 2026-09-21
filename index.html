@@ -1101,7 +1101,11 @@ var sb=document.getElementById('scroll-bar');
 window.addEventListener('scroll',function(){sb.style.width=Math.min(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100,100)+'%';},{passive:true});
 var nav=document.getElementById('nav');
 window.addEventListener('scroll',function(){
-  nav.classList.toggle('scrolled',window.scrollY>20);
+  var isScrolled=window.scrollY>20;
+  nav.classList.toggle('scrolled',isScrolled);
+  if(!isScrolled&&window.innerWidth>680){
+    document.getElementById('mob').classList.remove('open');
+  }
 },{passive:true});
 document.getElementById('ham').addEventListener('click',function(){document.getElementById('mob').classList.toggle('open');});
 window.closeMob=function(){document.getElementById('mob').classList.remove('open');};
