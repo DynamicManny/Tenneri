@@ -3,15 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Assisted Communication | Tenneri Interactive Demo</title>
-<meta name="description" content="A hands-on learning environment covering AI-assisted professional communication. Practice prompting, review AI output, spot editing tells, and complete a scored knowledge check.">
+<title>AI-Assisted Communication | Ramano Stoute</title>
+<meta name="description" content="An interactive module on AI-assisted workplace writing. Practise prompting with a real small language model running in your browser, review AI output, spot editing tells and take a scored knowledge check.">
 <link rel="canonical" href="https://tenneri.com/projects/ai-communication/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tenneri.com/projects/ai-communication/">
+<meta property="og:title" content="AI-Assisted Communication | Ramano Stoute">
+<meta property="og:description" content="Practise prompting with a real small language model running in your browser, then learn to review what it writes.">
+<meta property="og:image" content="https://tenneri.com/Ten-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://huggingface.co" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,300&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;font-size:17.5px}
 :root{
   --gold:#b8933f;--gold-light:#d4ad5a;--gold-dim:#8a6b2a;
   --navy:#1b2d4f;--navy-light:#2a4270;
@@ -39,7 +51,7 @@ html{scroll-behavior:smooth}
   --sh:0 1px 3px rgba(0,0,0,.35);--sh-md:0 4px 12px rgba(0,0,0,.45);--sh-lg:0 12px 28px rgba(0,0,0,.55);
   --mono-bg:#080706;
 }
-body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;font-size:16px;min-height:100vh;transition:background .3s,color .3s}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65;font-size:17.5px;min-height:100vh;transition:background .3s,color .3s}
 .hero{background:linear-gradient(150deg,#0a0c10 0%,#0f0e0c 30%,#1b2d4f 65%,#12203a 100%);padding:72px 24px 64px;text-align:center;position:relative;overflow:hidden;}
 .hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 50% 100%,rgba(184,147,63,.12) 0%,transparent 65%);}
 .hero-inner{position:relative;z-index:1;max-width:820px;margin:0 auto;}
@@ -277,7 +289,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .footer-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:block;}
 .footer-title{font-family:'Fraunces',serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;color:var(--txt);margin-bottom:6px;line-height:1.2;}
 .footer-title em{font-style:italic;color:var(--navy);}[data-theme="dark"] .footer-title em{color:var(--gold-light);}
-.footer-sub{font-size:.88rem;color:var(--muted);line-height:1.75;max-width:440px;margin:0 auto 24px;}
+.footer-sub{font-size:1rem;color:var(--muted);line-height:1.75;max-width:440px;margin:0 auto 24px;}
 .footer-btns{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
 .btn-primary{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;background:var(--navy);color:#fff;border-radius:var(--r-lg);text-decoration:none;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;box-shadow:var(--sh-md);}
 .btn-primary:hover{background:var(--navy-light);transform:translateY(-1px);}
@@ -293,49 +305,127 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1);}
 .reveal.in{opacity:1;transform:none;}
 .reveal:nth-child(2){transition-delay:.06s;}.reveal:nth-child(3){transition-delay:.12s;}.reveal:nth-child(4){transition-delay:.18s;}
-/* Controlled Environment Styles */
-.terminal-banner-notice {
-  background: rgba(184, 147, 63, 0.08);
-  border-bottom: 1px solid rgba(184, 147, 63, 0.2);
-  padding: 6px 16px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  color: #d4ad5a;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.chat-input:disabled {
-  cursor: not-allowed;
-  background: rgba(255, 255, 255, 0.03) !important;
-  color: rgba(237, 233, 223, 0.3);
-}
-.input-lock-container {
-  position: relative;
-  flex: 1;
-}
-.input-lock-container::after {
-  content: '🔒';
-  position: absolute;
-  right: 12px;
-  top: 10px;
-  font-size: 0.85rem;
-  opacity: 0.35;
-  pointer-events: none;
-}
-@media(max-width:860px){.distinction-pair,.ing-grid,.tools-grid,.ba-grid,.tells-grid,.resources-grid{grid-template-columns:1fr;}.sandbox-layout{grid-template-columns:1fr;}.task-sidebar{position:static;}.terminal-wrap{height:520px;}.main{padding:24px 16px 80px;}}
+.chat-input:disabled{cursor:not-allowed;background:rgba(255,255,255,.03)!important;color:rgba(237,233,223,.3);}
+
+/* ── Back link ── */
+.hero-back{position:absolute;top:18px;left:20px;z-index:2;display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.55);text-decoration:none;padding:6px 10px;border-radius:100px;transition:color .2s,background .2s;}
+.hero-back:hover{color:#fff;background:rgba(255,255,255,.08);}
+
+/* ── Dark mode fixes for amber highlights ── */
+[data-theme="dark"] .ba-flag{background:rgba(217,119,6,.16);border-color:rgba(217,119,6,.55);color:#fcd34d;}
+[data-theme="dark"] .ba-flag:hover{background:rgba(217,119,6,.26);}
+[data-theme="dark"] .ba-flag.active{background:rgba(234,88,12,.28);border-color:#ea580c;color:#fed7aa;}
+[data-theme="dark"] .ts-span.sel{background:rgba(217,119,6,.18);border-bottom-color:#d97706;color:#fcd34d;}
+[data-theme="dark"] .ts-span:hover{background:rgba(255,255,255,.05);}
+.amber-swatch{background:#fef3c7;border:1px solid #d97706;border-radius:3px;padding:1px 6px;font-size:.8rem;color:#92400e;}
+[data-theme="dark"] .amber-swatch{background:rgba(217,119,6,.16);border-color:rgba(217,119,6,.55);color:#fcd34d;}
+[data-theme="dark"] .tab-btn:hover,[data-theme="dark"] .tab-btn.active,[data-theme="dark"] .task-label,[data-theme="dark"] .task-step.active .step-label,[data-theme="dark"] .tool-link{color:var(--gold-light);}
+
+/* ── Show the right answer after a wrong pick ── */
+.quiz-opt.answer,.diag-opt.answer{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:600;opacity:1;}
+
+/* ── Live model card ── */
+.slm-card{background:var(--card);border:1px solid var(--b1);border-radius:var(--r-xl);margin-bottom:14px;box-shadow:var(--sh);overflow:hidden;}
+.slm-head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--b1);background:var(--card-2);}
+.slm-dot{width:8px;height:8px;border-radius:50%;background:var(--b3);flex-shrink:0;}
+.slm-card[data-state="loading"] .slm-dot{background:var(--gold);animation:slmPulse 1.2s ease-in-out infinite;}
+.slm-card[data-state="ready"] .slm-dot{background:var(--green);box-shadow:0 0 0 3px var(--green-bdr);}
+.slm-card[data-state="error"] .slm-dot{background:var(--red);}
+@keyframes slmPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.75);}}
+.slm-kicker{font-family:'DM Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);flex:1;}
+.slm-state{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.slm-body{padding:16px;}
+.slm-view{display:none;}
+.slm-card[data-state="off"] .slm-view[data-view="off"],
+.slm-card[data-state="loading"] .slm-view[data-view="loading"],
+.slm-card[data-state="ready"] .slm-view[data-view="ready"],
+.slm-card[data-state="error"] .slm-view[data-view="error"]{display:block;animation:fadeUp .3s ease;}
+.slm-title{font-family:'Fraunces',serif;font-size:.98rem;font-weight:700;color:var(--txt);margin-bottom:6px;line-height:1.3;}
+.slm-text{font-size:.8rem;color:var(--dim);line-height:1.65;margin-bottom:10px;}
+.slm-note{font-size:.74rem;color:var(--muted);line-height:1.55;margin-bottom:12px;}
+.slm-note.warn{color:var(--amber);}
+.slm-btn{width:100%;padding:10px 14px;background:var(--navy);color:#fff;border:none;border-radius:var(--r-lg);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;transition:background .2s,transform .2s;}
+.slm-btn:hover{background:var(--navy-light);transform:translateY(-1px);}
+[data-theme="dark"] .slm-btn{background:var(--gold-dim);}
+[data-theme="dark"] .slm-btn:hover{background:var(--gold);}
+.slm-steps{list-style:none;display:flex;gap:6px;margin-bottom:14px;}
+.slm-steps li{flex:1;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding-top:7px;border-top:2px solid var(--b1);transition:color .3s,border-color .3s;}
+.slm-steps li.on{color:var(--txt);border-top-color:var(--gold);}
+.slm-steps li.done{color:var(--green);border-top-color:var(--green);}
+.slm-bar{height:6px;background:var(--b1);border-radius:100px;overflow:hidden;position:relative;margin-bottom:8px;}
+.slm-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--navy));border-radius:100px;transition:width .4s ease;position:relative;overflow:hidden;}
+[data-theme="dark"] .slm-fill{background:linear-gradient(90deg,var(--gold-dim),var(--gold-light));}
+/* Shimmer runs on the compositor, so it keeps moving no matter what */
+.slm-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-100%);animation:slmShimmer 1.4s linear infinite;}
+.slm-bar.indeterminate .slm-fill{width:35%!important;animation:slmSlide 1.3s ease-in-out infinite;}
+@keyframes slmShimmer{to{transform:translateX(100%);}}
+@keyframes slmSlide{0%{transform:translateX(-100%);}100%{transform:translateX(290%);}}
+.slm-meta{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.66rem;color:var(--muted);margin-bottom:14px;}
+.slm-tip{font-size:.8rem;color:var(--dim);line-height:1.6;padding:10px 12px;background:var(--amber-bg);border:1px solid var(--amber-bdr);border-radius:var(--r);margin-bottom:10px;min-height:66px;transition:opacity .35s ease;}
+.slm-tip.fade{opacity:0;}
+.slm-tip b{display:block;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dim);font-weight:500;margin-bottom:3px;}
+[data-theme="dark"] .slm-tip b{color:var(--gold-light);}
+.slm-retry:disabled{opacity:.6;cursor:progress;transform:none;}
+.slm-link{background:none;border:none;padding:0;font:inherit;font-size:.76rem;font-weight:600;color:var(--navy);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+[data-theme="dark"] .slm-link{color:var(--gold-light);}
+
+/* Terminal status chip */
+.slm-chip{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:.62rem;padding:2px 9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:100px;color:var(--mono-dim);letter-spacing:.8px;white-space:nowrap;}
+.slm-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);}
+.slm-chip.loading{color:#d4ad5a;border-color:rgba(184,147,63,.3);}
+.slm-chip.loading::before{background:#d4ad5a;animation:slmPulse 1.2s ease-in-out infinite;}
+.slm-chip.ready{color:#7dd99a;border-color:rgba(40,200,64,.3);}
+.slm-chip.ready::before{background:#28c840;}
+
+/* Prompt check card in the chat */
+.coach{align-self:flex-start;max-width:88%;background:rgba(184,147,63,.07);border:1px solid rgba(184,147,63,.22);border-radius:13px;padding:11px 14px;animation:msgIn .22s ease;}
+.coach-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.coach-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:#d4ad5a;}
+.coach-score{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--mono-dim);}
+.coach-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;}
+.coach-chip{font-size:.72rem;padding:2px 9px;border-radius:100px;border:1px solid rgba(255,255,255,.12);color:var(--mono-dim);}
+.coach-chip.hit{color:#7dd99a;border-color:rgba(40,200,64,.35);background:rgba(40,200,64,.08);}
+.coach-chip.miss{color:#ff8f87;border-color:rgba(255,95,87,.35);background:rgba(255,95,87,.07);}
+.coach-tip{font-size:.8rem;color:var(--mono-txt);line-height:1.6;}
+.msg-foot{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--mono-dim);letter-spacing:.5px;margin-top:2px;}
+.msg-foot b{color:#d4ad5a;font-weight:500;}
+.sys-note{align-self:center;font-family:'DM Mono',monospace;font-size:.66rem;color:var(--mono-dim);text-align:center;padding:4px 12px;border:1px dashed rgba(255,255,255,.12);border-radius:100px;animation:msgIn .22s ease;}
+.send-btn.stop{background:#a3362a;}
+.send-btn.stop:hover{background:#c2410c;}
+
+/* Footer links */
+.footer-call{display:inline-block;margin-bottom:22px;font-size:.84rem;font-weight:600;color:var(--navy);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px;}
+[data-theme="dark"] .footer-call{color:var(--gold-light);}
+
+
+/* ── Previous / next at the bottom of every tab ── */
+.panel-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:44px;padding-top:24px;border-top:1px solid var(--b1);}
+.pn-btn{display:flex;flex-direction:column;gap:3px;padding:14px 18px;border-radius:var(--r-lg);border:1px solid var(--b1);background:var(--card);color:var(--txt);text-align:left;text-decoration:none;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:var(--sh);transition:transform .18s,box-shadow .18s,border-color .18s,background .18s;}
+.pn-btn:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--navy);}
+.pn-next{grid-column:2;text-align:right;align-items:flex-end;background:var(--navy);border-color:var(--navy);color:#fff;}
+.pn-next:hover{background:var(--navy-light);}
+[data-theme="dark"] .pn-next{background:var(--gold-dim);border-color:var(--gold-dim);}
+[data-theme="dark"] .pn-next:hover{background:var(--gold);border-color:var(--gold);}
+[data-theme="dark"] .pn-prev:hover{border-color:var(--gold-light);}
+.pn-dir{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;opacity:.7;}
+.pn-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;line-height:1.25;}
+.pn-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+@media(max-width:540px){.panel-nav{grid-template-columns:1fr;}.pn-next{grid-column:1;grid-row:1;}}
+@media (prefers-reduced-motion:reduce){.slm-fill::after,.slm-bar.indeterminate .slm-fill,.slm-card[data-state="loading"] .slm-dot,.slm-chip.loading::before{animation:none;}}
+@media(max-width:860px){.distinction-pair,.ing-grid,.tools-grid,.ba-grid,.tells-grid,.resources-grid{grid-template-columns:1fr;}.sandbox-layout{grid-template-columns:1fr;}.task-sidebar{position:static;}.sandbox-layout>*{min-width:0;}.terminal-wrap{height:520px;}.main{padding:24px 16px 80px;}}
 @media(max-width:540px){.hero h1{font-size:1.85rem;}.tab-btn{min-width:88px;padding:10px 12px;}.tab-name{font-size:.73rem;}}
 </style>
 </head>
 <body>
 <header class="hero">
+  <a href="../" class="hero-back">&#8592; All projects</a>
   <div class="hero-inner">
-    <div class="hero-eyebrow">Tenneri &nbsp;&#183;&nbsp; Interactive Learning Demo</div>
+    <div class="hero-eyebrow">Interactive learning demo</div>
     <h1><em>AI-Assisted</em><br>Communication &amp; Writing</h1>
     <p class="hero-sub">Learn the principles, practise the skills, and develop the judgment to use AI well at work.</p>
     <div class="hero-meta">
       <span class="hero-pill">5 modules</span>
-      <span class="hero-pill">Live sandbox</span>
+      <span class="hero-pill">Live AI sandbox</span>
       <span class="hero-pill">Scored quiz</span>
       <button class="theme-btn" id="theme-btn"><span id="theme-icon">&#127769;</span><span id="theme-label">Dark Mode</span></button>
     </div>
@@ -367,9 +457,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="section-title" style="margin-bottom:4px;">Platforms you will encounter</div>
   <p class="section-sub">ChatGPT, Copilot, and Gemini all do the same core job. The difference is where they live.</p>
   <div class="tools-grid reveal">
-    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#129302;</span><div><span class="tool-name">ChatGPT</span><span class="tool-maker">OpenAI</span></div></div><p class="tool-desc">The most widely known. Strong for drafting, rewriting, and summarising. Free tier available and widely used in your cohort.</p><a href="https://chatgpt.com" target="_blank" rel="noopener" class="tool-link">Open ChatGPT &#8594;</a></div>
-    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#128142;</span><div><span class="tool-name">Microsoft Copilot</span><span class="tool-maker">Microsoft</span></div></div><p class="tool-desc">Built into Outlook, Word, and Teams. If your placement uses Microsoft 365, Copilot is already there. High relevance for professional environments.</p><a href="https://copilot.microsoft.com" target="_blank" rel="noopener" class="tool-link">Open Copilot &#8594;</a></div>
-    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#10024;</span><div><span class="tool-name">Google Gemini</span><span class="tool-maker">Google</span></div></div><p class="tool-desc">Integrated with Gmail and Google Docs. Same drafting capability, relevant if your placement uses Google Workspace.</p><a href="https://gemini.google.com" target="_blank" rel="noopener" class="tool-link">Open Gemini &#8594;</a></div>
+    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#129302;</span><div><span class="tool-name">ChatGPT</span><span class="tool-maker">OpenAI</span></div></div><p class="tool-desc">The most widely known. Strong for drafting, rewriting, and summarising. Free tier available and widely used.</p><a href="https://chatgpt.com" target="_blank" rel="noopener" class="tool-link">Open ChatGPT &#8594;</a></div>
+    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#128142;</span><div><span class="tool-name">Microsoft Copilot</span><span class="tool-maker">Microsoft</span></div></div><p class="tool-desc">Built into Outlook, Word, and Teams. If your workplace uses Microsoft 365, Copilot is already there. High relevance for professional environments.</p><a href="https://copilot.microsoft.com" target="_blank" rel="noopener" class="tool-link">Open Copilot &#8594;</a></div>
+    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#10024;</span><div><span class="tool-name">Google Gemini</span><span class="tool-maker">Google</span></div></div><p class="tool-desc">Integrated with Gmail and Google Docs. Same drafting capability, relevant if your workplace uses Google Workspace.</p><a href="https://gemini.google.com" target="_blank" rel="noopener" class="tool-link">Open Gemini &#8594;</a></div>
   </div>
   <hr class="divider">
   <span class="section-label">Before the sandbox</span>
@@ -381,15 +471,43 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     <div class="ing-card"><div class="ing-head"><div class="ing-num-badge" style="background:#3d2e5a;">3</div><span class="ing-title">Audience</span></div><div class="ing-body"><p class="ing-desc">Who is reading it? A message to your manager reads differently from one to a new client or a peer on your team.</p><div class="ing-eg">"The recipient is a senior partner who prefers concise, direct communication."</div></div></div>
     <div class="ing-card"><div class="ing-head"><div class="ing-num-badge" style="background:#b45309;">4</div><span class="ing-title">Tone and constraints</span></div><div class="ing-body"><p class="ing-desc">Professional but warm? Under 80 words? These constraints turn a generic block of text into something you can actually use.</p><div class="ing-eg">"Keep it under 80 words. Polite and professional, not stiff."</div></div></div>
   </div>
-  <div class="callout gold reveal"><span class="callout-icon">&#129514;</span><p><strong>Ready?</strong> Head to the Prompt Sandbox. Three guided tasks put these four ingredients into practice, then the sandbox is open for free exploration.</p></div>
+  <div class="callout gold reveal"><span class="callout-icon">&#129514;</span><p><strong>Ready?</strong> Head to the Prompt Sandbox. Three guided tasks put these four ingredients into practice, then you can write your own prompts for a real AI model.</p></div>
 </div>
 <!-- T2 -->
 <div class="tab-panel" id="panel-t2">
   <span class="section-eyebrow">Module 2</span>
   <h2 class="panel-title">Prompt Sandbox</h2>
-  <p class="panel-lead">Three guided tasks only. Load each task to see the predetermined response and reflect on the prompt structure.</p>
+  <p class="panel-lead">Start with three guided tasks. Their responses are prewritten, so everyone sees the same example. Then write your own prompts: each one gets an instant check against the four ingredients, and a real draft from a live model if you turn it on.</p>
   <div class="sandbox-layout">
     <div class="task-sidebar">
+      <div class="slm-card" id="slm-card" data-state="off" aria-live="polite">
+        <div class="slm-head"><span class="slm-dot"></span><span class="slm-kicker">Live model</span><span class="slm-state" id="slm-state">Off</span></div>
+        <div class="slm-body">
+          <div class="slm-view" data-view="off">
+            <p class="slm-title">Run a real AI model in your browser</p>
+            <p class="slm-text">Qwen2.5 0.5B is a small language model (SLM). It runs on your device, so nothing you type leaves your browser. It's far less capable than ChatGPT or Claude, so expect rough edges. Spotting them is the skill this module teaches.</p>
+            <p class="slm-note" id="slm-device-note">One-time download of about 480 MB. After that, your browser keeps it.</p>
+            <button class="slm-btn" id="slm-load" type="button">Load the live model</button>
+          </div>
+          <div class="slm-view" data-view="loading">
+            <ol class="slm-steps"><li id="slm-s1" class="on">Download</li><li id="slm-s2">Warm up</li><li id="slm-s3">Ready</li></ol>
+            <div class="slm-bar" id="slm-bar"><div class="slm-fill" id="slm-fill"></div></div>
+            <div class="slm-meta"><span id="slm-mb">Connecting...</span><span id="slm-pct"></span></div>
+            <p class="slm-tip" id="slm-tip"></p>
+            <p class="slm-note" style="margin-bottom:0">Keep going while it loads. The guided tasks and the prompt check don't need it.</p>
+          </div>
+          <div class="slm-view" data-view="ready">
+            <p class="slm-title">Live and ready</p>
+            <p class="slm-text" id="slm-ready-text" style="margin-bottom:0"></p>
+          </div>
+          <div class="slm-view" data-view="error">
+            <p class="slm-title">It couldn't run on this device</p>
+            <p class="slm-text" id="slm-err">The prompt check still works, so keep writing prompts.</p>
+            <p class="slm-note" id="slm-attempt" style="margin-bottom:10px"></p>
+            <button class="slm-btn slm-retry" id="slm-retry" type="button">Try again</button>
+          </div>
+        </div>
+      </div>
       <div class="task-progress">
         <div class="task-progress-title">Your progress</div>
         <div class="task-step active" id="tstep-1"><div class="step-dot">1</div><div class="step-info"><div class="step-label">Draft it</div><div class="step-sub">First contact email</div></div></div>
@@ -399,20 +517,20 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <div class="task-complete-banner" id="task-complete-banner">
         <span class="tcb-icon">&#127919;</span>
         <div class="tcb-title">All three tasks done</div>
-        <p class="tcb-body">You have drafted, improved, and rewritten for a different audience. The sandbox is now open.</p>
+        <p class="tcb-body">You have drafted, improved, and rewritten for a different audience. Now try your own prompts, then review what comes back.</p>
         <button class="tcb-next" id="btn-next-review">Next: Review &amp; Edit &#8594;</button>
       </div>
     </div>
     <div>
       <div id="task-cards">
-        <div class="task-card" id="tc-1"><div class="task-card-head"><span class="task-tag">Task 1 of 3</span><span class="task-label">Draft it</span></div><div class="task-body"><p><strong>Scenario:</strong> Your first week at your placement. Your supervisor needs you to email the IT department requesting access to the shared OneDrive project folder. You have never met the IT contact.</p><p>A prompt has been prepared using all four ingredients. Click to send it.</p><div class="tpp-wrap"><div class="tpp-label">Prompt being sent</div><div class="tpp-text">Role: new employee, first week. Task: request access to shared OneDrive folder. Audience: IT contact, never met. Tone: professional but approachable, under 80 words.</div></div><button class="load-btn" data-task="1">Send prompt and see response &#8594;</button></div></div>
+        <div class="task-card" id="tc-1"><div class="task-card-head"><span class="task-tag">Task 1 of 3</span><span class="task-label">Draft it</span></div><div class="task-body"><p><strong>Scenario:</strong> Your first week in a new role. Your supervisor needs you to email the IT department requesting access to the shared OneDrive project folder. You have never met the IT contact.</p><p>A prompt has been prepared using all four ingredients. Click to send it.</p><div class="tpp-wrap"><div class="tpp-label">Prompt being sent</div><div class="tpp-text">Role: new employee, first week. Task: request access to shared OneDrive folder. Audience: IT contact, never met. Tone: professional but approachable, under 80 words.</div></div><button class="load-btn" data-task="1">Send prompt and see response &#8594;</button></div></div>
         <div class="task-card" id="tc-2" style="display:none"><div class="task-card-head"><span class="task-tag">Task 2 of 3</span><span class="task-label">Improve it</span></div><div class="task-body"><p><strong>Scenario:</strong> A colleague used a vague prompt and got a useless response. Watch what happens when the same request is rebuilt with all four ingredients.</p><div class="weak-box"><div class="weak-label">&#9888; Weak prompt</div><div class="weak-text">"Write an email about the meeting."</div><div class="weak-note">No recipient, no context, no tone, no format. The AI has nothing to work with.</div></div><div class="tpp-wrap"><div class="tpp-label">Improved prompt being sent</div><div class="tpp-text">Role: project coordinator. Task: confirm Friday 2pm Zoom debrief to the team. Audience: colleagues. Tone: clear and friendly, under 100 words.</div></div><button class="load-btn" data-task="2">Send improved prompt &#8594;</button></div></div>
         <div class="task-card" id="tc-3" style="display:none"><div class="task-card-head"><span class="task-tag">Task 3 of 3</span><span class="task-label">Rewrite it</span></div><div class="task-body"><p><strong>Scenario:</strong> A casual Teams message needs to become a formal email to a senior director. Same information, completely different register.</p><div class="weak-box purple"><div class="weak-label">&#128241; Original message</div><div class="weak-text">"Hey, just wanted to flag that the report is basically done, just need to fix a few things. Should be with you by end of week, maybe Friday afternoon. Let me know if that's ok!"</div></div><div class="tpp-wrap"><div class="tpp-label">Prompt being sent</div><div class="tpp-text">Rewrite as a formal email to a senior director. Formal, precise, confident. No casual language. Concise.</div></div><button class="load-btn" data-task="3">Send rewrite prompt &#8594;</button></div></div>
       </div>
       <div class="terminal-wrap">
-        <div class="terminal-bar"><div class="t-dots"><div class="t-dot t-dot-r"></div><div class="t-dot t-dot-y"></div><div class="t-dot t-dot-g"></div></div><div class="t-title">AI Writing Assistant Sandbox</div><span class="demo-badge">Demo</span><div class="t-actions"><span class="token-badge" id="token-badge">0 tokens</span><button class="t-btn" id="btn-export">Export</button><button class="t-btn" id="btn-clear">Clear</button></div></div>
-        <div class="chat-log" id="chat-log"><div class="msg-wrap assistant"><div class="msg-label">Assistant</div><div class="msg-bubble">Hello. I am your AI writing assistant. Load one of the guided tasks above.</div></div></div>
-        <div class="chat-input-area"><div class="input-meta"><div class="char-counter" id="char-counter">0</div></div><div class="input-row"><textarea class="chat-input" id="chat-input" rows="2" placeholder="Type a prompt, or load a task above..."></textarea><button class="send-btn" id="send-btn">&#8593;</button></div><div class="chat-status" id="chat-status"></div></div>
+        <div class="terminal-bar"><div class="t-dots"><div class="t-dot t-dot-r"></div><div class="t-dot t-dot-y"></div><div class="t-dot t-dot-g"></div></div><div class="t-title">AI Writing Assistant Sandbox</div><span class="slm-chip" id="slm-chip">SLM off</span><div class="t-actions"><span class="token-badge" id="token-badge">0 tokens</span><button class="t-btn" id="btn-export">Export</button><button class="t-btn" id="btn-clear">Clear</button></div></div>
+        <div class="chat-log" id="chat-log"><div class="msg-wrap assistant"><div class="msg-label">Assistant</div><div class="msg-bubble">Hello. I am your AI writing assistant. Start with the guided task above, or write your own prompt below.</div></div></div>
+        <div class="chat-input-area"><div class="input-meta"><div class="char-counter" id="char-counter">0</div></div><div class="input-row"><textarea class="chat-input" id="chat-input" rows="2" maxlength="700" aria-label="Your prompt" placeholder="Write your own prompt, or send the guided task above..."></textarea><button class="send-btn" id="send-btn" aria-label="Send">&#8593;</button></div><div class="chat-status" id="chat-status"></div></div>
       </div>
     </div>
   </div>
@@ -436,18 +554,18 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="section-title" style="margin-bottom:4px;">Before and After</div>
   <div class="callout gold reveal" style="margin-bottom:16px;"><span class="callout-icon">&#128070;</span><p><strong>Click the highlighted phrases</strong> in the raw output on the left to see exactly why each one was changed.</p></div>
   <div class="ba-grid reveal">
-    <div class="ba-col"><div class="ba-label ba-label-raw">&#129302; Raw AI output &#8212; click the highlights</div><div class="ba-body"><p>Dear Mr. Thompson,</p><p><span class="ba-flag" data-flag="0">I hope this message finds you well.</span> I am writing to follow up on our previous conversation regarding the upcoming project deliverable. <span class="ba-flag" data-flag="1">I wanted to circle back</span> and confirm we are on track for the 15th.</p><p>Please do not hesitate to <span class="ba-flag" data-flag="2">reach out at your earliest convenience</span> should you have any questions. I look forward to touching base soon.</p><p>Kind regards,<br>Jordan</p></div></div>
+    <div class="ba-col"><div class="ba-label ba-label-raw">&#129302; Raw AI output: click the highlights</div><div class="ba-body"><p>Dear Mr. Thompson,</p><p><span class="ba-flag" data-flag="0">I hope this message finds you well.</span> I am writing to follow up on our previous conversation regarding the upcoming project deliverable. <span class="ba-flag" data-flag="1">I wanted to circle back</span> and confirm we are on track for the 15th.</p><p>Please do not hesitate to <span class="ba-flag" data-flag="2">reach out at your earliest convenience</span> should you have any questions. I look forward to touching base soon.</p><p>Kind regards,<br>Jordan</p></div></div>
     <div class="ba-col"><div class="ba-label ba-label-edit">&#9999;&#65039; After review and edit</div><div class="ba-body"><p>Dear Mr. Thompson,</p><p>I wanted to confirm the project deliverable is on track for the <span class="ba-edit">15th</span>. <span class="ba-edit">Nothing has changed since we last spoke</span>, but a quick confirmation felt useful ahead of the deadline.</p><p>If anything comes up, <span class="ba-edit">feel free to message me directly</span>. Happy to jump on a call if it would help.</p><p>Kind regards,<br>Jordan</p></div></div>
   </div>
   <div class="flag-detail" id="flag-detail">Click a highlighted phrase in the raw output to see why it was changed.</div>
-  <p class="flag-hint" style="margin-bottom:28px;">Phrases in <span style="background:#fef3c7;border:1px solid #d97706;border-radius:3px;padding:1px 6px;font-size:.8rem;color:#92400e;">amber</span> are AI tells.</p>
+  <p class="flag-hint" style="margin-bottom:28px;">Phrases in <span class="amber-swatch">amber</span> are AI tells.</p>
   <hr class="divider">
   <span class="section-label">Reference</span>
   <div class="section-title" style="margin-bottom:4px;">Common AI writing tells</div>
   <p class="section-sub" style="margin-bottom:14px;">Replace these with direct, natural language.</p>
   <div class="tells-grid reveal">
     <div class="tell-card"><span class="tell-phrase">"I hope this message finds you well"</span><div class="tell-replace">Start with what you need to say.</div></div>
-    <div class="tell-card"><span class="tell-phrase">"Please do not hesitate to reach out"</span><div class="tell-replace">"Feel free to message me" &#8212; or nothing. It is implied.</div></div>
+    <div class="tell-card"><span class="tell-phrase">"Please do not hesitate to reach out"</span><div class="tell-replace">"Feel free to message me", or nothing. It is implied.</div></div>
     <div class="tell-card"><span class="tell-phrase">"I wanted to circle back"</span><div class="tell-replace">"Following up on..." or "Just confirming..."</div></div>
     <div class="tell-card"><span class="tell-phrase">"As per my previous email"</span><div class="tell-replace">Summarise the relevant point directly.</div></div>
     <div class="tell-card"><span class="tell-phrase">"I am writing to you today to..."</span><div class="tell-replace">Remove entirely. Just start writing.</div></div>
@@ -508,15 +626,14 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 </main>
 <button id="back-to-top" aria-label="Back to top">&#8593;</button>
 <footer class="footer-cta">
-  <span class="footer-eyebrow">Tenneri &#183; Native LMS Development</span>
-  <h2 class="footer-title">Want a module like this<br><em>inside your LMS?</em></h2>
-  <p class="footer-sub">This entire experience runs natively inside a single LMS content page. No external platforms. No new logins. No per-seat fees.</p>
+  <span class="footer-eyebrow">Designed and built by Ramano Stoute</span>
+  <p class="footer-sub">I wrote, designed and coded every part of this module, including the live model. It all runs on a single page, so it can sit inside an LMS with no extra logins or licences.</p>
   <div class="footer-btns">
-    <a href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener" class="btn-primary">Book a 20-minute call &#8594;</a>
-    <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn-secondary">See all projects</a>
+    <a href="../../contact/?from=ai-communication" class="btn-primary">Get in touch &#8594;</a>
+    <a href="../" class="btn-secondary">See all projects</a>
   </div>
-  <a href="https://tenneri.com" target="_blank" rel="noopener" class="footer-badge"><span class="badge-dot"></span>Built by Tenneri</a>
-  <span class="footer-caption">Interactive learning environments and native LMS development</span>
+  <a href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener" class="footer-call">Prefer a 20-minute call? Book one &#8594;</a><br>
+  <a href="../../" class="footer-badge"><span class="badge-dot"></span>tenneri.com</a>
 </footer>
 <script>
 (function(){
@@ -529,14 +646,26 @@ var FLAG_DATA=[
 ];
 var DIAG_FB={'1t':'Correct. Without context, task, tone, format, or audience, the AI has nothing to work with and will produce something generic and unusable.','1f':'Not quite. The issue is not length or topic. The prompt gives the AI almost no information at all.','2t':'Correct. Submitting an AI-generated self-assessment as your own work is dishonest regardless of quality.','2f':'Length and topic are not the issue. Generating a self-assessment to submit without engagement crosses from assisted to generated.','3t':'Correct. The task is stated but the email is missing. The AI cannot rewrite something it has not seen.','3f':'The problem is not tool choice or word choice. The prompt is missing the content it is asking the AI to work with.','4t':'Correct. This is a well-constructed prompt with all four ingredients: role, task, audience, tone, and a length constraint.','4f':'Revisit the four ingredients from the Overview. This prompt includes all of them.'};
 var TASK_PROMPTS={1:'I am a new employee in my first week at a professional services firm. Draft a short, polite professional email to the IT department requesting access to the shared project folder on OneDrive. I have not met the IT contact before. Keep it under 80 words, professional but approachable.',2:'Write a professional email to my team confirming the details of our Friday project debrief meeting. The meeting is at 2pm, lasts one hour, and will be held on Zoom. Tone should be clear and friendly. Under 100 words.',3:'Rewrite the following message as a professional email to a senior director at a client organisation. Maintain the core information but adjust the tone to be formal, precise, and confident. Remove all casual language. Keep it concise. Original message: "Hey, just wanted to flag that the report is basically done, just need to fix a few things. Should be with you by end of week, maybe Friday afternoon. Let me know if that\'s ok!"'};
-var TASK_RESPONSES={1:'Subject: Request for Access \u2014 Shared Project Folder\n\nHi [IT contact\u2019s name],\n\nI recently joined the team and need access to the shared project folder on OneDrive to get started.\n\nCould you help set that up when you get a chance? Happy to provide any details you need.\n\nThanks,\n[Your name]',2:'Subject: Friday Project Debrief \u2014 Details Confirmed\n\nHi team,\n\nJust confirming our project debrief is set for Friday at 2pm on Zoom. The session runs for one hour.\n\nI will send the Zoom link closer to the time. Let me know if anything has changed on your end.\n\nSee you Friday,\n[Your name]',3:'Subject: Project Report \u2014 Delivery Update\n\nDear [Director\u2019s name],\n\nI wanted to confirm that the report is in its final stages. A small number of revisions remain, and I expect to have the completed document with you by end of business this Friday.\n\nPlease let me know if you have any questions in the meantime.\n\nKind regards,\n[Your name]'};
+var TASK_RESPONSES={1:'Subject: Access to the Shared Project Folder\n\nHi [IT contact\u2019s name],\n\nI recently joined the team and need access to the shared project folder on OneDrive to get started.\n\nCould you help set that up when you get a chance? Happy to provide any details you need.\n\nThanks,\n[Your name]',2:'Subject: Friday Project Debrief: Details Confirmed\n\nHi team,\n\nJust confirming our project debrief is set for Friday at 2pm on Zoom. The session runs for one hour.\n\nI will send the Zoom link closer to the time. Let me know if anything has changed on your end.\n\nSee you Friday,\n[Your name]',3:'Subject: Project Report: Delivery Update\n\nDear [Director\u2019s name],\n\nI wanted to confirm that the report is in its final stages. A small number of revisions remain, and I expect to have the completed document with you by end of business this Friday.\n\nPlease let me know if you have any questions in the meantime.\n\nKind regards,\n[Your name]'};
 function $(id){return document.getElementById(id);}
 function on(el,ev,fn){if(el)el.addEventListener(ev,fn);}
-on($('theme-btn'),'click',function(){state.theme=state.theme==='light'?'dark':'light';document.body.setAttribute('data-theme',state.theme==='dark'?'dark':'');$('theme-icon').textContent=state.theme==='dark'?'\u2600\ufe0f':'\ud83c\udf19';$('theme-label').textContent=state.theme==='dark'?'Light mode':'Dark mode';});
+// Theme: shares the 'tenneri-theme' setting with the rest of tenneri.com
+function applyTheme(t){state.theme=t;document.documentElement.setAttribute('data-theme',t);$('theme-icon').textContent=t==='dark'?'\u2600\ufe0f':'\ud83c\udf19';$('theme-label').textContent=t==='dark'?'Light mode':'Dark mode';}
+applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light');
+on($('theme-btn'),'click',function(){var t=state.theme==='dark'?'light':'dark';applyTheme(t);try{localStorage.setItem('tenneri-theme',t);}catch(e){}});
 function updateIndicator(btn){var ind=$('tab-indicator');if(!ind||!btn)return;ind.style.left=btn.offsetLeft+'px';ind.style.width=btn.getBoundingClientRect().width+'px';}
-function switchTab(id){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});var panel=$('panel-'+id);var btn=document.querySelector('[data-tab="'+id+'"]');if(panel)panel.classList.add('active');if(btn){btn.classList.add('active');updateIndicator(btn);}state.activeTab=id;if(!state.visited[id]){state.visited[id]=true;var chk=$('chk-'+id);if(chk)chk.classList.add('lit');}window.scrollTo({top:0,behavior:'smooth'});setTimeout(triggerReveal,60);}
+function switchTab(id){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});var panel=$('panel-'+id);var btn=document.querySelector('[data-tab="'+id+'"]');if(panel)panel.classList.add('active');if(btn){btn.classList.add('active');updateIndicator(btn);}state.activeTab=id;if(id==='t2')prepareOnce();if(!state.visited[id]){state.visited[id]=true;var chk=$('chk-'+id);if(chk)chk.classList.add('lit');}var hero=document.querySelector('.hero');var y=hero?hero.offsetHeight:0;if(window.scrollY>y)window.scrollTo({top:y,behavior:'smooth'});setTimeout(triggerReveal,60);}
 document.querySelectorAll('.tab-btn').forEach(function(btn){on(btn,'click',function(){switchTab(btn.getAttribute('data-tab'));});});
 switchTab('t1');
+
+// Previous / next buttons at the bottom of every tab, so nobody has to scroll back up
+(function(){var ORDER=['t1','t2','t3','t4','t5'];var NAMES={t1:'Overview',t2:'Prompt Sandbox',t3:'Review & Edit',t4:'In Practice',t5:'Knowledge Check'};
+ORDER.forEach(function(id,i){var panel=$('panel-'+id);if(!panel)return;var nav=document.createElement('nav');nav.className='panel-nav';nav.setAttribute('aria-label','Move between sections');
+var h='';if(i>0)h+='<button type="button" class="pn-btn pn-prev" data-go="'+ORDER[i-1]+'"><span class="pn-dir">\u2190 Previous</span><span class="pn-name">'+NAMES[ORDER[i-1]]+'</span></button>';
+if(i<ORDER.length-1)h+='<button type="button" class="pn-btn pn-next" data-go="'+ORDER[i+1]+'"><span class="pn-dir">Next \u00b7 0'+(i+2)+' of 05</span><span class="pn-name">'+NAMES[ORDER[i+1]]+' \u2192</span></button>';
+else h+='<a class="pn-btn pn-next" href="../"><span class="pn-dir">Module complete</span><span class="pn-name">See more of my work \u2192</span></a>';
+nav.innerHTML=h;panel.appendChild(nav);});
+document.querySelectorAll('.pn-btn[data-go]').forEach(function(b){on(b,'click',function(){switchTab(b.getAttribute('data-go'));var t=document.querySelector('[data-tab="'+b.getAttribute('data-go')+'"]');if(t)t.focus({preventScroll:true});});});})();
 function triggerReveal(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el){if(el.getBoundingClientRect().top<window.innerHeight-50)el.classList.add('in');});}
 window.addEventListener('scroll',triggerReveal,{passive:true});setTimeout(triggerReveal,100);
 var btt=$('back-to-top');window.addEventListener('scroll',function(){btt.classList.toggle('visible',window.scrollY>180);},{passive:true});on(btt,'click',function(){window.scrollTo({top:0,behavior:'smooth'});});
@@ -545,27 +674,131 @@ function advanceTask(done){state.tasksCompleted=Math.max(state.tasksCompleted,do
 updateTaskUI(1);
 function updateTokens(){var b=$('token-badge');if(b)b.textContent=Math.round(state.totalTokens).toLocaleString()+' tokens';}
 function est(t){return Math.ceil(t.length/4);}
-function streamText(bubble,text,onDone){var cursor=document.createElement('span');cursor.className='streaming-cursor';bubble.appendChild(cursor);var i=0;var spd=text.length>600?8:text.length>300?12:18;function tick(){if(i<text.length){i=Math.min(i+Math.ceil(spd*.8),text.length);while(bubble.firstChild&&bubble.firstChild!==cursor)bubble.removeChild(bubble.firstChild);bubble.insertBefore(document.createTextNode(text.slice(0,i)),cursor);requestAnimationFrame(tick);}else{cursor.remove();bubble.textContent=text;if(onDone)onDone();}}requestAnimationFrame(tick);}
-function appendMsg(role,text,stream){var log=$('chat-log');if(!log)return;var wrap=document.createElement('div');wrap.className='msg-wrap '+role;var label=document.createElement('div');label.className='msg-label';label.textContent=role==='user'?'You':'Assistant';var bubble=document.createElement('div');bubble.className='msg-bubble';if(role==='assistant'){var copyBtn=document.createElement('button');copyBtn.className='copy-btn';copyBtn.textContent='Copy';copyBtn.addEventListener('click',function(){var t=Array.from(bubble.childNodes).filter(function(n){return n!==copyBtn;}).map(function(n){return n.textContent||n.nodeValue||'';}).join('').trim();navigator.clipboard.writeText(t).then(function(){copyBtn.textContent='Copied';copyBtn.classList.add('copied');setTimeout(function(){copyBtn.textContent='Copy';copyBtn.classList.remove('copied');},2000);});});if(stream&&text.length>0){streamText(bubble,text,function(){bubble.appendChild(copyBtn);});}else{bubble.textContent=text;bubble.appendChild(copyBtn);}}else{bubble.textContent=text;}wrap.appendChild(label);wrap.appendChild(bubble);log.appendChild(wrap);log.scrollTop=log.scrollHeight;}
-function showTyping(){var log=$('chat-log');if(!log)return;var wrap=document.createElement('div');wrap.className='msg-wrap assistant';wrap.id='typing-ind';var label=document.createElement('div');label.className='msg-label';label.textContent='Assistant';var ind=document.createElement('div');ind.className='typing-indicator';for(var i=0;i<3;i++){var dot=document.createElement('div');dot.className='typing-dot';ind.appendChild(dot);}wrap.appendChild(label);wrap.appendChild(ind);log.appendChild(wrap);log.scrollTop=log.scrollHeight;}
+function scrollLog(){var log=$('chat-log');if(log)log.scrollTop=log.scrollHeight;}
+function streamText(bubble,text,onDone){var cursor=document.createElement('span');cursor.className='streaming-cursor';bubble.appendChild(cursor);var i=0;var spd=text.length>600?8:text.length>300?12:18;function tick(){if(i<text.length){i=Math.min(i+Math.ceil(spd*.8),text.length);while(bubble.firstChild&&bubble.firstChild!==cursor)bubble.removeChild(bubble.firstChild);bubble.insertBefore(document.createTextNode(text.slice(0,i)),cursor);scrollLog();requestAnimationFrame(tick);}else{cursor.remove();bubble.textContent=text;if(onDone)onDone();}}requestAnimationFrame(tick);}
+function addCopy(bubble){var copyBtn=document.createElement('button');copyBtn.className='copy-btn';copyBtn.type='button';copyBtn.textContent='Copy';copyBtn.addEventListener('click',function(){var t=Array.from(bubble.childNodes).filter(function(n){return n!==copyBtn;}).map(function(n){return n.textContent||n.nodeValue||'';}).join('').trim();navigator.clipboard.writeText(t).then(function(){copyBtn.textContent='Copied';copyBtn.classList.add('copied');setTimeout(function(){copyBtn.textContent='Copy';copyBtn.classList.remove('copied');},2000);});});bubble.appendChild(copyBtn);}
+function makeMsg(role){var log=$('chat-log');var wrap=document.createElement('div');wrap.className='msg-wrap '+role;var label=document.createElement('div');label.className='msg-label';label.textContent=role==='user'?'You':'Assistant';var bubble=document.createElement('div');bubble.className='msg-bubble';wrap.appendChild(label);wrap.appendChild(bubble);log.appendChild(wrap);scrollLog();return{wrap:wrap,bubble:bubble};}
+function addFoot(wrap,html){var f=document.createElement('div');f.className='msg-foot';f.innerHTML=html;wrap.appendChild(f);scrollLog();}
+function appendMsg(role,text,stream,foot){var m=makeMsg(role);if(role==='assistant'){if(stream&&text.length>0){streamText(m.bubble,text,function(){addCopy(m.bubble);if(foot)addFoot(m.wrap,foot);});}else{m.bubble.textContent=text;addCopy(m.bubble);if(foot)addFoot(m.wrap,foot);}}else{m.bubble.textContent=text;}return m;}
+function sysNote(text){var log=$('chat-log');var n=document.createElement('div');n.className='sys-note';n.textContent=text;log.appendChild(n);scrollLog();return n;}
+function showTyping(){var log=$('chat-log');if(!log)return;removeTyping();var wrap=document.createElement('div');wrap.className='msg-wrap assistant';wrap.id='typing-ind';var label=document.createElement('div');label.className='msg-label';label.textContent='Assistant';var ind=document.createElement('div');ind.className='typing-indicator';for(var i=0;i<3;i++){var dot=document.createElement('div');dot.className='typing-dot';ind.appendChild(dot);}wrap.appendChild(label);wrap.appendChild(ind);log.appendChild(wrap);scrollLog();}
 function removeTyping(){var el=$('typing-ind');if(el)el.remove();}
-function setSending(v){state.isSending=v;var btn=$('send-btn');var inp=$('chat-input');if(btn)btn.disabled=v;if(inp)inp.disabled=v;var s=$('chat-status');if(s)s.textContent=v?'Thinking...':'';}
-function sendMessage(text){if(state.isSending||!text.trim())return;setSending(true);appendMsg('user',text,false);state.chatHistory.push({role:'user',content:text});state.totalTokens+=est(text);updateTokens();showTyping();var reply=TASK_RESPONSES[state.currentTask]||'I have received your prompt. In a full implementation this connects to a live AI model. Note how the prompt structure shapes the kind of response you would receive.';setTimeout(function(){removeTyping();state.totalTokens+=est(reply);updateTokens();appendMsg('assistant',reply,true);state.chatHistory.push({role:'assistant',content:reply});if(state.tasksCompleted<state.currentTask&&state.currentTask<=3){setTimeout(function(){advanceTask(state.currentTask);},1000);}setSending(false);},700+Math.floor(Math.random()*500));}
-document.querySelectorAll('.load-btn').forEach(function(btn){on(btn,'click',function(){var t=TASK_PROMPTS[parseInt(btn.getAttribute('data-task'))];if(t)sendMessage(t);});});
-on($('send-btn'),'click',function(){var inp=$('chat-input');if(inp&&inp.value.trim()){var t=inp.value.trim();inp.value='';sendMessage(t);}});
-var ci=$('chat-input');if(ci){ci.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var t=ci.value.trim();if(t){ci.value='';sendMessage(t);}}});ci.addEventListener('input',function(){var n=ci.value.length;var c=$('char-counter');if(c){c.textContent=n;c.className='char-counter'+(n>400?' warm':n>550?' hot':'');}});}
+function setStatus(t){var s=$('chat-status');if(s)s.textContent=t||'';}
+function setSending(v){state.isSending=v;var btn=$('send-btn');var inp=$('chat-input');if(btn)btn.disabled=v;if(inp)inp.disabled=v;setStatus(v?'Thinking...':'');}
+
+/* ═════════ PROMPT CHECK (instant, rule based, no model needed) ═════════ */
+function wordCount(p){return (p.trim().match(/\S+/g)||[]).length;}
+var INGREDIENTS=[
+  {name:'Role',re:/\b(i am|i'm|im|as an?|my role|my team|our team|on behalf of|i work|i run|i manage|i lead|role:|new (hire|employee|starter)|first (week|day|month))\b/i,
+   tip:'Say who you are and what is going on. "I\'m a new hire in my first week" gives the model something to work with.'},
+  {name:'Task',test:function(p){return wordCount(p)>=6&&/\b(draft|write|rewrite|compose|reply|respond|summari[sz]e|request|confirm|follow[- ]?up|announce|decline|apologi[sz]e|thank|invite|remind|ask|explain|introduce|update)\w*/i.test(p);},
+   tip:'Name the exact job. "Draft a follow-up email asking for the signed contract" beats "write an email".'},
+  {name:'Audience',re:/\b(to (my|the|a|an|our|his|her|their)\b|recipient|audience|reader|manager|boss|supervisor|client|customer|colleague|coworker|co-worker|team|director|executive|ceo|it (department|team|contact)|hr|recruiter|hiring manager|professor|lecturer|teacher|landlord|vendor|supplier|stakeholder|partner|parents?)\b/i,
+   tip:'Say who will read it. A note to your manager reads differently from one to a new client.'},
+  {name:'Tone & limits',re:/\b(tone|formal|informal|friendly|professional|casual|warm|polite|direct|concise|brief|short|firm|apologetic|enthusiastic|confident|plain|under \d+|\d+ words|words or less|bullet|one paragraph|\d+ sentences?)\b/i,
+   tip:'Add a tone and a limit, like "friendly but professional, under 80 words".'}
+];
+function checkPrompt(p){var res=INGREDIENTS.map(function(g){return{name:g.name,tip:g.tip,hit:g.test?g.test(p):g.re.test(p)};});var score=res.filter(function(r){return r.hit;}).length;return{res:res,score:score};}
+function showCoach(p){var c=checkPrompt(p);var log=$('chat-log');var box=document.createElement('div');box.className='coach';var miss=c.res.filter(function(r){return!r.hit;});var verdict;if(wordCount(p)<4)verdict='That is very short. The model will have to guess almost everything.';else if(c.score===4)verdict='All four ingredients. That gives the model its best shot at a usable first draft.';else verdict=(c.score<=1?'The model will have to guess most of this. ':'Good start. ')+'Missing: '+miss.map(function(m){return m.name.toLowerCase();}).join(', ')+'. '+miss[0].tip;
+  box.innerHTML='<div class="coach-top"><span class="coach-label">Prompt check</span><span class="coach-score">'+c.score+' of 4</span></div><div class="coach-chips">'+c.res.map(function(r){return'<span class="coach-chip '+(r.hit?'hit':'miss')+'">'+(r.hit?'✓ ':'✕ ')+r.name+'</span>';}).join('')+'</div>';
+  var tip=document.createElement('div');tip.className='coach-tip';tip.textContent=verdict;box.appendChild(tip);log.appendChild(box);scrollLog();return c.score;}
+
+/* ═════════ LIVE MODEL (runs in a Web Worker so the page never freezes) ═════════ */
+var MODEL_URL='https://huggingface.co/onnx-community/Qwen2.5-0.5B-Instruct/resolve/main/onnx/model_';
+var SIZES={q4f16:483,q4:786,q8:512};
+var IS_PHONE=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+var slm={state:'off',worker:null,device:null,dtype:null,pending:null,genId:0,live:null,history:[],tipTimer:null};
+var TIPS=[
+  ['Why the wait','The model is a few hundred megabytes of numbers. Your browser saves it, so next time it starts in seconds.'],
+  ['Prompt tip','"Write an email" makes the model guess. Role, task, audience and tone remove the guessing.'],
+  ['Small vs large','This model has 0.5 billion parameters. The big chat assistants are reported to be hundreds of times larger.'],
+  ['Prompt tip','Give it a length limit. Small models ramble when you don\'t.'],
+  ['Privacy','Nothing you type here is sent anywhere. The model runs entirely on your device.'],
+  ['Review tip','Small models invent details. Check every name, date and number in the draft before you trust it.']
+];
+function el(id){return document.getElementById(id);}
+function mb(b){return Math.round(b/1048576);}
+function setSlmState(s){slm.state=s;el('slm-card').setAttribute('data-state',s);var chip=el('slm-chip');chip.className='slm-chip'+(s==='loading'?' loading':s==='ready'?' ready':'');el('slm-state').textContent={off:'Off',loading:'Loading',ready:'Live',error:'Unavailable'}[s];if(s==='off')chip.textContent='SLM off';if(s==='ready')chip.textContent='SLM live';if(s==='error')chip.textContent='SLM unavailable';if(s!=='loading')stopTips();}
+function setStep(n){for(var i=1;i<=3;i++){var li=el('slm-s'+i);li.classList.toggle('done',i<n);li.classList.toggle('on',i===n);}}
+function startTips(){var i=0,tip=el('slm-tip');function show(){tip.innerHTML='<b>'+TIPS[i][0]+'</b>'+TIPS[i][1];}show();stopTips();slm.tipTimer=setInterval(function(){tip.classList.add('fade');setTimeout(function(){i=(i+1)%TIPS.length;show();tip.classList.remove('fade');},350);},6500);}
+function stopTips(){if(slm.tipTimer){clearInterval(slm.tipTimer);slm.tipTimer=null;}}
+
+// Pick the fastest setup this device supports, before anything downloads.
+function probeDevice(){if(!('gpu' in navigator))return Promise.resolve({device:'wasm',dtype:'q8'});return navigator.gpu.requestAdapter().then(function(a){if(!a)return{device:'wasm',dtype:'q8'};return{device:'webgpu',dtype:a.features&&a.features.has('shader-f16')?'q4f16':'q4'};}).catch(function(){return{device:'wasm',dtype:'q8'};});}
+function isCached(dtype){if(!('caches' in window))return Promise.resolve(false);var file=dtype==='q8'?'quantized':dtype;return caches.open('transformers-cache').then(function(c){return c.match(MODEL_URL+file+'.onnx');}).then(function(r){return!!r;}).catch(function(){return false;});}
+function describeSetup(){if(slm.device==='webgpu')return'Running on your graphics card (WebGPU), so replies should stream quickly.';return'Your browser has no WebGPU, so it runs on your processor. Replies will be slow, a few words a second.';}
+
+function slmPrepare(){probeDevice().then(function(d){slm.device=d.device;slm.dtype=d.dtype;var note=el('slm-device-note');var size=SIZES[d.dtype];if(d.device==='wasm'){note.className='slm-note warn';note.textContent=IS_PHONE?'Phones usually can\'t run this well. It\'s a '+size+' MB download and may be very slow or close the tab. A laptop with Chrome or Edge works best.':'Your browser has no WebGPU, so this will run on your processor: a '+size+' MB download and slow replies. Chrome or Edge on a laptop is much faster.';if(IS_PHONE)el('slm-load').textContent='Try anyway';}else{note.textContent='One-time download of about '+size+' MB. After that, your browser keeps it.';}
+  // Already downloaded on an earlier visit? Then start straight away.
+  isCached(d.dtype).then(function(hit){if(hit&&slm.state==='off')slmLoad(true);});});}
+
+function slmLoad(fromCache){if(slm.state==='loading'||slm.state==='ready')return;setSlmState('loading');setStep(1);startTips();
+  var bar=el('slm-bar');bar.classList.add('indeterminate');el('slm-fill').style.width='0';el('slm-pct').textContent='';el('slm-mb').textContent=fromCache?'Loading from your browser...':'Connecting...';el('slm-chip').textContent='SLM loading';
+  if(typeof gtag==='function')gtag('event','slm_load_start',{device:slm.device,dtype:slm.dtype,cached:!!fromCache});
+  slm.t0=performance.now();
+  slm.attempts=(slm.attempts||0)+1;if(location.protocol==='file:'){slmFail('The live model only runs when the page is served from a website, not opened as a file on your computer.');return;}try{slm.worker=new Worker('slm-worker.js',{type:'module'});}catch(e){slmFail('Your browser could not start the model.');return;}
+  slm.worker.onmessage=onWorker;
+  slm.worker.onerror=function(e){e.preventDefault&&e.preventDefault();slmFail('The model files could not be reached. A network filter or an older browser may be blocking them.');};
+  slm.worker.postMessage({type:'load',device:slm.device||'wasm',dtype:slm.dtype||'q8'});}
+
+function slmFail(msg){var wait=1500-(performance.now()-(slm.t0||0));if(wait>0&&slm.state==='loading'){el('slm-mb').textContent='Starting the model...';setTimeout(function(){slmFail(msg);},wait);return;}if(slm.worker){slm.worker.terminate();slm.worker=null;}setSlmState('error');el('slm-err').textContent=msg+' The prompt check still works, so keep writing prompts.';var at=el('slm-attempt');var now=new Date();at.textContent=(slm.attempts>1?'Attempt '+slm.attempts+' also failed':'Tried once')+' at '+now.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'.';var rb=el('slm-retry');rb.disabled=false;rb.textContent='Try again';if(slm.live)finishLive(true);if(slm.pending){slm.pending=null;removeTyping();setSending(false);sysNote('The live model is unavailable, so no draft this time.');}
+  if(typeof gtag==='function')gtag('event','slm_error',{device:slm.device});}
+
+function onWorker(e){var m=e.data||{};
+  if(m.type==='progress'){var bar=el('slm-bar');bar.classList.remove('indeterminate');var pct=m.total?Math.min(100,Math.round(m.loaded/m.total*100)):0;el('slm-fill').style.width=pct+'%';el('slm-pct').textContent=pct+'%';el('slm-mb').textContent=mb(m.loaded)+' of '+mb(m.total)+' MB';el('slm-chip').textContent='SLM '+pct+'%';}
+  else if(m.type==='fallback'){slm.device=m.device;slm.dtype=m.dtype;}
+  else if(m.type==='stage'&&m.stage==='warmup'){setStep(2);el('slm-bar').classList.add('indeterminate');el('slm-mb').textContent='Warming up the model...';el('slm-pct').textContent='';el('slm-chip').textContent='SLM warming up';}
+  else if(m.type==='ready'){setStep(3);setSlmState('ready');el('slm-ready-text').textContent=describeSetup()+' Write a prompt in the sandbox to try it.';
+    if(typeof gtag==='function')gtag('event','slm_ready',{device:m.device,dtype:m.dtype,seconds:Math.round(m.ms/1000)});
+    if(slm.pending){var p=slm.pending;slm.pending=null;sysNote('Model ready. Answering your prompt.');runLive(p);}}
+  else if(m.type==='token'&&slm.live&&m.id===slm.live.id){onToken(m.text,m.tokens);}
+  else if(m.type==='done'&&slm.live&&m.id===slm.live.id){finishLive(false,m);}
+  else if(m.type==='error'){if(m.phase==='load')slmFail('This device could not run the model.');else if(slm.live){finishLive(true);sysNote('Something went wrong while writing. Try sending it again.');}}}
+
+/* Streaming: tokens arrive from the worker and are painted once per frame */
+function runLive(prompt){var id=++slm.genId;showTyping();setStatus('Thinking...');setSendMode('stop');var m=null;
+  slm.live={id:id,prompt:prompt,text:'',raf:0,msg:null,tokens:0,start:performance.now(),getMsg:function(){if(!m){removeTyping();m=makeMsg('assistant');var cur=document.createElement('span');cur.className='streaming-cursor';m.bubble.appendChild(cur);m.cursor=cur;m.node=document.createTextNode('');m.bubble.insertBefore(m.node,cur);}return m;}};
+  slm.worker.postMessage({type:'generate',id:id,prompt:prompt,history:slm.history.slice(-4),maxTokens:slm.device==='webgpu'?240:180});}
+function onToken(text,tokens){var L=slm.live;L.text+=text;L.tokens=tokens;if(L.raf)return;L.raf=requestAnimationFrame(function(){L.raf=0;var m=L.getMsg();m.node.nodeValue=L.text.replace(/^\s+/,'');var secs=(performance.now()-L.start)/1000;setStatus('Writing live · '+L.tokens+' tokens · '+(L.tokens/Math.max(secs,.1)).toFixed(1)+' tokens/sec');scrollLog();});}
+function finishLive(failed,d){var L=slm.live;slm.live=null;if(!L)return;if(L.raf)cancelAnimationFrame(L.raf);removeTyping();setSendMode('send');setSending(false);
+  if(failed&&!L.text)return;var m=L.getMsg();var text=(d&&d.text)||L.text.trim();m.cursor.remove();m.bubble.textContent=text||'(No text came back. Try rephrasing the prompt.)';addCopy(m.bubble);
+  var secs=d?(d.ms/1000).toFixed(1):'';addFoot(m.wrap,'<b>Live</b> · Qwen2.5 0.5B'+(d?' · '+secs+'s':'')+(d&&d.stopped?' · stopped':'')+' · Review before you use it');
+  state.totalTokens+=(d&&d.tokens)||est(text);updateTokens();state.chatHistory.push({role:'assistant',content:text});
+  slm.history.push({role:'user',content:L.prompt},{role:'assistant',content:text});}
+function setSendMode(mode){var b=$('send-btn');if(mode==='stop'){b.classList.add('stop');b.innerHTML='&#9632;';b.setAttribute('aria-label','Stop');b.disabled=false;}else{b.classList.remove('stop');b.innerHTML='&#8593;';b.setAttribute('aria-label','Send');}}
+
+/* ═════════ SENDING ═════════ */
+// Guided tasks: prewritten responses, so every learner sees the same example.
+function sendGuided(n){if(state.isSending||slm.live)return;var text=TASK_PROMPTS[n];setSending(true);appendMsg('user',text,false);state.chatHistory.push({role:'user',content:text});state.totalTokens+=est(text);updateTokens();showTyping();var reply=TASK_RESPONSES[n];setTimeout(function(){removeTyping();state.totalTokens+=est(reply);updateTokens();appendMsg('assistant',reply,true,'Prewritten example · Guided task '+n+' of 3');state.chatHistory.push({role:'assistant',content:reply});if(state.tasksCompleted<n){setTimeout(function(){advanceTask(n);},1000);}setSending(false);},700+Math.floor(Math.random()*500));}
+// Your own prompts: instant prompt check, then the live model if it is on.
+var nudged=false;
+function sendOwn(text){if(state.isSending||slm.live||!text.trim())return;appendMsg('user',text,false);state.chatHistory.push({role:'user',content:text});state.totalTokens+=est(text);updateTokens();showCoach(text);
+  if(slm.state==='ready'){setSending(true);runLive(text);}
+  else if(slm.state==='loading'){setSending(true);slm.pending=text;showTyping();setStatus('Waiting for the model to finish loading...');}
+  else if(slm.state==='off'){if(!nudged){nudged=true;var n=sysNote('Want a real draft too? Load the live model.');n.style.cursor='pointer';n.addEventListener('click',function(){slmLoad(false);});}}}
+document.querySelectorAll('.load-btn').forEach(function(btn){on(btn,'click',function(){sendGuided(parseInt(btn.getAttribute('data-task'),10));});});
+function submitInput(){var inp=$('chat-input');var t=inp.value.trim();if(!t)return;inp.value='';updateCounter();sendOwn(t);}
+on($('send-btn'),'click',function(){if(slm.live){slm.worker.postMessage({type:'stop'});setStatus('Stopping...');return;}submitInput();});
+var ci=$('chat-input');
+function updateCounter(){var n=ci.value.length;var c=$('char-counter');if(c){c.textContent=n+' / 700';c.className='char-counter'+(n>550?' hot':n>400?' warm':'');}}
+if(ci){ci.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!slm.live)submitInput();}});ci.addEventListener('input',updateCounter);updateCounter();}
+on($('slm-load'),'click',function(){slmLoad(false);});
+on($('slm-retry'),'click',function(){var rb=el('slm-retry');rb.disabled=true;rb.textContent='Trying again...';setTimeout(function(){setSlmState('off');slmLoad(false);},250);});
+on($('slm-chip'),'click',function(){el('slm-card').scrollIntoView({behavior:'smooth',block:'center'});});
 on($('btn-export'),'click',function(){var lines=['AI Writing Assistant Export','=========================',''];state.chatHistory.forEach(function(m){lines.push((m.role==='user'?'YOU':'ASSISTANT')+':');lines.push(m.content);lines.push('');});var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/plain'}));a.download='ai-sandbox-chat.txt';a.click();});
-on($('btn-clear'),'click',function(){state.chatHistory=[];state.totalTokens=0;updateTokens();var log=$('chat-log');if(log){log.innerHTML='';appendMsg('assistant','Chat cleared. Ready for your next prompt.',false);}});
+on($('btn-clear'),'click',function(){if(slm.live)return;state.chatHistory=[];slm.history=[];state.totalTokens=0;updateTokens();var log=$('chat-log');if(log){log.innerHTML='';appendMsg('assistant','Chat cleared. Ready for your next prompt.',false);}});
+// Check the device only when someone first opens the sandbox. Nothing downloads until they ask.
+var prepared=false;function prepareOnce(){if(prepared)return;prepared=true;slmPrepare();}
 document.querySelectorAll('.ba-flag').forEach(function(flag){on(flag,'click',function(){var idx=parseInt(flag.getAttribute('data-flag'));document.querySelectorAll('.ba-flag').forEach(function(f){f.classList.remove('active');});flag.classList.add('active');var d=$('flag-detail');if(d&&FLAG_DATA[idx])d.innerHTML='<strong>'+FLAG_DATA[idx].phrase+':</strong> '+FLAG_DATA[idx].reason;});});
 document.querySelectorAll('.ts-span').forEach(function(span){on(span,'click',function(){if(state.spotterChecked)return;var idx=span.getAttribute('data-idx');state.tsSelected[idx]=!state.tsSelected[idx];span.classList.toggle('sel',!!state.tsSelected[idx]);});});
 on($('btn-check-spotter'),'click',function(){state.spotterChecked=true;var correct=0,total=0;document.querySelectorAll('.ts-span').forEach(function(span){var idx=span.getAttribute('data-idx');var isTell=span.getAttribute('data-tell')==='true';var sel=!!state.tsSelected[idx];span.classList.remove('sel','hit','miss','false-pos');if(isTell){total++;if(sel){correct++;span.classList.add('hit');}else{span.classList.add('miss');}}else if(sel){span.classList.add('false-pos');}});var sc=$('spotter-score');var rb=$('btn-reset-spotter');if(sc){sc.style.display='block';var ok=correct===total;sc.textContent=ok?'Perfect. All '+total+' tells found.':correct+' of '+total+' found. Red phrases are the ones missed.';sc.style.cssText='display:block;padding:9px 14px;border-radius:8px;font-size:.86rem;font-weight:600;'+(ok?'background:var(--green-bg);color:var(--green);border:1px solid var(--green-bdr);':'background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bdr);');}if(rb)rb.style.display='inline-flex';});
 on($('btn-reset-spotter'),'click',function(){state.tsSelected={};state.spotterChecked=false;document.querySelectorAll('.ts-span').forEach(function(s){s.classList.remove('sel','hit','miss','false-pos');});var sc=$('spotter-score');var rb=$('btn-reset-spotter');if(sc){sc.style.display='none';sc.textContent='';}if(rb)rb.style.display='none';});
-document.querySelectorAll('.diag-opts').forEach(function(container){var dn=container.getAttribute('data-diag');container.querySelectorAll('.diag-opt').forEach(function(opt){on(opt,'click',function(){if(container.querySelector('.correct,.wrong'))return;var ok=opt.getAttribute('data-correct')==='true';container.querySelectorAll('.diag-opt').forEach(function(o){o.classList.add('disabled');});opt.classList.add(ok?'correct':'wrong');var fb=$('dfb-'+dn);var key=dn+(ok?'t':'f');if(fb){fb.textContent=DIAG_FB[key]||'';fb.className='diag-fb '+(ok?'dfb-ok':'dfb-no');}});});});
+document.querySelectorAll('.diag-opts').forEach(function(container){var dn=container.getAttribute('data-diag');container.querySelectorAll('.diag-opt').forEach(function(opt){on(opt,'click',function(){if(container.querySelector('.correct,.wrong'))return;var ok=opt.getAttribute('data-correct')==='true';container.querySelectorAll('.diag-opt').forEach(function(o){o.classList.add('disabled');});opt.classList.add(ok?'correct':'wrong');if(!ok){var ans=container.querySelector('[data-correct="true"]');if(ans)ans.classList.add('answer');}var fb=$('dfb-'+dn);var key=dn+(ok?'t':'f');if(fb){fb.textContent=(DIAG_FB[key]||'')+(ok?'':' The right answer is now marked in green.');fb.className='diag-fb '+(ok?'dfb-ok':'dfb-no');}});});});
 function updateQuizProg(){var n=Object.keys(state.quizAnswered).length;var fill=$('quiz-fill');var label=$('quiz-label');if(fill)fill.style.width=(n/5*100)+'%';if(label)label.textContent=n+' of 5 answered';if(n===5)showScore();}
-document.querySelectorAll('.quiz-opts').forEach(function(container){var qn=container.getAttribute('data-q');container.querySelectorAll('.quiz-opt').forEach(function(opt){on(opt,'click',function(){if(state.quizAnswered['q'+qn])return;var ok=opt.getAttribute('data-correct')==='true';container.querySelectorAll('.quiz-opt').forEach(function(o){o.classList.add('disabled');});opt.classList.add(ok?'correct':'wrong');var fb=$('qfb-'+qn);if(fb){fb.textContent=ok?'Correct.':'Not quite. Review the highlighted answer.';fb.className='quiz-fb '+(ok?'qfb-ok':'qfb-no');}if(ok)state.quizScore++;state.quizAnswered['q'+qn]=true;updateQuizProg();});});});
+document.querySelectorAll('.quiz-opts').forEach(function(container){var qn=container.getAttribute('data-q');container.querySelectorAll('.quiz-opt').forEach(function(opt){on(opt,'click',function(){if(state.quizAnswered['q'+qn])return;var ok=opt.getAttribute('data-correct')==='true';container.querySelectorAll('.quiz-opt').forEach(function(o){o.classList.add('disabled');});opt.classList.add(ok?'correct':'wrong');if(!ok){var ans=container.querySelector('[data-correct="true"]');if(ans)ans.classList.add('answer');}var fb=$('qfb-'+qn);if(fb){fb.textContent=ok?'Correct.':'Not quite. The right answer is marked in green.';fb.className='quiz-fb '+(ok?'qfb-ok':'qfb-no');}if(ok)state.quizScore++;state.quizAnswered['q'+qn]=true;updateQuizProg();});});});
 function launchConfetti(){var canvas=$('confetti-canvas');if(!canvas)return;var ctx=canvas.getContext('2d');canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;var pieces=[];var colors=['#d4ad5a','#1b2d4f','#b8933f','#f2efe8','#2a4270','#8a6b2a'];for(var i=0;i<80;i++)pieces.push({x:Math.random()*canvas.width,y:-10-Math.random()*40,w:5+Math.random()*6,h:3+Math.random()*4,color:colors[Math.floor(Math.random()*colors.length)],vx:(Math.random()-.5)*3,vy:2+Math.random()*3,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.18,alpha:1});function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);var alive=false;pieces.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;if(p.y<canvas.height+20)alive=true;if(p.y>canvas.height*.7)p.alpha-=.022;ctx.save();ctx.globalAlpha=Math.max(0,p.alpha);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(alive)requestAnimationFrame(draw);}draw();}
 function showScore(){var block=$('score-block');var ring=$('score-ring');var msg=$('score-msg');var retry=$('quiz-retry');if(!block)return;block.style.display='block';var s=state.quizScore;ring.textContent=s+'/5';ring.classList.remove('green','amber','red');if(s===5){ring.style.background='linear-gradient(135deg,#b8933f,#1b2d4f)';ring.classList.add('green');if(msg)msg.textContent='Perfect score. You have a solid grasp of AI-assisted communication and where the line is.';setTimeout(launchConfetti,300);}else if(s>=3){ring.style.background='#b8933f';ring.classList.add('amber');if(msg)msg.textContent='Good work. Review the questions you missed, especially the distinction between assisted and generated work.';}else{ring.style.background='#a3362a';ring.classList.add('red');if(msg)msg.textContent='Take another pass through the Overview and Review tabs. The core concepts will click with a second read.';}if(retry)retry.classList.add('show');block.scrollIntoView({behavior:'smooth',block:'center'});}
-on($('quiz-retry'),'click',function(){state.quizAnswered={};state.quizScore=0;document.querySelectorAll('.quiz-opt').forEach(function(o){o.classList.remove('correct','wrong','disabled');});document.querySelectorAll('.quiz-fb').forEach(function(f){f.textContent='';f.className='quiz-fb';});var fill=$('quiz-fill');var label=$('quiz-label');var block=$('score-block');var retry=$('quiz-retry');if(fill)fill.style.width='0%';if(label)label.textContent='0 of 5 answered';if(block)block.style.display='none';if(retry)retry.classList.remove('show');window.scrollTo({top:$('panel-t5').offsetTop-80,behavior:'smooth'});});
+on($('quiz-retry'),'click',function(){state.quizAnswered={};state.quizScore=0;document.querySelectorAll('.quiz-opt').forEach(function(o){o.classList.remove('correct','wrong','disabled','answer');});document.querySelectorAll('.quiz-fb').forEach(function(f){f.textContent='';f.className='quiz-fb';});var fill=$('quiz-fill');var label=$('quiz-label');var block=$('score-block');var retry=$('quiz-retry');if(fill)fill.style.width='0%';if(label)label.textContent='0 of 5 answered';if(block)block.style.display='none';if(retry)retry.classList.remove('show');window.scrollTo({top:$('panel-t5').offsetTop-80,behavior:'smooth'});});
 setTimeout(function(){var a=document.querySelector('.tab-btn.active');if(a)updateIndicator(a);},50);
 window.addEventListener('resize',function(){var a=document.querySelector('.tab-btn.active');if(a)updateIndicator(a);});
 // Ensure Next button works reliably
