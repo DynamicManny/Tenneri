@@ -1,794 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects | Tenneri</title>
-<meta name="description" content="Tenneri builds custom interactive labs, simulations, and training environments inside the LMS you already run. Six of these you can open right now.">
+<title>Projects | Ramano Stoute</title>
+<meta name="description" content="Labs, simulations and learning games by Ramano Stoute. Open the live builds in your browser, or watch walkthroughs of programs built for real learners.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://tenneri.com/projects/">
-<meta property="og:title" content="Projects | Tenneri">
-<meta property="og:description" content="Not a portfolio. A proof of concept. Six of these you can open and run right now.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://tenneri.com/projects">
+<meta property="og:url" content="https://tenneri.com/projects/">
+<meta property="og:title" content="Projects | Ramano Stoute">
+<meta property="og:description" content="Live builds you can open right now, plus walkthroughs of programs built for real learners.">
+<meta property="og:image" content="https://tenneri.com/Ten-OG.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="projects.css">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}})();</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-:root{
-  --ink:#0f0e0c;--dim:#2a2724;--body:#3d3a36;--muted:#6b6560;
-  --rule:#ddd8ce;--paper:#f8f5f0;--cream:#faf8f4;--white:#ffffff;
-  --gold:#b8913c;--gold-lt:#d4ac58;
-  --navy:#1b2d4f;--navy-lt:#2a4270;--navy-dk:#111e35;
-  --f-d:'Cormorant Garamond',Georgia,serif;
-  --f-b:'Instrument Sans',system-ui,sans-serif;
-  --f-m:'DM Mono',monospace;
-  --ease:cubic-bezier(0.22,1,0.36,1);
-  --max-w:1200px;
-}
-body{background:var(--paper);color:var(--ink);font-family:var(--f-b);font-size:18px;line-height:1.75;overflow-x:hidden}
-
-/* ── NAV ── */
-nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:200;height:72px;width:calc(100% - 16px);max-width:1440px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:transparent;backdrop-filter:blur(0px);border-radius:0;box-shadow:none;border:1px solid transparent;transition:width .6s var(--ease),height .6s var(--ease),top .6s var(--ease),padding .5s var(--ease),border-radius .6s var(--ease),border-color .5s ease,background-color .45s ease,box-shadow .5s ease,backdrop-filter .45s ease}
-nav.scrolled{top:12px;height:56px;width:min(700px,calc(100% - 40px));padding:0 20px;border-radius:100px;background:var(--white);border-color:rgba(27,45,79,.12);box-shadow:0 10px 34px rgba(15,14,12,.2);backdrop-filter:blur(16px)}
-.nav-logo{display:flex;align-items:center;gap:0;text-decoration:none;transition:gap .5s var(--ease)}
-nav.scrolled .nav-logo{gap:10px}
-.logo-img{height:24px;width:0;opacity:0;transition:width .5s var(--ease),opacity .35s ease}
-nav.scrolled .logo-img{width:24px;opacity:1}
-.logo-wordmark{font-family:var(--f-d);font-size:1.9rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;transition:font-size .5s var(--ease),opacity .35s ease,width .5s var(--ease),margin .5s ease}
-nav.scrolled .logo-wordmark{font-size:0;opacity:0;width:0;margin:0}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none;transition:gap .5s var(--ease)}
-nav.scrolled .nav-links{gap:12px}
-.nav-links li{overflow:hidden;max-width:200px;transition:opacity .35s var(--ease),max-width .5s var(--ease),margin .4s var(--ease)}
-.nav-links li.nav-persist{max-width:200px;opacity:1}
-nav.scrolled .nav-links li:not(.nav-persist){opacity:0;max-width:0;pointer-events:none;margin:0}
-.nav-links a{font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:#fff}
-nav.scrolled .nav-links a{color:var(--muted)}
-nav.scrolled .nav-links a:hover{color:var(--ink)}
-.nav-links a.active{color:#fff;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:2px}
-nav.scrolled .nav-links a.active{color:var(--navy);border-bottom-color:var(--navy)}
-.nav-cta{padding:8px 20px;background:var(--gold)!important;color:#fff!important;border-radius:3px;border-bottom:none!important;transition:background .2s!important}
-.nav-cta:hover{background:var(--gold-lt)!important}
-.nav-hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;opacity:0;pointer-events:none;max-width:0;overflow:hidden;transition:opacity .35s var(--ease),max-width .4s var(--ease)}
-.nav-hamburger span{width:22px;height:1.5px;background:var(--ink);display:block}
-nav.scrolled .nav-hamburger{opacity:1;pointer-events:auto;max-width:40px}
-.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(250,248,244,.98);border-bottom:1px solid var(--rule);padding:24px 28px;flex-direction:column;gap:18px;z-index:199}
-.mobile-menu.open{display:flex}
-.mobile-menu a{font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
-@media(max-width:680px){.nav-links{display:none}.nav-hamburger{opacity:1;pointer-events:auto;max-width:40px}}
-
-/* ── HERO ── */
-.page-hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:160px 52px 100px;position:relative;overflow:hidden;background:var(--navy-dk)}
-.hero-mesh{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-.hero-mesh::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(184,145,60,.07) 0%,transparent 70%)}
-.ghost-word{position:absolute;right:-120px;top:55%;transform:translateY(-50%) rotate(90deg);transform-origin:center;font-family:var(--f-m);font-size:clamp(60px,10vw,120px);font-weight:500;letter-spacing:.12em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);pointer-events:none;user-select:none;z-index:0}
-.hero-inner{position:relative;z-index:1;text-align:center;max-width:760px}
-.hero-rule{width:32px;height:1px;background:var(--gold);margin:28px auto 32px;opacity:0;animation:fadeUp .8s var(--ease) .35s forwards}
-.page-title{font-family:var(--f-d);font-size:clamp(2.8rem,5vw,5.6rem);font-weight:300;line-height:1.05;letter-spacing:-.03em;color:#fff;text-align:center;opacity:0;animation:fadeUp .9s var(--ease) .1s forwards}
-.page-title em{font-style:italic;color:var(--gold-lt)}
-.hero-sub{font-size:1rem;color:rgba(255,255,255,.88);line-height:1.8;max-width:480px;margin:0 auto 48px;text-align:center;opacity:0;animation:fadeUp .8s var(--ease) .45s forwards}
-
-/* ── EXPLORE FILTER ── */
-.explore-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .8s var(--ease) .6s forwards}
-.explore-label{font-family:var(--f-b);font-size:.85rem;font-weight:500;color:rgba(255,255,255,.75);margin-right:4px}
-.explore-btn{padding:11px 26px;border:1.5px solid rgba(255,255,255,.35);color:#fff;background:transparent;font-family:var(--f-b);font-size:.88rem;font-weight:500;letter-spacing:0;cursor:pointer;border-radius:3px;transition:border-color .25s,color .25s,background .25s}
-.explore-btn:hover{border-color:rgba(255,255,255,.45);color:#fff}
-.explore-btn.active{border-color:var(--gold);background:rgba(184,145,60,.12);color:var(--gold-lt)}
-
-
-/* ── GRID SECTION ── */
-.projects-section{padding:56px 52px 96px;background:var(--paper)}
-.projects-inner{max-width:var(--max-w);margin:0 auto}
-.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:10px;overflow:hidden;box-shadow:0 12px 40px rgba(15,14,12,.07)}
-
-/* ── CARD ── */
-.project-card{border:none;background:var(--white);display:flex;flex-direction:column;cursor:pointer;position:relative;overflow:hidden}
-.project-card[data-hidden="true"]{display:none}
-.project-card.hiding{opacity:0;transform:scale(.97);transition:opacity .25s ease,transform .25s ease;pointer-events:none}
-.project-card.showing{animation:cardIn .35s var(--ease) both}
-@keyframes cardIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
-.project-card:hover{background:#fefcf8}
-.project-card:hover .card-arrow{transform:translateX(4px)}
-.project-card:hover .card-thumb-overlay{opacity:1}
-.project-card:hover .card-thumb-img{transform:scale(1.04)}
-.project-card:hover .card-body::before{opacity:1}
-
-/* thumbnail */
-.card-thumb{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--navy-dk)}
-.card-thumb-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
-.card-thumb-overlay{position:absolute;inset:0;background:rgba(17,30,53,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;z-index:2}
-.overlay-cta{font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:100px;padding:10px 22px}
-.card-type-badge{position:absolute;top:12px;left:12px;z-index:3;font-family:var(--f-m);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-lt);background:rgba(17,30,53,.82);padding:4px 10px;border-radius:2px;border:1px solid rgba(184,145,60,.3);backdrop-filter:blur(4px)}
-
-/* card body */
-.card-body{padding:28px 28px 24px;flex:1;display:flex;flex-direction:column;position:relative}
-.card-body::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .3s}
-.card-title{font-family:var(--f-d);font-size:1.3rem;font-weight:400;line-height:1.25;margin-bottom:12px;color:var(--ink)}
-.card-title em{font-style:italic;color:var(--navy)}
-.card-desc{font-size:.9rem;color:var(--body);line-height:1.75;flex:1;margin-bottom:20px}
-.card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--rule)}
-.card-type-label{font-family:var(--f-m);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.card-arrow{font-size:14px;color:var(--navy);transition:transform .2s}
-
-/* ── MODAL ── */
-.modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,14,20,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--white);width:100%;max-width:900px;max-height:92vh;overflow-y:auto;position:relative;border-radius:10px;box-shadow:0 32px 80px rgba(0,0,0,.35);animation:modalIn .35s var(--ease)}
-@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
-.modal-header{padding:32px 40px 24px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;background:var(--white);z-index:10;border-radius:10px 10px 0 0}
-.modal-kicker{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
-.modal-title{font-family:var(--f-d);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:300;line-height:1.2;color:var(--ink)}
-.modal-title em{font-style:italic;color:var(--navy)}
-.modal-close{background:var(--white);border:1px solid var(--rule);border-radius:50%;cursor:pointer;font-size:1rem;color:var(--muted);width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:color .2s,border-color .2s;margin-left:20px}
-.modal-close:hover{color:var(--ink);border-color:var(--navy)}
-.modal-video{width:100%;padding-top:56.25%;position:relative;background:var(--navy-dk);overflow:hidden}
-.modal-video video,.modal-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border:none}
-.modal-body{padding:40px}
-.modal-two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:36px}
-.modal-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;display:block}
-.modal-text{font-size:.95rem;color:var(--body);line-height:1.85}
-.modal-feature-list{list-style:none;margin-top:14px}
-.modal-feature-list li{font-size:.9rem;color:var(--body);line-height:1.7;padding:9px 0;border-bottom:1px solid var(--rule);display:flex;align-items:baseline;gap:12px}
-.modal-feature-list li::before{content:'\2192';color:var(--gold);font-family:var(--f-m);flex-shrink:0;font-size:.68rem}
-.modal-feature-list li:last-child{border-bottom:none}
-.modal-outcome{padding:20px 24px;background:rgba(27,45,79,.04);border-left:3px solid var(--navy);border-radius:0 6px 6px 0;margin-top:32px}
-.modal-outcome-label{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:8px;display:block}
-.modal-outcome-text{font-size:1rem;line-height:1.7;color:var(--dim)}
-.modal-outcome-text strong{color:var(--ink);font-weight:600}
-
-/* ── CTA BAND ── */
-.cta-band{background:var(--navy);padding:96px 52px;position:relative;overflow:hidden}
-.cta-mesh{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px),radial-gradient(ellipse 55% 65% at 50% 50%,rgba(184,145,60,.09) 0%,transparent 70%);background-size:48px 48px,48px 48px,100% 100%}
-.cta-band-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;position:relative;z-index:1}
-.cta-sub{font-family:var(--f-m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:12px;display:block}
-.cta-heading{font-family:var(--f-d);font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:300;line-height:1.25;max-width:520px;color:#fff}
-.cta-heading em{font-style:italic;color:var(--gold-lt)}
-.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#fff;font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:13px 28px;border-radius:3px;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(184,145,60,.35)}
-.btn-primary:hover{background:var(--gold-lt);transform:translateY(-1px)}
-.btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75);font-family:var(--f-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:13px 28px;border-radius:3px;text-decoration:none;transition:border-color .2s,color .2s;white-space:nowrap;background:none;cursor:pointer}
-.btn-ghost:hover{border-color:rgba(255,255,255,.5);color:#fff}
-
-/* ── FOOTER ── */
-footer{background:var(--cream);border-top:1px solid var(--rule);padding:36px 52px}
-.footer-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-.footer-brand{display:flex;align-items:center;gap:8px}
-.footer-logo-img{width:24px;height:24px;object-fit:contain}
-.footer-wordmark{font-family:var(--f-d);font-size:.95rem;color:var(--muted)}
-.footer-copy{font-family:var(--f-m);font-size:.62rem;color:var(--rule)}
-
-/* ── BACK TO TOP ── */
-.back-top{position:fixed;bottom:32px;right:32px;z-index:999;width:44px;height:44px;border-radius:50%;background:var(--white);color:var(--navy);border:1.5px solid var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s,background .2s,bottom .3s ease;pointer-events:none;box-shadow:0 4px 20px rgba(15,14,12,.25)}
-.back-top.show{opacity:1;transform:none;pointer-events:auto}
-.back-top:hover{background:#f0eee8}
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
-.fade-in.visible{opacity:1;transform:none}
-
-/* ── RESPONSIVE ── */
-@media(max-width:980px){
-  nav{padding:0 24px}
-  .page-hero{padding:140px 24px 80px}
-  .ghost-word{font-size:clamp(48px,8vw,72px);right:-60px}
-  .projects-section,.cta-band,footer{padding-left:24px;padding-right:24px}
-  .projects-grid{grid-template-columns:1fr 1fr}
-  .modal-two-col{grid-template-columns:1fr;gap:28px}
-  .cta-band-inner{flex-direction:column;align-items:flex-start}
-  .modal{max-height:95vh}
-  .modal-header{padding:24px 24px 18px}
-  .modal-body{padding:24px}
-  .bridge-inner{grid-template-columns:1fr}
-  .bridge-stat + .bridge-stat::before{display:none}
-  .back-top{bottom:20px;right:20px}
-}
-@media(max-width:640px){
-  .page-hero{padding:120px 18px 60px;min-height:70vh}
-  .page-title{font-size:2.4rem}
-  .explore-wrap{flex-direction:column;align-items:stretch}
-  .explore-btn{text-align:center}
-  .projects-section{padding-left:18px;padding-right:18px}
-  .projects-grid{grid-template-columns:1fr}
-  .ghost-word{display:none}
-  .cta-band{padding:60px 18px}
-  footer{padding:20px 18px}
-}
-@media(max-width:520px){
-  .page-title{font-size:2rem}
-  .modal-header{padding:20px 18px 16px}
-  .modal-body{padding:18px}
-}
-</style>
 </head>
-<body>
+<body data-page="projects">
 
+<div id="theme-wipe" aria-hidden="true"></div>
+<div data-cursor aria-hidden="true"></div>
+<div data-cursor-dot aria-hidden="true"></div>
+
+
+<!-- NAV -->
 <nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="https://tenneri.com/" class="nav-logo">
-    <img src="https://tenneri.com/Ten-Logo.png" alt="Tenneri" class="logo-img" onerror="this.style.display='none'">
-    <span class="logo-wordmark">Tenneri</span>
+  <a href="../" class="n-logo" aria-label="Tenneri home">
+    <img src="https://tenneri.com/Ten-Logo.png" alt="" class="n-logo-img" aria-hidden="true" onerror="this.style.display='none'">
+    <span class="n-logo-name" translate="no">Tenneri</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="https://tenneri.com/#build">The Work</a></li>
-    <li><a href="https://tenneri.com/projects/" class="active" aria-current="page">Projects</a></li>
-    <li><a href="https://tenneri.com/#results">Results</a></li>
-    <li><a href="https://tenneri.com/#faq">FAQ</a></li>
-    <li class="nav-persist"><a href="https://tenneri.com/#about">About</a></li>
-    <li class="nav-persist"><a href="https://calendly.com/tenneri/new-meeting" target="_blank" class="nav-cta">Book a Call</a></li>
+  <ul class="n-links">
+    <li class="n-persist"><a href="./" aria-current="page">Projects</a></li>
+    <li class="n-persist"><a href="../#rose">Labs</a></li>
+    <li class="n-persist"><a href="../#about">About</a></li>
+    <li class="n-persist"><a href="../#contact" class="n-cta">Get in touch</a></li>
   </ul>
-  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+  <div class="n-right">
+    <button class="theme-toggle theme-toggle--nav" type="button" id="theme-toggle-fixed" aria-label="Toggle light/dark mode">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+</button>
+  <button class="n-ham" id="ham" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
+  </div>
 </nav>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="https://tenneri.com/#build">The Work</a>
-  <a href="https://tenneri.com/projects/">Projects</a>
-  <a href="https://tenneri.com/#results">Results</a>
-  <a href="https://tenneri.com/#faq">FAQ</a>
-  <a href="https://tenneri.com/#about">About</a>
-  <a href="https://calendly.com/tenneri/new-meeting" target="_blank">Book a Call</a>
+<div class="mob-nav" id="mob" role="menu">
+  <a href="./" onclick="closeMob()">Projects</a>
+  <a href="../#rose" onclick="closeMob()">Labs</a>
+  <a href="../#about" onclick="closeMob()">About</a>
+  <a href="../#contact" onclick="closeMob()">Get in touch</a>
+  <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me" onclick="closeMob()">LinkedIn ↗</a>
 </div>
 
-<header class="page-hero" id="hero">
-  <div class="hero-mesh" aria-hidden="true"></div>
-  <div class="ghost-word" id="ghost" aria-hidden="true">PROJECTS</div>
-  <div class="hero-inner">
-    <h1 class="page-title">Labs, simulations,<br>and modules <em>built in code.</em></h1>
-    <div class="hero-rule" aria-hidden="true"></div>
-    <p class="hero-sub">Six open in your browser. The rest are case studies.</p>
-    <div class="explore-wrap" role="group" aria-label="Filter projects">
-      <span class="explore-label">Show me</span>
-      <button class="explore-btn active" data-filter="all">Everything</button>
-      <button class="explore-btn" data-filter="demo">Live Demos</button>
-      <button class="explore-btn" data-filter="case">Case Studies</button>
+<h1 class="sr-only">Projects by Ramano Stoute</h1>
+
+<!-- ═══════════════ SHOWCASE (timed cards) ═══════════════ -->
+<section class="pj-show" id="pj-show" aria-roledescription="carousel" aria-label="Featured projects">
+  <div class="pj-cards" id="pj-cards"></div>
+
+  <div class="pj-details" id="pj-details">
+    <div class="pj-mask"><div class="pj-kicker" id="pj-kicker"></div></div>
+    <div class="pj-mask"><div class="pj-t1" id="pj-t1"></div></div>
+    <div class="pj-mask"><div class="pj-t2" id="pj-t2"></div></div>
+    <p class="pj-desc" id="pj-desc"></p>
+    <div class="pj-cta" id="pj-cta">
+      <a class="btn-hero-primary" id="pj-open" href="#">Open demo →</a>
+      <span class="pj-tag" id="pj-tag"></span>
     </div>
   </div>
-</header>
 
-<main class="projects-section">
-  <div class="projects-inner">
-    <div class="projects-grid" id="projects-grid">
-
-      <!-- 01: SENTINEL -->
-      <article class="project-card fade-in" data-filter-type="case" data-project="soc" role="button" tabindex="0" aria-label="View SENTINEL SOC Training Simulation">
-        <div class="card-thumb">
-          <img class="card-thumb-img" src="Sentinelthumb.png" alt="SENTINEL SOC Training Simulation" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">View case</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">SENTINEL: <em>SOC Training Simulation</em></h2>
-          <p class="card-desc">Analysts in this workforce training program were learning cybersecurity response from a purely theoretical point of view. SENTINEL puts them inside a simulated SOC instead: alerts to triage, incidents to escalate, and response decisions that build the feel of the job, not just the theory of it.</p>
-          <div class="card-footer"><span class="card-type-label">Case study</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 02: API Fundamentals -->
-      <article class="project-card fade-in" data-filter-type="demo" data-demo="ai-communication/API" role="button" tabindex="0" aria-label="Open API Fundamentals Module live demo">
-        <div class="card-thumb">
-          <span class="card-type-badge">Interactive</span>
-          <img class="card-thumb-img" src="APIthumb.png" alt="API Fundamentals Module" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">Open demo</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">Module Design: <em>API Fundamentals</em></h2>
-          <p class="card-desc">Students need hands-on API practice before they touch a real one, but a live endpoint is risky ground for a first attempt. Because it is built in code, the entire exchange can be simulated: real headers, real status codes, real failures, with nothing ever actually leaving the page.</p>
-          <div class="card-footer"><span class="card-type-label">Live demo</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 03: AI Communication -->
-      <article class="project-card fade-in" data-filter-type="demo" data-demo="ai-communication/" role="button" tabindex="0" aria-label="Open AI-Assisted Communication live demo">
-        <div class="card-thumb">
-          <span class="card-type-badge">Interactive</span>
-          <img class="card-thumb-img" src="AIthumb.png" alt="AI-Assisted Communication Module" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">Open demo</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">Module Design: <em>AI-Assisted Communication</em></h2>
-          <p class="card-desc">Employees needed practical AI literacy, not another slide deck about it. This unit gives them a live prompt sandbox to actually practice in, five navigable tabs, and a knowledge check, all on one page inside the LMS. Imagine a full course built the same way.</p>
-          <div class="card-footer"><span class="card-type-label">Live demo</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 04: VENTURE -->
-      <article class="project-card fade-in" data-filter-type="case" data-project="venture" role="button" tabindex="0" aria-label="View VENTURE Supply Chain Decision Lab">
-        <div class="card-thumb">
-          <img class="card-thumb-img" src="Venturethumb.png" alt="VENTURE Supply Chain Decision Lab" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">View case</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">VENTURE: <em>Supply Chain Decision Lab</em></h2>
-          <p class="card-desc">Case studies describe supply chain disruption. They do not make you feel it. VENTURE does: a supplier goes dark, costs climb, and every sourcing decision cascades straight into the next one in real time.</p>
-          <div class="card-footer"><span class="card-type-label">Case study</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 05: CAMPAIGN -->
-      <article class="project-card fade-in" data-filter-type="case" data-project="campaign" role="button" tabindex="0" aria-label="View CAMPAIGN Marketing Decision Lab">
-        <div class="card-thumb">
-          <img class="card-thumb-img" src="Campaignthumb.png" alt="CAMPAIGN Marketing Decision Lab" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">View case</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">CAMPAIGN: <em>Marketing Decision Lab</em></h2>
-          <p class="card-desc">Marketing students plan campaigns that never run and never fail. CAMPAIGN gives them a fixed budget, a real audience to define, and a market that actually responds. The graph either climbs or it does not.</p>
-          <div class="card-footer"><span class="card-type-label">Case study</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 06: IRB -->
-      <article class="project-card fade-in" data-filter-type="case" data-project="irb" role="button" tabindex="0" aria-label="View IRB Ethics Review Lab">
-        <div class="card-thumb">
-          <img class="card-thumb-img" src="IRBthumb.png" alt="IRB Ethics Review Lab" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">View case</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">IRB: <em>Ethics Review Lab</em></h2>
-          <p class="card-desc">Students learn research ethics from decades-old case studies, then find the real lines the hard way, on a live submission. IRB puts them inside the review process first, working real cases before they ever submit a proposal of their own.</p>
-          <div class="card-footer"><span class="card-type-label">Case study</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 07: THRESHOLD -->
-      <article class="project-card fade-in" data-filter-type="case" data-project="threshold" role="button" tabindex="0" aria-label="View THRESHOLD Corporate Compliance Lab">
-        <div class="card-thumb">
-          <img class="card-thumb-img" src="Thresholdthumb.png" alt="THRESHOLD Compliance Training Lab" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">View case</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">THRESHOLD: <em>Compliance Training Lab</em></h2>
-          <p class="card-desc">Mandatory compliance training gets clicked through and forgotten. THRESHOLD is built to be remembered: it shows employees exactly what happens when the wrong decision gets made, before the consequence is real.</p>
-          <div class="card-footer"><span class="card-type-label">Case study</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 08: STRATOS -->
-      <article class="project-card fade-in" data-filter-type="demo" data-demo="stratos/" role="button" tabindex="0" aria-label="Open Stratos Cloud Console live demo">
-        <div class="card-thumb">
-          <span class="card-type-badge">Interactive</span>
-          <img class="card-thumb-img" src="Stratosthumb.png" alt="Stratos Cloud Integration Capstone" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">Open demo</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">STRATOS: <em>Cloud Integration Capstone</em></h2>
-          <p class="card-desc">Capstone students need to show cloud, network, and security skills together, not in three separate exercises. STRATOS bundles all three into one working console: a live network on a real US map, a Python pipeline to debug, and a deployment spec to write.</p>
-          <div class="card-footer"><span class="card-type-label">Live demo</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 09: THINK BEFORE YOU POST -->
-      <article class="project-card fade-in" data-filter-type="demo" data-demo="ai-communication/Awareness" role="button" tabindex="0" aria-label="Open Think Before You Post live demo">
-        <div class="card-thumb">
-          <span class="card-type-badge">Interactive</span>
-          <img class="card-thumb-img" src="Awarenessthumb.png" alt="Think Before You Post Digital Awareness Module" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">Open demo</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">Think Before You Post: <em>Digital Awareness</em></h2>
-          <p class="card-desc">Generic security awareness training gets ignored because it never quite applies to the person watching it. This module fixes that with a personalized check-in that surfaces only the tips relevant to each learner, built around real scenarios instead of generic warnings.</p>
-          <div class="card-footer"><span class="card-type-label">Live demo</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 10: BARRACUDAGUARD -->
-      <article class="project-card fade-in" data-filter-type="demo" data-demo="stratos/BarracudaGuard" role="button" tabindex="0" aria-label="Open BarracudaGuard Phishing Response Simulator live demo">
-        <div class="card-thumb">
-          <span class="card-type-badge">Interactive</span>
-          <img class="card-thumb-img" src="BGthumb.png" alt="BarracudaGuard Phishing Response Simulator" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">Open demo</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">BarracudaGuard: <em>Phishing Response Simulator</em></h2>
-          <p class="card-desc">Phishing training goes stale the moment the example emails do. BarracudaGuard stays current instead: learners read, classify, and respond to real attempts, legitimate messages, and marketing noise, with immediate feedback and no platform contract behind it.</p>
-          <div class="card-footer"><span class="card-type-label">Live demo</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
-      <!-- 11: LEXICON -->
-      <article class="project-card fade-in" data-filter-type="demo" data-demo="stratos/Lexicon" role="button" tabindex="0" aria-label="Open Lexicon Vocabulary Learning Game live demo">
-        <div class="card-thumb">
-          <span class="card-type-badge">Interactive</span>
-          <img class="card-thumb-img" src="Lexthumb.png" alt="Lexicon Vocabulary Learning Game" onerror="this.style.display='none'">
-          <div class="card-thumb-overlay"><span class="overlay-cta">Open demo</span></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">LEXICON: <em>Vocabulary Learning Game</em></h2>
-          <p class="card-desc">Vocabulary drills feel like a chore, so students stop doing them. LEXICON makes it a daily habit instead: instructors load the words, learners guess in six attempts, and each one surfaces a definition, pronunciation, and example. Dark mode, high-contrast support, and a streak system are built in.</p>
-          <div class="card-footer"><span class="card-type-label">Live demo</span><span class="card-arrow">&#8594;</span></div>
-        </div>
-      </article>
-
+  <div class="pj-pager" id="pj-pager">
+    <button type="button" class="pj-arrow" id="pj-prev" aria-label="Previous project">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button type="button" class="pj-arrow" id="pj-next" aria-label="Next project">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="pj-progress" aria-hidden="true"><div class="pj-progress-fill" id="pj-fill"></div></div>
+    <div class="pj-count" aria-hidden="true">
+      <span class="pj-num-mask"><span class="pj-num" id="pj-num">01</span></span>
+      <span class="pj-total" id="pj-total">/ 07</span>
     </div>
+    <button type="button" class="pj-pause" id="pj-pause" aria-label="Pause autoplay" aria-pressed="false">
+      <svg class="pj-ico-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <svg class="pj-ico-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
+    </button>
   </div>
-</main>
 
-<section class="cta-band" aria-labelledby="cta-heading" id="cta-band">
-  <div class="cta-mesh"></div>
-  <div class="cta-band-inner">
-    <div>
-      <span class="cta-sub">Start a project</span>
-      <h2 class="cta-heading" id="cta-heading">Your LMS can do more than you think.<br><em>Let me prove it.</em></h2>
-    </div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <a href="https://calendly.com/tenneri/new-meeting" target="_blank" class="btn-primary">Book a call &#8594;</a>
-      <a href="https://tenneri.com/" class="btn-ghost">Back to home</a>
-    </div>
+  <a href="#more-work" class="pj-scroll-hint" id="pj-scroll-hint">Scroll</a>
+
+  <div class="pj-timer" id="pj-timer" aria-hidden="true"></div>
+  <div class="pj-cover" id="pj-cover" aria-hidden="true"></div>
+</section>
+
+<!-- ═══════════════ CASE STUDIES ═══════════════ -->
+<section class="sec pj-more" id="more-work">
+  <div class="wrap">
+    <h2 class="display reveal">Built for <em>real learners.</em></h2>
+    <p class="build-lead reveal">These ran inside live programs, so there's nothing public to click into. Each one has a short walkthrough instead.</p>
+    <div class="pj-grid" id="pj-grid"></div>
   </div>
 </section>
 
-<footer id="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <img src="https://tenneri.com/Ten-Logo.png" alt="Tenneri" class="footer-logo-img" onerror="this.style.display='none'">
-      <span class="footer-wordmark">Tenneri</span>
+<!-- ═══════════════ CLOSE ═══════════════ -->
+<section class="sec pj-end">
+  <div class="wrap pj-end-inner reveal">
+    <h2 class="display">Want the story <em>behind one of these?</em></h2>
+    <p class="build-lead">Ask me about any build. I'm happy to walk through how it works, what broke along the way and what I'd do differently.</p>
+    <div class="pj-end-actions">
+      <a href="../#contact" class="btn-hero-primary">Get in touch →</a>
+      <a href="../" class="btn-hero-secondary">Back to home</a>
     </div>
-    <span class="footer-copy">&copy; 2026 Tenneri</span>
+    <a class="pj-end-call" href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener">Prefer a 20-minute call? Book one →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <a href="../" class="foot-logo" aria-label="Tenneri home">
+      <img src="https://tenneri.com/Ten-Logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+      <span translate="no">Tenneri</span>
+    </a>
+    <ul class="foot-links">
+      <li><a href="./">Projects</a></li>
+      <li><a href="../#about">About</a></li>
+      <li><a href="../#contact">Contact</a></li>
+      <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
+    </ul>
+    <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri</span>
   </div>
 </footer>
 
-<button class="back-top" id="back-top" aria-label="Back to top">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M18 15l-6-6-6 6"/></svg>
-</button>
-
-<!-- MODAL: SENTINEL -->
-<div class="modal-overlay" id="modal-soc" role="dialog" aria-modal="true" aria-labelledby="modal-soc-title">
-  <div class="modal">
-    <div class="modal-header">
+<!-- MODAL (filled by projects.js) -->
+<div class="pj-modal" id="pj-modal" role="dialog" aria-modal="true" aria-labelledby="pj-modal-title">
+  <div class="pj-modal-box">
+    <div class="pj-modal-head">
       <div>
-        <span class="modal-kicker">Cybersecurity Training</span>
-        <h2 class="modal-title" id="modal-soc-title">SENTINEL: <em>SOC Training Simulation</em></h2>
+        <span class="pj-modal-kicker" id="pj-modal-kicker"></span>
+        <h2 class="pj-modal-title" id="pj-modal-title"></h2>
       </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
+      <button type="button" class="pj-modal-close" id="pj-modal-close" aria-label="Close">×</button>
     </div>
-    <div class="modal-video">
-      <video autoplay muted loop playsinline>
-        <source src="Sentinelvid.webm" type="video/webm">
-        <source src="Sentinelvid.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The situation</span>
-          <p class="modal-text">Analysts in this workforce training program were learning cybersecurity response from a purely theoretical point of view, readings and lecture, with no felt sense of what the job actually involves. A real SOC platform for training purposes means an expensive third-party contract, per-seat costs, and an IT security review every renewal cycle.</p>
-        </div>
-        <div>
-          <span class="modal-label">What changed</span>
-          <p class="modal-text">SENTINEL is not a stand-in for professional SOC software. It is a simulation built to give analysts that same felt experience: a live alert queue, real escalation decisions, and time pressure that feels genuine. It runs entirely inside the institution's existing LMS, owned outright with no vendor relationship and no per-seat cost attached.</p>
-        </div>
-      </div>
-      <span class="modal-label">Inside the environment</span>
-      <ul class="modal-feature-list">
-        <li>Live alert queue with triage workflow, severity classification, and escalation logic</li>
-        <li>Real-time network traffic chart with animated data and sliding UTC timestamps</li>
-        <li>Threat category breakdown with detection coverage indicators across six categories</li>
-        <li>Analyst workload management with case redistribution and narrative-driven team events</li>
-        <li>Suspicious connection table, IOC confidence scoring, and critical asset status panel</li>
-        <li>Every data layer interconnected: resolved cases, open alerts, and analyst load move together</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">The outcome</span>
-        <p class="modal-outcome-text">One build. No subscription. No renewal. <strong>No dependency.</strong> The environment is version-controlled and fully customizable without touching a vendor.</p>
-      </div>
-    </div>
+    <div class="pj-modal-video" id="pj-modal-video"></div>
+    <div class="pj-modal-body" id="pj-modal-body"></div>
   </div>
 </div>
 
-<!-- MODAL: VENTURE -->
-<div class="modal-overlay" id="modal-venture" role="dialog" aria-modal="true" aria-labelledby="modal-venture-title">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <span class="modal-kicker">Business Education</span>
-        <h2 class="modal-title" id="modal-venture-title">VENTURE: <em>Supply Chain Decision Lab</em></h2>
-      </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
-    </div>
-    <div class="modal-video">
-      <video autoplay muted loop playsinline>
-        <source src="Venturevid.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The situation</span>
-          <p class="modal-text">Business students spend years reading case studies about disruptions that happened to someone else's supply chain. The knowledge is there. The instinct is not. Theoretical understanding does not transfer to a decision made under pressure with real consequences attached.</p>
-        </div>
-        <div>
-          <span class="modal-label">What changed</span>
-          <p class="modal-text">VENTURE puts students inside the disruption. A supplier goes dark. Every decision they make changes the cost tracker, the delivery window, and the satisfaction score in real time. The cascade is visible before the student fully understands why it is happening. That is the point.</p>
-        </div>
-      </div>
-      <span class="modal-label">Inside the environment</span>
-      <ul class="modal-feature-list">
-        <li>Multi-stage disruption scenario with branching decision paths that compound forward</li>
-        <li>Live cost, timeline, and customer satisfaction indicators responding to every choice</li>
-        <li>Alternative supplier negotiation simulation with visible risk and cost trade-offs</li>
-        <li>Post-scenario debrief with annotated decision review and industry benchmark comparison</li>
-        <li>Instructor dashboard showing each student's decision path and outcome</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">The outcome</span>
-        <p class="modal-outcome-text">Students leave knowing what a wrong sourcing decision <strong>feels like</strong> before they make one with a real client's money. That is not something a case study teaches.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: CAMPAIGN -->
-<div class="modal-overlay" id="modal-campaign" role="dialog" aria-modal="true" aria-labelledby="modal-campaign-title">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <span class="modal-kicker">Marketing Education</span>
-        <h2 class="modal-title" id="modal-campaign-title">CAMPAIGN: <em>Marketing Decision Lab</em></h2>
-      </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
-    </div>
-    <div class="modal-video">
-      <video autoplay muted loop playsinline>
-        <source src="Campaignvid.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The situation</span>
-          <p class="modal-text">Marketing programs teach strategy through plans that never run and campaigns that never fail. Students learn the language of performance marketing without ever seeing an audience not respond. The gap between the plan and the result stays theoretical until it is someone else's budget on the line.</p>
-        </div>
-        <div>
-          <span class="modal-label">What changed</span>
-          <p class="modal-text">CAMPAIGN gives students a brief, a budget, and a market that responds. Allocate too heavily in one channel and watch diminishing returns set in. Miss the demographic and watch the conversion rate flatline. The feedback is immediate and the debrief is built in.</p>
-        </div>
-      </div>
-      <span class="modal-label">Inside the environment</span>
-      <ul class="modal-feature-list">
-        <li>Client brief with defined product, audience profile, and campaign objective</li>
-        <li>Budget allocation across social, search, display, and influencer channels</li>
-        <li>Dynamic audience response engine reacting to targeting and spend decisions</li>
-        <li>Live performance dashboard showing reach, engagement, and conversion building week by week</li>
-        <li>Post-campaign analysis with optimized scenario comparison</li>
-        <li>Instructor view showing each student's allocation strategy and outcome</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">The outcome</span>
-        <p class="modal-outcome-text">Students arrive at their first real campaign knowing what failure looks like and <strong>why it happens.</strong> That is the education. The grade is secondary.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: IRB -->
-<div class="modal-overlay" id="modal-irb" role="dialog" aria-modal="true" aria-labelledby="modal-irb-title">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <span class="modal-kicker">Psych 420 &middot; Research Methods &amp; Ethics</span>
-        <h2 class="modal-title" id="modal-irb-title">IRB: <em>Ethics Review Lab</em></h2>
-      </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
-    </div>
-    <div class="modal-video">
-      <video autoplay muted loop playsinline>
-        <source src="IRBvid.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The situation</span>
-          <p class="modal-text">Research ethics is typically taught through readings and case studies about violations that happened decades ago. Students understand the principles in the abstract. They do not understand where the lines are until they submit a real proposal and discover they crossed one. By then the learning has a cost attached.</p>
-        </div>
-        <div>
-          <span class="modal-label">What changed</span>
-          <p class="modal-text">The IRB Ethics Review Lab puts students inside the review process before they submit anything real. They work through research scenarios, identify ethical concerns, make recommendations, and see the consequences of each call. They find the lines by testing them where the stakes are educational, not professional.</p>
-        </div>
-      </div>
-      <span class="modal-label">Inside the environment</span>
-      <ul class="modal-feature-list">
-        <li>Research scenario library spanning informed consent, participant risk, data privacy, and deception</li>
-        <li>Review workflow mirroring a real IRB process: flag, assess, recommend, approve or reject</li>
-        <li>Consequence mapping showing how each decision affects the study's ethics standing</li>
-        <li>Reflection prompts connecting each scenario to the Belmont Report and APA guidelines</li>
-        <li>Scored completion syncing directly to the Psych 420 gradebook</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">The outcome</span>
-        <p class="modal-outcome-text">Students submit their first real research proposals having already made the mistakes. <strong>In the lab, not in the field.</strong> That distinction is the education.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: THRESHOLD -->
-<div class="modal-overlay" id="modal-threshold" role="dialog" aria-modal="true" aria-labelledby="modal-threshold-title">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <span class="modal-kicker">Corporate Training &middot; GRC</span>
-        <h2 class="modal-title" id="modal-threshold-title">THRESHOLD: <em>Compliance Training Lab</em></h2>
-      </div>
-      <button class="modal-close" aria-label="Close modal">&#215;</button>
-    </div>
-    <div class="modal-video">
-      <iframe src="https://player.vimeo.com/video/1191231377?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="THRESHOLD Compliance Training Lab"></iframe>
-    </div>
-    <div class="modal-body">
-      <div class="modal-two-col">
-        <div>
-          <span class="modal-label">The situation</span>
-          <p class="modal-text">Most employees have completed mandatory compliance training multiple times and remember almost none of it. When training presents rules without consequences, people process it the same way they process terms and conditions. They click through and move on.</p>
-        </div>
-        <div>
-          <span class="modal-label">What changed</span>
-          <p class="modal-text">THRESHOLD does not ask employees to memorize rules. It asks them to understand why the rules exist. Every scenario presents a realistic workplace situation where the wrong choice produces a visible, detailed consequence cascade. The cost of a bad decision becomes real before it is real.</p>
-        </div>
-      </div>
-      <span class="modal-label">Inside the environment</span>
-      <ul class="modal-feature-list">
-        <li>Scenario-based GRC situations drawn from data breach, reporting, and escalation contexts</li>
-        <li>Consequence timeline that builds itself after each decision, showing regulatory and financial impact</li>
-        <li>Decision mapping across GDPR, SOC 2, and ISO 27001 frameworks where relevant</li>
-        <li>Reading timer on consequence panels ensuring employees cannot skip the outcome</li>
-        <li>Completion record syncing automatically to HR and compliance tracking systems</li>
-      </ul>
-      <div class="modal-outcome">
-        <span class="modal-outcome-label">The outcome</span>
-        <p class="modal-outcome-text">Employees do not finish THRESHOLD because they have to. They finish it because <strong>they want to know what happens next.</strong> That is the first time most of them have felt that way about compliance training.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-(function(){
-'use strict';
-
-/* ── NAV ── */
-var nav=document.getElementById('nav');
-window.addEventListener('scroll',function(){
-  var isScrolled=window.scrollY>20;
-  nav.classList.toggle('scrolled',isScrolled);
-  if(!isScrolled&&window.innerWidth>680){
-    var mob=document.getElementById('mobileMenu');
-    var ham=document.getElementById('hamburger');
-    if(mob)mob.classList.remove('open');
-    if(ham)ham.setAttribute('aria-expanded','false');
-  }
-},{passive:true});
-
-var ghost=document.getElementById('ghost');
-if(ghost){
-  window.addEventListener('scroll',function(){
-    ghost.style.transform='translateY(calc(-50% + '+window.scrollY*.12+'px)) rotate(90deg)';
-  },{passive:true});
-}
-
-/* ── HAMBURGER ── */
-var hamburger=document.getElementById('hamburger');
-var mobileMenu=document.getElementById('mobileMenu');
-if(hamburger){
-  hamburger.addEventListener('click',function(){
-    var open=mobileMenu.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded',open);
-  });
-  document.addEventListener('click',function(e){
-    if(!hamburger.contains(e.target)&&!mobileMenu.contains(e.target)){
-      mobileMenu.classList.remove('open');
-      hamburger.setAttribute('aria-expanded','false');
-    }
-  });
-}
-
-/* ── SCROLL REVEAL ── */
-var observer=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.fade-in').forEach(function(el,i){
-  el.style.transitionDelay=(i*0.06)+'s';
-  observer.observe(el);
-});
-
-/* ── FILTER ── */
-var exploreBtns=document.querySelectorAll('.explore-btn');
-var cards=document.querySelectorAll('.project-card');
-
-function filterCards(filter){
-  cards.forEach(function(card){
-    var type=card.getAttribute('data-filter-type');
-    var show=(filter==='all')||(filter===type);
-    if(show){
-      card.setAttribute('data-hidden','false');
-      card.classList.remove('hiding');
-      card.classList.add('showing');
-      setTimeout(function(){card.classList.remove('showing');},400);
-    } else {
-      card.classList.add('hiding');
-      setTimeout(function(){
-        card.setAttribute('data-hidden','true');
-        card.classList.remove('hiding');
-      },250);
-    }
-  });
-}
-
-exploreBtns.forEach(function(btn){
-  btn.addEventListener('click',function(){
-    exploreBtns.forEach(function(b){b.classList.remove('active');});
-    btn.classList.add('active');
-    filterCards(btn.getAttribute('data-filter'));
-  });
-});
-
-/* ── MODALS ── */
-var projectMap={soc:'modal-soc',venture:'modal-venture',campaign:'modal-campaign',irb:'modal-irb',threshold:'modal-threshold'};
-
-function openModal(id){
-  var o=document.getElementById(id);
-  if(!o)return;
-  o.classList.add('open');
-  document.body.style.overflow='hidden';
-  var closeBtn=o.querySelector('.modal-close');
-  if(closeBtn)closeBtn.focus();
-}
-function closeModal(o){
-  o.classList.remove('open');
-  document.body.style.overflow='';
-}
-
-cards.forEach(function(card){
-  function activate(){
-    if(card.dataset.demo){
-      window.open(card.dataset.demo,'_blank','noopener');
-    } else {
-      var id=projectMap[card.dataset.project];
-      if(id)openModal(id);
-    }
-  }
-  card.addEventListener('click',activate);
-  card.addEventListener('keydown',function(e){
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}
-  });
-});
-
-document.querySelectorAll('.modal-close').forEach(function(btn){
-  btn.addEventListener('click',function(){closeModal(btn.closest('.modal-overlay'));});
-});
-document.querySelectorAll('.modal-overlay').forEach(function(o){
-  o.addEventListener('click',function(e){if(e.target===o)closeModal(o);});
-});
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(closeModal);
-});
-
-/* ── BACK TO TOP ── */
-var bt=document.getElementById('back-top');
-if(bt){
-  window.addEventListener('scroll',function(){
-    bt.classList.toggle('show',window.scrollY>600);
-    var footer=document.querySelector('footer');
-    if(footer){
-      var fr=footer.getBoundingClientRect();
-      var overlap=window.innerHeight-fr.top;
-      bt.style.bottom=(overlap>0?(32+overlap):32)+'px';
-    }
-  },{passive:true});
-  bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-}
-
-})();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../script.js"></script>
+<script src="projects.js"></script>
 </body>
 </html>
