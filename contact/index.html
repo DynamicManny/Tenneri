@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Ramano Stoute</title>
+<meta name="description" content="Get in touch with Ramano Stoute, learning designer and developer. Hiring for a role, or have a course that needs rebuilding? Send a message or book a 20-minute call.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tenneri.com/contact/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tenneri.com/contact/">
+<meta property="og:title" content="Contact | Ramano Stoute">
+<meta property="og:description" content="Hiring for a role, or have a course that needs rebuilding? I'd like to hear about it.">
+<meta property="og:image" content="https://tenneri.com/Ten-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
+<style>
+/* ── Contact page (builds on style.css) ── */
+body[data-page="contact"] { padding-right: 0 !important; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+
+.ct {
+  flex: 1; position: relative; overflow: hidden;
+  padding: 150px 24px 100px;
+  background: var(--void);
+  transition: background .8s ease;
+}
+.ct::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 75% 70% at 30% 35%, #000 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 30% 35%, #000 25%, transparent 80%);
+}
+.ct::after {
+  content: ''; position: absolute; left: 70%; top: 45%;
+  width: 760px; height: 560px; transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--gold) 14%, transparent) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.ct-inner {
+  position: relative; z-index: 1;
+  max-width: 1120px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 6vw, 88px); align-items: start;
+}
+
+.ct-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--f-m); font-size: .68rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.ct-eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--gold); }
+
+.ct-heading {
+  font-family: var(--f-d); font-weight: 300;
+  font-size: clamp(2.8rem, 5.6vw, 4.6rem); line-height: 1.02; letter-spacing: -.02em;
+  color: var(--ink); margin-bottom: 24px;
+}
+.ct-heading em { font-style: italic; color: var(--gold-lt); }
+[data-theme="light"] .ct-heading em { color: var(--gold); }
+
+.ct-lead { font-size: 1.12rem; line-height: 1.8; color: var(--body); max-width: 460px; margin-bottom: 36px; }
+
+.ct-ways { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--rule); max-width: 460px; }
+.ct-way { border-bottom: 1px solid var(--rule); }
+.ct-way a, .ct-way > div {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 18px 2px; text-decoration: none; color: var(--ink);
+}
+.ct-way-label { display: block; font-family: var(--f-m); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.ct-way-value { font-size: 1.02rem; color: var(--ink); }
+.ct-way-arrow { font-size: 1.1rem; color: var(--muted); transition: transform .25s var(--ease), color .25s; }
+.ct-way a:hover .ct-way-arrow { transform: translateX(4px); color: var(--gold); }
+.ct-way a:hover .ct-way-value { color: var(--gold); }
+
+.ct-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: clamp(24px, 3.4vw, 40px);
+  box-shadow: 0 24px 60px rgba(0,0,0,.08);
+  transition: background .8s ease, border-color .8s ease;
+}
+.ct-card-head { font-family: var(--f-d); font-size: 1.7rem; font-weight: 400; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+.ct-card-sub { font-size: .95rem; color: var(--muted); margin-bottom: 26px; line-height: 1.6; }
+.ct-card .cf-submit { width: 100%; }
+.ct-fine { margin-top: 16px; text-align: center; font-size: .82rem; color: var(--muted); line-height: 1.6; }
+.ct-fine a { color: inherit; border-bottom: 1px solid var(--rule); }
+
+/* Staggered entrance */
+.ct-rise { opacity: 0; transform: translateY(18px); animation: ctRise .8s var(--ease) forwards; }
+.ct-d1 { animation-delay: .1s; } .ct-d2 { animation-delay: .2s; } .ct-d3 { animation-delay: .3s; }
+.ct-d4 { animation-delay: .4s; } .ct-d5 { animation-delay: .35s; }
+@keyframes ctRise { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ct-rise { animation: none; opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+  .ct { padding: 120px 20px 80px; }
+  .ct-inner { grid-template-columns: 1fr; }
+  .ct-lead, .ct-ways { max-width: none; }
+}
+@media (max-width: 560px) {
+  .ct .cf-row { grid-template-columns: 1fr; gap: 0; margin-bottom: 0; }
+}
+</style>
+</head>
+<body data-page="contact">
+
+<div id="theme-wipe" aria-hidden="true"></div>
+<div data-cursor aria-hidden="true"></div>
+<div data-cursor-dot aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="../" class="n-logo" aria-label="Tenneri home">
+    <img src="https://tenneri.com/Ten-Logo.png" alt="" class="n-logo-img" aria-hidden="true" onerror="this.style.display='none'">
+    <span class="n-logo-name" translate="no">Tenneri</span>
+  </a>
+  <ul class="n-links">
+    <li class="n-persist"><a href="../projects/">Projects</a></li>
+    <li class="n-persist"><a href="../#rose">Labs</a></li>
+    <li class="n-persist"><a href="../#about">About</a></li>
+    <li class="n-persist"><a href="./" class="n-cta" aria-current="page">Get in touch</a></li>
+  </ul>
+  <div class="n-right">
+    <button class="theme-toggle theme-toggle--nav" type="button" id="theme-toggle-fixed" aria-label="Toggle light/dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="n-ham" id="ham" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-nav" id="mob" role="menu">
+  <a href="../projects/" onclick="closeMob()">Projects</a>
+  <a href="../#rose" onclick="closeMob()">Labs</a>
+  <a href="../#about" onclick="closeMob()">About</a>
+  <a href="./" onclick="closeMob()">Get in touch</a>
+  <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me" onclick="closeMob()">LinkedIn ↗</a>
+</div>
+
+<main class="ct">
+  <div class="ct-inner">
+
+    <div>
+      <div class="ct-eyebrow ct-rise ct-d1">Get in touch</div>
+      <h1 class="ct-heading ct-rise ct-d2">Let's talk about<br><em>what's next.</em></h1>
+      <p class="ct-lead ct-rise ct-d3">Hiring for a role, or have a course that needs rebuilding? Either way, I'd like to hear about it. I work remotely with teams across North America and reply to every message myself, usually within one business day.</p>
+
+      <ul class="ct-ways ct-rise ct-d4">
+        <li class="ct-way">
+          <a href="mailto:ramano@tenneri.com">
+            <span><span class="ct-way-label">Email</span><span class="ct-way-value">ramano@tenneri.com</span></span>
+            <span class="ct-way-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li class="ct-way">
+          <a href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener">
+            <span><span class="ct-way-label">Prefer to talk?</span><span class="ct-way-value">Book a 20-minute call</span></span>
+            <span class="ct-way-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li class="ct-way">
+          <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">
+            <span><span class="ct-way-label">LinkedIn</span><span class="ct-way-value">Ramano Stoute</span></span>
+            <span class="ct-way-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ct-card ct-rise ct-d5">
+      <h2 class="ct-card-head">Send a message</h2>
+      <p class="ct-card-sub">A few lines is plenty. Tell me what you're working on and I'll take it from there.</p>
+
+      <form id="contact-form" action="https://formspree.io/f/mvzlallb" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="New enquiry via tenneri.com">
+        <input type="hidden" name="source" id="cf-source" value="contact page">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="cf-row">
+          <div class="cf-group">
+            <label class="cf-label" for="cf-name">Your name</label>
+            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required autocomplete="name">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="cf-email">Email address</label>
+            <input class="cf-input" type="email" id="cf-email" name="email" placeholder="you@company.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-org">Company or institution</label>
+          <input class="cf-input" type="text" id="cf-org" name="organisation" placeholder="Where you work" autocomplete="organization">
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-context">What are you working on?</label>
+          <select class="cf-select" id="cf-context" name="context">
+            <option value="" disabled selected>Select the closest match</option>
+            <option>Hiring for a role (full-time or contract)</option>
+            <option>Redesigning an existing online course</option>
+            <option>Building a new course or program from scratch</option>
+            <option>Corporate or compliance training redesign</option>
+            <option>Exploring what is possible, no project yet</option>
+            <option>Something else</option>
+          </select>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-message">Tell me more</label>
+          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="The role, the course, or the problem. Whatever is on your mind."></textarea>
+        </div>
+
+        <button type="submit" class="cf-submit" id="cf-submit-btn">Send message →</button>
+        <p class="ct-fine">Your details are only used to reply to you.</p>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <a href="../" class="foot-logo" aria-label="Tenneri home">
+      <img src="https://tenneri.com/Ten-Logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+      <span translate="no">Tenneri</span>
+    </a>
+    <ul class="foot-links">
+      <li><a href="../projects/">Projects</a></li>
+      <li><a href="../#about">About</a></li>
+      <li><a href="mailto:ramano@tenneri.com">ramano@tenneri.com</a></li>
+      <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
+    </ul>
+    <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri</span>
+  </div>
+</footer>
+
+<script>
+/* Note which page sent them here (for example ?from=ai-communication), so the email says where the lead came from */
+(function(){try{var f=new URLSearchParams(location.search).get('from');if(f){document.getElementById('cf-source').value=f.replace(/[^a-z0-9-]/gi,'').slice(0,40);}}catch(e){}})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../script.js"></script>
+</body>
+</html>
