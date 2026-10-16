@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI-Assisted Communication | Ramano Stoute</title>
-<meta name="description" content="An interactive module on AI-assisted workplace writing. Practise prompting with a real small language model running in your browser, review AI output, spot editing tells and take a scored knowledge check.">
+<meta name="description" content="An interactive module on AI-assisted workplace writing. Practice prompting with a real small language model running in your browser, review AI output, spot editing tells and take a scored knowledge check.">
 <link rel="canonical" href="https://tenneri.com/projects/ai-communication/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tenneri.com/projects/ai-communication/">
 <meta property="og:title" content="AI-Assisted Communication | Ramano Stoute">
-<meta property="og:description" content="Practise prompting with a real small language model running in your browser, then learn to review what it writes.">
+<meta property="og:description" content="Practice prompting with a real small language model running in your browser, then learn to review what it writes.">
 <meta property="og:image" content="https://tenneri.com/Ten-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://huggingface.co" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,300&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=Caveat:wght@500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;font-size:17.5px}
@@ -414,21 +414,153 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 @media (prefers-reduced-motion:reduce){.slm-fill::after,.slm-bar.indeterminate .slm-fill,.slm-card[data-state="loading"] .slm-dot,.slm-chip.loading::before{animation:none;}}
 @media(max-width:860px){.distinction-pair,.ing-grid,.tools-grid,.ba-grid,.tells-grid,.resources-grid{grid-template-columns:1fr;}.sandbox-layout{grid-template-columns:1fr;}.task-sidebar{position:static;}.sandbox-layout>*{min-width:0;}.terminal-wrap{height:520px;}.main{padding:24px 16px 80px;}}
 @media(max-width:540px){.hero h1{font-size:1.85rem;}.tab-btn{min-width:88px;padding:10px 12px;}.tab-name{font-size:.73rem;}}
+
+/* ═════════ Seminar workbook edition: ruled paper by day, chalkboard by night ═════════ */
+:root{--paper:#fdfdfb;--rule-line:rgba(70,110,170,.13);--margin-red:rgba(200,60,60,.35);--ink:#1e3a6e;--pencil:#c0392b;
+  --bg:#f6f7f4;--card:#ffffff;--card-2:#f1f3ef;--hover:#eceee9;--txt:#16202e;--dim:#2f3a4a;--muted:#5d6878;--b1:#dde1e4;--b2:#c5cbd1;--b3:#9aa3ad;
+  --navy:#1e3a6e;--navy-light:#2c4d8a;--gold:#c0392b;--gold-light:#d65445;--gold-dim:#a8322a;
+  --navy-bg:rgba(30,58,110,.05);--navy-bdr:rgba(30,58,110,.18);
+  --green:#2c6e49;--green-bg:rgba(44,110,73,.07);--green-bdr:rgba(44,110,73,.26)}
+[data-theme="dark"]{--paper:#22302d;--rule-line:rgba(255,255,255,.05);--margin-red:rgba(240,140,120,.25);--ink:#f2f4ef;--pencil:#f4a896;
+  --bg:#1d2a27;--card:#24332f;--card-2:#2a3a36;--hover:#2f403b;--txt:#fafbf7;--dim:#eef1ea;--muted:#c9d1c8;--b1:#34463f;--b2:#465a52;--b3:#61766d;
+  --navy:#a9c8f0;--navy-light:#c3daf7;--gold:#f4a896;--gold-light:#f7bcad;--gold-dim:#f4a896;
+  --navy-bg:rgba(169,200,240,.07);--navy-bdr:rgba(169,200,240,.22);
+  --green:#9bd3a8;--green-bg:rgba(155,211,168,.08);--green-bdr:rgba(155,211,168,.28);--red-bg:rgba(244,168,150,.08);--amber-bg:rgba(240,190,110,.08)}
+html{font-size:17.5px}
+body{font-family:"Newsreader",Georgia,serif;font-size:1.06rem;line-height:1.7;background:var(--bg)}
+button,input,textarea,select{font-family:"IBM Plex Sans",system-ui,sans-serif}
+.chat-input,.msg-bubble{font-family:"IBM Plex Sans",system-ui,sans-serif}
+
+/* Title page on ruled paper */
+.hero{text-align:left;padding:0 24px;background:
+  linear-gradient(90deg,transparent 0,transparent calc(50% - 470px),var(--margin-red) calc(50% - 470px),var(--margin-red) calc(50% - 468px),transparent calc(50% - 468px)),
+  repeating-linear-gradient(180deg,var(--paper) 0,var(--paper) 33px,var(--rule-line) 33px,var(--rule-line) 34px);
+  border-bottom:1px solid var(--b1)}
+.hero::after{display:none}
+.hero-bar{max-width:880px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:18px 0 0}
+.hero-back{position:static;color:var(--muted);font-family:"IBM Plex Sans",sans-serif;font-size:.78rem;letter-spacing:.02em;text-transform:none;padding:4px 0}
+.hero-back:hover{color:var(--txt);background:none;text-decoration:underline;text-underline-offset:3px}
+.theme-btn{background:var(--card);border:1px solid var(--b2);color:var(--dim);font-family:"IBM Plex Sans",sans-serif;font-size:.8rem}
+.theme-btn:hover{background:var(--hover)}
+.hero-inner{max-width:880px;padding:54px 0 44px;text-align:left}
+.hero-eyebrow{justify-content:flex-start;color:var(--pencil);font-family:"IBM Plex Sans",sans-serif;font-weight:600;letter-spacing:.14em;font-size:.68rem}
+.hero-eyebrow::before{display:none}.hero-eyebrow::after{background:var(--pencil);opacity:.5}
+.hero h1{font-family:"Newsreader",serif;font-weight:600;color:var(--ink);font-size:clamp(2.4rem,5.4vw,3.9rem);letter-spacing:-.015em;line-height:1.06;margin-bottom:14px}
+.hero h1 em{color:var(--ink);font-style:italic;font-weight:400}
+.hero-sub{margin:0 0 6px;max-width:640px;color:var(--dim);font-size:1.18rem;font-style:italic;line-height:1.6}
+.hero-note{font-family:"Caveat",cursive;font-size:1.5rem;color:var(--pencil);transform:rotate(-1.5deg);display:inline-block;margin:6px 0 26px}
+.hero-eyebrow,.hero h1,.hero-sub,.hero-meta,.hero-note,.objectives{opacity:0;transform:translateY(14px);animation:heroIn .65s cubic-bezier(.22,1,.36,1) forwards}
+.hero-note{animation-delay:.4s;transform:translateY(14px) rotate(-1.5deg)}
+.objectives{animation-delay:.5s}.hero-meta{animation-delay:.6s}
+.objectives{background:var(--card);border:1px solid var(--b1);border-left:4px solid var(--ink);padding:20px 24px;margin-bottom:24px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.obj-title{font-family:"IBM Plex Sans",sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
+.obj-intro{color:var(--dim);margin-bottom:8px}
+.objectives ol{padding-left:1.4em;color:var(--dim)}
+.objectives li{margin-bottom:4px;padding-left:4px}
+.objectives li::marker{color:var(--pencil);font-weight:600}
+.hero-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;justify-content:stretch;border-top:1px solid var(--b2);border-bottom:1px solid var(--b2);background:var(--card)}
+.hero-meta div{padding:12px 16px;border-right:1px solid var(--b1)}.hero-meta div:last-child{border-right:none}
+.hero-meta dt{font-family:"IBM Plex Sans",sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hero-meta dd{font-size:1rem;color:var(--txt);margin:2px 0 0}
+
+/* Tabs as workbook dividers */
+.tab-bar-wrap{background:var(--card);box-shadow:none;border-bottom:1px solid var(--b1)}
+.tab-btn{font-family:"IBM Plex Sans",sans-serif}
+.tab-num{font-family:"Newsreader",serif;font-style:italic;font-size:.82rem;opacity:.85;color:var(--pencil);letter-spacing:0}
+.tab-name{font-weight:500;font-size:.82rem}
+.tab-btn.active,[data-theme="dark"] .tab-btn.active,[data-theme="dark"] .tab-btn:hover,.tab-btn:hover{color:var(--txt)}
+.tab-indicator{background:var(--pencil);height:2px}
+
+/* Headings */
+.section-eyebrow{font-family:"IBM Plex Sans",sans-serif;font-weight:600;letter-spacing:.14em;color:var(--pencil);font-size:.66rem}
+.panel-title,[data-theme="dark"] .panel-title{font-family:"Newsreader",serif;font-weight:600;color:var(--ink);letter-spacing:-.01em;font-size:clamp(1.7rem,3.4vw,2.3rem)}
+.panel-lead{font-size:1.1rem;color:var(--dim);font-style:italic;max-width:700px;border-bottom:1px solid var(--b1);padding-bottom:22px}
+.section-label{font-family:"IBM Plex Sans",sans-serif;color:var(--pencil);font-weight:600;letter-spacing:.14em}
+.section-title,.dist-title,.ing-title,.tool-name,.pass-title,.tcb-title,.task-label,.footer-title,.score-ring,.ing-num-badge,.pass-num,.pn-name{font-family:"Newsreader",serif}
+.section-title{font-size:1.3rem;font-weight:600;color:var(--ink)}
+.section-sub,.dist-body,.ing-desc,.tool-desc,.pass-desc,.callout p,.task-body p,.diag-q,.quiz-q,.flag-detail,.tell-replace{font-size:1rem}
+.main{max-width:940px;position:relative}
+
+/* Cards: index cards with a ruled top */
+.dist-card,.ing-card,.tool-card,.pass-list,.ba-col,.tell-card,.task-card,.task-progress,.diag-card,.spotter-wrap,.quiz-card,.quiz-prog,.score-block,.resource-link,.slm-card,.coach{border-radius:6px}
+.ing-card,.diag-card,.quiz-card,.task-card{border-top:3px solid var(--ink)}
+.ing-num-badge,.pass-num{background:var(--ink)!important;color:var(--paper)!important;font-weight:600}
+[data-theme="dark"] .ing-num-badge,[data-theme="dark"] .pass-num{color:#1d2a27!important}
+.pass-num{font-style:italic}
+.ing-eg,.pass-q{font-family:"Newsreader",Georgia,serif;font-style:italic;font-size:1rem;line-height:1.6;color:var(--pencil);background:transparent;border:none;border-left:2px solid var(--margin-red);border-radius:0;padding:2px 0 2px 12px}
+.callout{border-radius:4px;background:var(--card);border:1px solid var(--b1);border-left:4px solid var(--ink)}
+.callout.gold{background:var(--card);border-color:var(--b1);border-left-color:var(--pencil)}
+.callout strong{font-family:"IBM Plex Sans",sans-serif;font-size:.85em;letter-spacing:.04em}
+
+/* Editor's marks on the review exercises */
+.ba-flag{background:transparent;border:none;border-bottom:2px solid var(--pencil);border-radius:0;color:var(--txt);padding:0 1px;text-decoration:none}
+.ba-flag:hover{background:rgba(192,57,43,.08)}
+.ba-flag.active{background:rgba(192,57,43,.12);border-bottom-color:var(--pencil);font-weight:500}
+[data-theme="dark"] .ba-flag{background:transparent;border:none;border-bottom:2px solid var(--pencil);color:var(--txt)}
+[data-theme="dark"] .ba-flag.active{background:rgba(244,168,150,.14);color:var(--txt)}
+.ba-edit{background:transparent;border-bottom:2px solid var(--green);color:var(--txt)}
+.ba-label{font-family:"IBM Plex Sans",sans-serif}
+.amber-swatch,[data-theme="dark"] .amber-swatch{background:transparent;border:none;border-bottom:2px solid var(--pencil);border-radius:0;color:var(--txt)}
+.tell-phrase{font-family:"Newsreader",serif;font-style:italic;font-size:.98rem;color:var(--pencil);background:transparent;border:none;text-decoration:line-through;text-decoration-color:var(--pencil);padding:0;margin-bottom:6px}
+.flag-detail{background:var(--card);border-color:var(--b1);border-left:3px solid var(--pencil)}
+
+/* Buttons */
+.load-btn,.check-btn,.tcb-next,.slm-btn,.send-btn{background:var(--ink);color:var(--paper)}
+.load-btn:hover,.check-btn:hover,.tcb-next:hover,.slm-btn:hover{background:var(--navy-light)}
+[data-theme="dark"] .load-btn,[data-theme="dark"] .check-btn,[data-theme="dark"] .tcb-next,[data-theme="dark"] .slm-btn{background:var(--ink);color:#1d2a27}
+.pn-next,[data-theme="dark"] .pn-next{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+[data-theme="dark"] .pn-next{color:#1d2a27}
+.quiz-fill,.slm-fill,[data-theme="dark"] .slm-fill{background:var(--ink)}
+.quiz-opt,.diag-opt{font-family:"Newsreader",serif;font-size:1rem}
+.quiz-retry{border-color:var(--ink);color:var(--ink)}
+.quiz-retry:hover{background:var(--ink);color:var(--paper)}
+.slm-tip{background:var(--card-2);border-color:var(--b1);border-left:3px solid var(--pencil)}
+.slm-tip b,[data-theme="dark"] .slm-tip b{color:var(--pencil)}
+.slm-title,.task-progress-title,.footer-eyebrow{font-family:"Newsreader",serif}
+
+/* Prompt boxes: readable, high contrast */
+.tpp-wrap{background:var(--card-2);border:1px solid var(--b1);border-left:4px solid var(--ink);border-radius:4px;padding:14px 16px}
+.tpp-label{color:var(--pencil);font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.14em}
+.tpp-text{color:var(--txt);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:1rem;line-height:1.65}
+/* Footer */
+.footer-cta{background:var(--card-2)}
+.footer-eyebrow{font-family:"IBM Plex Sans",sans-serif}
+.btn-primary{background:var(--ink);color:var(--paper);font-family:"IBM Plex Sans",sans-serif}
+[data-theme="dark"] .btn-primary{color:#1d2a27}
+.btn-secondary{font-family:"IBM Plex Sans",sans-serif}
+.footer-call,[data-theme="dark"] .footer-call{color:var(--pencil)}
+
+@media(max-width:860px){.hero{background:repeating-linear-gradient(180deg,var(--paper) 0,var(--paper) 33px,var(--rule-line) 33px,var(--rule-line) 34px)}.hero-meta{grid-template-columns:1fr 1fr}.hero-meta div:nth-child(2){border-right:none}.hero-meta div:nth-child(-n+2){border-bottom:1px solid var(--b1)}}
+@media (prefers-reduced-motion:reduce){.hero-note,.objectives{animation:none;opacity:1}}
 </style>
 </head>
 <body>
 <header class="hero">
-  <a href="../" class="hero-back">&#8592; All projects</a>
+  <div class="hero-bar">
+    <a href="../" class="hero-back">&#8592; All projects</a>
+    <button class="theme-btn" id="theme-btn" type="button"><span id="theme-icon">&#127769;</span><span id="theme-label">Dark mode</span></button>
+  </div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">Interactive learning demo</div>
-    <h1><em>AI-Assisted</em><br>Communication &amp; Writing</h1>
-    <p class="hero-sub">Learn the principles, practise the skills, and develop the judgment to use AI well at work.</p>
-    <div class="hero-meta">
-      <span class="hero-pill">5 modules</span>
-      <span class="hero-pill">Live AI sandbox</span>
-      <span class="hero-pill">Scored quiz</span>
-      <button class="theme-btn" id="theme-btn"><span id="theme-icon">&#127769;</span><span id="theme-label">Dark Mode</span></button>
+    <div class="hero-eyebrow">Writing seminar &nbsp;&#183;&nbsp; Course workbook</div>
+    <h1>AI-Assisted Communication <em>&amp; Writing</em></h1>
+    <p class="hero-sub">Learn the principles, practice the skills, and develop the judgment to use AI well at work.</p>
+    <p class="hero-note" aria-hidden="true">draft &#8594; review &#8594; edit &#8594; send</p>
+    <div class="objectives">
+      <div class="obj-title">Learning objectives</div>
+      <p class="obj-intro">By the end of this workbook, you will be able to:</p>
+      <ol>
+        <li>Distinguish AI-assisted work from AI-generated work, and explain why the line matters.</li>
+        <li>Write prompts that include role, task, audience, and tone.</li>
+        <li>Review an AI draft in four passes: accuracy, tone, voice, and completeness.</li>
+        <li>Spot and replace the phrases that mark text as unedited AI output.</li>
+      </ol>
     </div>
+    <dl class="hero-meta">
+      <div><dt>Time</dt><dd>About 30 minutes</dd></div>
+      <div><dt>Format</dt><dd>5 parts, self-paced</dd></div>
+      <div><dt>Practice</dt><dd>Live AI sandbox</dd></div>
+      <div><dt>Assessment</dt><dd>5-question quiz</dd></div>
+    </dl>
   </div>
 </header>
 <nav class="tab-bar-wrap" id="tab-top">
@@ -444,7 +576,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 <main class="main" id="main-top">
 <!-- T1 -->
 <div class="tab-panel active" id="panel-t1">
-  <span class="section-eyebrow">Module 1</span>
+  <span class="section-eyebrow">Part 1 &#183; Foundations</span>
   <h2 class="panel-title">What AI-Assisted Communication Actually Means</h2>
   <p class="panel-lead">There is a line between using AI to work better and using AI to avoid the work. This module is about where that line is.</p>
   <div class="distinction-pair reveal">
@@ -457,7 +589,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="section-title" style="margin-bottom:4px;">Platforms you will encounter</div>
   <p class="section-sub">ChatGPT, Copilot, and Gemini all do the same core job. The difference is where they live.</p>
   <div class="tools-grid reveal">
-    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#129302;</span><div><span class="tool-name">ChatGPT</span><span class="tool-maker">OpenAI</span></div></div><p class="tool-desc">The most widely known. Strong for drafting, rewriting, and summarising. Free tier available and widely used.</p><a href="https://chatgpt.com" target="_blank" rel="noopener" class="tool-link">Open ChatGPT &#8594;</a></div>
+    <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#129302;</span><div><span class="tool-name">ChatGPT</span><span class="tool-maker">OpenAI</span></div></div><p class="tool-desc">The most widely known. Strong for drafting, rewriting, and summarizing. Free tier available and widely used.</p><a href="https://chatgpt.com" target="_blank" rel="noopener" class="tool-link">Open ChatGPT &#8594;</a></div>
     <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#128142;</span><div><span class="tool-name">Microsoft Copilot</span><span class="tool-maker">Microsoft</span></div></div><p class="tool-desc">Built into Outlook, Word, and Teams. If your workplace uses Microsoft 365, Copilot is already there. High relevance for professional environments.</p><a href="https://copilot.microsoft.com" target="_blank" rel="noopener" class="tool-link">Open Copilot &#8594;</a></div>
     <div class="tool-card"><div class="tool-header"><span class="tool-logo">&#10024;</span><div><span class="tool-name">Google Gemini</span><span class="tool-maker">Google</span></div></div><p class="tool-desc">Integrated with Gmail and Google Docs. Same drafting capability, relevant if your workplace uses Google Workspace.</p><a href="https://gemini.google.com" target="_blank" rel="noopener" class="tool-link">Open Gemini &#8594;</a></div>
   </div>
@@ -466,16 +598,16 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="section-title" style="margin-bottom:4px;">The four ingredients of a good prompt</div>
   <p class="section-sub">Every strong prompt has these four things. Every weak prompt is missing at least one.</p>
   <div class="ing-grid reveal">
-    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge" style="background:#1b2d4f;">1</div><span class="ing-title">Role and context</span></div><div class="ing-body"><p class="ing-desc">Who are you? What is the situation? "I am a new employee at a financial services company" gives the AI something to work with.</p><div class="ing-eg">"I am writing on behalf of a client-facing team at a professional services firm."</div></div></div>
-    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge" style="background:#8a6b2a;">2</div><span class="ing-title">Task</span></div><div class="ing-body"><p class="ing-desc">Be specific. "Write an email" is too vague. "Draft a follow-up email to a client who has not responded in five days" is workable.</p><div class="ing-eg">"Draft a short professional email requesting a 30-minute meeting."</div></div></div>
-    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge" style="background:#3d2e5a;">3</div><span class="ing-title">Audience</span></div><div class="ing-body"><p class="ing-desc">Who is reading it? A message to your manager reads differently from one to a new client or a peer on your team.</p><div class="ing-eg">"The recipient is a senior partner who prefers concise, direct communication."</div></div></div>
-    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge" style="background:#b45309;">4</div><span class="ing-title">Tone and constraints</span></div><div class="ing-body"><p class="ing-desc">Professional but warm? Under 80 words? These constraints turn a generic block of text into something you can actually use.</p><div class="ing-eg">"Keep it under 80 words. Polite and professional, not stiff."</div></div></div>
+    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge">1</div><span class="ing-title">Role and context</span></div><div class="ing-body"><p class="ing-desc">Who are you? What is the situation? "I am a new employee at a financial services company" gives the AI something to work with.</p><div class="ing-eg">"I am writing on behalf of a client-facing team at a professional services firm."</div></div></div>
+    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge">2</div><span class="ing-title">Task</span></div><div class="ing-body"><p class="ing-desc">Be specific. "Write an email" is too vague. "Draft a follow-up email to a client who has not responded in five days" is workable.</p><div class="ing-eg">"Draft a short professional email requesting a 30-minute meeting."</div></div></div>
+    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge">3</div><span class="ing-title">Audience</span></div><div class="ing-body"><p class="ing-desc">Who is reading it? A message to your manager reads differently from one to a new client or a peer on your team.</p><div class="ing-eg">"The recipient is a senior partner who prefers concise, direct communication."</div></div></div>
+    <div class="ing-card"><div class="ing-head"><div class="ing-num-badge">4</div><span class="ing-title">Tone and constraints</span></div><div class="ing-body"><p class="ing-desc">Professional but warm? Under 80 words? These constraints turn a generic block of text into something you can actually use.</p><div class="ing-eg">"Keep it under 80 words. Polite and professional, not stiff."</div></div></div>
   </div>
   <div class="callout gold reveal"><span class="callout-icon">&#129514;</span><p><strong>Ready?</strong> Head to the Prompt Sandbox. Three guided tasks put these four ingredients into practice, then you can write your own prompts for a real AI model.</p></div>
 </div>
 <!-- T2 -->
 <div class="tab-panel" id="panel-t2">
-  <span class="section-eyebrow">Module 2</span>
+  <span class="section-eyebrow">Part 2 &#183; Practice</span>
   <h2 class="panel-title">Prompt Sandbox</h2>
   <p class="panel-lead">Start with three guided tasks. Their responses are prewritten, so everyone sees the same example. Then write your own prompts: each one gets an instant check against the four ingredients, and a real draft from a live model if you turn it on.</p>
   <div class="sandbox-layout">
@@ -537,17 +669,17 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 </div>
 <!-- T3 -->
 <div class="tab-panel" id="panel-t3">
-  <span class="section-eyebrow">Module 3</span>
+  <span class="section-eyebrow">Part 3 &#183; Revision</span>
   <h2 class="panel-title">Review and Edit</h2>
   <p class="panel-lead">The AI gave you a draft. Now the real work begins. Skipping this step is how generic text gets sent and inaccurate information gets passed on.</p>
   <span class="section-label">The framework</span>
   <div class="section-title" style="margin-bottom:4px;">Run every draft through four passes</div>
   <p class="section-sub" style="margin-bottom:16px;">In order. Each one catches something different.</p>
   <div class="pass-list reveal">
-    <div class="pass-item"><div class="pass-num" style="background:#1b2d4f">1</div><div class="pass-body"><div class="pass-title">Accuracy</div><p class="pass-desc">Is every factual claim correct? AI can confidently state things that are wrong, outdated, or fabricated. Check names, dates, figures, and any specific claims before sending.</p><div class="pass-q">"Would I stake my professional reputation on every fact in this draft?"</div></div></div>
-    <div class="pass-item"><div class="pass-num" style="background:#8a6b2a">2</div><div class="pass-body"><div class="pass-title">Tone</div><p class="pass-desc">Does this match the register for this person and situation? AI defaults to pleasant and slightly formal. That may not fit your relationship with the recipient or the urgency of the message.</p><div class="pass-q">"Would I speak to this person this way in a room?"</div></div></div>
-    <div class="pass-item"><div class="pass-num" style="background:#3d2e5a">3</div><div class="pass-body"><div class="pass-title">Voice</div><p class="pass-desc">Does it sound like you, or like a press release? Replace AI defaults like "I hope this message finds you well" with language a real person would use.</p><div class="pass-q">"Would I ever actually say this out loud?"</div></div></div>
-    <div class="pass-item"><div class="pass-num" style="background:#b45309">4</div><div class="pass-body"><div class="pass-title">Completeness</div><p class="pass-desc">Did the AI include everything that needs to be there? AI sometimes produces technically correct but incomplete drafts because key details were not explicit in the prompt.</p><div class="pass-q">"Does this give the recipient everything they need?"</div></div></div>
+    <div class="pass-item"><div class="pass-num">1</div><div class="pass-body"><div class="pass-title">Accuracy</div><p class="pass-desc">Is every factual claim correct? AI can confidently state things that are wrong, outdated, or fabricated. Check names, dates, figures, and any specific claims before sending.</p><div class="pass-q">"Would I stake my professional reputation on every fact in this draft?"</div></div></div>
+    <div class="pass-item"><div class="pass-num">2</div><div class="pass-body"><div class="pass-title">Tone</div><p class="pass-desc">Does this match the register for this person and situation? AI defaults to pleasant and slightly formal. That may not fit your relationship with the recipient or the urgency of the message.</p><div class="pass-q">"Would I speak to this person this way in a room?"</div></div></div>
+    <div class="pass-item"><div class="pass-num">3</div><div class="pass-body"><div class="pass-title">Voice</div><p class="pass-desc">Does it sound like you, or like a press release? Replace AI defaults like "I hope this message finds you well" with language a real person would use.</p><div class="pass-q">"Would I ever actually say this out loud?"</div></div></div>
+    <div class="pass-item"><div class="pass-num">4</div><div class="pass-body"><div class="pass-title">Completeness</div><p class="pass-desc">Did the AI include everything that needs to be there? AI sometimes produces technically correct but incomplete drafts because key details were not explicit in the prompt.</p><div class="pass-q">"Does this give the recipient everything they need?"</div></div></div>
   </div>
   <hr class="divider">
   <span class="section-label">Interactive exercise</span>
@@ -558,7 +690,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     <div class="ba-col"><div class="ba-label ba-label-edit">&#9999;&#65039; After review and edit</div><div class="ba-body"><p>Dear Mr. Thompson,</p><p>I wanted to confirm the project deliverable is on track for the <span class="ba-edit">15th</span>. <span class="ba-edit">Nothing has changed since we last spoke</span>, but a quick confirmation felt useful ahead of the deadline.</p><p>If anything comes up, <span class="ba-edit">feel free to message me directly</span>. Happy to jump on a call if it would help.</p><p>Kind regards,<br>Jordan</p></div></div>
   </div>
   <div class="flag-detail" id="flag-detail">Click a highlighted phrase in the raw output to see why it was changed.</div>
-  <p class="flag-hint" style="margin-bottom:28px;">Phrases in <span class="amber-swatch">amber</span> are AI tells.</p>
+  <p class="flag-hint" style="margin-bottom:28px;">Phrases <span class="amber-swatch">underlined in red</span> are AI tells.</p>
   <hr class="divider">
   <span class="section-label">Reference</span>
   <div class="section-title" style="margin-bottom:4px;">Common AI writing tells</div>
@@ -567,7 +699,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     <div class="tell-card"><span class="tell-phrase">"I hope this message finds you well"</span><div class="tell-replace">Start with what you need to say.</div></div>
     <div class="tell-card"><span class="tell-phrase">"Please do not hesitate to reach out"</span><div class="tell-replace">"Feel free to message me", or nothing. It is implied.</div></div>
     <div class="tell-card"><span class="tell-phrase">"I wanted to circle back"</span><div class="tell-replace">"Following up on..." or "Just confirming..."</div></div>
-    <div class="tell-card"><span class="tell-phrase">"As per my previous email"</span><div class="tell-replace">Summarise the relevant point directly.</div></div>
+    <div class="tell-card"><span class="tell-phrase">"As per my previous email"</span><div class="tell-replace">Summarize the relevant point directly.</div></div>
     <div class="tell-card"><span class="tell-phrase">"I am writing to you today to..."</span><div class="tell-replace">Remove entirely. Just start writing.</div></div>
     <div class="tell-card"><span class="tell-phrase">"At your earliest convenience"</span><div class="tell-replace">Give a specific timeframe: "by Thursday" or "this week."</div></div>
     <div class="tell-card"><span class="tell-phrase">"I look forward to touching base"</span><div class="tell-replace">"Talk soon" or "Happy to jump on a call."</div></div>
@@ -576,7 +708,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 </div>
 <!-- T4 -->
 <div class="tab-panel" id="panel-t4">
-  <span class="section-eyebrow">Module 4</span>
+  <span class="section-eyebrow">Part 4 &#183; Application</span>
   <h2 class="panel-title">In Practice</h2>
   <p class="panel-lead">Two activities. Diagnose broken prompts, then spot the tells in a real email.</p>
   <span class="section-label">Activity 1</span>
@@ -603,7 +735,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 </div>
 <!-- T5 -->
 <div class="tab-panel" id="panel-t5">
-  <span class="section-eyebrow">Module 5</span>
+  <span class="section-eyebrow">Part 5 &#183; Assessment</span>
   <h2 class="panel-title">Knowledge Check</h2>
   <p class="panel-lead">Five questions on prompting, reviewing, and professional judgment.</p>
   <div class="quiz-prog"><div class="quiz-track"><div class="quiz-fill" id="quiz-fill"></div></div><div class="quiz-prog-label" id="quiz-label">0 of 5 answered</div></div>
@@ -627,7 +759,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 <button id="back-to-top" aria-label="Back to top">&#8593;</button>
 <footer class="footer-cta">
   <span class="footer-eyebrow">Designed and built by Ramano Stoute</span>
-  <p class="footer-sub">I wrote, designed and coded every part of this module, including the live model. It all runs on a single page, so it can sit inside an LMS with no extra logins or licences.</p>
+  <p class="footer-sub">I wrote, designed and coded every part of this module, including the live model. It all runs on a single page, so it can sit inside an LMS with no extra logins or licenses.</p>
   <div class="footer-btns">
     <a href="../../contact/?from=ai-communication" class="btn-primary">Get in touch &#8594;</a>
     <a href="../" class="btn-secondary">See all projects</a>
@@ -640,12 +772,12 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 'use strict';
 var state={theme:'light',activeTab:'t1',visited:{},currentTask:1,tasksCompleted:0,chatHistory:[],isSending:false,quizAnswered:{},quizScore:0,tsSelected:{},spotterChecked:false,totalTokens:0};
 var FLAG_DATA=[
-  {phrase:'"I hope this message finds you well"',reason:'One of the most recognisable AI clich\u00e9s. It is filler with no information content. Remove it and start with what you need to say.'},
+  {phrase:'"I hope this message finds you well"',reason:'One of the most recognizable AI clich\u00e9s. It is filler with no information content. Remove it and start with what you need to say.'},
   {phrase:'"I wanted to circle back"',reason:'Vague filler. \u201cConfirming\u201d or \u201cFollowing up on\u201d says the same thing more directly, with less padding.'},
   {phrase:'"reach out at your earliest convenience"',reason:'Three clich\u00e9s in one clause. The edited version replaces the whole sentence with something a real person would actually write.'}
 ];
 var DIAG_FB={'1t':'Correct. Without context, task, tone, format, or audience, the AI has nothing to work with and will produce something generic and unusable.','1f':'Not quite. The issue is not length or topic. The prompt gives the AI almost no information at all.','2t':'Correct. Submitting an AI-generated self-assessment as your own work is dishonest regardless of quality.','2f':'Length and topic are not the issue. Generating a self-assessment to submit without engagement crosses from assisted to generated.','3t':'Correct. The task is stated but the email is missing. The AI cannot rewrite something it has not seen.','3f':'The problem is not tool choice or word choice. The prompt is missing the content it is asking the AI to work with.','4t':'Correct. This is a well-constructed prompt with all four ingredients: role, task, audience, tone, and a length constraint.','4f':'Revisit the four ingredients from the Overview. This prompt includes all of them.'};
-var TASK_PROMPTS={1:'I am a new employee in my first week at a professional services firm. Draft a short, polite professional email to the IT department requesting access to the shared project folder on OneDrive. I have not met the IT contact before. Keep it under 80 words, professional but approachable.',2:'Write a professional email to my team confirming the details of our Friday project debrief meeting. The meeting is at 2pm, lasts one hour, and will be held on Zoom. Tone should be clear and friendly. Under 100 words.',3:'Rewrite the following message as a professional email to a senior director at a client organisation. Maintain the core information but adjust the tone to be formal, precise, and confident. Remove all casual language. Keep it concise. Original message: "Hey, just wanted to flag that the report is basically done, just need to fix a few things. Should be with you by end of week, maybe Friday afternoon. Let me know if that\'s ok!"'};
+var TASK_PROMPTS={1:'I am a new employee in my first week at a professional services firm. Draft a short, polite professional email to the IT department requesting access to the shared project folder on OneDrive. I have not met the IT contact before. Keep it under 80 words, professional but approachable.',2:'Write a professional email to my team confirming the details of our Friday project debrief meeting. The meeting is at 2pm, lasts one hour, and will be held on Zoom. Tone should be clear and friendly. Under 100 words.',3:'Rewrite the following message as a professional email to a senior director at a client organization. Maintain the core information but adjust the tone to be formal, precise, and confident. Remove all casual language. Keep it concise. Original message: "Hey, just wanted to flag that the report is basically done, just need to fix a few things. Should be with you by end of week, maybe Friday afternoon. Let me know if that\'s ok!"'};
 var TASK_RESPONSES={1:'Subject: Access to the Shared Project Folder\n\nHi [IT contact\u2019s name],\n\nI recently joined the team and need access to the shared project folder on OneDrive to get started.\n\nCould you help set that up when you get a chance? Happy to provide any details you need.\n\nThanks,\n[Your name]',2:'Subject: Friday Project Debrief: Details Confirmed\n\nHi team,\n\nJust confirming our project debrief is set for Friday at 2pm on Zoom. The session runs for one hour.\n\nI will send the Zoom link closer to the time. Let me know if anything has changed on your end.\n\nSee you Friday,\n[Your name]',3:'Subject: Project Report: Delivery Update\n\nDear [Director\u2019s name],\n\nI wanted to confirm that the report is in its final stages. A small number of revisions remain, and I expect to have the completed document with you by end of business this Friday.\n\nPlease let me know if you have any questions in the meantime.\n\nKind regards,\n[Your name]'};
 function $(id){return document.getElementById(id);}
 function on(el,ev,fn){if(el)el.addEventListener(ev,fn);}
