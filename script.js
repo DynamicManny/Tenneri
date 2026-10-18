@@ -511,7 +511,7 @@ function openPhishingModal() {
   if (!overlay || !mVideo) return;
   mTitle.textContent = 'Phishing training simulation';
   mType.textContent  = 'Cybersecurity · Brightspace / D2L';
-  mVideo.innerHTML = `<iframe src="https://player.vimeo.com/video/1169432096?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=0&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Phishing training simulation"></iframe>`;
+  mVideo.innerHTML = `<iframe src="https://player.vimeo.com/video/1236921375?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=0&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Phishing training simulation"></iframe>`;
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
