@@ -47,11 +47,11 @@
     },
     {
       kicker: 'Employee training · Live demo',
-      t1: 'Barracuda', t2: 'Guard',
-      desc: "Phishing training goes stale when the examples do. Here people read, sort and respond to real attempts, legitimate mail and marketing noise, with feedback on every call.",
+      t1: 'Reef', t2: 'Guardian',
+      desc: "Phishing training goes stale when the examples do. This one hands people a real-looking inbox: hover the links, check the senders, then report, junk or keep each email and see every red flag they missed.",
       tag: 'Used by employees',
-      img: 'BGthumb.png',
-      href: ASSETS + 'stratos/BarracudaGuard'
+      img: 'ReefGuardianthumb.png',
+      href: ASSETS + 'stratos/ReefGuardian'
     },
     {
       kicker: 'Employee training · Live demo',
