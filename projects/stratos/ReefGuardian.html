@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reef Guardian · Phishing training</title>
+<meta name="description" content="Reef Guardian is a simulated inbox where learners spot phishing, act on it, and see exactly which red flags they missed.">
+<script>(function(){try{var m=localStorage.getItem('rg-mode');if(m==='dark'||(!m&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-mode','dark');}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5f7;--surface:#ffffff;--surface-2:#f7f9fa;--hover:#eef4f5;--sel:#dff0f1;
+  --txt:#14212b;--txt-2:#3c4a55;--muted:#55636e;--line:#dfe4e8;--line-2:#c7cfd5;
+  --brand:#0b6e75;--brand-2:#095a60;--brand-ink:#ffffff;--brand-soft:#e3f2f3;
+  --coral:#d9543f;--coral-soft:#fdebe7;
+  --ok:#1b7a3d;--ok-soft:#e5f4ea;--bad:#b42318;--bad-soft:#fdeceb;--warn:#8a5a00;--warn-soft:#fff4dc;
+  --mark:#fff0b3;--mark-ink:#5c4100;
+  --top:#0b3b46;--top-ink:#e8f4f5;
+  --shadow:0 1px 2px rgba(16,32,40,.06),0 2px 8px rgba(16,32,40,.06);--shadow-pop:0 12px 40px rgba(10,30,40,.22);
+  --font:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;--brand-font:"Manrope","Segoe UI",system-ui,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+[data-mode="dark"]{
+  --bg:#0e171c;--surface:#152229;--surface-2:#1a2a32;--hover:#1d3039;--sel:#1f3d44;
+  --txt:#eef4f6;--txt-2:#d3dee3;--muted:#b3c1c8;--line:#26363f;--line-2:#3a4d57;
+  --brand:#4fc3c9;--brand-2:#7fd6da;--brand-ink:#08262a;--brand-soft:#173a40;
+  --coral:#ff8a75;--coral-soft:#3a201b;
+  --ok:#5fd18b;--ok-soft:#14301f;--bad:#ff8a80;--bad-soft:#3a1716;--warn:#ffcf6b;--warn-soft:#33270c;
+  --mark:#5a4a12;--mark-ink:#fff2c4;--top:#07141a;--top-ink:#e8f4f5;
+  --shadow:0 1px 3px rgba(0,0,0,.5);--shadow-pop:0 12px 40px rgba(0,0,0,.6);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--txt);background:var(--bg);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hidden{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 16px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);font-weight:600;cursor:pointer;color:var(--txt)}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.primary:hover{background:var(--brand-2);border-color:var(--brand-2)}
+.btn.ghost{border-color:transparent;background:none}
+.btn svg{width:16px;height:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ═════ Sign in ═════ */
+.signin{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto;
+  background:radial-gradient(1200px 600px at 20% 0%,#127f86 0%,transparent 60%),radial-gradient(900px 500px at 100% 100%,#0f4f6b 0%,transparent 60%),#06222b;color:#e8f4f5}
+.waves{position:absolute;left:0;right:0;bottom:0;height:220px;pointer-events:none;opacity:.5}
+.waves path{animation:drift 14s ease-in-out infinite alternate}
+.waves path:nth-child(2){animation-duration:18s}.waves path:nth-child(3){animation-duration:22s}
+@keyframes drift{to{transform:translateX(-60px)}}
+.si-card{position:relative;width:100%;max-width:420px;background:#fff;color:#14212b;border-radius:18px;padding:30px 30px 24px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo svg{width:40px;height:40px;flex-shrink:0}
+.logo b{font-family:var(--brand-font);font-weight:800;font-size:22px;letter-spacing:-.3px;line-height:1.1;display:block}
+.logo small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#55636e;font-weight:700}
+.si-client{display:flex;align-items:center;gap:10px;border:1px solid #dfe4e8;border-radius:12px;padding:10px 12px;margin:22px 0 18px}
+.nv{width:32px;height:32px;border-radius:8px;background:#1f3a5f;color:#fff;display:grid;place-items:center;font-weight:800;font-family:var(--brand-font);flex-shrink:0}
+.si-client b{display:block;font-size:14px}.si-client small{color:#55636e;font-size:12.5px}
+.si-card label{display:block;font-weight:700;margin-bottom:6px}
+.si-card input{width:100%;height:42px;border:1.5px solid #8b99a3;border-radius:8px;padding:0 12px;background:#fff;color:#14212b}
+.si-card input:focus{outline:none;border-color:#0b6e75;box-shadow:0 0 0 3px rgba(11,110,117,.2)}
+.si-card .btn.primary{width:100%;height:44px;margin-top:14px;font-size:15px;background:#0b6e75;border-color:#0b6e75;color:#fff}
+.si-err{color:#b42318;font-size:13px;margin-top:8px}
+.si-foot{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#3c4a55;margin-top:16px;padding-top:14px;border-top:1px solid #e3e8eb}
+.dot{width:9px;height:9px;border-radius:50%;background:#1f9d4c;flex-shrink:0;animation:dot 2s infinite}
+@keyframes dot{0%{box-shadow:0 0 0 0 rgba(31,157,76,.55)}70%{box-shadow:0 0 0 7px rgba(31,157,76,0)}100%{box-shadow:0 0 0 0 rgba(31,157,76,0)}}
+
+/* ═════ App shell ═════ */
+.app{height:100vh;height:100dvh;display:grid;grid-template-rows:52px 1fr}
+.top{background:var(--top);color:var(--top-ink);display:flex;align-items:center;gap:14px;padding:0 14px}
+.top .mail{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.top .mail .nv{width:28px;height:28px;font-size:14px;background:#2f5d8f}
+.top .spacer{flex:1}
+.pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 12px 4px 6px;font-size:13px;cursor:pointer;color:var(--top-ink)}
+.pill svg{width:22px;height:22px}
+.pill .bar{width:70px;height:6px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden}
+.pill .bar i{display:block;height:100%;background:#7fe0e4;width:0}
+.top-btn{width:36px;height:36px;border-radius:50%;border:none;background:none;color:var(--top-ink);cursor:pointer;display:grid;place-items:center}
+.top-btn:hover{background:rgba(255,255,255,.1)}
+.top-btn svg{width:20px;height:20px}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.menu{position:absolute;right:10px;top:50px;z-index:40;background:var(--surface);color:var(--txt);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-pop);padding:6px;min-width:220px}
+.menu button{display:flex;width:100%;align-items:center;gap:10px;text-align:left;padding:9px 10px;border:none;background:none;border-radius:8px;cursor:pointer}
+.menu button:hover{background:var(--hover)}
+.menu .mh{padding:8px 10px 10px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.menu .mh small{display:block;color:var(--muted)}
+
+.body{display:grid;grid-template-columns:210px 360px 1fr;min-height:0}
+.rail{background:var(--surface-2);border-right:1px solid var(--line);padding:12px 8px;overflow:auto}
+.rail h3{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 10px 6px}
+.folder{display:flex;align-items:center;gap:10px;width:100%;border:none;background:none;padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;color:var(--txt)}
+.folder:hover{background:var(--hover)}
+.folder.active{background:var(--sel);font-weight:700}
+.folder svg{width:18px;height:18px;color:var(--muted);flex-shrink:0}
+.folder .n{margin-left:auto;font-size:12px;font-weight:700;color:var(--brand)}
+.list{border-right:1px solid var(--line);background:var(--surface);overflow:auto;min-height:0}
+.list-h{position:sticky;top:0;z-index:2;background:var(--surface);padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between}
+.list-h h2{font-size:17px}
+.list-h small{color:var(--muted)}
+.item{display:grid;grid-template-columns:36px 1fr;gap:10px;width:100%;text-align:left;border:none;border-bottom:1px solid var(--line);background:none;padding:12px 14px;cursor:pointer;position:relative;color:var(--txt)}
+.item:hover{background:var(--hover)}
+.item.active{background:var(--sel)}
+.item.unread::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand)}
+.item .row1{display:flex;justify-content:space-between;gap:8px}
+.item .who{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item.unread .who,.item.unread .subj{font-weight:700}
+.item .time{font-size:12px;color:var(--muted);flex-shrink:0}
+.item .subj{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .prev{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tagline{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.tag{font-size:11.5px;font-weight:700;border-radius:10px;padding:1px 8px}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.bad{background:var(--bad-soft);color:var(--bad)}.tag.mid{background:var(--warn-soft);color:var(--warn)}
+.tag.att{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+
+.pane{overflow:auto;min-height:0;background:var(--bg)}
+.pane-in{max-width:860px;margin:0 auto;padding:22px 24px 60px}
+.back{display:none;margin-bottom:12px}
+.msg{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.msg-h{padding:20px 22px 14px;border-bottom:1px solid var(--line)}
+.msg-h h1{font-size:20px;line-height:1.3;margin-bottom:14px}
+.from{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:start}
+.from .av{width:40px;height:40px;font-size:16px}
+.from b{font-size:15px}
+.addr{font-family:var(--mono);font-size:12.5px;color:var(--txt-2);word-break:break-all}
+.meta{font-size:13px;color:var(--muted);margin-top:2px}
+.date{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.atts{display:flex;gap:8px;flex-wrap:wrap;padding:12px 22px 0}
+.att{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--surface-2);border-radius:10px;padding:7px 12px;cursor:pointer;color:var(--txt)}
+.att svg{width:18px;height:18px;color:var(--muted)}
+.att small{color:var(--muted)}
+.msg-b{padding:18px 22px 22px;font-size:15px;line-height:1.65;overflow-wrap:anywhere}
+.msg-b p{margin-bottom:12px}
+.msg-b .q{border-left:3px solid var(--line-2);padding-left:12px;color:var(--muted);margin-top:14px}
+.status.below::after{bottom:auto;top:-8px;transform:rotate(225deg)}
+.msg-b a.ml{color:var(--brand);text-decoration:underline;font-weight:600;cursor:pointer}
+.msg-b a.ml.cta{text-decoration:none;color:var(--brand-ink);display:inline-block;background:var(--brand);color:var(--brand-ink);text-decoration:none;padding:9px 16px;border-radius:8px;font-weight:700}
+.tip{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);padding:0 22px 16px}
+.tip svg{width:16px;height:16px;flex-shrink:0}
+
+mark.fm{background:var(--mark);color:var(--mark-ink);border-radius:4px;padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.fm sup,.badge-n{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--coral);color:#fff;font-size:11px;font-weight:800;font-family:var(--font);vertical-align:2px;margin-left:3px;line-height:1}
+.fm.info sup{background:var(--muted)}
+
+/* Check panel */
+.check{margin-top:16px;background:var(--surface);border:1.5px solid var(--brand);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.check-h{display:flex;align-items:center;gap:10px;background:var(--brand-soft);padding:12px 18px;border-bottom:1px solid var(--line)}
+.check-h svg{width:24px;height:24px}
+.check-h b{font-family:var(--brand-font);font-weight:800}
+.check-h small{margin-left:auto;color:var(--muted);font-size:12.5px}
+.check-b{padding:16px 18px 18px}
+.step{margin-bottom:16px}
+.step>b{display:block;margin-bottom:8px}
+.step>small{display:block;color:var(--muted);margin:-4px 0 8px}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.choice span{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line-2);border-radius:10px;padding:8px 14px;background:var(--surface);cursor:pointer;font-weight:600}
+.choice span::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid var(--line-2);flex-shrink:0;box-sizing:border-box}
+.choice input[type=checkbox]+span::before{border-radius:4px}
+.choice input:checked+span{border-color:var(--brand);background:var(--brand-soft)}
+.choice input:checked+span::before{border-color:var(--brand);background:var(--brand);box-shadow:inset 0 0 0 3px var(--surface)}
+.choice input[type=checkbox]:checked+span::before{box-shadow:none;background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.choice input:focus-visible+span{outline:3px solid var(--brand);outline-offset:2px}
+.choice small{font-weight:400;color:var(--muted)}
+.actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.actions .choice span{flex-direction:row;align-items:flex-start;height:100%}
+.actions .choice span div{display:flex;flex-direction:column}
+.check-f{display:flex;align-items:center;gap:12px;justify-content:flex-end;border-top:1px solid var(--line);padding:12px 18px}
+.check-f .hint{margin-right:auto;font-size:13px;color:var(--muted)}
+
+/* Feedback */
+.score-big{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.score-big b{font-family:var(--brand-font);font-size:30px;font-weight:800}
+.fb{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.fb li{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:start}
+.fb .ic{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800;margin-top:1px}
+.fb .ic.ok{background:var(--ok)}.fb .ic.bad{background:var(--bad)}.fb .ic.mid{background:var(--warn)}
+.fb .pts{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.why{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.flags{list-style:none;display:flex;flex-direction:column;gap:10px}
+.flags li{display:grid;grid-template-columns:22px 1fr;gap:8px}
+.flags li b{display:block}
+.flags li .badge-n{margin:2px 0 0}
+.flags li.info .badge-n{background:var(--muted)}
+.chip-x{display:inline-block;font-size:12px;font-weight:700;border-radius:10px;padding:1px 8px;margin:2px 4px 2px 0}
+
+/* Welcome + results */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:22px}
+.card+.card{margin-top:16px}
+.card h2{font-size:20px;margin-bottom:8px}
+.card p{color:var(--txt-2);margin-bottom:10px}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-bottom:6px}
+.steps{list-style:none;counter-reset:s;display:grid;gap:10px;margin:14px 0 18px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);width:26px;height:26px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-weight:800;display:grid;place-items:center}
+.guide{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.guide div{border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:8px;padding:10px 12px;background:var(--surface-2)}
+.guide b{display:block;margin-bottom:2px}
+.guide small{color:var(--txt-2);font-size:13px;line-height:1.45;display:block}
+.res-top{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:center}
+.ring{width:140px;height:140px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.kpis div{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kpis b{display:block;font-size:22px;font-family:var(--brand-font)}
+.kpis small{color:var(--muted)}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+.t th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:8px;border-bottom:2px solid var(--line)}
+.t td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.t td.num{text-align:right;white-space:nowrap}
+.t button{border:none;background:none;color:var(--brand);font-weight:600;cursor:pointer;text-align:left;padding:0}
+.t-wrap{overflow-x:auto}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+
+/* Link status + toast + dialog */
+.status{position:fixed;left:8px;top:8px;z-index:60;max-width:min(560px,calc(100vw - 16px));background:#0b1d24;color:#e8f4f5;border:2px solid #7fe0e4;border-radius:12px;padding:10px 16px 12px;font-family:var(--mono);font-size:15px;line-height:1.45;box-shadow:0 0 0 4px rgba(127,224,228,.18),0 14px 40px rgba(0,0,0,.35);pointer-events:none;word-break:break-all;animation:pop .16s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(4px) scale(.96)}}
+.status .lbl{display:block;font-family:var(--font);font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7fe0e4;margin-bottom:3px}
+.status .host{color:#fff;font-weight:700;background:rgba(255,207,107,.22);border-radius:4px;padding:0 3px}
+.status .rest{color:#a9bcc4}
+.status::after{content:"";position:absolute;left:var(--ax,20px);bottom:-8px;width:14px;height:14px;background:#0b1d24;border-right:2px solid #7fe0e4;border-bottom:2px solid #7fe0e4;transform:rotate(45deg)}
+.toast{position:fixed;left:50%;top:64px;transform:translateX(-50%);z-index:80;background:var(--txt);color:var(--surface);padding:10px 16px;border-radius:10px;font-weight:600;box-shadow:var(--shadow-pop);max-width:calc(100vw - 32px);text-align:center}
+.dlg{position:fixed;inset:0;z-index:90;background:rgba(5,20,26,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg-c{background:var(--surface);border-radius:16px;max-width:640px;width:100%;max-height:calc(100vh - 32px);overflow:auto;padding:22px;box-shadow:var(--shadow-pop)}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.dlg-h h2{font-size:20px}
+.x{width:36px;height:36px;border-radius:50%;border:none;background:none;cursor:pointer;display:grid;place-items:center;color:var(--muted)}
+.x:hover{background:var(--hover)}
+.x svg{width:20px;height:20px}
+.confetti{position:fixed;top:-10px;width:8px;height:12px;border-radius:2px;z-index:95;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg)}}
+
+/* Responsive */
+@media (max-width:1100px){.body{grid-template-columns:64px 320px 1fr}.rail .lbl,.rail h3,.folder .n{display:none}.folder{justify-content:center;padding:10px}.rail{padding:12px 6px}}
+@media (max-width:820px){
+  .body{grid-template-columns:1fr}.rail{display:none}
+  .body.reading .list{display:none}.body:not(.reading) .pane{display:none}
+  .back{display:inline-flex}.pane-in{padding:14px 12px 40px}
+  .top .mail span{display:none}.pill .bar,#pill-txt{display:none}#pill-short{display:inline!important;white-space:nowrap}
+  .from{grid-template-columns:40px 1fr}.from .date{grid-column:2}
+  .mobile-folders{display:flex!important}
+  .res-top{grid-template-columns:1fr;justify-items:center;text-align:center}
+}
+.mobile-folders{display:none;gap:6px;padding:10px 12px;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--surface)}
+.mobile-folders button{flex-shrink:0;border:1px solid var(--line-2);background:var(--surface);border-radius:16px;padding:4px 12px;font-size:13px;cursor:pointer}
+.mobile-folders button.active{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- Sign in -->
+<div class="signin" id="signin">
+  <svg class="waves" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 120 Q180 80 360 120 T720 120 T1080 120 T1440 120 T1800 120 V220 H0Z" fill="#0e5d68" opacity=".55"/>
+    <path d="M0 150 Q200 115 400 150 T800 150 T1200 150 T1600 150 V220 H0Z" fill="#0b4a57" opacity=".7"/>
+    <path d="M0 180 Q240 150 480 180 T960 180 T1440 180 T1920 180 V220 H0Z" fill="#073742"/>
+  </svg>
+  <form class="si-card" id="si-form" novalidate>
+    <div class="logo"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l14 5v10c0 9-6 16-14 19C12 34 6 27 6 18V8z" fill="#0b6e75"/><path d="M11 22c3-2 6-2 9 0s6 2 9 0" fill="none" stroke="#7fe0e4" stroke-width="2.4" stroke-linecap="round"/><path d="M11 27c3-2 6-2 9 0s6 2 9 0" fill="none" stroke="#bdeff1" stroke-width="2.4" stroke-linecap="round"/><path d="M20 9v8M16.5 12.5l3.5-3.5 3.5 3.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Reef Guardian</b><small>by Tenneri</small></div></div>
+    <div class="si-client"><div class="nv">N</div><div><b>Navarro Solutions</b><small>Security awareness training · Phishing</small></div></div>
+    <label for="si-name">Your name</label>
+    <input id="si-name" autocomplete="name" placeholder="For example, Jordan Lee" maxlength="40">
+    <div class="si-err hidden" id="si-err" role="alert">Enter your name to start.</div>
+    <button class="btn primary" type="submit">Open my inbox</button>
+    <p class="si-foot"><span class="dot"></span>Connected to the Tenneri Learning Environment</p>
+  </form>
+</div>
+
+<!-- App -->
+<div class="app hidden" id="app">
+  <header class="top">
+    <div class="mail"><div class="nv">N</div><span>Navarro Mail</span></div>
+    <div class="spacer"></div>
+    <button class="pill" id="pill" aria-label="Training progress, see results"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l14 5v10c0 9-6 16-14 19C12 34 6 27 6 18V8z" fill="#7fe0e4"/><path d="M11 22c3-2 6-2 9 0s6 2 9 0" fill="none" stroke="#0b3b46" stroke-width="2.6" stroke-linecap="round"/></svg><span id="pill-txt">0 of 8 checked</span><span id="pill-short" class="hidden">0/8</span><span class="bar"><i id="pill-bar"></i></span></button>
+    <button class="top-btn" id="b-guide" aria-label="Red flags guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></button>
+    <button class="top-btn" id="b-mode" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+    <button class="top-btn" id="b-user" aria-haspopup="true" aria-expanded="false" aria-label="Account menu"><span class="av" id="u-av" style="background:#2f8f96">?</span></button>
+  </header>
+  <div class="menu hidden" id="user-menu" role="menu"></div>
+
+  <div class="body" id="body">
+    <nav class="rail" aria-label="Folders" id="rail"></nav>
+    <section class="list" aria-label="Messages"><div class="mobile-folders" id="mfolders"></div><div id="list"></div></section>
+    <main class="pane" id="pane"><div class="pane-in" id="pane-in"></div></main>
+  </div>
+</div>
+
+<div class="status hidden" id="status" aria-hidden="true"></div>
+<div class="sr" id="live" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js" defer></script>
+<script>
+/* ═════════ Content ═════════ */
+const FLAGS={
+  sender:{label:'Wrong or lookalike sender',desc:'The address is off by a character, uses another domain, or is a personal account (paypa1.com, a Gmail address for your CEO).'},
+  link:{label:'Link goes somewhere unexpected',desc:'The link text says one thing but the real address is different. Hover over a link to see where it really goes.'},
+  urgency:{label:'Pressure to act fast',desc:'Deadlines, threats or secrecy meant to rush you past your doubts: "within 24 hours", "don\'t call me".'},
+  attachment:{label:'Risky attachment',desc:'A file you didn\'t expect, especially one that runs code, like .exe, .js or .zip.'},
+  toogood:{label:'Too good to be true',desc:'A prize you never entered, a refund you never asked for, a gift for no reason.'},
+  imperson:{label:'Pretends to be someone you trust',desc:'Borrows the name of your boss, a coworker, your bank or a big brand to lower your guard.'},
+  request:{label:'Unusual request',desc:'Asks for money, gift cards, passwords, or a change to bank details by email.'}
+};
+const ACTIONS={
+  report:{label:'Report phishing',desc:'Send it to the security team'},
+  junk:{label:'Mark as junk',desc:'Move it to Junk and train the filter'},
+  unsubscribe:{label:'Unsubscribe',desc:'Stop getting these emails'},
+  keep:{label:'Keep it',desc:'It\'s fine, no action needed'}
+};
+const FOLDER_OF={report:'reported',junk:'junk',unsubscribe:'archive',keep:'inbox'};
+const RAW_EMAILS=[
+{id:'paypal',time:'8:47 AM',fromName:'PayPal',from:'service@paypa1-secure.com',subject:'Your account access has been limited',preview:'We noticed unusual sign-in activity on your account...',difficulty:'Easy',phishing:true,
+ body:'Dear Customer,\n\nWe noticed unusual sign-in activity on your PayPal account, so we\'ve limited your access as a precaution.\n\nTo restore full access, please verify your identity:\n\n[[!Restore my account|http://paypa1-secure.com/verify?token=xR92kL]]\n\nIf you don\'t verify within 24 hours, your account will be permanently suspended.\n\nPayPal Security Team',
+ flags:['sender','link','urgency','imperson'],best:'report',ok:['junk'],
+ notes:[{at:'@from',flag:'sender',text:'"paypa1" uses the number 1 in place of the letter l. PayPal only emails from paypal.com.'},
+  {at:'Dear Customer',flag:'imperson',text:'Borrows PayPal\'s name, but PayPal greets you by your real name. A generic greeting means a mass mailing.'},
+  {at:'@link',flag:'link',text:'The button says "Restore my account" but leads to paypa1-secure.com, a site built to collect your password.'},
+  {at:'within 24 hours, your account will be permanently suspended',flag:'urgency',text:'A deadline plus a threat. The goal is to make you click before you think.'}],
+ why:'A classic credential grab: a fake sender, a fake login link and a threat to make you hurry.',
+ actionWhy:{junk:'Junk hides it from you, but the security team never hears about it. Reporting lets them block it for everyone.',keep:'Keeping it leaves a live trap in your inbox.',unsubscribe:'Unsubscribe links in phishing emails can confirm your address is active, or lead to the same fake site.'}},
+{id:'maint',time:'11:15 AM',fromName:'Navarro IT Support',from:'it-support@navarro-solutions.com',subject:'Scheduled maintenance this Saturday, 2:00 to 4:00 AM',preview:'No action needed. Some services will be briefly unavailable...',difficulty:'Easy',phishing:false,
+ body:'Hi everyone,\n\nWe have a scheduled maintenance window this Saturday from 2:00 to 4:00 AM Eastern.\n\nThese services will be unavailable during that time:\n\n• VPN access\n• Shared drives\n• Email archiving\n\nNo action is needed on your part. If you\'re working late Friday, please save your work and log off before 2:00 AM.\n\nQuestions? Call the helpdesk at extension 4400 or email helpdesk@navarro-solutions.com.\n\nIT Operations',
+ flags:[],best:'keep',ok:[],
+ notes:[{at:'@from',flag:null,text:'Comes from your real company domain, navarro-solutions.com.'},
+  {at:'No action is needed on your part.',flag:null,text:'It asks for nothing: no links, no logins, no attachments.'},
+  {at:'Call the helpdesk at extension 4400',flag:null,text:'Gives you an internal way to check, using a number you already know.'}],
+ why:'A normal IT notice. It comes from your own domain, asks for nothing and points you to channels you already trust.',
+ actionWhy:{report:'Reporting real IT notices buries the security team in false alarms and slows down real reports.',junk:'This is a legitimate notice from your own IT team. Junking it trains the filter to hide real messages.',unsubscribe:'There\'s nothing to unsubscribe from. This is an internal notice.'}},
+{id:'shop',time:'9:02 AM',fromName:'ShopNow Weekly',from:'deals@shopnow-weekly.com',subject:'This week only: 60% off storewide',preview:'Our biggest sale of the year ends Sunday...',difficulty:'Easy',phishing:false,
+ body:'Hi there,\n\nOur biggest sale of the year is here. This week only, take 60% off everything in store with code FLASH60.\n\n[[!Shop the sale|https://shopnow-weekly.com/flash-sale]]\n\nOffer ends Sunday. Can\'t be combined with other offers.\n\nYou\'re receiving this because you signed up for ShopNow Weekly deals at shopnow-weekly.com. [[Unsubscribe|https://shopnow-weekly.com/unsubscribe]]\n\nShopNow Weekly · 123 Commerce Street, Suite 400, New York, NY 10001',
+ flags:[],best:'unsubscribe',ok:['keep','junk'],
+ notes:[{at:'@link',flag:null,text:'Both links go to shopnow-weekly.com, the same domain as the sender.'},
+  {at:'you signed up for ShopNow Weekly deals',flag:null,text:'A newsletter you subscribed to, with a real unsubscribe link and a mailing address, as US law requires.'}],
+ why:'Marketing, not phishing. It\'s from a store you signed up with, and every link matches the sender. If you don\'t want it at work, unsubscribe.',
+ actionWhy:{report:'It\'s an ad you signed up for, not an attack. Reporting it sends the security team on a wild goose chase.',junk:'Junk works, but unsubscribing stops it at the source.',keep:'Keeping it is fine. If you don\'t want work email cluttered, unsubscribing is cleaner.'}},
+{id:'hr',time:'7:58 AM',fromName:'Navarro HR Benefits',from:'hr-benefits@navarro-soluti0ns.net',subject:'Action required: benefits enrollment closes {DEADLINE}',preview:'Our records show you haven\'t confirmed your selections...',difficulty:'Medium',phishing:true,
+ attachments:[{name:'Benefits_Enrollment_2027.exe',size:'1.2 MB'}],
+ body:'Hi {FIRST},\n\nOpen enrollment for your 2027 benefits closes on {DEADLINE}. Our records show you haven\'t confirmed your selections. If you miss the deadline, you\'ll be placed in the default plan.\n\nPlease open the attached form, fill it in and send it back today.\n\nYou can also sign in to the [[benefits portal|https://navarro-soluti0ns.net/benefits/login]].\n\nThanks,\nHR Benefits Team',
+ flags:['sender','attachment','link','urgency','imperson'],best:'report',ok:[],
+ notes:[{at:'@from',flag:'sender',text:'"soluti0ns" has a zero instead of the letter o, and it ends in .net. Your company is navarro-solutions.com.'},
+  {at:'@fromname',flag:'imperson',text:'Uses HR\'s name and your first name so it feels personal. Attacks aimed at one company like this are called spear phishing.'},
+  {at:'@attach',flag:'attachment',text:'A form would be a PDF or Word file. An .exe is a program, and opening it would run whatever is inside.'},
+  {at:'@link',flag:'link',text:'The "portal" is on the fake navarro-soluti0ns.net domain, where your password would be captured.'},
+  {at:'send it back today',flag:'urgency',text:'A same-day deadline discourages you from checking with HR first.'}],
+ why:'Spear phishing: it copies your company\'s name and a real-sounding HR process, then hides malware in an attachment.',
+ actionWhy:{junk:'This targets your company specifically. The security team needs to know so they can warn everyone.',keep:'Keeping it risks you or someone else opening the attachment later.',unsubscribe:'There\'s no unsubscribing from an attacker. Report it.'}},
+{id:'msft',time:'2:14 PM',fromName:'Microsoft Rewards',from:'rewards@microsoft-awards-centre.net',subject:'You\'ve been selected: claim your $500 Microsoft gift card',preview:'Your account was randomly selected for our appreciation award...',difficulty:'Easy',phishing:true,
+ body:'Congratulations!\n\nYour Microsoft account has been randomly selected for our 2026 Customer Appreciation Programme. You\'re eligible for a $500 Microsoft Gift Card.\n\nTo claim it, confirm your delivery address and card details within 48 hours:\n\n[[!Claim my reward|https://microsoft-awards-centre.net/claim?ref=MS-88421]]\n\nThis offer can\'t be reissued.\n\nMicrosoft Customer Rewards Team\nOne Microsoft Way, Redmond, WA 98052',
+ flags:['sender','toogood','link','urgency','imperson'],best:'report',ok:['junk'],
+ notes:[{at:'@from',flag:'sender',text:'Microsoft sends from microsoft.com. "microsoft-awards-centre.net" is a different site entirely.'},
+  {at:'randomly selected',flag:'toogood',text:'A $500 prize for a contest you never entered.'},
+  {at:'Programme',flag:'imperson',text:'"Programme" is the British spelling. A US company like Microsoft writes "Program". Small slips like this give fakes away.'},
+  {at:'@link',flag:'link',text:'Leads to microsoft-awards-centre.net, which would ask for your card details.'},
+  {at:'within 48 hours',flag:'urgency',text:'A short deadline so you claim before you question it.'}],
+ why:'A prize scam. It borrows Microsoft\'s name and address, but the sender, the link and even the spelling give it away.',
+ actionWhy:{junk:'Junk is better than nothing, but reporting helps the security team block the whole campaign.',keep:'Keeping it leaves the bait sitting in your inbox.',unsubscribe:'Unsubscribe links in scams can confirm your address is active.'}},
+{id:'ceo',time:'10:31 AM',fromName:'Dana Navarro',from:'dana.navarro.ceo@gmail.com',subject:'Quick favor',preview:'Are you at your desk? I need a quick favor...',difficulty:'Medium',phishing:true,
+ body:'Hi {FIRST},\n\nAre you at your desk? I\'m in back-to-back meetings and need a quick favor. I\'m putting together thank-you gifts for a few clients and need you to pick up six $200 Apple gift cards.\n\nScratch off the backs and send me photos of the codes. I\'ll make sure you\'re reimbursed today.\n\nPlease keep this between us for now, it\'s a surprise. I can\'t take calls, so just reply here.\n\nDana\nSent from my iPhone',
+ flags:['sender','request','urgency','imperson'],best:'report',ok:[],
+ notes:[{at:'@from',flag:'sender',text:'A personal Gmail address, not navarro-solutions.com. Anyone can make a Gmail account with your CEO\'s name.'},
+  {at:'Are you at your desk?',flag:'urgency',text:'Opens with pressure to respond right now.'},
+  {at:'send me photos of the codes',flag:'request',text:'Gift card codes work like cash and can\'t be traced. No real executive pays clients this way.'},
+  {at:'keep this between us',flag:'imperson',text:'Secrecy and "I can\'t take calls" stop you from checking with the real Dana. Always verify using a number you already have.'}],
+ why:'CEO fraud: an attacker poses as your boss and asks for something untraceable, with secrecy built in so you don\'t check.',
+ actionWhy:{junk:'If you junk it, the attacker just tries the next person. Report it so the whole company gets warned.',keep:'Keeping it doesn\'t stop the attacker from trying your coworkers.',unsubscribe:'There\'s no unsubscribing from an attacker. Report it.'}},
+{id:'invoice',time:'1:06 PM',fromName:'Brightline Supply Accounts',from:'accounts@brightline-supply.co',replyTo:'brightline.payments@outlook.com',subject:'RE: Invoice #4471, updated payment details',preview:'Following up on invoice #4471. We\'ve moved banks...',difficulty:'Hard',phishing:true,
+ attachments:[{name:'Invoice_4471_updated.pdf',size:'214 KB'}],
+ body:'Hi {FIRST},\n\nFollowing up on invoice #4471 from last week. We\'ve moved banks, so please update our details before you process the payment. The new account is with First Coastal Bank, ending in 7731. Full details are in the attached invoice.\n\nOur auditors need payment by end of day to avoid a late fee on your account.\n\nThanks for your quick help,\nMegan Ortiz\nAccounts Receivable, Brightline Supply\n\n> On Monday, Megan Ortiz <megan.ortiz@brightline-supply.com> wrote:\n> Hi {FIRST}, attached is invoice #4471 for the March order. Payment on our usual 30-day terms is fine.',
+ flags:['sender','request','urgency'],best:'report',ok:[],
+ notes:[{at:'@from',flag:'sender',text:'brightline-supply.co, not .com. Look at the quoted message below: the real Megan writes from brightline-supply.com.'},
+  {at:'@replyto',flag:'sender',text:'Replies go to an Outlook address, not the vendor. Whoever reads your answer isn\'t Brightline.'},
+  {at:'please update our details before you process the payment',flag:'request',text:'A change of bank details by email is the most common invoice scam. Always confirm by phone, using a number from your records, not from the email.'},
+  {at:'by end of day to avoid a late fee',flag:'urgency',text:'The original terms were 30 days. Now there\'s suddenly a same-day deadline.'},
+  {at:'@attach',flag:null,text:'The PDF itself isn\'t the red flag. A PDF is a normal invoice format. The request is the problem.'}],
+ why:'Invoice fraud. The attacker copies a real conversation, swaps one letter in the domain and asks you to send money to a new account.',
+ actionWhy:{junk:'This is aimed at your company\'s money. The security and finance teams need to know right away.',keep:'Keeping it risks someone paying the fake account.',unsubscribe:'There\'s no unsubscribing from an attacker. Report it.'}},
+{id:'pwd',time:'7:40 AM',fromName:'Navarro IT Support',from:'it-support@navarro-solutions.com',subject:'Your password expires in 3 days',preview:'Your Navarro network password expires on...',difficulty:'Hard',phishing:false,
+ body:'Hi {FIRST},\n\nYour Navarro network password expires on {EXPIRE}. To change it, sign in to the self-service portal from your work computer:\n\n[[login.navarro-solutions.com|https://login.navarro-solutions.com/password]]\n\nIT will never ask for your password by email or phone. If you\'re not sure this message is real, type the address yourself or call the helpdesk at extension 4400.\n\nNavarro IT Support',
+ flags:[],best:'keep',ok:[],
+ notes:[{at:'@from',flag:null,text:'Sent from your real company domain, navarro-solutions.com.'},
+  {at:'@link',flag:null,text:'The link goes exactly where it says: login.navarro-solutions.com.'},
+  {at:'IT will never ask for your password by email or phone.',flag:null,text:'It doesn\'t ask for your password, and it tells you how to check independently.'}],
+ why:'It has a deadline, but everything checks out. A deadline alone doesn\'t make an email phishing. Check the sender, the link and the request.',
+ actionWhy:{report:'Everything checks out here. Urgency on its own isn\'t a red flag when the sender, link and request are all legitimate.',junk:'This is a real notice from your IT team. Junking it means you\'ll miss the next one.',unsubscribe:'You can\'t unsubscribe from internal IT notices.'}}
+];
+const PTS={cls:4,flags:3,action:3};const PER=10;
+
+/* ═════════ State ═════════ */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,v);}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
+function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+let user=null,EMAILS=[],S=null,view={folder:'inbox',open:null,results:false};
+const keyFor=n=>'reefguardian_v1_'+n.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_');
+function fresh(){return{answers:{},read:{},draft:{}};}
+function save(){if(user)store.set(keyFor(user),JSON.stringify(S));}
+function personalize(name){
+  const first=name.trim().split(/\s+/)[0];
+  const d=new Date();const fmt=x=>x.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const dl=new Date(d);dl.setDate(d.getDate()+3);const ex=new Date(d);ex.setDate(d.getDate()+3);
+  const rep=s=>s.replace(/\{FIRST\}/g,first).replace(/\{DEADLINE\}/g,fmt(dl)).replace(/\{EXPIRE\}/g,fmt(ex));
+  EMAILS=RAW_EMAILS.map(e=>Object.assign({},e,{subject:rep(e.subject),body:rep(e.body),preview:rep(e.preview)}));
+  const toMin=t=>{const m=t.match(/(\d+):(\d+) (AM|PM)/);let h=+m[1]%12;if(m[3]==='PM')h+=12;return h*60+ +m[2];};
+  EMAILS.sort((a,b)=>toMin(b.time)-toMin(a.time));
+}
+const byId=id=>EMAILS.find(e=>e.id===id);
+function folderOf(e){const a=S.answers[e.id];return a?FOLDER_OF[a.action]:'inbox';}
+function total(){return Object.values(S.answers).reduce((s,a)=>s+a.pts,0);}
+function doneCount(){return Object.keys(S.answers).length;}
+function tier(pct){return pct>=85?{t:'Reef-ready',c:'ok'}:pct>=60?{t:'Getting there',c:'mid'}:{t:'Worth another pass',c:'bad'};}
+
+/* ═════════ Grading ═════════ */
+function grade(e,ans){
+  const p={cls:0,flags:0,action:0};
+  const saidPhish=ans.cls==='phish';
+  if(saidPhish===e.phishing)p.cls=PTS.cls;
+  let missed=[],extra=[];
+  if(e.phishing){
+    if(saidPhish){missed=e.flags.filter(f=>!ans.flags.includes(f));extra=ans.flags.filter(f=>!e.flags.includes(f));p.flags=Math.max(0,PTS.flags-missed.length-extra.length);}
+    else missed=e.flags.slice();
+  }else if(!saidPhish)p.flags=PTS.flags;
+  if(ans.action===e.best)p.action=PTS.action;else if(e.ok.includes(ans.action))p.action=1;
+  return{parts:p,pts:p.cls+p.flags+p.action,missed,extra};
+}
+
+/* ═════════ Rendering: chrome ═════════ */
+const ICON={
+  inbox:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1 3h6l1-3h5"/></svg>',
+  reported:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M12 8v5M12 16v.5"/></svg>',
+  junk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
+  archive:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8M10 12h4"/></svg>',
+  results:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V12M12 20V5M19 20v-6"/></svg>',
+  guide:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>',
+  clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/></svg>',
+  mouse:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 8-6 2-2 6z"/></svg>',
+  shield:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l14 5v10c0 9-6 16-14 19C12 34 6 27 6 18V8z" fill="var(--brand)"/><path d="M11 22c3-2 6-2 9 0s6 2 9 0" fill="none" stroke="var(--brand-soft)" stroke-width="2.6" stroke-linecap="round"/></svg>'
+};
+const FOLDERS=[['inbox','Inbox'],['reported','Reported'],['junk','Junk'],['archive','Archive']];
+function renderRail(){
+  const cnt=f=>EMAILS.filter(e=>folderOf(e)===f).length;
+  const unread=EMAILS.filter(e=>folderOf(e)==='inbox'&&!S.answers[e.id]).length;
+  $('rail').innerHTML=FOLDERS.map(([f,l])=>`<button class="folder${!view.results&&view.folder===f?' active':''}" data-folder="${f}" ${!view.results&&view.folder===f?'aria-current="true"':''}>${ICON[f]}<span class="lbl">${l}</span>${f==='inbox'?(unread?`<span class="n">${unread}</span>`:''):(cnt(f)?`<span class="n" style="color:var(--muted)">${cnt(f)}</span>`:'')}</button>`).join('')+
+   `<h3>Reef Guardian</h3><button class="folder${view.results?' active':''}" data-results="1">${ICON.results}<span class="lbl">Results</span></button><button class="folder" data-guide="1">${ICON.guide}<span class="lbl">Red flags guide</span></button>`;
+  $('mfolders').innerHTML=FOLDERS.map(([f,l])=>`<button class="${!view.results&&view.folder===f?'active':''}" data-folder="${f}">${l}${f==='inbox'&&unread?' ('+unread+')':''}</button>`).join('')+`<button class="${view.results?'active':''}" data-results="1">Results</button>`;
+  document.querySelectorAll('[data-folder]').forEach(b=>b.onclick=()=>{view.folder=b.dataset.folder;view.results=false;view.open=null;renderAll();});
+  document.querySelectorAll('[data-results]').forEach(b=>b.onclick=()=>showResults());
+  document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=openGuide);
+  const d=doneCount();$('pill-txt').textContent=`${d} of ${EMAILS.length} checked · ${total()} pts`;$('pill-short').textContent=`${d}/${EMAILS.length} · ${total()} pts`;$('pill-bar').style.width=(d/EMAILS.length*100)+'%';
+}
+const AVC=['#2f6f8f','#7a4f9a','#9a5b2f','#2f8f5a','#8f2f4f','#3f5f9f','#6f7f2f','#2f8f8f'];
+const avColor=s=>AVC[[...s].reduce((a,c)=>a+c.charCodeAt(0),0)%AVC.length];
+function renderList(){
+  const list=EMAILS.filter(e=>folderOf(e)===view.folder);
+  const name=FOLDERS.find(f=>f[0]===view.folder)[1];
+  $('list').innerHTML=`<div class="list-h"><h2>${name}</h2><small>${list.length} message${list.length===1?'':'s'}</small></div>`+
+   (list.length?list.map(e=>{const a=S.answers[e.id];const res=a?(a.pts>=8?'ok':a.pts>=5?'mid':'bad'):'';
+     return `<button class="item${!S.read[e.id]?' unread':''}${view.open===e.id&&!view.results?' active':''}" data-open="${e.id}" aria-label="${esc(e.fromName)}, ${esc(e.subject)}${a?', checked, '+a.pts+' points':', not checked'}">
+      <span class="av" style="background:${avColor(e.fromName)}">${esc(e.fromName.charAt(0))}</span>
+      <span style="min-width:0"><span class="row1"><span class="who">${esc(e.fromName)}</span><span class="time">${e.time}</span></span>
+      <span class="subj" style="display:block">${esc(e.subject)}</span><span class="prev" style="display:block">${esc(e.preview)}</span>
+      ${a||e.attachments?`<span class="tagline">${e.attachments?`<span class="tag att">📎 ${e.attachments.length}</span>`:''}${a?`<span class="tag ${res}">${a.pts} / ${PER} pts</span>`:''}</span>`:''}</span></button>`;}).join('')
+   :`<div class="empty">${view.folder==='inbox'?'Inbox zero. Every email has been checked.':'Nothing here yet. Emails you '+({reported:'report',junk:'mark as junk',archive:'unsubscribe from'}[view.folder])+' land here.'}</div>`);
+  $('list').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openEmail(b.dataset.open));
+}
+function renderAll(){renderRail();renderList();if(view.results)renderResults();else if(view.open)renderEmail(byId(view.open));else renderWelcome();$('body').classList.toggle('reading',!!(view.open||view.results));}
+
+/* ═════════ Welcome ═════════ */
+function renderWelcome(){
+  const first=user.split(/\s+/)[0];const d=doneCount();
+  $('pane-in').innerHTML=`<div class="card"><div class="eyebrow">Security awareness training</div><h2>${d?'Welcome back, '+esc(first)+'.':'Good morning, '+esc(first)+'.'}</h2>
+    <p>${d?`You've checked ${d} of ${EMAILS.length} emails. Pick up where you left off.`:`Eight emails landed in your Navarro Solutions inbox this morning. Some are real. Some are phishing. Your job is to tell them apart and deal with each one. It takes about 10 minutes.`}</p>
+    <ol class="steps"><li><div><b>Open an email</b> and read it the way you normally would.</div></li><li><div><b>Investigate.</b> Check the sender's address and hover over links to see where they really go.</div></li><li><div><b>Decide and act.</b> Is it phishing? What gave it away? Then report it, junk it, unsubscribe or keep it.</div></li></ol>
+    <p>After each one, you'll see every red flag highlighted right in the email.</p>
+    <div class="row-btns"><button class="btn primary" id="w-start">${d?'Next unchecked email':'Open the first email'}</button><button class="btn" id="w-guide">Red flags guide</button></div></div>`;
+  $('w-start').onclick=()=>{const n=EMAILS.find(e=>!S.answers[e.id]);if(n){view.folder='inbox';openEmail(n.id);}else showResults();};
+  $('w-guide').onclick=openGuide;
+}
+
+/* ═════════ Email view ═════════ */
+function bodyHtml(e,annot){
+  // Escape, then links [[text|url]], then annotations on plain text, then paragraphs
+  let s=esc(e.body);
+  const links=[];
+  s=s.replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g,(m,t,u)=>{links.push(u);const cta=t.startsWith('!');if(cta)t=t.slice(1);return `<a class="ml${cta?' cta':''}" role="link" tabindex="0" data-url="${u}" ${annot&&annot.link?`data-n="${annot.link}"`:''}>${t}</a>${annot&&annot.link?`<span class="badge-n${annot.linkInfo?' info':''}" style="${annot.linkInfo?'background:var(--muted)':''}">${annot.link}</span>`:''}`;});
+  if(annot)annot.text.forEach(t=>{const needle=esc(t.at);const i=s.indexOf(needle);if(i>-1)s=s.slice(0,i)+`<mark class="fm${t.flag?'':' info'}">${needle}<sup>${t.n}</sup></mark>`+s.slice(i+needle.length);});
+  const paras=s.split('\n\n').map(p=>{
+    if(p.startsWith('&gt; '))return `<div class="q">${p.split('\n').map(l=>l.replace(/^&gt; ?/,'')).join('<br>')}</div>`;
+    return `<p>${p.replace(/\n/g,'<br>')}</p>`;});
+  return paras.join('');
+}
+function annotations(e){
+  const a={text:[],from:null,fromname:null,replyto:null,attach:null,link:null,list:[]};let n=0;
+  e.notes.forEach(note=>{n++;const item=Object.assign({n},note);a.list.push(item);
+    if(note.at==='@from')a.from=item;else if(note.at==='@fromname')a.fromname=item;else if(note.at==='@replyto')a.replyto=item;else if(note.at==='@attach')a.attach=item;else if(note.at==='@link'){a.link=n;a.linkInfo=!note.flag;}else a.text.push(item);});
+  return a;
+}
+const badge=it=>it?`<span class="badge-n" style="${it.flag?'':'background:var(--muted)'}">${it.n}</span>`:'';
+const wrapMark=(html,it)=>it?`<mark class="fm${it.flag?'':' info'}">${html}<sup>${it.n}</sup></mark>`:html;
+function renderEmail(e){
+  if(!e){renderWelcome();return;}
+  const ans=S.answers[e.id];const an=ans?annotations(e):null;
+  $('pane-in').innerHTML=`<button class="btn back" id="b-back">← ${FOLDERS.find(f=>f[0]===view.folder)[1]}</button>
+  <article class="msg" aria-labelledby="m-subj">
+    <div class="msg-h"><h1 id="m-subj">${esc(e.subject)}</h1>
+      <div class="from"><span class="av" style="background:${avColor(e.fromName)}">${esc(e.fromName.charAt(0))}</span>
+        <div><b>${wrapMark(esc(e.fromName),an&&an.fromname)}</b> <span class="addr">&lt;${wrapMark(esc(e.from),an&&an.from)}&gt;</span>
+          ${e.replyTo?`<div class="meta">Reply-to: <span class="addr">${wrapMark(esc(e.replyTo),an&&an.replyto)}</span></div>`:''}
+          <div class="meta">To: ${esc(user)} &lt;${esc(user.toLowerCase().replace(/[^a-z]+/g,'.').replace(/^\.|\.$/g,''))}@navarro-solutions.com&gt;</div></div>
+        <span class="date">Today, ${e.time}</span></div></div>
+    ${e.attachments?`<div class="atts">${e.attachments.map(t=>`<button class="att" data-att="${esc(t.name)}">${ICON.clip}<span>${wrapMark(esc(t.name),an&&an.attach)}</span><small>${t.size}</small></button>`).join('')}</div>`:''}
+    <div class="msg-b">${bodyHtml(e,an)}</div>
+    ${/\[\[/.test(e.body)&&!ans?`<div class="tip">${ICON.mouse}<span>Tip: hover over a link (or press and hold on a phone) to see where it really goes. Links are disabled in training.</span></div>`:''}
+  </article>
+  <section class="check" id="check" aria-labelledby="ck-h">${ans?feedbackHtml(e,ans,an):checkFormHtml(e)}</section>`;
+  wireEmail(e);
+}
+function checkFormHtml(e){
+  const d=S.draft[e.id]||{cls:'',flags:[],action:''};
+  return `<div class="check-h">${ICON.shield}<b id="ck-h">Check this email</b><small>${PER} points</small></div>
+  <div class="check-b">
+    <fieldset class="step" style="border:none"><legend style="font-weight:700;margin-bottom:8px">1. Is this phishing?</legend><div class="choices">
+      <label class="choice"><input type="radio" name="cls" value="phish" ${d.cls==='phish'?'checked':''}><span>Yes, it's phishing</span></label>
+      <label class="choice"><input type="radio" name="cls" value="safe" ${d.cls==='safe'?'checked':''}><span>No, it's safe</span></label></div></fieldset>
+    <fieldset class="step${d.cls==='phish'?'':' hidden'}" id="st-flags" style="border:none"><legend style="font-weight:700;margin-bottom:4px">2. What gave it away?</legend><small>Select every red flag you can find.</small><div class="choices">
+      ${Object.entries(FLAGS).map(([k,f])=>`<label class="choice"><input type="checkbox" name="flag" value="${k}" ${d.flags.includes(k)?'checked':''}><span>${f.label}</span></label>`).join('')}</div></fieldset>
+    <fieldset class="step" style="border:none;margin-bottom:0"><legend style="font-weight:700;margin-bottom:8px"><span id="act-n">${d.cls==='phish'?3:2}</span>. What will you do?</legend><div class="actions">
+      ${Object.entries(ACTIONS).map(([k,a])=>`<label class="choice"><input type="radio" name="action" value="${k}" ${d.action===k?'checked':''}><span><div>${a.label}<small>${a.desc}</small></div></span></label>`).join('')}</div></fieldset>
+  </div>
+  <div class="check-f"><span class="hint" id="ck-hint"></span><button class="btn primary" id="ck-submit">Submit</button></div>`;
+}
+function feedbackHtml(e,ans,an){
+  const g=grade(e,ans);const p=g.parts;
+  const ic=(got,max)=>got>=max?'<span class="ic ok">✓</span>':got>0?'<span class="ic mid">~</span>':'<span class="ic bad">✗</span>';
+  const saidPhish=ans.cls==='phish';
+  const clsTxt=saidPhish===e.phishing?(e.phishing?'Right, this is phishing.':'Right, this one is safe.'):(e.phishing?'This is phishing. Every red flag is highlighted above.':'False alarm. This one is safe, and the notes above show why.');
+  let flagTxt;
+  if(!e.phishing)flagTxt=saidPhish?'There were no red flags to find in this one.':'Nothing to flag. Correct.';
+  else if(!saidPhish)flagTxt=`You missed: ${e.flags.map(f=>FLAGS[f].label).join(', ')}.`;
+  else if(!g.missed.length&&!g.extra.length)flagTxt='You spotted every red flag.';
+  else flagTxt=(g.missed.length?`Missed: ${g.missed.map(f=>FLAGS[f].label).join(', ')}. `:'')+(g.extra.length?`Not in this email: ${g.extra.map(f=>FLAGS[f].label).join(', ')}.`:'');
+  const actTxt=ans.action===e.best?`${ACTIONS[ans.action].label} is the right call.`:`Best action: ${ACTIONS[e.best].label}. ${(e.actionWhy&&e.actionWhy[ans.action])||''}`;
+  const next=EMAILS.find(x=>!S.answers[x.id]);
+  return `<div class="check-h">${ICON.shield}<b id="ck-h">Your result</b><small>${e.difficulty}</small></div>
+  <div class="check-b">
+    <div class="score-big"><b>${g.pts}</b><span>of ${PER} points</span></div>
+    <ul class="fb">
+      <li>${ic(p.cls,PTS.cls)}<span>${clsTxt}</span><span class="pts">${p.cls}/${PTS.cls}</span></li>
+      <li>${ic(p.flags,PTS.flags)}<span>${flagTxt}</span><span class="pts">${p.flags}/${PTS.flags}</span></li>
+      <li>${ic(p.action,PTS.action)}<span>${actTxt}</span><span class="pts">${p.action}/${PTS.action}</span></li>
+    </ul>
+    <div class="why"><b>In short:</b> ${esc(e.why)}</div>
+    <b style="display:block;margin-bottom:8px">${e.phishing?'Red flags in this email':'Why it\'s safe'}</b>
+    <ul class="flags">${an.list.map(it=>`<li class="${it.flag?'':'info'}"><span class="badge-n">${it.n}</span><div>${it.flag?`<b>${FLAGS[it.flag].label}</b>`:''}${esc(it.text)}</div></li>`).join('')}</ul>
+  </div>
+  <div class="check-f"><span class="hint">${ans.action!=='keep'?`Moved to ${({report:'Reported',junk:'Junk',unsubscribe:'Archive'})[ans.action]}.`:''}</span>${next?`<button class="btn primary" id="ck-next">Next email</button>`:`<button class="btn primary" id="ck-results">See my results</button>`}</div>`;
+}
+function wireEmail(e){
+  const back=$('b-back');if(back)back.onclick=()=>{view.open=null;renderAll();};
+  document.querySelectorAll('.msg-b a.ml').forEach(a=>{
+    const show=()=>showStatus(a.dataset.url,a);
+    a.addEventListener('mouseenter',show);a.addEventListener('focus',show);a.addEventListener('mouseleave',hideStatus);a.addEventListener('blur',hideStatus);
+    let t;a.addEventListener('touchstart',()=>{t=setTimeout(show,350);},{passive:true});a.addEventListener('touchend',()=>{clearTimeout(t);setTimeout(hideStatus,2500);});
+    const act=ev=>{ev.preventDefault();show();toast('Links are disabled in training. The box above the link shows where it really goes.');setTimeout(hideStatus,3500);};
+    a.addEventListener('click',act);a.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' ')act(ev);});
+  });
+  document.querySelectorAll('[data-att]').forEach(b=>b.onclick=()=>toast(/\.(exe|js|scr|vbs|bat|zip)$/i.test(b.dataset.att)?'Good instinct to hesitate. In real life, opening this file could run a program.':'Attachments are disabled in training.'));
+  if(S.answers[e.id]){
+    const n=$('ck-next');if(n)n.onclick=()=>{const x=EMAILS.find(y=>!S.answers[y.id]);view.folder='inbox';openEmail(x.id);};
+    const r=$('ck-results');if(r)r.onclick=showResults;return;
+  }
+  const form=$('check');
+  const sync=()=>{
+    const cls=(form.querySelector('input[name=cls]:checked')||{}).value||'';
+    const flags=[...form.querySelectorAll('input[name=flag]:checked')].map(i=>i.value);
+    const action=(form.querySelector('input[name=action]:checked')||{}).value||'';
+    S.draft[e.id]={cls,flags,action};save();
+    $('st-flags').classList.toggle('hidden',cls!=='phish');$('act-n').textContent=cls==='phish'?3:2;
+  };
+  form.addEventListener('change',sync);
+  $('ck-submit').onclick=()=>{
+    const d=S.draft[e.id]||{};
+    if(!d.cls){hint('Decide whether it\'s phishing first.');return;}
+    if(d.cls==='phish'&&!d.flags.length){hint('Pick at least one red flag.');return;}
+    if(!d.action){hint('Choose what you\'ll do with it.');return;}
+    const g=grade(e,{cls:d.cls,flags:d.flags,action:d.action});
+    S.answers[e.id]={cls:d.cls,flags:d.cls==='phish'?d.flags:[],action:d.action,pts:g.pts,parts:g.parts,at:Date.now()};
+    delete S.draft[e.id];save();track('rg_check',{email:e.id,pts:g.pts});
+    $('live').textContent=`${g.pts} of ${PER} points. ${e.phishing?'This was phishing.':'This was safe.'}`;
+    renderRail();renderList();renderEmail(e);
+    $('check').scrollIntoView({behavior:'smooth',block:'start'});
+    if(doneCount()===EMAILS.length){track('rg_complete',{score:total()});setTimeout(()=>{toast('All eight checked. Your results are ready.');confetti();},500);}
+  };
+}
+function hint(t){const h=$('ck-hint');h.textContent=t;h.style.color='var(--bad)';$('live').textContent=t;}
+function openEmail(id){view.open=id;view.results=false;S.read[id]=true;save();const e=byId(id);if(folderOf(e)!==view.folder)view.folder=folderOf(e);renderAll();$('pane').scrollTop=0;}
+
+/* ═════════ Results ═════════ */
+function showResults(){view.results=true;view.open=null;renderAll();$('pane').scrollTop=0;}
+function renderResults(){
+  const d=doneCount(),max=EMAILS.length*PER,sc=total(),pct=d?Math.round(sc/(d*PER)*100):0,ti=tier(pct);
+  const answered=EMAILS.filter(e=>S.answers[e.id]);
+  const missed=answered.filter(e=>e.phishing&&S.answers[e.id].cls!=='phish').length;
+  const falseAl=answered.filter(e=>!e.phishing&&S.answers[e.id].cls==='phish').length;
+  const reported=answered.filter(e=>e.phishing&&S.answers[e.id].action==='report').length;
+  const circ=2*Math.PI*58;
+  $('pane-in').innerHTML=`<button class="btn back" id="b-back">← Inbox</button>
+  <div class="card"><div class="eyebrow">Your results</div>
+    ${d?`<div class="res-top"><svg class="ring" viewBox="0 0 140 140" role="img" aria-label="${pct} percent"><circle cx="70" cy="70" r="58" fill="none" stroke="var(--line)" stroke-width="12"/><circle cx="70" cy="70" r="58" fill="none" stroke="var(--brand)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(pct/100*circ).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 70 70)"/><text x="70" y="78" text-anchor="middle" font-size="30" font-weight="800" fill="var(--txt)" font-family="Manrope,Segoe UI,sans-serif">${pct}%</text></svg>
+      <div><h2>${ti.t}</h2><p>${sc} of ${d*PER} points across ${d} of ${EMAILS.length} emails${d<EMAILS.length?'. Finish the rest for a full score.':'.'}</p>
+      <div class="kpis"><div><b>${missed}</b><small>Phishing emails missed</small></div><div><b>${falseAl}</b><small>False alarms</small></div><div><b>${reported}</b><small>Threats reported</small></div></div></div></div>`
+    :`<h2>Nothing checked yet</h2><p>Open an email in your inbox to get started.</p>`}
+  </div>
+  ${d?`<div class="card"><h2 style="font-size:17px">Email by email</h2><div class="t-wrap"><table class="t"><thead><tr><th>Email</th><th>It was</th><th>You said</th><th>You did</th><th class="num">Points</th></tr></thead><tbody>
+    ${EMAILS.map(e=>{const a=S.answers[e.id];if(!a)return `<tr><td><button data-review="${e.id}">${esc(e.subject)}</button><br><small style="color:var(--muted)">${esc(e.fromName)}</small></td><td colspan="3" style="color:var(--muted)">Not checked yet</td><td class="num">0</td></tr>`;
+      const right=(a.cls==='phish')===e.phishing;
+      return `<tr><td><button data-review="${e.id}">${esc(e.subject)}</button><br><small style="color:var(--muted)">${esc(e.fromName)} · ${e.difficulty}</small></td><td>${e.phishing?'Phishing':'Safe'}</td><td><span class="chip-x" style="background:${right?'var(--ok-soft)':'var(--bad-soft)'};color:${right?'var(--ok)':'var(--bad)'}">${a.cls==='phish'?'Phishing':'Safe'}</span></td><td>${ACTIONS[a.action].label}</td><td class="num"><b>${a.pts}</b> / ${PER}</td></tr>`;}).join('')}
+    </tbody></table></div>
+    <div class="row-btns"><button class="btn primary" id="r-pdf">Download report (PDF)</button>${d<EMAILS.length?'<button class="btn" id="r-cont">Keep going</button>':''}<button class="btn ghost" id="r-reset">Start over</button></div></div>`:''}
+  <div class="card"><div class="eyebrow">About this demo</div><p style="margin:0">Reef Guardian was designed and built by Ramano Stoute at Tenneri. It's white-labeled here for a fictional company, Navarro Solutions, the way it would ship to a real client with their own emails and branding.</p><div class="row-btns"><a class="btn" href="/contact/?from=reef-guardian">Get in touch</a><a class="btn ghost" href="/projects/">See more projects</a></div></div>`;
+  $('b-back').onclick=()=>{view.results=false;renderAll();};
+  document.querySelectorAll('[data-review]').forEach(b=>b.onclick=()=>openEmail(b.dataset.review));
+  const pdf=$('r-pdf');if(pdf)pdf.onclick=downloadPDF;
+  const c=$('r-cont');if(c)c.onclick=()=>{const n=EMAILS.find(e=>!S.answers[e.id]);view.folder='inbox';openEmail(n.id);};
+  const r=$('r-reset');if(r)r.onclick=resetAll;
+}
+function downloadPDF(){
+  if(!window.jspdf){toast('The PDF tool is still loading. Try again in a moment.');return;}
+  const {jsPDF}=window.jspdf;const doc=new jsPDF();const d=doneCount(),sc=total(),pct=d?Math.round(sc/(d*PER)*100):0;
+  doc.setFontSize(18);doc.text('Reef Guardian training report',14,20);
+  doc.setFontSize(11);doc.text(`Learner: ${user}`,14,30);doc.text('Organization: Navarro Solutions',14,36);doc.text(`Date: ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}`,14,42);
+  doc.setFontSize(13);doc.text(`Score: ${sc} of ${d*PER} (${pct}%), ${tier(pct).t}`,14,52);
+  doc.autoTable({startY:60,head:[['Email','It was','You said','You did','Points']],
+    body:EMAILS.map(e=>{const a=S.answers[e.id];return a?[e.subject,e.phishing?'Phishing':'Safe',a.cls==='phish'?'Phishing':'Safe',ACTIONS[a.action].label,`${a.pts} / ${PER}`]:[e.subject,'','Not checked','','']}),
+    theme:'grid',styles:{fontSize:9},headStyles:{fillColor:[11,110,117]},columnStyles:{0:{cellWidth:70}}});
+  doc.save(`Reef-Guardian-${user.replace(/[^A-Za-z0-9]+/g,'-')}.pdf`);track('rg_pdf');
+}
+function resetAll(){
+  if(!confirm('Start over? This clears all of your answers.'))return;
+  S=fresh();save();view={folder:'inbox',open:null,results:false};renderAll();toast('Fresh inbox. Good luck.');track('rg_reset');
+}
+
+/* ═════════ Guide, status, toast, menu ═════════ */
+function openGuide(){
+  const wrap=document.createElement('div');wrap.className='dlg';wrap.setAttribute('role','dialog');wrap.setAttribute('aria-modal','true');wrap.setAttribute('aria-labelledby','g-h');
+  wrap.innerHTML=`<div class="dlg-c"><div class="dlg-h"><h2 id="g-h">Red flags guide</h2><button class="x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <p style="color:var(--txt-2);margin-bottom:14px">One red flag doesn't always mean phishing. Look at the sender, the links and the request together.</p>
+    <div class="guide">${Object.values(FLAGS).map(f=>`<div><b>${f.label}</b><small>${f.desc}</small></div>`).join('')}</div>
+    <p style="color:var(--txt-2);margin-top:14px"><b>When in doubt,</b> report it. Security teams would much rather check a safe email than miss a real attack.</p></div>`;
+  const prev=document.activeElement;document.body.appendChild(wrap);
+  const close=()=>{wrap.remove();document.removeEventListener('keydown',onKey);if(prev&&prev.focus)prev.focus();};
+  const onKey=ev=>{if(ev.key==='Escape')close();if(ev.key==='Tab'){ev.preventDefault();wrap.querySelector('.x').focus();}};
+  wrap.addEventListener('click',ev=>{if(ev.target===wrap||ev.target.closest('.x'))close();});document.addEventListener('keydown',onKey);
+  wrap.querySelector('.x').focus();
+}
+function showStatus(u,el){const s=$('status');const m=u.match(/^(https?:\/\/)([^\/?#]+)(.*)$/);s.innerHTML=`<span class="lbl">This link really goes to</span>`+(m?`<span class="rest">${esc(m[1])}</span><span class="host">${esc(m[2])}</span><span class="rest">${esc(m[3])}</span>`:esc(u));s.style.animation='none';void s.offsetWidth;s.style.animation='';s.classList.remove('hidden');
+  if(el){const r=el.getBoundingClientRect(),w=s.offsetWidth,h=s.offsetHeight;let x=Math.min(Math.max(8,r.left),innerWidth-w-8);let y=r.top-h-14;if(y<8)y=r.bottom+14;s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--ax',Math.min(Math.max(12,r.left+Math.min(r.width/2,40)-x-6),w-24)+'px');s.classList.toggle('below',y>r.top);}}
+function hideStatus(){$('status').classList.add('hidden');}
+let toastT;function toast(t){let el=document.querySelector('.toast');if(!el){el=document.createElement('div');el.className='toast';el.setAttribute('role','status');document.body.appendChild(el);}el.textContent=t;clearTimeout(toastT);toastT=setTimeout(()=>el.remove(),3200);}
+function confetti(){const cs=['#0b6e75','#7fe0e4','#d9543f','#ffcf6b','#2f8f5a'];for(let i=0;i<36;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=cs[i%cs.length];c.style.animationDuration=(1.8+Math.random()*1.8)+'s';c.style.animationDelay=Math.random()*.5+'s';document.body.appendChild(c);c.addEventListener('animationend',()=>c.remove());}}
+function renderMenu(){
+  const m=$('user-menu');
+  m.innerHTML=`<div class="mh"><b>${esc(user)}</b><small>Navarro Solutions</small></div>
+    <button role="menuitem" data-a="results">${ICON.results}Results and report</button>
+    <button role="menuitem" data-a="reset"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Start over</button>
+    <button role="menuitem" data-a="out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button>`;
+  m.querySelector('[data-a=results]').onclick=()=>{closeMenu();showResults();};
+  m.querySelector('[data-a=reset]').onclick=()=>{closeMenu();resetAll();};
+  m.querySelector('[data-a=out]').onclick=()=>{closeMenu();save();user=null;$('app').classList.add('hidden');$('signin').classList.remove('hidden');$('si-name').focus();};
+}
+function closeMenu(){$('user-menu').classList.add('hidden');$('b-user').setAttribute('aria-expanded','false');}
+
+/* ═════════ Boot ═════════ */
+function start(name){
+  user=name.trim();personalize(user);
+  try{S=JSON.parse(store.get(keyFor(user)))||fresh();}catch(e){S=fresh();}
+  S.answers=S.answers||{};S.read=S.read||{};S.draft=S.draft||{};
+  // drop answers for emails that no longer exist
+  Object.keys(S.answers).forEach(k=>{if(!byId(k))delete S.answers[k];});
+  store.set('rg-last',user);
+  $('u-av').textContent=user.charAt(0).toUpperCase();
+  view={folder:'inbox',open:null,results:false};
+  $('signin').classList.add('hidden');$('app').classList.remove('hidden');
+  renderAll();track('rg_start',{returning:doneCount()>0});
+  if(doneCount())toast('Welcome back. Your progress was restored.');
+}
+$('si-form').addEventListener('submit',ev=>{ev.preventDefault();const n=$('si-name').value.trim();if(!n){$('si-err').classList.remove('hidden');$('si-name').focus();return;}$('si-err').classList.add('hidden');start(n);});
+$('si-name').value=store.get('rg-last')||'';
+$('b-mode').onclick=()=>{const d=document.documentElement.getAttribute('data-mode')==='dark';if(d)document.documentElement.removeAttribute('data-mode');else document.documentElement.setAttribute('data-mode','dark');store.set('rg-mode',d?'light':'dark');if(view.results)renderResults();};
+$('b-guide').onclick=openGuide;$('pill').onclick=showResults;
+$('b-user').onclick=ev=>{ev.stopPropagation();const m=$('user-menu');const open=m.classList.contains('hidden');if(open){renderMenu();m.classList.remove('hidden');$('b-user').setAttribute('aria-expanded','true');m.querySelector('button').focus();}else closeMenu();};
+document.addEventListener('click',ev=>{if(!ev.target.closest('#user-menu,#b-user'))closeMenu();});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeMenu();});
+$('si-name').focus();
+</script>
+</body>
+</html>
