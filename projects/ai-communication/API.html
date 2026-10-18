@@ -462,6 +462,20 @@ figcaption b,.figcap b{font-style:normal;font-variant:small-caps;text-transform:
   .hero-inner{padding:36px 0 28px}
   .tab{flex-direction:column;align-items:center;gap:0}
 }
+
+/* Section tabs: always reachable */
+.tabs{max-width:1280px;justify-content:flex-start;padding:0 8px;scroll-behavior:smooth}
+.tab:first-child{margin-left:auto}.tab:last-child{margin-right:auto}
+@media(max-width:1320px){.tab{padding:12px 12px}}
+@media(max-width:1180px) and (min-width:701px){.tab{padding:12px 9px;gap:5px}.tab-name{font-size:.85rem}}
+.tabs-wrap::before,.tabs-wrap::after{content:"";position:absolute;top:0;bottom:0;width:56px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:2}
+.tabs-wrap::before{left:0;background:linear-gradient(90deg,var(--card) 35%,transparent)}
+.tabs-wrap::after{right:0;background:linear-gradient(-90deg,var(--card) 35%,transparent)}
+.tabs-wrap.fade-l::before,.tabs-wrap.fade-r::after{opacity:1}
+.tabs-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:32px;height:32px;border-radius:50%;border:1px solid var(--b2);background:var(--card);color:var(--txt);font-size:22px;line-height:1;cursor:pointer;display:none;box-shadow:var(--sh2);padding-bottom:3px}
+.tabs-arrow:hover{background:var(--card2)}
+.tabs-arrow.l{left:6px}.tabs-arrow.r{right:6px}
+.tabs-wrap.fade-l .tabs-arrow.l,.tabs-wrap.fade-r .tabs-arrow.r{display:grid;place-items:center}
 </style>
 </head>
 <body>
@@ -1254,6 +1268,19 @@ function showScore(){
 var start=(location.hash||'').slice(1);if(ORDER.indexOf(start)>0){switchTab(start);window.scrollTo(0,0);}
 })();
 
+
+/* Section tabs: keep the active tab in view, show arrows when the bar overflows */
+(function(){
+  var wrap=document.querySelector('.tabs-wrap'),t=document.querySelector('.tabs');if(!wrap||!t)return;
+  function mk(dir){var b=document.createElement('button');b.type='button';b.className='tabs-arrow '+dir;b.setAttribute('aria-label',dir==='l'?'Show earlier sections':'Show later sections');b.innerHTML=dir==='l'?'&#8249;':'&#8250;';b.addEventListener('click',function(){t.scrollBy({left:(dir==='l'?-1:1)*t.clientWidth*0.6,behavior:'smooth'});});wrap.appendChild(b);}
+  mk('l');mk('r');
+  function upd(){var o=t.scrollWidth>t.clientWidth+2;wrap.classList.toggle('fade-l',o&&t.scrollLeft>4);wrap.classList.toggle('fade-r',o&&t.scrollLeft<t.scrollWidth-t.clientWidth-4);}
+  function center(){var a=t.querySelector('.tab.active');if(!a||t.scrollWidth<=t.clientWidth)return;var tr=t.getBoundingClientRect(),ar=a.getBoundingClientRect();t.scrollTo({left:t.scrollLeft+(ar.left-tr.left)-(t.clientWidth-ar.width)/2,behavior:'smooth'});}
+  t.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',function(){upd();center();});
+  new MutationObserver(function(){setTimeout(center,30);}).observe(t,{subtree:true,attributes:true,attributeFilter:['class']});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){upd();center();});
+  setTimeout(function(){upd();center();},200);
+})();
 </script>
 </body>
 </html>
