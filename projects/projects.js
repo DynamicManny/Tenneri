@@ -27,7 +27,7 @@
       desc: "Nobody's first API call should hit a live endpoint. So the whole exchange is simulated on the page: real headers, real status codes and real failures, with nothing ever leaving the browser.",
       tag: 'Built for real learners',
       img: 'APIthumb.png',
-      href: ASSETS + 'ai-communication/API'
+      href: ASSETS + 'API/'
     },
     {
       kicker: 'Module · Live demo',
@@ -51,7 +51,7 @@
       desc: "Phishing training goes stale when the examples do. This one hands people a real-looking inbox: hover the links, check the senders, then report, junk or keep each email and see every red flag they missed.",
       tag: 'Used by employees',
       img: 'ReefGuardianthumb.png',
-      href: ASSETS + 'stratos/ReefGuardian'
+      href: ASSETS + 'ReefGuardian/'
     },
     {
       kicker: 'Employee training · Live demo',
@@ -59,7 +59,7 @@
       desc: "Security awareness gets ignored when it never applies to you. A quick check-in at the start decides which tips you see, so every scenario is one you'd actually run into.",
       tag: 'Used by employees',
       img: 'Awarenessthumb.png',
-      href: ASSETS + 'ai-communication/Awareness'
+      href: ASSETS + 'awareness/'
     },
     {
       kicker: 'Learning game · Live demo',
@@ -67,7 +67,7 @@
       desc: "Vocabulary drills feel like a chore, so this one plays like a daily puzzle. Instructors load the words, learners get six guesses, and every attempt shows a definition, pronunciation and example.",
       tag: 'Built for real learners',
       img: 'Lexthumb.png',
-      href: ASSETS + 'stratos/Lexicon'
+      href: ASSETS + 'Lexicon/'
     }
   ];
 
