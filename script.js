@@ -13,12 +13,32 @@ const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
 function splitWords(el) {
   if (!el) return [];
-  const words = el.textContent.split(/(\s+)/);
-  el.innerHTML = words.map(w =>
-    w.trim() === ''
-      ? w
-      : `<span class="word" style="display:inline-block;overflow:hidden"><span class="word-inner" style="display:inline-block">${w}</span></span>`
-  ).join('');
+  // Wrap each word in place, keeping <em>, <br> and other markup intact
+  const wrapText = node => {
+    const parts = node.textContent.split(/(\s+)/);
+    const frag = document.createDocumentFragment();
+    parts.forEach(w => {
+      if (!w) return;
+      if (!w.trim()) { frag.appendChild(document.createTextNode(w)); return; }
+      const outer = document.createElement('span');
+      outer.className = 'word';
+      outer.style.cssText = 'display:inline-block;overflow:hidden';
+      const inner = document.createElement('span');
+      inner.className = 'word-inner';
+      inner.style.display = 'inline-block';
+      inner.textContent = w;
+      outer.appendChild(inner);
+      frag.appendChild(outer);
+    });
+    node.replaceWith(frag);
+  };
+  const walk = node => {
+    Array.from(node.childNodes).forEach(child => {
+      if (child.nodeType === 3) wrapText(child);
+      else if (child.nodeType === 1 && child.tagName !== 'BR') walk(child);
+    });
+  };
+  walk(el);
   return el.querySelectorAll('.word-inner');
 }
 
@@ -37,7 +57,8 @@ function splitChars(el) {
 const THEME_KEY = 'tenneri-theme';
 
 function getPreferredTheme() {
-  const stored = localStorage.getItem(THEME_KEY);
+  let stored = null;
+  try { stored = localStorage.getItem(THEME_KEY); } catch (e) {}
   if (stored === 'light' || stored === 'dark') return stored;
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
@@ -47,56 +68,49 @@ function setTheme(theme, animate = true) {
   const current = html.getAttribute('data-theme') || 'light';
   if (current === theme) return;
 
-  if (!animate) {
+  const apply = () => {
     html.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
     updateCursorVisibility(theme);
+  };
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!animate || reduce) { apply(); return; }
+
+  // No View Transitions support: the page's own color transitions crossfade it
+  if (!document.startViewTransition) {
+    apply();
+    setTimeout(() => ScrollTrigger.refresh(), 850);
     return;
   }
 
-  // Clip-path circle wipe from toggle position
-  const wipe = $('theme-wipe');
+  // Circular reveal: the new theme grows out of the toggle over the old one,
+  // while the old page dims behind it
   const toggle = $('theme-toggle-fixed');
-  let x = 95, y = 95; // default: bottom-right area
+  let x = window.innerWidth - 40, y = 40;
   if (toggle) {
-    const rect = toggle.getBoundingClientRect();
-    x = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
-    y = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+    const r = toggle.getBoundingClientRect();
+    x = r.left + r.width / 2;
+    y = r.top + r.height / 2;
   }
+  const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
 
-  // 1. Position wipe at origin, gold
-  gsap.set(wipe, {
-    opacity: 1,
-    background: '#d4a843',
-    clipPath: `circle(0% at ${x}% ${y}%)`,
-    pointerEvents: 'all'
-  });
-
-  // 2. Expand to cover screen
-  gsap.to(wipe, {
-    clipPath: `circle(200vmax at ${x}% ${y}%)`,
-    duration: 0.38,
-    ease: 'power2.in',
-    onComplete: () => {
-      // 3. Switch theme while covered
-      html.setAttribute('data-theme', theme);
-      localStorage.setItem(THEME_KEY, theme);
-      updateCursorVisibility(theme);
-      ScrollTrigger.refresh();
-
-      // 4. Contract to reveal new theme
-      gsap.to(wipe, {
-        clipPath: `circle(0% at ${x}% ${y}%)`,
-        duration: 0.48,
-        ease: 'power2.out',
-        delay: 0.05,
-        onComplete: () => {
-          wipe.style.opacity = '0';
-          wipe.style.pointerEvents = 'none';
-          gsap.set(wipe, { clipPath: 'none' });
-        }
-      });
-    }
+  html.classList.add('theme-switching');
+  const t = document.startViewTransition(apply);
+  t.ready.then(() => {
+    const ease = 'cubic-bezier(0.7, 0, 0.2, 1)';
+    html.animate(
+      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+      { duration: 1000, easing: ease, pseudoElement: '::view-transition-new(root)' }
+    );
+    html.animate(
+      { filter: ['brightness(1)', 'brightness(0.55)'] },
+      { duration: 1000, easing: ease, pseudoElement: '::view-transition-old(root)' }
+    );
+  }).catch(() => {});
+  t.finished.finally(() => {
+    html.classList.remove('theme-switching');
+    ScrollTrigger.refresh();
   });
 }
 
@@ -111,7 +125,6 @@ function updateCursorVisibility(theme) {
 function initTheme() {
   const preferred = getPreferredTheme();
   document.documentElement.setAttribute('data-theme', preferred);
-  localStorage.setItem(THEME_KEY, preferred);
   updateCursorVisibility(preferred);
 
   const toggleFixed = $('theme-toggle-fixed');
@@ -125,9 +138,22 @@ function initTheme() {
 }
 
 /* ─── PRELOADER ─── */
+let introPlayed = false;
 function initPreloader() {
   const preloader = $('preloader');
   if (!preloader) return;
+
+  // Only play the intro once per session, so a refresh or tab return lands straight on the page
+  let seen = false;
+  try {
+    seen = sessionStorage.getItem('tenneri-intro') === '1';
+    sessionStorage.setItem('tenneri-intro', '1');
+  } catch (e) {}
+  if (seen) {
+    preloader.style.display = 'none';
+    return;
+  }
+  introPlayed = true;
 
   const safety = setTimeout(() => {
     document.body.style.overflow = '';
@@ -237,29 +263,34 @@ function initCursor() {
 function initNav() {
   const nav = $('nav');
   if (!nav) return;
-
-  // Fix: if page loaded mid-scroll, apply pill immediately
-  if (window.scrollY > 20) nav.classList.add('scrolled');
-
-  ScrollTrigger.create({
-    start: 'top -20px',
-    onEnter:     () => nav.classList.add('scrolled'),
-    onLeaveBack: () => {
-      nav.classList.remove('scrolled');
-      if (window.innerWidth > 680) {
-        const mob = $('mob');
-        if (mob) mob.classList.remove('open');
-      }
-    }
-  });
-
   const ham = $('ham');
   const mob = $('mob');
-  if (ham && mob) {
-    ham.addEventListener('click', () => mob.classList.toggle('open'));
-  }
-  window.closeMob = () => { if (mob) mob.classList.remove('open'); };
 
+  // State comes straight from scrollY, so a refresh, restored scroll, or bfcache return can never desync it
+  let lastScrolled = null;
+  function syncNav() {
+    const scrolled = window.scrollY > 20;
+    if (scrolled === lastScrolled) return;
+    lastScrolled = scrolled;
+    nav.classList.toggle('scrolled', scrolled);
+    if (!scrolled && window.innerWidth > 680 && mob) mob.classList.remove('open');
+  }
+  syncNav();
+  window.addEventListener('scroll', syncNav, { passive: true });
+  window.addEventListener('load', syncNav);
+  window.addEventListener('pageshow', syncNav);
+  window.addEventListener('resize', syncNav);
+
+  if (ham && mob) {
+    ham.addEventListener('click', () => {
+      const open = mob.classList.toggle('open');
+      ham.setAttribute('aria-expanded', String(open));
+    });
+  }
+  window.closeMob = () => {
+    if (mob) mob.classList.remove('open');
+    if (ham) ham.setAttribute('aria-expanded', 'false');
+  };
 }
 
 /* ─── HERO ─── */
@@ -271,11 +302,12 @@ function initHero() {
   const sub = document.querySelector('.hero-sub');
   const ctaRow = document.querySelector('.hero-cta-row');
   const contactL = document.querySelector('.hero-contact-line');
+  const avail = document.querySelector('.hero-avail');
   const scrollHint = $('hero-scroll-hint');
 
   // Hero bg is an iframe; CSS already handles opacity via #hero-bg-video-wrap
 
-  const delay = $('preloader') ? 3.6 : 0.25;
+  const delay = introPlayed ? 3.6 : 0.25;
   const wordInners = heading ? splitWords(heading) : [];
 
   const heroTL = gsap.timeline({ delay });
@@ -285,7 +317,7 @@ function initHero() {
       y: '105%', duration: 0.85, ease: 'expo.out', stagger: 0.038
     }, 0);
   }
-  [sub, ctaRow, contactL].forEach((el, i) => {
+  [sub, ctaRow, avail, contactL].forEach((el, i) => {
     if (!el) return;
     heroTL.from(el, {
       opacity: 0, y: 18, filter: 'blur(4px)',
@@ -311,61 +343,11 @@ function initHero() {
 
 /* ─── ROSE SECTION (contained frame — no pin, scrub through section) ─── */
 function initROSeSection() {
-  const section = $('rose');
-  if (!section) return;
-
-  const panels = $$('.rose-panel');
-  const apps   = $$('.rose-app');
-  const overlay = $('rose-overlay');
-
-  gsap.set(panels, { opacity: 0, y: 24 });
-  gsap.set(apps,   { opacity: 0, x: -16 });
-  if (panels[0]) {
-    gsap.set(panels[0], { opacity: 1, y: 0 });
-    panels[0].classList.add('is-active');
-  }
-
-  const total = Math.max(panels.length, 1);
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top 70%',
-    end: 'bottom 30%',
-    scrub: 0.85,
-    onUpdate: self => {
-      const progress = self.progress;
-      const panelIndex = Math.min(Math.floor(progress * total), total - 1);
-      const panelProgress = (progress * total) - panelIndex;
-
-      panels.forEach((panel, i) => {
-        if (i === panelIndex) {
-          panel.classList.add('is-active');
-          gsap.set(panel, {
-            opacity: clamp(0.2 + panelProgress * 2.2, 0, 1),
-            y: clamp((1 - panelProgress * 2) * 16, 0, 16)
-          });
-        } else {
-          panel.classList.remove('is-active');
-          gsap.set(panel, {
-            opacity: 0,
-            y: i < panelIndex ? -16 : 20
-          });
-        }
-      });
-
-      if (panelIndex === 1) {
-        apps.forEach((app, i) => {
-          const p = clamp((panelProgress - i * 0.1) * 2.5, 0, 1);
-          gsap.set(app, { opacity: p, x: (1 - p) * -16 });
-        });
-      } else {
-        gsap.set(apps, { opacity: 0, x: -16 });
-      }
-
-      if (overlay) {
-        gsap.set(overlay, { opacity: clamp(0.55 + progress * 0.2, 0.55, 0.82) });
-      }
-    }
+  $$('.rose-panel').forEach(panel => {
+    panel.classList.add('is-active');
+    gsap.set(panel, { opacity: 1, y: 0, clearProps: 'transform' });
   });
+  $$('.rose-app').forEach(app => gsap.set(app, { opacity: 1, x: 0 }));
 }
 
 /* ─── SCROLL REVEALS ─── */
@@ -381,6 +363,7 @@ function initScrollReveals() {
       {
         opacity: 1, y: 0,
         duration: 0.8, ease: 'expo.out',
+        clearProps: 'transform',
         scrollTrigger: {
           trigger: el,
           start: 'top 90%',
@@ -423,20 +406,24 @@ function initVideoModal() {
     mVideo.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=0&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="${title}"></iframe>`;
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (mClose) mClose.focus();
   }
   function closeModal() {
+    if (!overlay.classList.contains('open')) return;
     overlay.classList.remove('open');
     mVideo.innerHTML = '';
     document.body.style.overflow = '';
   }
 
   $$('.peek-card').forEach(card => {
-    card.addEventListener('click', () => {
-      openModal(
-        card.getAttribute('data-title'),
-        card.getAttribute('data-type'),
-        card.getAttribute('data-vimeo')
-      );
+    const open = () => openModal(
+      card.getAttribute('data-title'),
+      card.getAttribute('data-type'),
+      card.getAttribute('data-vimeo')
+    );
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
     });
   });
   if (mClose) mClose.addEventListener('click', closeModal);
@@ -483,6 +470,10 @@ function initContact() {
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
     btn.disabled = true;
     btn.textContent = 'Sending...';
     try {
@@ -531,7 +522,6 @@ function initExtras() {
 
   const heroLearn = $('hero-video-learn');
   const heroWatch = $('hero-video-watch');
-  if (heroLearn) heroLearn.addEventListener('click', openPhishingModal);
   if (heroWatch) heroWatch.addEventListener('click', openPhishingModal);
 
   // Tab-out easter egg — 3s delay, one title only
@@ -608,15 +598,17 @@ function initFilmStrip() {
     rulerEl.appendChild(tick);
   }
 
-  // Three states per section:
-  //   past     → horizontal label in strip-top
-  //   active   → vertical label on the ruler
-  //   upcoming → horizontal label in strip-bottom
-  const pastLabels = {};
-  const activeLabels = {};
-  const upcomingLabels = {};
+  // One label per section. Each letter is its own element so the word can
+  // stretch like a slinky as it travels:
+  //   upcoming → horizontal, stacked at the bottom
+  //   active   → letters peel off one by one and stack vertically on the ruler
+  //   past     → letters peel off again and settle horizontally at the top
+  const labels = {};
   const sectionState = {};
-  const labelAnimGen = {}; // generation counter per section — cancels stale callbacks
+
+  const layer = document.createElement('div');
+  layer.id = 'strip-labels';
+  strip.appendChild(layer);
 
   function scrollToSec(sec) {
     const top = sec.getBoundingClientRect().top + window.scrollY - 72;
@@ -625,159 +617,185 @@ function initFilmStrip() {
 
   SECTIONS.forEach(sec => {
     const name = sec.dataset.section;
-    sectionState[name] = 'upcoming';
-
-    const upcoming = document.createElement('button');
-    upcoming.className = 'strip-upcoming-label';
-    upcoming.textContent = name;
-    upcoming.type = 'button';
-    upcoming.addEventListener('click', () => scrollToSec(sec));
-    stripBottom.appendChild(upcoming);
-    upcomingLabels[name] = upcoming;
-
-    const past = document.createElement('button');
-    past.className = 'strip-past-label';
-    past.textContent = name;
-    past.type = 'button';
-    past.addEventListener('click', () => scrollToSec(sec));
-    stripTop.appendChild(past);
-    pastLabels[name] = past;
-
-    // Vertical active label lives on the ruler (hidden until active)
-    const active = document.createElement('button');
-    active.className = 'strip-active-label';
-    active.textContent = name;
-    active.type = 'button';
-    active.addEventListener('click', () => scrollToSec(sec));
-    rulerEl.appendChild(active);
-    activeLabels[name] = active;
+    sectionState[name] = null;
+    const el = document.createElement('button');
+    el.className = 'strip-travel';
+    el.type = 'button';
+    el.setAttribute('aria-label', 'Go to ' + name);
+    el.innerHTML = name.split('').map(c =>
+      `<span class="strip-char" aria-hidden="true">${c === ' ' ? ' ' : c}</span>`
+    ).join('');
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      scrollToSec(sec);
+    });
+    layer.appendChild(el);
+    const chars = Array.from(el.children);
+    gsap.set(chars, { xPercent: -50, yPercent: -50 });
+    labels[name] = { el, chars, cy: null, state: null };
   });
 
-  function positionActiveLabels() {
+  // Letters render at their real size in every state (no scale transform),
+  // so the text stays sharp. DM Mono is monospaced: one probe covers every letter.
+  let charW = 8, FS_REST = 9.6, FS_ACTIVE = 16.8;
+  function measure() {
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    FS_REST = 0.6 * rem;
+    FS_ACTIVE = 1.05 * rem;
+    const probe = document.createElement('span');
+    probe.className = 'strip-char';
+    probe.style.cssText = 'visibility:hidden;font-size:' + FS_REST + 'px';
+    probe.textContent = 'M';
+    layer.appendChild(probe);
+    charW = (probe.offsetWidth || FS_REST * 0.6) + FS_REST * 0.14;
+    probe.remove();
+  }
+
+  function sectionScrollPct(sec) {
     const totalH = document.documentElement.scrollHeight - window.innerHeight;
-    if (totalH <= 0) return;
+    if (totalH <= 0) return 0.45;
+    const start = sec.offsetTop / totalH;
+    const end = (sec.offsetTop + sec.offsetHeight) / totalH;
+    return Math.min(0.82, Math.max(0.18, start + (end - start) * 0.42));
+  }
+
+  const PAD = 10;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function layoutLabels(animate) {
+    const past = SECTIONS.filter(s => sectionState[s.dataset.section] === 'past');
+    const upcoming = SECTIONS.filter(s => sectionState[s.dataset.section] === 'upcoming');
+    const brandH = brand ? brand.offsetHeight + 28 : 46;
+    const row = 22;
+    const topH = brandH + past.length * row + 6;
+    const botH = 14 + Math.max(upcoming.length, 1) * row + 10;
+    const dur = animate ? 0.9 : 0;
+    const ease = 'power3.inOut';
+
+    gsap.to(stripTop, { height: topH, duration: dur, ease, overwrite: 'auto' });
+    gsap.to(stripBottom, { height: botH, duration: dur, ease, overwrite: 'auto' });
+
+    const stripW = strip.clientWidth;
+    const stripH = strip.clientHeight || window.innerHeight;
+    const rulerTop = topH;
+    const rulerH = Math.max(80, stripH - topH - botH);
+
     SECTIONS.forEach(sec => {
       const name = sec.dataset.section;
-      const el = activeLabels[name];
-      if (!el) return;
-      // Place at the mid-point of the section along the page
-      const mid = sec.offsetTop + sec.offsetHeight * 0.35;
-      const pct = (mid / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      el.style.top = Math.min(88, Math.max(8, pct)) + '%';
-    });
-  }
+      const L = labels[name];
+      const state = sectionState[name];
+      const n = L.chars.length;
+      L.el.classList.toggle('is-active', state === 'active');
 
-  function setState(sec, newState) {
-    const name = sec.dataset.section;
-    if (sectionState[name] === newState) return;
-    sectionState[name] = newState;
-
-    const upcoming = upcomingLabels[name];
-    const past = pastLabels[name];
-    const active = activeLabels[name];
-
-    // Bump generation — stale exit-animation callbacks check this before hiding
-    labelAnimGen[name] = (labelAnimGen[name] || 0) + 1;
-    const myGen = labelAnimGen[name];
-
-    // Reset horizontal strip labels immediately
-    if (upcoming) upcoming.classList.remove('fading', 'is-current');
-    if (past) past.classList.remove('visible');
-
-    if (newState === 'active') {
-      // Hide horizontal copies; show stacked-column ruler label
-      if (upcoming) upcoming.classList.add('fading');
-      if (active) {
-        active.classList.add('visible');
-        // Split into chars, each starts lying flat (rotateZ -90°) and stands upright (0°)
-        const chars = splitChars(active);
-        gsap.fromTo(chars,
-          { opacity: 0, rotateZ: -90, transformOrigin: '50% 50%' },
-          {
-            opacity: 1, rotateZ: 0, stagger: 0.055, duration: 0.55,
-            ease: 'expo.out', overwrite: 'auto'
-          }
-        );
+      let cy, targets;
+      if (state === 'active') {
+        cy = rulerTop + rulerH * sectionScrollPct(sec);
+        const cx = Math.round(stripW * 0.42);
+        const step = charW * (FS_ACTIVE / FS_REST);
+        // Reads bottom to top: first letter lowest
+        targets = L.chars.map((c, i) => ({
+          x: cx, y: Math.round(cy + ((n - 1) / 2 - i) * step),
+          rotation: -90, fontSize: FS_ACTIVE
+        }));
+      } else {
+        cy = state === 'past'
+          ? brandH + 4 + past.indexOf(sec) * row
+          : stripH - (16 + (upcoming.length - 1 - upcoming.indexOf(sec)) * row);
+        const right = stripW - PAD;
+        targets = L.chars.map((c, i) => ({
+          x: Math.round(right - (n - i - 0.5) * charW), y: Math.round(cy),
+          rotation: 0, fontSize: FS_REST
+        }));
       }
-    } else if (newState === 'past') {
-      if (upcoming) upcoming.classList.add('fading');
-      if (past) past.classList.add('visible');
-      if (active) {
-        const chars = active.querySelectorAll('.char');
-        if (chars.length) {
-          // Letters fall forward (rotate to +90°) as section scrolls past
-          gsap.to(chars, {
-            opacity: 0, rotateZ: 90, transformOrigin: '50% 50%',
-            stagger: 0.03, duration: 0.32, ease: 'power2.in',
-            overwrite: 'auto',
-            onComplete: () => {
-              if (labelAnimGen[name] === myGen) active.classList.remove('visible');
-            }
-          });
-        } else {
-          active.classList.remove('visible');
-        }
-      }
-    } else {
-      // upcoming — letters fall back (rotate to -90°)
-      if (upcoming) upcoming.classList.remove('fading');
-      if (active) {
-        const chars = active.querySelectorAll('.char');
-        if (chars.length) {
-          gsap.to(chars, {
-            opacity: 0, rotateZ: -90, transformOrigin: '50% 50%',
-            stagger: 0.03, duration: 0.32, ease: 'power2.in',
-            overwrite: 'auto',
-            onComplete: () => {
-              if (labelAnimGen[name] === myGen) active.classList.remove('visible');
-            }
-          });
-        } else {
-          active.classList.remove('visible');
-        }
-      }
-    }
-  }
 
-  // Sync triggers: one active section at a time, aligned to viewport center
-  SECTIONS.forEach((sec, idx) => {
-    ScrollTrigger.create({
-      trigger: sec,
-      start: 'top 55%',
-      end: 'bottom 45%',
-      onEnter() { setState(sec, 'active'); },
-      onLeave() { setState(sec, 'past'); },
-      onEnterBack() {
-        setState(sec, 'active');
-        SECTIONS.slice(idx + 1).forEach(s => {
-          if (sectionState[s.dataset.section] !== 'upcoming') {
-            setState(s, 'upcoming');
-          }
+      const changedState = L.state !== state;
+      const movingUp = L.cy !== null && cy < L.cy;
+      L.cy = cy;
+      L.state = state;
+
+      if (!animate) {
+        L.chars.forEach((c, i) => {
+          gsap.killTweensOf(c);
+          gsap.set(c, { ...targets[i], force3D: false });
         });
-      },
-      onLeaveBack() { setState(sec, 'upcoming'); }
+        return;
+      }
+
+      // The letter nearest the destination leads, the rest trail behind it.
+      // Bigger gaps on a state change give the stretch; a plain row shift stays tight.
+      const lead = movingUp ? n - 1 : 0;
+      const gap = changedState ? 0.07 : 0.015;
+      L.chars.forEach((c, i) => {
+        gsap.to(c, {
+          ...targets[i],
+          force3D: false,
+          duration: changedState ? 0.9 : 0.6,
+          ease: changedState ? 'power2.inOut' : 'power2.out',
+          delay: Math.abs(i - lead) * gap,
+          overwrite: true
+        });
+      });
     });
+  }
+
+  // Section state is derived from where each section sits right now, not from
+  // enter/leave events. That way a refresh mid-scroll always lands on the truth.
+  function syncStates(animate) {
+    const line = window.innerHeight * 0.5;
+    let changed = false;
+    SECTIONS.forEach(sec => {
+      const r = sec.getBoundingClientRect();
+      const st = r.bottom <= line ? 'past' : (r.top > line ? 'upcoming' : 'active');
+      if (sectionState[sec.dataset.section] !== st) {
+        sectionState[sec.dataset.section] = st;
+        changed = true;
+      }
+    });
+    if (changed) layoutLabels(animate && !reduceMotion);
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      syncStates(true);
+    });
+  }, { passive: true });
+
+  // Needle reads scrollY directly every frame, so it is never stale after a refresh
+  let currentPct = null;
+  let lastPctText = '';
+  function scrollPct() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? clamp(window.scrollY / max, 0, 1) * 100 : 0;
+  }
+  gsap.ticker.add(() => {
+    const target = scrollPct();
+    if (currentPct === null) currentPct = target;
+    currentPct += (target - currentPct) * 0.08;
+    needle.style.top = currentPct + '%';
+    const txt = String(Math.round(target)).padStart(3, '0') + '%';
+    if (pctEl && txt !== lastPctText) { pctEl.textContent = txt; lastPctText = txt; }
   });
 
-  positionActiveLabels();
+  // Hard resync: snap everything to the current scroll position
+  function hardSync() {
+    measure();
+    syncStates(false);
+    layoutLabels(false);
+    currentPct = null;
+  }
+  hardSync();
+
   window.addEventListener('resize', () => {
     clearTimeout(window.__stripPos);
-    window.__stripPos = setTimeout(positionActiveLabels, 120);
+    window.__stripPos = setTimeout(hardSync, 120);
   });
-
-  let targetPct = 0, currentPct = 0;
-  ScrollTrigger.create({
-    start: 0,
-    end: 'max',
-    onUpdate(self) {
-      targetPct = self.progress * 100;
-      if (pctEl) pctEl.textContent = String(Math.round(self.progress * 100)).padStart(3, '0') + '%';
-    }
-  });
-  gsap.ticker.add(() => {
-    currentPct += (targetPct - currentPct) * 0.08;
-    needle.style.top = currentPct + '%';
-  });
+  window.addEventListener('pageshow', hardSync);
+  ScrollTrigger.addEventListener('refresh', () => syncStates(false));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(hardSync);
 
   // Ruler click / hover
   const hoverEl = $('ruler-hover');
@@ -814,8 +832,8 @@ function initFilmStrip() {
 
   window.addEventListener('load', () => {
     requestAnimationFrame(() => {
-      positionActiveLabels();
       ScrollTrigger.refresh();
+      hardSync();
     });
   });
 }
