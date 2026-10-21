@@ -4,21 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ramano Stoute | Instructional Designer &amp; eLearning Developer</title>
-<meta name="description" content="Ramano Stoute is an instructional designer and eLearning developer building interactive courses, simulations and Brightspace content for North American teams.">
+<meta name="description" content="Ramano Stoute is a third-generation teacher turned instructional designer. He codes courses, labs and simulations that run inside the LMS you already use, and every one was built for real learners.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://tenneri.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tenneri.com/">
 <meta property="og:title" content="Ramano Stoute | Instructional Designer &amp; eLearning Developer">
-<meta property="og:description" content="Ramano Stoute is an instructional designer and eLearning developer building interactive courses, simulations and Brightspace content for North American teams.">
+<meta property="og:description" content="Ramano Stoute is a third-generation teacher turned instructional designer. He codes courses, labs and simulations that run inside the LMS you already use, and every one was built for real learners.">
 <meta property="og:image" content="https://tenneri.com/Ten-OG.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ramano Stoute | Instructional Designer &amp; eLearning Developer">
+<meta name="twitter:description" content="Custom eLearning courses, labs and simulations built in code.">
+<meta name="twitter:image" content="https://tenneri.com/Ten-OG.png">
+<meta name="theme-color" content="#0b1529">
+<meta name="author" content="Ramano Stoute">
 <link rel="icon" type="image/png" href="https://tenneri.com/favicon.png">
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}try{if(sessionStorage.getItem('tenneri-intro')==='1')d.classList.add('intro-seen')}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261021j">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}try{if(sessionStorage.getItem('tenneri-intro')==='1')d.classList.add('intro-seen')}catch(e){}try{if(matchMedia('(hover: hover) and (pointer: fine)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('cursor-ready')}catch(e){}window.addEventListener('load',function(){setTimeout(function(){if(!window.__tenneriReady){d.classList.remove('cursor-ready');d.classList.add('no-anim');document.body.style.overflow=''}},1500)});})();</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
 <script type="application/ld+json">
@@ -27,10 +34,9 @@
 </head>
 <body>
 
-<!-- Theme wipe overlay -->
-<div id="theme-wipe" aria-hidden="true"></div>
+<a class="skip-link" href="#rose">Skip to the work</a>
 
-<!-- Custom cursor -->
+<!-- Custom cursor (dark mode, pointer devices) -->
 <div data-cursor aria-hidden="true"></div>
 <div data-cursor-dot aria-hidden="true"></div>
 
@@ -41,10 +47,451 @@
   <div id="pl-bar" aria-hidden="true"></div>
 </div>
 
-<!-- Fixed theme toggle -->
 
-<!-- Film strip / measuring-tape nav (ArtCraft-inspired) -->
-<aside id="strip" aria-label="Page sections">
+<!-- NAV -->
+<nav id="nav" aria-label="Main navigation">
+  <a href="/" class="n-logo" aria-label="Tenneri home">
+    <img src="https://tenneri.com/Ten-Logo.png" alt="" class="n-logo-img" aria-hidden="true" onerror="this.style.display='none'">
+    <span class="n-logo-name" translate="no">Tenneri</span>
+  </a>
+  <ul class="n-links">
+    <li><a href="https://tenneri.com/projects/" target="_blank" rel="noopener">Projects</a></li>
+    <li><a href="#rose">Labs</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="n-cta">Get in touch</a></li>
+  </ul>
+  <div class="n-right">
+    <button class="theme-toggle theme-toggle--nav" type="button" id="theme-toggle-fixed" aria-label="Toggle light and dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="n-ham" id="ham" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mob">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-nav" id="mob">
+  <a href="https://tenneri.com/projects/" target="_blank" rel="noopener">Projects</a>
+  <a href="#rose">Labs</a>
+  <a href="#about">About</a>
+  <a href="#contact">Get in touch</a>
+  <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a>
+</div>
+
+<main>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="shell hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Ramano Stoute, instructional designer and eLearning developer</p>
+      <h1 class="hero-h">
+        <span class="sr-only">Courses learners want to finish, not just have to.</span>
+        <span class="hero-vis" aria-hidden="true">
+          <span class="hero-line">Courses learners</span>
+          <span class="hero-line hero-line--edit"><span class="edit" data-nosplit><span class="edit-old">have to</span><svg class="edit-strike" viewBox="0 0 200 40" preserveAspectRatio="none"><path pathLength="1" d="M4 24 C 48 19, 96 25, 140 18 S 186 16, 196 14"/></svg><span class="edit-new">want to</span><svg class="edit-caret" viewBox="0 0 40 30"><path pathLength="1" d="M4 26 L20 5 L36 26"/></svg></span> finish</span>
+        </span>
+      </h1>
+
+      <p class="hero-sub">My specialty is learning experiences that blend hands-on practice with theory. Labs, simulations and games where people pick up the why by doing the how, delivered inside the LMS you already use.</p>
+
+      <div class="hero-cta-row">
+        <a href="#rose" class="btn btn--gold">Explore the work</a>
+        <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn btn--ghost">All projects</a>
+      </div>
+
+      <p class="hero-avail"><span class="hero-avail-dot" aria-hidden="true"></span>Open to remote roles in higher education and corporate training.</p>
+    </div>
+
+    <figure class="hero-demo">
+      <div class="hero-video-frame" id="hero-video-frame" role="button" tabindex="0" aria-label="Watch the Reef Guardian demo full screen" data-cursor-label="Watch">
+        <iframe
+          src="https://player.vimeo.com/video/1236921375?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+          allow="autoplay; fullscreen; picture-in-picture"
+          title="Reef Guardian phishing training demo"
+          tabindex="-1"></iframe>
+      </div>
+      <figcaption class="hero-demo-cap">
+        <div>
+          <span class="hero-demo-name">Reef Guardian</span>
+          <p class="hero-demo-desc">A phishing simulation inbox. Learners check senders, hover over links and report the fakes, then see every red flag they missed.</p>
+        </div>
+        <button type="button" class="btn btn--small btn--ghost" id="hero-video-watch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>Watch full screen</button>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="hero-ticker-wrap" aria-hidden="true">
+    <div class="hero-ticker-track">
+      <div class="hero-ticker-set">
+        <span class="hero-ticker-item">Brightspace (D2L)</span>
+        <span class="hero-ticker-item">Moodle</span>
+        <span class="hero-ticker-item">Canvas</span>
+        <span class="hero-ticker-item">Cornerstone</span>
+        <span class="hero-ticker-item">Workday Learning</span>
+        <span class="hero-ticker-item hero-ticker-badge">SCORM and xAPI</span>
+        <span class="hero-ticker-item">Scenario labs</span>
+        <span class="hero-ticker-item">No vendor lock-in</span>
+        <span class="hero-ticker-item">WCAG 2.1 AA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ROSE ═══════════════ -->
+<section id="rose" class="sec sec--rose" aria-labelledby="rose-h" data-section="ROSe" data-num="01">
+  <div class="shell">
+    <header class="split-head">
+      <div>
+        <p class="kicker">My flagship build</p>
+        <h2 id="rose-h" class="display display--xl reveal-words">An operating system inside the LMS.</h2>
+      </div>
+      <div class="split-head-side reveal">
+        <p class="lead">I wanted to know how far an LMS could be pushed before it pushed back. The answer turned out to be a working desktop, running inside a course page.</p>
+        <p class="body-copy">The video shows ROSe 1.0, a sandbox. Learners log in, open apps, run commands in the terminal and make images with the built-in generator. Nothing is graded, so they're free to explore and learn the tools by using them. ROSe 2.0 turns the same desktop into a graded story.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn--gold" id="rose-footer-learn">How ROSe works</button>
+          <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn btn--ghost">All projects</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="rose-stage">
+      <div class="rose-window">
+        <div class="rose-titlebar" aria-hidden="true">
+          <span class="rose-dots"><i></i><i></i><i></i></span>
+          <span class="rose-titlebar-name">ROSe 1.0 <span>Ramano Operating System Emulator</span></span>
+          <span class="rose-titlebar-live"><i></i>Running in Brightspace</span>
+        </div>
+        <div class="rose-screen">
+          <iframe
+            src="https://player.vimeo.com/video/1169432149?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
+            allow="autoplay; fullscreen; picture-in-picture"
+            title="ROSe demo: a simulated desktop running inside the LMS"
+            loading="lazy"
+            tabindex="-1"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="rose-detail">
+      <div class="rose-stat reveal">
+        <span class="rose-stat-n"><span id="rose-count">66</span><span class="rose-stat-pct">%</span></span>
+        <p>of learners chose to finish it, across a 16-week curriculum.</p>
+      </div>
+
+      <div class="rose-evo-wrap reveal">
+        <h3 class="mini-head">How it evolved</h3>
+        <ol class="rose-evo">
+          <li>
+            <h4>PonchOS</h4>
+            <p>A Linux-inspired shell named after my university nickname. Command line first, while I figured out the interface.</p>
+          </li>
+          <li>
+            <h4>ROSe 1.0</h4>
+            <p>The version in the video. Free roam, with labs and sims learners explore at their own pace.</p>
+          </li>
+          <li>
+            <h4>ROSe 2.0</h4>
+            <p>A graded story. You log in to find your company has been breached, and it's on you to fix it.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rose-dock-wrap reveal">
+      <h3 class="mini-head">The apps inside it</h3>
+      <ul class="rose-dock">
+        <li>
+          <span class="rose-dock-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.5l1.9 5 5 1.9-5 1.9-1.9 5-1.9-5-5-1.9 5-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span>
+          <h4>AI Image Generator</h4>
+          <p>A generative tool learners use as part of their workflow.</p>
+        </li>
+        <li>
+          <span class="rose-dock-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 9l1.6 1.6L12.5 7.7M8 15l1.6 1.6 2.9-2.9M15 9.5h2M15 15.5h2"/></svg></span>
+          <h4>Task Manager</h4>
+          <p>Priorities and deadlines, managed inside the simulation.</p>
+        </li>
+        <li>
+          <span class="rose-dock-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.6-3.1 7.8-7.5 9.2C7.6 19.8 4.5 16.6 4.5 12V6z"/><path d="M9.5 12.5h5M12 10v5"/></svg></span>
+          <h4>Offensive Security Tool</h4>
+          <p>Simulated pen-testing against controlled targets.</p>
+        </li>
+        <li>
+          <span class="rose-dock-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="5.5" r="2"/><circle cx="5.5" cy="18" r="2"/><circle cx="18.5" cy="18" r="2"/><circle cx="12" cy="13" r="1.6"/><path d="M12 7.5v3.9M10.7 14.1l-3.8 2.6M13.3 14.1l3.8 2.6"/></svg></span>
+          <h4>Network Diagnostic Tool</h4>
+          <p>Simulated traffic, anomalies and incident response.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ BUILDS ═══════════════ -->
+<section class="sec sec--builds" id="builds" aria-labelledby="builds-h" data-section="PROJECTS" data-num="02">
+  <div class="shell">
+    <header class="builds-head">
+      <h2 id="builds-h" class="statement reveal-words">Built for real learners.</h2>
+      <div class="builds-side reveal">
+        <p class="lead">Every project on the projects page ran with a real cohort or a real team before it ever ran here. Two are below. The live demo lets you take one yourself.</p>
+        <div class="btn-row">
+          <a href="https://tenneri.com/projects/ai-communication/" target="_blank" rel="noopener" class="btn btn--gold">Try a live demo</a>
+          <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn btn--ghost">All projects</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="peek-grid">
+      <div class="peek-card reveal"
+        data-title="Adaptive Assignments"
+        data-type="Assessment with gradebook sync"
+        data-vimeo="1169432083"
+        role="button" tabindex="0" data-cursor-label="Play"
+        aria-label="Watch Adaptive Assignments">
+        <div class="peek-vid">
+          <iframe src="https://player.vimeo.com/video/1169432083?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" allow="autoplay; fullscreen; picture-in-picture" title="Adaptive Assignments preview" loading="lazy" tabindex="-1"></iframe>
+        </div>
+        <div class="peek-shade" aria-hidden="true"></div>
+        <div class="peek-info">
+          <div>
+            <h3 class="peek-title">Adaptive Assignments</h3>
+            <p class="peek-type">Assessments that change with each learner and grade themselves.</p>
+          </div>
+          <span class="peek-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+        </div>
+      </div>
+
+      <div class="peek-card reveal"
+        data-title="Games and Gamification"
+        data-type="Built for voluntary completion"
+        data-vimeo="1169432107"
+        role="button" tabindex="0" data-cursor-label="Play"
+        aria-label="Watch Games and Gamification">
+        <div class="peek-vid">
+          <iframe src="https://player.vimeo.com/video/1169432107?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" allow="autoplay; fullscreen; picture-in-picture" title="Games and Gamification preview" loading="lazy" tabindex="-1"></iframe>
+        </div>
+        <div class="peek-shade" aria-hidden="true"></div>
+        <div class="peek-info">
+          <div>
+            <h3 class="peek-title">Games and Gamification</h3>
+            <p class="peek-type">Games people finish because they want to, not because they have to.</p>
+          </div>
+          <span class="peek-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ WHAT I BUILD ═══════════════ -->
+<section class="sec sec--craft" id="craft" aria-labelledby="craft-h" data-section="WORK" data-num="03">
+  <div class="shell">
+    <header class="split-head">
+      <h2 id="craft-h" class="display display--xl reveal-words">What I build</h2>
+      <div class="split-head-side reveal">
+        <p class="lead">My design philosophy comes down to one question: if the learner had the choice, would they stay?</p>
+      </div>
+    </header>
+
+    <div class="craft-grid">
+      <article class="craft-item reveal">
+        <h3 class="craft-title">Courses people stay in</h3>
+        <p>When I was brought in to review an AI workforce program, learners were skipping their LMS assignments to stay in DataCamp, because that's where the hands-on practice was. So I rebuilt the course as one place to learn, with lessons, practice and a working terminal on the same page. Nobody needed to leave unless it was for further reading.</p>
+      </article>
+      <article class="craft-item reveal">
+        <h3 class="craft-title">Hard subjects, minus the overwhelm</h3>
+        <p>One 16-week course had to cover quantum computing, AI and cybersecurity, and any one of those can bury a beginner. Instead of three separate tracks, I overlapped them. Quantum gets explained through a security or AI lens, so every new idea leans on one learners already have.</p>
+      </article>
+      <article class="craft-item reveal">
+        <h3 class="craft-title">Games where the mechanic is the lesson</h3>
+        <p>If it's a racing game, a quiz shouldn't pop up mid-race and kill the momentum. Answer well between races and you earn better upgrades for your car. When the learning feeds the mechanic, nobody feels like they're being tested.</p>
+      </article>
+    </div>
+
+    <div class="schools reveal">
+      <h3 class="mini-head">Programs certified through</h3>
+      <ul class="schools-list">
+        <li><span class="school-name">Ontario Tech University</span><span class="school-note">Interactive course builds</span></li>
+        <li><span class="school-name">Toronto Metropolitan University</span><span class="school-note">Learning environments and labs</span></li>
+        <li><span class="school-name">George Brown College</span><span class="school-note">Instructional design and development</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ LEARNER QUOTE ═══════════════ -->
+<section class="quote" aria-label="Learner feedback">
+  <figure class="shell quote-inner reveal">
+    <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+    <blockquote class="quote-text">Your redesign is way, way better than the original. I would have never failed if this is how the course had always looked.</blockquote>
+    <figcaption class="quote-by">A. Holford, learner</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════ METHOD ═══════════════ -->
+<section class="sec sec--method" id="method" aria-labelledby="method-h" data-section="METHOD" data-num="04">
+  <div class="shell method-layout">
+    <div class="method-aside">
+      <h2 id="method-h" class="display display--xl reveal-words">How I work</h2>
+      <p class="lead reveal">Nobody taught me the industry way, so I built my own. I learned the names for most of it, like backward design and scenario-based learning, after I was already doing it.</p>
+    </div>
+    <ol class="method-list">
+      <li class="method-item reveal">
+        <div>
+          <h3 class="method-title">Look before I read</h3>
+          <p>The first time I open a course, I don't read a word. I look at how the text sits on the page. Is it wordy? Are there dense blocks nobody will get through? A course can be ugly and still feel great to get through, so the feel comes first.</p>
+        </div>
+      </li>
+      <li class="method-item reveal">
+        <div>
+          <h3 class="method-title">Ask the people who hire the graduates</h3>
+          <p>On that same AI program, graduates knew the material but struggled to use it. I rebuilt the course with input from workforce managers, and the next cohort came out more technical. Managers still saw a gap. They had told us the gap existed, never how deep it went. So I sat with the placement managers, got specific about every missing skill, and built the next version around their answers.</p>
+        </div>
+      </li>
+      <li class="method-item reveal">
+        <div>
+          <h3 class="method-title">Make it interesting, then teach</h3>
+          <p>I was failing math until a teacher started drawing the concepts on the board, and it finally clicked. So when I had to teach cybersecurity, I drew too. Unfortunately, I'm not artistically gifted. Bob was a stick man with a beard, and when he needed a girlfriend, I copied Bob and gave him a wig. My students started calling me Picasso. They laughed, but the concepts stuck.</p>
+        </div>
+      </li>
+      <li class="method-item reveal">
+        <div>
+          <h3 class="method-title">Why code and not Storyline?</h3>
+          <p>The honest answer: I didn't know Articulate existed. I figured everything out by experimenting. When I finally tried Storyline, it felt limiting next to what I could already build by hand, so I went back to pushing the LMS to its limits. You get every file, and nothing needs a license to keep running.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section class="sec sec--about" id="about" aria-labelledby="about-h" data-section="ABOUT" data-num="05">
+  <div class="shell about-grid">
+    <div class="about-aside reveal">
+      <div class="about-split" id="about-split" data-cursor-label="Drag">
+        <img class="as-a" src="https://tenneri.com/about-photo.png" alt="Ramano Stoute" width="864" height="1184" loading="lazy" draggable="false">
+        <img class="as-b" src="https://tenneri.com/about-photo-alt.png" alt="Ramano Stoute again, this time in a sombrero" width="1071" height="1468" loading="lazy" draggable="false">
+        <span class="as-tag as-tag--a" aria-hidden="true">Ramano Stoute<small>Handles 50%</small></span>
+        <span class="as-tag as-tag--b" aria-hidden="true">Stoute, Ramano<small>Handles the other 50%</small></span>
+        <input type="range" class="as-range" id="as-range" min="0" max="100" value="50" aria-label="Slide between the two Ramanos">
+        <div class="as-handle" aria-hidden="true"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span></div>
+      </div>
+      <div class="about-caption">
+        <span class="about-name">Ramano Stoute</span>
+        <span class="about-role">Needs analysis and curriculum development</span>
+        <span class="about-hint">Drag across the photo to meet <b>the other half of the team.</b></span>
+        <a class="about-li" href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg><span>Connect on LinkedIn</span></a>
+      </div>
+    </div>
+
+    <div class="about-body">
+      <h2 id="about-h" class="display display--xl reveal-words">I got here by accident.</h2>
+
+      <div class="about-copy reveal">
+        <p>I wrote stories and sermons for my church magazine in elementary school. In high school the arts side of things was basically gone, and I felt lost for a while. At 18 I applied to psychology because a friend said I was good at listening. Then I switched to criminology because a dean said I should. That was the pattern for a stretch: trying to move forward while feeling disconnected from the work.</p>
+
+        <p>In 2024 I misread a work email. "Tour of duties." I thought it meant a trip to the head office in Toronto. That tour is where I first saw instructional design. It changed everything.</p>
+
+        <p>I was an instructor at the time. The content was dry. An AI course with uninspired material. Then I found a source code feature in the LMS and realized I could write HTML, CSS, and JavaScript myself. I barely knew what I was doing. I taught myself for the next cohort anyway. The early work is rough. I cringe looking at it now. But something opened up. Pages turned into labs. Labs turned into full environments. Eventually I built two browser-based operating systems inside the LMS: PonchOS (a pun on my university nickname, Poncho) and ROSe.</p>
+      </div>
+
+      <blockquote class="about-pull reveal">
+        <p>&ldquo;Our Superman, thank you for being such a powerhouse.&rdquo;</p>
+        <cite>S. Gill, Cyber Nations</cite>
+        <a class="about-pull-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7503143554538598400/" target="_blank" rel="noopener">See the post on LinkedIn <span aria-hidden="true">↗</span></a>
+      </blockquote>
+
+      <div class="about-copy reveal">
+        <p>A director of training told me I had an intuition for pedagogy. I had no idea what that meant, so I nodded and kept going. It clicked when he started calling me Seal Team Six: drop me into a course, I fix it, I come out and do it again. Another coworker called me salt, because I was in everything.</p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="sec sec--contact" id="contact" aria-labelledby="contact-h" data-section="CONTACT" data-num="06">
+  <div class="shell contact-layout">
+    <div class="contact-intro">
+      <h2 id="contact-h" class="display display--xl reveal-words">Bring me the course nobody finishes.</h2>
+      <p class="lead reveal">Hiring for a role, rebuilding a course, or have an idea to build together? Whatever it is, I'd like to hear about it. I work remotely with teams across North America.</p>
+      <ul class="contact-ways reveal">
+        <li><a href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener"><span class="cw-label">Book a 20-minute call</span><span class="cw-arr" aria-hidden="true">↗</span></a></li>
+        <li class="cw-email"><a href="mailto:ramano@tenneri.com"><span class="cw-label">ramano@tenneri.com</span><span class="cw-arr" aria-hidden="true">↗</span></a><button type="button" class="cw-copy" id="cw-copy" data-email="ramano@tenneri.com" aria-label="Copy email address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copy</span></button></li>
+        <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me"><span class="cw-label">Connect on LinkedIn</span><span class="cw-arr" aria-hidden="true">↗</span></a></li>
+      </ul>
+    </div>
+
+    <div class="contact-form-inner reveal">
+      <form id="contact-form" action="https://formspree.io/f/mvzlallb" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="New enquiry via tenneri.com">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="cf-row">
+          <div class="cf-group">
+            <label class="cf-label" for="cf-name">Your name</label>
+            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required autocomplete="name">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="cf-email">Email address</label>
+            <input class="cf-input" type="email" id="cf-email" name="email" placeholder="you@email.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-org">Company or institution <span class="cf-optional">(optional)</span></label>
+          <input class="cf-input" type="text" id="cf-org" name="organization" placeholder="Leave blank if it's just you" autocomplete="organization">
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-context">What are you working on?</label>
+          <select class="cf-select" id="cf-context" name="context">
+            <option value="" disabled selected>Select the closest match</option>
+            <option>Hiring for a role (full-time or contract)</option>
+            <option>Redesigning an existing online course</option>
+            <option>Building a new course or program from scratch</option>
+            <option>Corporate or compliance training redesign</option>
+            <option>Exploring what is possible, no project yet</option>
+            <option>Collaborating on a project together</option>
+            <option>Something else</option>
+          </select>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-message">Tell me more</label>
+          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="The role, the course, or the problem. Whatever is on your mind."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--gold btn--block" id="cf-submit-btn">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="shell">
+    <div class="foot-mark" aria-hidden="true"></div>
+    <div class="foot-row">
+      <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri. Designed and coded by Ramano Stoute.</span>
+      <ul class="foot-links">
+        <li><a href="https://tenneri.com/projects/">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
+        <li><a href="#hero">Back to top ↑</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- Section ruler (desktop). Placed after the content so keyboard users reach the page first -->
+<aside id="strip" aria-hidden="true">
   <div id="strip-top">
     <div id="strip-brand" translate="no">TENNERI</div>
   </div>
@@ -59,529 +506,49 @@
   <div id="strip-bottom"></div>
 </aside>
 
-<!-- NAV -->
-<nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="/" class="n-logo" aria-label="Tenneri home">
-    <img src="https://tenneri.com/Ten-Logo.png" alt="" class="n-logo-img" aria-hidden="true" onerror="this.style.display='none'">
-    <span class="n-logo-name" translate="no">Tenneri</span>
-  </a>
-  <ul class="n-links">
-    <li class="n-persist"><a href="https://tenneri.com/projects/" target="_blank" rel="noopener">Projects</a></li>
-    <li class="n-persist"><a href="#rose">Labs</a></li>
-    <li class="n-persist"><a href="#about">About</a></li>
-    <li class="n-persist"><a href="#contact" class="n-cta">Get in touch</a></li>
-  </ul>
-  <div class="n-right">
-    <button class="theme-toggle theme-toggle--nav" type="button" id="theme-toggle-fixed" aria-label="Toggle light/dark mode">
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-</button>
-  <button class="n-ham" id="ham" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  </div>
-</nav>
-<div class="mob-nav" id="mob" role="menu">
-  <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" onclick="closeMob()">Projects</a>
-  <a href="#rose" onclick="closeMob()">Labs</a>
-  <a href="#about" onclick="closeMob()">About</a>
-  <a href="#contact" onclick="closeMob()">Get in touch</a>
-  <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me" onclick="closeMob()">LinkedIn ↗</a>
-</div>
-
-<!-- ═══════════════ HERO ═══════════════ -->
-<section class="hero" id="hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-glow" aria-hidden="true"></div>
-
-  <div class="hero-marquee-bg" aria-hidden="true">
-    <div class="hero-marquee-track">
-      <span>TENNERI · TENNERI · TENNERI · TENNERI · TENNERI · </span>
-      <span>TENNERI · TENNERI · TENNERI · TENNERI · TENNERI · </span>
-    </div>
-  </div>
-
-  <div class="hero-inner">
-    <div class="hero-text">
-      <p class="hero-eyebrow">Ramano Stoute · Instructional Designer &amp; eLearning Developer</p>
-      <h1 class="hero-h">
-        <span class="hero-line">I build learning</span>
-        <span class="hero-line">environments people</span>
-        <span class="hero-line"><em>actually</em> want to be in.</span>
-      </h1>
-
-      <p class="hero-sub">
-        Custom eLearning courses, labs and simulations built in code, the kind that keep learners inside the course instead of looking for the exit.
-      </p>
-
-      <div class="hero-cta-row">
-        <a href="#rose" class="btn-hero-primary">Explore the work ↓</a>
-        <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn-hero-secondary btn-all-projects">All Projects →</a>
-      </div>
-
-      <p class="hero-avail"><span class="hero-avail-dot" aria-hidden="true"></span>Open to my next role · Remote, working with teams across North America</p>
-
-      <p class="hero-contact-line">
-        Prefer to <a href="#contact" id="hero-contact-link">send a message</a> instead? Or find me on <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a>.
-      </p>
-    </div>
-
-    <div class="hero-video-block">
-      <div class="hero-video-frame" aria-label="Reef Guardian phishing training demo">
-        <iframe
-          id="hero-bg-video"
-          src="https://player.vimeo.com/video/1236921375?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture"
-          title="Reef Guardian phishing training demo"
-          style="position:absolute;top:-5%;left:-5%;width:110%;height:110%;pointer-events:none;border:none;"></iframe>
-      </div>
-      <div class="hero-video-caption hero-video-caption--centered">
-        <span class="hero-video-tag">Reef Guardian · Phishing training</span>
-        <p class="hero-video-desc">A real-looking inbox where people check senders, hover links and report the fakes, then see every red flag they missed.</p>
-        <div class="hero-video-actions">
-          <button type="button" class="btn-hero-primary" id="hero-video-watch" style="font-size:.58rem;padding:10px 18px">Watch</button>
-          <a href="https://tenneri.com/projects/" class="btn-hero-secondary" id="hero-video-learn" style="font-size:.58rem;padding:10px 18px">See the demos →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="hero-scroll-hint" aria-hidden="true">Scroll</div>
-
-  <div class="hero-ticker-wrap" aria-hidden="true">
-    <div class="hero-ticker-track">
-      <span class="hero-ticker-item">Brightspace · D2L<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Moodle<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Canvas<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Cornerstone<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Workday Learning<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item hero-ticker-badge">SCORM · xAPI<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Scenario Labs<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Zero Vendor Dependency<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">WCAG 2.1 AA<span class="hero-ticker-sep"></span></span>
-      <!-- duplicate -->
-      <span class="hero-ticker-item">Brightspace · D2L<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Moodle<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Canvas<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Cornerstone<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Workday Learning<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item hero-ticker-badge">SCORM · xAPI<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Scenario Labs<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">Zero Vendor Dependency<span class="hero-ticker-sep"></span></span>
-      <span class="hero-ticker-item">WCAG 2.1 AA<span class="hero-ticker-sep"></span></span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ ROSE ═══════════════ -->
-<section id="rose" class="sec" aria-label="ROSe: Ramano Operating System Emulator" data-section="ROSe" data-num="01">
-  <div class="wrap rose-contain">
-    <div class="rose-intro reveal">
-      <h2 class="display">An operating system<br><em>inside the LMS.</em></h2>
-      <p class="rose-intro-body">ROSe started as an experiment and a question I couldn't let go of: how far can you push an LMS before it pushes back? A few prototypes later I had PonchOS, a Linux-inspired shell. Once I cracked the interface, it became ROSe, the operating system in the video. Learners open apps, run tools and respond to incidents without leaving the course, and their work lands in the gradebook.</p>
-    </div>
-    <div class="rose-frame">
-      <div id="rose-video-wrap">
-        <iframe
-          id="rose-video"
-          src="https://player.vimeo.com/video/1169432149?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture"
-          title="ROSe demo"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border:none;"></iframe>
-      </div>
-    </div>
-
-    <div id="rose-panels">
-      <div class="rose-panel rose-panel--far is-active">
-        <div class="rose-far-head">
-          <p class="rose-panel-eyebrow">Built with FAR · Fluid Adaptive Runtime</p>
-          <h3 class="rose-panel-heading">The apps<br><em>that live inside it.</em></h3>
-        </div>
-        <div class="rose-apps">
-          <div class="rose-app">
-            <div class="rose-app-icon" aria-hidden="true">🤖</div>
-            <div>
-              <div class="rose-app-name">AI Image Generator</div>
-              <div class="rose-app-desc">Generative tool built into the OS</div>
-            </div>
-          </div>
-          <div class="rose-app">
-            <div class="rose-app-icon" aria-hidden="true">📋</div>
-            <div>
-              <div class="rose-app-name">Task Manager</div>
-              <div class="rose-app-desc">Live workflow management</div>
-            </div>
-          </div>
-          <div class="rose-app">
-            <div class="rose-app-icon" aria-hidden="true">🔐</div>
-            <div>
-              <div class="rose-app-name">Offensive Security Tool</div>
-              <div class="rose-app-desc">Simulated pen-testing environment</div>
-            </div>
-          </div>
-          <div class="rose-app">
-            <div class="rose-app-icon" aria-hidden="true">🌐</div>
-            <div>
-              <div class="rose-app-name">Network Diagnostic Tool</div>
-              <div class="rose-app-desc">Live network analysis</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rose-under-bar">
-      <div class="rose-under-inner">
-        <span class="rose-inframe-label"><strong>ROSe</strong> &nbsp;·&nbsp; Ramano Operating System Emulator</span>
-        <div class="rose-inframe-actions">
-          <button class="btn-rose-learn" id="rose-footer-learn">Learn more</button>
-          <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn-rose-projects">All projects →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<div id="rose-spacer" aria-hidden="true"></div>
-
-<!-- ═══════════════ BUILDS ═══════════════ -->
-<section class="sec" id="builds" data-section="PROJECTS" data-num="02">
-  <div class="wrap">
-    <div class="build-intro">
-      <h2 class="display reveal-words">There's more where <em>that came from.</em></h2>
-      <p class="build-lead reveal">Want to see what it's like for yourself?</p>
-    </div>
-
-    <div class="peek-strip reveal">
-      <div class="peek-card"
-        data-title="Adaptive Assignments"
-        data-type="Assessment · Gradebook Integration"
-        data-vimeo="1169432083"
-        role="button" tabindex="0"
-        aria-label="Play: Adaptive Assignments">
-        <div class="peek-vid-ratio">
-          <iframe src="https://player.vimeo.com/video/1169432083?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Adaptive Assignments" loading="lazy"></iframe>
-        </div>
-        <div class="peek-overlay"><div class="peek-play">▶</div></div>
-        <div class="peek-info">
-          <div class="peek-title">Adaptive Assignments</div>
-          <div class="peek-type">Assessment · Gradebook Integration</div>
-        </div>
-      </div>
-
-      <div class="peek-card"
-        data-title="Games & Gamification"
-        data-type="Engagement · Voluntary Completion"
-        data-vimeo="1169432107"
-        role="button" tabindex="0"
-        aria-label="Play: Games and Gamification">
-        <div class="peek-vid-ratio">
-          <iframe src="https://player.vimeo.com/video/1169432107?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Games and Gamification" loading="lazy"></iframe>
-        </div>
-        <div class="peek-overlay"><div class="peek-play">▶</div></div>
-        <div class="peek-info">
-          <div class="peek-title">Games & Gamification</div>
-          <div class="peek-type">Engagement · Voluntary Completion</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="reveal" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-      <a href="https://tenneri.com/projects/ai-communication/" target="_blank" rel="noopener" class="btn-hero-primary" style="font-size:.62rem">
-        Try a live demo →
-      </a>
-      <a href="https://tenneri.com/projects/" target="_blank" rel="noopener" class="btn-hero-secondary btn-all-projects" style="font-size:.62rem">
-        All Projects →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ WHAT I DO ═══════════════ -->
-<section class="sec" id="craft" data-section="WORK" data-num="03">
-  <div class="wrap">
-    <h2 class="display reveal" style="margin-bottom:12px">What I <em>actually build.</em></h2>
-    <p class="build-lead reveal" style="margin-bottom:40px">Most of it lives inside an LMS. All of it is built for the person taking the course, not the person delivering it.</p>
-
-    <div class="craft-grid">
-      <div class="craft-card reveal">
-        <div class="craft-icon" aria-hidden="true">◈</div>
-        <h3 class="craft-title">Courses people stay in</h3>
-        <p class="craft-body">When I joined the AI program, learners were missing LMS assignments because they'd rather stay in DataCamp. So I rebuilt the course as a one-stop shop, with lessons, practice and a working terminal on the same page. Nobody needed to leave unless it was for further reading.</p>
-        <ul class="craft-tags">
-          <li>Learner first</li>
-          <li>LMS native</li>
-          <li>One place to learn</li>
-        </ul>
-      </div>
-      <div class="craft-card reveal">
-        <div class="craft-icon" aria-hidden="true">◎</div>
-        <h3 class="craft-title">Labs &amp; simulations</h3>
-        <p class="craft-body">Places to practice where getting it wrong is part of the lesson. Phishing sims, security labs, AI tools and full OS sandboxes, built so the activity feels like the job instead of a quiz bank.</p>
-        <ul class="craft-tags">
-          <li>Scenario-based</li>
-          <li>Gradebook sync</li>
-          <li>Branching paths</li>
-        </ul>
-      </div>
-      <div class="craft-card reveal">
-        <div class="craft-icon" aria-hidden="true">◇</div>
-        <h3 class="craft-title">Games where the mechanic is the lesson</h3>
-        <p class="craft-body">If it's a racing game, a quiz shouldn't pop up mid-race and kill the momentum. Answer well between races and you earn better upgrades for your car. When the learning feeds the mechanic, nobody feels like they're being tested.</p>
-        <ul class="craft-tags">
-          <li>Game mechanics</li>
-          <li>Voluntary completion</li>
-          <li>Gradebook sync</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="craft-delivered reveal">
-      <div class="craft-delivered-label">Programs delivered through</div>
-      <div class="craft-schools">
-        <div class="craft-school">
-          <span class="craft-school-name">Ontario Tech University</span>
-          <span class="craft-school-note">Interactive course builds</span>
-        </div>
-        <div class="craft-school">
-          <span class="craft-school-name">Toronto Metropolitan University</span>
-          <span class="craft-school-note">Learning environments &amp; labs</span>
-        </div>
-        <div class="craft-school">
-          <span class="craft-school-name">George Brown College</span>
-          <span class="craft-school-note">Instructional design &amp; development</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ LEARNER QUOTE ═══════════════ -->
-<section class="cta" aria-label="Learner feedback">
-  <div class="cta-inner reveal">
-    <span class="cta-qm" aria-hidden="true">&ldquo;</span>
-    <p class="cta-qt">Your redesign is way, way better than the original. I would have never failed if this is how the course had always looked.</p>
-    <span class="cta-qa">A. Holford, learner</span>
-  </div>
-</section>
-
-<!-- ═══════════════ METHOD ═══════════════ -->
-<section class="sec" id="method" data-section="METHOD" data-num="04">
-  <div class="wrap">
-    <h2 class="display reveal" style="margin-bottom:16px">How I <em>actually work.</em></h2>
-    <p class="build-lead reveal" style="margin-bottom:40px">Nobody taught me the industry way, so I built my own. I learned the names for most of it, like backward design and scenario-based learning, after I was already doing it.</p>
-    <div class="method-grid">
-      <div class="method-card reveal">
-        <div class="method-num">01</div>
-        <h3 class="method-title">Look before I read</h3>
-        <p class="method-body">The first time I open a course, I don't read a word. I look at how the text sits on the page. Is it wordy? Are there dense blocks nobody will get through? A course can be ugly and still feel great to get through, so the feel comes first.</p>
-      </div>
-      <div class="method-card reveal">
-        <div class="method-num">02</div>
-        <h3 class="method-title">Build for the person receiving it</h3>
-        <p class="method-body">A lot of eLearning is designed around the person delivering it: narration that slows you down, endless clicking to reach the point. I build for the learner first, then make sure it still works for the people running the program.</p>
-      </div>
-      <div class="method-card reveal">
-        <div class="method-num">03</div>
-        <h3 class="method-title">Make it interesting, then teach</h3>
-        <p class="method-body">I failed math until a teacher started drawing everything on the board. So when I taught cybersecurity, I drew too. Bob was a stick man with a beard, and when he needed a girlfriend, I copied Bob and gave him a wig. My students laughed, and the concepts stuck.</p>
-      </div>
-      <div class="method-card reveal">
-        <div class="method-num">04</div>
-        <h3 class="method-title">Why code and not Storyline?</h3>
-        <p class="method-body">The honest answer: I didn't know Articulate existed. I figured everything out by experimenting. When I finally tried Storyline, it felt limiting next to what I could already build by hand, so I went back to pushing the LMS to its limits. You get every file, and nothing needs a license to keep running.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ ABOUT ═══════════════ -->
-<section class="sec" id="about" data-section="ABOUT" data-num="05">
-  <div class="wrap">
-    <div class="about-grid">
-      <div class="about-aside reveal">
-        <div class="about-frame">
-          <img id="about-photo"
-            src="https://tenneri.com/about-photo.png"
-            alt="Ramano Stoute"
-            loading="lazy">
-          <div class="about-overlay">
-            <div class="about-name">Ramano Stoute</div>
-            <div class="about-role">Learning designer &amp; developer</div>
-          </div>
-        </div>
-        </div>
-      </div>
-
-      <div class="about-body reveal">
-        <h2 class="display">I got here by<br><em>accident.</em></h2>
-
-        <p>I wrote stories and sermons for my church magazine in elementary school. In high school the arts side of things was basically gone, and I felt lost for a while. At 18 I applied to psychology because a friend said I was good at listening. Then I switched to criminology because a dean said I should. That was the pattern for a stretch: trying to move forward while feeling disconnected from the work.</p>
-
-        <p>In 2024 I misread a work email. "Tour of duties." I thought it meant a trip to the head office in Toronto. That tour is where I first saw instructional design. It changed everything.</p>
-
-        <p>I was an instructor at the time. The content was dry. An AI course with uninspired material. Then I found a source code feature in the LMS and realized I could write HTML, CSS, and JavaScript myself. I barely knew what I was doing. I taught myself for the next cohort anyway. The early work is rough. I cringe looking at it now. But something opened up. Pages turned into labs. Labs turned into full environments. Eventually I built two browser-based operating systems inside the LMS: PonchOS (a pun on my university nickname, Poncho) and ROSe.</p>
-
-        <p>My former boss told me I had an intuition for pedagogy. I had no idea what that meant, so I nodded and kept going. It clicked when he started calling me Seal Team Six: drop me into a course, I fix it, I come out and do it again. S. Gill once posted that I was &ldquo;our Superman, thank you for being such a powerhouse.&rdquo; Another coworker called me salt, because I was in everything.</p>
-
-        <p>Today I work in marketing, which uses the same muscles: figure out who you're talking to, then give them a reason to stay. What I want next is a role where solving problems creatively is the job, whether that's learning design, marketing or something in between.</p>
-
-        <div class="about-sig">
-          <div class="about-sig-name">Ramano Stoute</div>
-          <div class="about-sig-role">Tenneri · Learning design, development &amp; marketing</div>
-          <a class="about-li" href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg><span>Connect on LinkedIn</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ CONTACT ═══════════════ -->
-<section class="sec" id="contact" data-section="CONTACT" data-num="06">
-  <div class="wrap" style="max-width:680px">
-    <h2 class="display reveal-words" style="margin-bottom:16px">
-      Let's talk about<br><em>what's next.</em>
-    </h2>
-    <p class="build-lead reveal" style="margin-bottom:32px">Hiring for a role, or have a course that needs rebuilding? Either way, I'd like to hear about it. I work remotely with teams across North America.</p>
-
-    <div class="contact-form-inner reveal">
-      <form id="contact-form" action="https://formspree.io/f/mvzlallb" method="POST" novalidate>
-        <input type="hidden" name="_subject" value="New enquiry via tenneri.com">
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <div class="cf-row">
-          <div class="cf-group">
-            <label class="cf-label" for="cf-name">Your name</label>
-            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required autocomplete="name">
-          </div>
-          <div class="cf-group">
-            <label class="cf-label" for="cf-email">Email address</label>
-            <input class="cf-input" type="email" id="cf-email" name="email" placeholder="you@company.com" required autocomplete="email">
-          </div>
-        </div>
-
-        <div class="cf-group">
-          <label class="cf-label" for="cf-org">Company or institution</label>
-          <input class="cf-input" type="text" id="cf-org" name="organisation" placeholder="Where you work" autocomplete="organization">
-        </div>
-
-        <div class="cf-group">
-          <label class="cf-label" for="cf-context">What are you working on?</label>
-          <select class="cf-select" id="cf-context" name="context">
-            <option value="" disabled selected>Select the closest match</option>
-            <option>Hiring for a role (full-time or contract)</option>
-            <option>Redesigning an existing online course</option>
-            <option>Building a new course or program from scratch</option>
-            <option>Corporate or compliance training redesign</option>
-            <option>Exploring what is possible, no project yet</option>
-            <option>Something else</option>
-          </select>
-        </div>
-
-        <div class="cf-group">
-          <label class="cf-label" for="cf-message">Tell me more</label>
-          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="The role, the course, or the problem. Whatever is on your mind."></textarea>
-        </div>
-
-        <button type="submit" class="cf-submit" id="cf-submit-btn">Send message →</button>
-
-        <div style="text-align:center;margin-top:16px">
-          <a href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener"
-            style="font-family:var(--f-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:1px">
-            Prefer a 20-minute call? Book one →
-          </a>
-          <a class="contact-li" href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg><span>Or connect on LinkedIn</span></a>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- FOOTER -->
-<footer>
-  <div class="foot-inner">
-    <a href="/" class="foot-logo" aria-label="Tenneri home">
-      <img src="https://tenneri.com/Ten-Logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
-      <span translate="no">Tenneri</span>
-    </a>
-    <ul class="foot-links">
-      <li><a href="https://tenneri.com/projects/">Projects</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
-    </ul>
-    <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri</span>
-  </div>
-</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- VIDEO MODAL -->
-<div class="peek-modal-overlay" id="peek-modal-overlay" role="dialog" aria-modal="true">
+<div class="peek-modal-overlay" id="peek-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="peek-modal-title">
   <div class="peek-modal">
     <div class="peek-modal-header">
       <div>
         <div class="peek-modal-title" id="peek-modal-title"></div>
         <div class="peek-modal-type" id="peek-modal-type"></div>
       </div>
-      <button class="peek-modal-close" id="peek-modal-close" aria-label="Close">×</button>
+      <div class="peek-modal-actions">
+        <button class="btn btn--small btn--ghost" id="peek-modal-fs" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>Full screen</button>
+        <button class="peek-modal-close" id="peek-modal-close" type="button" aria-label="Close video">×</button>
+      </div>
     </div>
     <div class="peek-modal-video" id="peek-modal-video"></div>
   </div>
 </div>
 
 <!-- ROSE SPEC MODAL -->
-<div id="rose-modal-overlay" role="dialog" aria-modal="true">
+<div id="rose-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="rose-modal-title" data-lenis-prevent>
   <div id="rose-modal">
     <div class="rose-modal-head">
-      <button class="rose-modal-close-btn" id="rose-modal-close" aria-label="Close">×</button>
-      <span class="rose-modal-kicker">ROSe · Ramano Operating System Emulator</span>
-      <h2 class="rose-modal-title">An operating system,<br><em>built inside Brightspace.</em></h2>
-      <p class="rose-modal-subtitle">
-        A browser-based OS that runs inside Brightspace. I built it because the course needed a place to apply skills, not another set of slides.
-      </p>
+      <button class="rose-modal-close-btn" id="rose-modal-close" type="button" aria-label="Close">×</button>
+      <span class="rose-modal-kicker">ROSe, the Ramano Operating System Emulator</span>
+      <h2 class="rose-modal-title" id="rose-modal-title">An operating system, built inside Brightspace.</h2>
+      <p class="rose-modal-subtitle">A browser-based OS that runs inside Brightspace. I built it because the course needed a place to apply skills, not another set of slides.</p>
     </div>
     <div class="rose-modal-body">
       <div class="rose-modal-section">
-        <span class="rose-section-label">How it evolved</span>
-        <h3 class="rose-section-heading">From experiment <em>to narrative.</em></h3>
-        <div class="far-mini-grid">
-          <div class="far-mini-step">
-            <div class="far-mini-n">01</div>
-            <div class="far-mini-title">PonchOS</div>
-            <div class="far-mini-body">A Linux-inspired shell, named after my university nickname. I was still struggling with the GUI, so Linux-like was the right balance.</div>
-          </div>
-          <div class="far-mini-step">
-            <div class="far-mini-n">02</div>
-            <div class="far-mini-title">ROSe 1.0</div>
-            <div class="far-mini-body">The version in the video. Free roam, with experimental labs and sims learners explore at their own pace.</div>
-          </div>
-          <div class="far-mini-step">
-            <div class="far-mini-n">03</div>
-            <div class="far-mini-title">ROSe 2.0</div>
-            <div class="far-mini-body">Narrative and graded through SCORM. You log in to find your company has been breached, and you have to fix it. Deliberately restrained, because real incident response at the C-suite level isn't flashy. The story keeps it interesting.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rose-modal-section">
         <span class="rose-section-label">The framework behind it</span>
-        <h3 class="rose-section-heading">Fluid Adaptive Runtime <em>(FAR)</em></h3>
+        <h3 class="rose-section-heading">Fluid Adaptive Runtime (FAR)</h3>
         <p class="rose-section-body">Every environment I build runs on FAR, a proprietary framework for creating interactive LMS content that adapts to each learner, grades itself, and never needs a vendor to keep working.</p>
         <div class="far-mini-grid">
           <div class="far-mini-step">
-            <div class="far-mini-n">01</div>
             <div class="far-mini-title">Fluid</div>
             <div class="far-mini-body">Same environment, different experience for every person. Scenarios branch, variables shift, no two learners take the same path.</div>
           </div>
           <div class="far-mini-step">
-            <div class="far-mini-n">02</div>
             <div class="far-mini-title">Adaptive</div>
             <div class="far-mini-body">Completion data and decision paths flow back to the gradebook automatically. The assessment is built into the experience.</div>
           </div>
           <div class="far-mini-step">
-            <div class="far-mini-n">03</div>
             <div class="far-mini-title">Runtime</div>
             <div class="far-mini-body">Everything executes in the browser. No external server calls, no vendor dependencies. If the LMS runs, it runs.</div>
           </div>
@@ -589,75 +556,46 @@
       </div>
 
       <div class="rose-modal-section">
-        <span class="rose-section-label">What lives inside</span>
-        <h3 class="rose-section-heading">Four apps. <em>One ecosystem.</em></h3>
-        <div class="rose-apps-grid">
-          <div class="rose-app-card">
-            <div class="rose-app-card-icon">🤖</div>
-            <div>
-              <div class="rose-app-card-name">AI Image Generator</div>
-              <div class="rose-app-card-desc">A generative image tool built directly inside the OS. Learners use it as part of their workflow.</div>
-            </div>
-          </div>
-          <div class="rose-app-card">
-            <div class="rose-app-card-icon">📋</div>
-            <div>
-              <div class="rose-app-card-name">Task Manager</div>
-              <div class="rose-app-card-desc">Live task and workflow management. Learners prioritize and manage deadlines inside the simulated environment.</div>
-            </div>
-          </div>
-          <div class="rose-app-card">
-            <div class="rose-app-card-icon">🔐</div>
-            <div>
-              <div class="rose-app-card-name">Offensive Security Tool</div>
-              <div class="rose-app-card-desc">Simulated pen-testing environment where learners execute security assessments against controlled targets.</div>
-            </div>
-          </div>
-          <div class="rose-app-card">
-            <div class="rose-app-card-icon">🌐</div>
-            <div>
-              <div class="rose-app-card-name">Network Diagnostic Tool</div>
-              <div class="rose-app-card-desc">Live network analysis and monitoring with simulated traffic, anomalies, and incident response workflows.</div>
-            </div>
-          </div>
-        </div>
+        <span class="rose-section-label">Why 2.0 is restrained</span>
+        <h3 class="rose-section-heading">Real incident response isn't flashy.</h3>
+        <p class="rose-section-body">ROSe 2.0 is narrative and graded through SCORM. You log in to find your company has been breached, and you have to fix it. It's deliberately restrained, because real incident response at the C-suite level isn't flashy. The story keeps it interesting.</p>
       </div>
 
       <div class="rose-modal-section">
         <span class="rose-section-label">The result</span>
-        <h3 class="rose-section-heading">Learners chose <em>to finish.</em></h3>
+        <h3 class="rose-section-heading">Learners chose to finish.</h3>
         <div class="rose-stats-row">
-          <div class="rose-stat">
-            <span class="rose-stat-n">66%</span>
-            <span class="rose-stat-l">Voluntary completion rate<br>across a 16-week curriculum</span>
+          <div class="rose-stat-cell">
+            <span class="rose-stat-cell-n">66%</span>
+            <span class="rose-stat-cell-l">Voluntary completion across a 16-week curriculum</span>
           </div>
-          <div class="rose-stat">
-            <span class="rose-stat-n">4</span>
-            <span class="rose-stat-l">Live applications<br>inside a single OS build</span>
+          <div class="rose-stat-cell">
+            <span class="rose-stat-cell-n">4</span>
+            <span class="rose-stat-cell-l">Live applications inside a single OS build</span>
           </div>
-          <div class="rose-stat">
-            <span class="rose-stat-n">0</span>
-            <span class="rose-stat-l">External vendors<br>or licensing required</span>
+          <div class="rose-stat-cell">
+            <span class="rose-stat-cell-n">0</span>
+            <span class="rose-stat-cell-l">External vendors or licensing required</span>
           </div>
         </div>
       </div>
 
       <div class="rose-modal-section">
         <span class="rose-section-label">Under the hood</span>
-        <h3 class="rose-section-heading">Technical <em>specifications.</em></h3>
-        <div class="rose-spec-list">
-          <div class="rose-spec-item"><span class="rose-spec-key">Framework</span><span class="rose-spec-val">Fluid Adaptive Runtime (FAR), proprietary</span></div>
-          <div class="rose-spec-item"><span class="rose-spec-key">Stack</span><span class="rose-spec-val">HTML, CSS, JavaScript. Zero dependencies.</span></div>
-          <div class="rose-spec-item"><span class="rose-spec-key">LMS</span><span class="rose-spec-val">Brightspace / D2L (any SCORM-enabled LMS)</span></div>
-          <div class="rose-spec-item"><span class="rose-spec-key">Standards</span><span class="rose-spec-val">SCORM 1.2, SCORM 2004, xAPI</span></div>
-          <div class="rose-spec-item"><span class="rose-spec-key">Gradebook</span><span class="rose-spec-val">Automatic sync. Completion and score pass back.</span></div>
-          <div class="rose-spec-item"><span class="rose-spec-key">Accessibility</span><span class="rose-spec-val">WCAG 2.1 AA compliant</span></div>
-          <div class="rose-spec-item"><span class="rose-spec-key">Ownership</span><span class="rose-spec-val">Delivered in full. No ongoing licensing.</span></div>
-        </div>
+        <h3 class="rose-section-heading">Technical specifications.</h3>
+        <dl class="rose-spec-list">
+          <div class="rose-spec-item"><dt class="rose-spec-key">Framework</dt><dd class="rose-spec-val">Fluid Adaptive Runtime (FAR). Built and maintained in-house, no external license required.</dd></div>
+          <div class="rose-spec-item"><dt class="rose-spec-key">Stack</dt><dd class="rose-spec-val">HTML, CSS, JavaScript. Zero dependencies.</dd></div>
+          <div class="rose-spec-item"><dt class="rose-spec-key">LMS</dt><dd class="rose-spec-val">Brightspace (D2L), or any SCORM-enabled LMS</dd></div>
+          <div class="rose-spec-item"><dt class="rose-spec-key">Standards</dt><dd class="rose-spec-val">SCORM 1.2, SCORM 2004, xAPI</dd></div>
+          <div class="rose-spec-item"><dt class="rose-spec-key">Gradebook</dt><dd class="rose-spec-val">Automatic sync. Completion and score pass back.</dd></div>
+          <div class="rose-spec-item"><dt class="rose-spec-key">Accessibility</dt><dd class="rose-spec-val">WCAG 2.1 AA compliant</dd></div>
+          <div class="rose-spec-item"><dt class="rose-spec-key">Ownership</dt><dd class="rose-spec-val">Delivered in full. No ongoing licensing.</dd></div>
+        </dl>
       </div>
 
       <div class="rose-modal-footer">
-        <button type="button" class="btn-hero-secondary" id="rose-modal-close-bottom" style="font-size:.62rem">Close</button>
+        <button type="button" class="btn btn--ghost" id="rose-modal-close-bottom">Close</button>
       </div>
     </div>
   </div>
@@ -665,6 +603,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="script.js?v=20261021j"></script>
 </body>
 </html>
