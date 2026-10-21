@@ -726,32 +726,14 @@ function initFilmStrip() {
       const lead = movingUp ? n - 1 : 0;
       const gap = changedState ? 0.07 : 0.015;
       L.chars.forEach((c, i) => {
-        const delay = Math.abs(i - lead) * gap;
-        if (changedState && state === 'active') {
-          // Entering active: letters travel to vertical position while ballooning,
-          // then spring back to their resting size — the enlarge-and-settle effect.
-          const t = targets[i];
-          gsap.to(c, {
-            keyframes: [
-              { x: t.x, y: t.y, rotation: t.rotation, fontSize: t.fontSize,
-                scale: 1.45, duration: 0.44, ease: 'power2.out' },
-              { scale: 1, duration: 0.34, ease: 'back.out(2.5)' }
-            ],
-            force3D: false,
-            delay,
-            overwrite: true
-          });
-        } else {
-          gsap.to(c, {
-            ...targets[i],
-            scale: 1, // reset any mid-flight enlarge from the active keyframe
-            force3D: false,
-            duration: changedState ? 0.9 : 0.6,
-            ease: changedState ? 'power2.inOut' : 'power2.out',
-            delay,
-            overwrite: true
-          });
-        }
+        gsap.to(c, {
+          ...targets[i],
+          force3D: false,
+          duration: changedState ? 0.9 : 0.6,
+          ease: changedState ? 'power2.inOut' : 'power2.out',
+          delay: Math.abs(i - lead) * gap,
+          overwrite: true
+        });
       });
     });
   }
