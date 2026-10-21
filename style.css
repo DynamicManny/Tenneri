@@ -316,14 +316,14 @@ body {
   color: var(--muted);
   transform-origin: center center;
   will-change: transform, font-size;
-  transition: color 0.45s var(--ease), text-shadow 0.45s var(--ease);
+  transition: color 0.45s var(--ease);
 }
 [data-theme="light"] .strip-char { color: rgba(15,14,12,0.5); }
 .strip-travel:hover .strip-char,
 .strip-travel:focus-visible .strip-char { color: var(--gold-ink); }
-.strip-travel.is-active .strip-char { color: var(--gold); text-shadow: 0 0 1.375rem color-mix(in srgb, var(--gold) 45%, transparent); }
-[data-theme="light"] .strip-travel.is-active .strip-char { color: var(--navy-deep); text-shadow: none; }
-.strip-travel.is-moving .strip-char { color: var(--gold) !important; text-shadow: 0 0 1.625rem color-mix(in srgb, var(--gold) 55%, transparent); }
+.strip-travel.is-active .strip-char { color: var(--gold); }
+[data-theme="light"] .strip-travel.is-active .strip-char { color: var(--navy-deep); }
+.strip-travel.is-moving .strip-char { color: var(--gold) !important; }
 .strip-travel:focus-visible { outline: none; }
 
 /* ── CUSTOM CURSOR (navy dot and ring in light mode, gold in dark) ── */
