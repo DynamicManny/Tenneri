@@ -17,9 +17,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="projects.css">
-<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}})();</script>
+<link rel="stylesheet" href="../style.css?v=20261021k">
+<link rel="stylesheet" href="projects.css?v=20261021r">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('tenneri-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t)}catch(e){}try{if(matchMedia('(hover: hover) and (pointer: fine)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('cursor-ready')}catch(e){}window.addEventListener('load',function(){setTimeout(function(){if(!window.__tenneriReady){d.classList.remove('cursor-ready')}if(!window.__tenneriProjects){d.classList.add('no-anim');document.body.style.overflow=''}},2500)});})();</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B434BEBM7D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B434BEBM7D');</script>
 <script type="application/ld+json">
@@ -43,7 +43,7 @@
     <li class="n-persist"><a href="./" aria-current="page">Projects</a></li>
     <li class="n-persist"><a href="../#rose">Labs</a></li>
     <li class="n-persist"><a href="../#about">About</a></li>
-    <li class="n-persist"><a href="../contact/" class="n-cta">Get in touch</a></li>
+    <li class="n-persist"><a href="#contact" class="n-cta">Get in touch</a></li>
   </ul>
   <div class="n-right">
     <button class="theme-toggle theme-toggle--nav" type="button" id="theme-toggle-fixed" aria-label="Toggle light/dark mode">
@@ -59,8 +59,8 @@
   <a href="./" onclick="closeMob()">Projects</a>
   <a href="../#rose" onclick="closeMob()">Labs</a>
   <a href="../#about" onclick="closeMob()">About</a>
-  <a href="../contact/" onclick="closeMob()">Get in touch</a>
-  <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me" onclick="closeMob()">LinkedIn ↗</a>
+  <a href="#contact" onclick="closeMob()">Get in touch</a>
+  <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me" onclick="closeMob()">LinkedIn</a>
 </div>
 
 <h1 class="sr-only">Projects by Ramano Stoute</h1>
@@ -75,7 +75,7 @@
     <div class="pj-mask"><div class="pj-t2" id="pj-t2"></div></div>
     <p class="pj-desc" id="pj-desc"></p>
     <div class="pj-cta" id="pj-cta">
-      <a class="btn-hero-primary" id="pj-open" href="#">Open demo →</a>
+      <a class="btn btn--gold" id="pj-open" href="#">Open the demo</a>
       <span class="pj-tag" id="pj-tag"></span>
     </div>
   </div>
@@ -104,43 +104,116 @@
   <div class="pj-cover" id="pj-cover" aria-hidden="true"></div>
 </section>
 
+<!-- Plain list of every project. Hidden on screen because the showcase above
+     shows the same projects, but always in the HTML for search engines and
+     for anyone whose browser blocks scripts. -->
+<section class="pj-index" id="pj-index" aria-label="All projects">
+  <div class="shell">
+    <h2>Live demos</h2>
+    <ul>
+      <li><a href="https://tenneri.com/projects/Lexicon/">Lexicon</a>: A daily word game for K-12 classrooms and early-career professionals. Instructors load any terms they want learned, and a voice reads each word aloud.</li>
+      <li><a href="https://tenneri.com/projects/API/">API Fundamentals</a>: A simulated API sandbox: real headers, real status codes and real failures, with nothing leaving the browser.</li>
+      <li><a href="https://tenneri.com/projects/ai-communication/">AI-Assisted Communication</a>: Practical AI literacy with a live prompt sandbox and a knowledge check, on one page inside the LMS.</li>
+      <li><a href="https://tenneri.com/projects/stratos/">Stratos Cloud Console</a>: Cloud, networking and security in one working console.</li>
+      <li><a href="https://tenneri.com/projects/ReefGuardian/">Reef Guardian</a>: Phishing training in a simulated inbox, with every missed red flag shown at the end.</li>
+      <li><a href="https://tenneri.com/projects/awareness/">Think Before You Post</a>: Security awareness tips chosen by a quick check-in, so every scenario applies to you.</li>
+    </ul>
+    <h2>Case studies</h2>
+    <ul>
+      <li>SENTINEL: SOC Training Simulation: A simulated security operations center with an alert queue, escalations and real time pressure.</li>
+      <li>VENTURE: Supply Chain Decision Lab: A supply chain disruption where every sourcing decision moves cost, timing and satisfaction live.</li>
+      <li>CAMPAIGN: Marketing Decision Lab: A client brief, a budget and a market that reacts to every spending decision.</li>
+      <li>IRB: Ethics Review Lab: Students review research proposals the way a real ethics board would.</li>
+      <li>THRESHOLD: Compliance Training Lab: Workplace compliance calls where a wrong choice plays out as a chain of consequences.</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ═══════════════ CASE STUDIES ═══════════════ -->
 <section class="sec pj-more" id="more-work">
-  <div class="wrap">
-    <h2 class="display reveal">Built for <em>real learners.</em></h2>
-    <p class="build-lead reveal">These ran inside live programs, so there's nothing public to click into. Each one has a short walkthrough instead.</p>
+  <div class="shell">
+    <h2 class="display reveal">Built for real learners.</h2>
+    <p class="lead reveal">These ran inside live programs, so there's nothing public to click into. Each one has a short walkthrough instead.</p>
     <div class="pj-grid" id="pj-grid"></div>
   </div>
 </section>
 
-<!-- ═══════════════ CLOSE ═══════════════ -->
-<section class="sec pj-end">
-  <div class="wrap pj-end-inner reveal">
-    <h2 class="display">Want the story <em>behind one of these?</em></h2>
-    <p class="build-lead">Ask me about any build. I'm happy to walk through how it works, what broke along the way and what I'd do differently.</p>
-    <div class="pj-end-actions">
-      <a href="../contact/" class="btn-hero-primary">Get in touch →</a>
-      <a href="../" class="btn-hero-secondary">Back to home</a>
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="sec sec--contact" id="contact" aria-labelledby="contact-h">
+  <div class="shell contact-layout">
+    <div class="contact-intro">
+      <h2 id="contact-h" class="display display--xl reveal-words">Want the story behind one of these?</h2>
+      <p class="lead reveal">Ask me about any build. I'm happy to walk through how it works, what broke along the way and what I'd do differently.</p>
+      <ul class="contact-ways reveal">
+        <li><a href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener"><span class="cw-label">Book a 20-minute call</span><span class="cw-arr" aria-hidden="true">↗</span></a></li>
+        <li class="cw-email"><a href="mailto:ramano@tenneri.com"><span class="cw-label">ramano@tenneri.com</span><span class="cw-arr" aria-hidden="true">↗</span></a><button type="button" class="cw-copy" id="cw-copy" data-email="ramano@tenneri.com" aria-label="Copy email address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copy</span></button></li>
+        <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me"><span class="cw-label">Connect on LinkedIn</span><span class="cw-arr" aria-hidden="true">↗</span></a></li>
+      </ul>
     </div>
-    <a class="pj-end-call" href="https://calendly.com/tenneri/new-meeting" target="_blank" rel="noopener">Prefer a 20-minute call? Book one →</a>
+
+    <div class="contact-form-inner reveal">
+      <form id="contact-form" action="https://formspree.io/f/mvzlallb" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="New enquiry via tenneri.com/projects">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="cf-row">
+          <div class="cf-group">
+            <label class="cf-label" for="cf-name">Your name</label>
+            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required autocomplete="name">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="cf-email">Email address</label>
+            <input class="cf-input" type="email" id="cf-email" name="email" placeholder="you@email.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-org">Company or institution <span class="cf-optional">(optional)</span></label>
+          <input class="cf-input" type="text" id="cf-org" name="organization" placeholder="Leave blank if it's just you" autocomplete="organization">
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-context">What are you working on?</label>
+          <select class="cf-select" id="cf-context" name="context">
+            <option value="" disabled selected>Select the closest match</option>
+            <option>Asking about a specific build</option>
+            <option>Hiring for a role (full-time or contract)</option>
+            <option>Redesigning an existing online course</option>
+            <option>Building a new course or program from scratch</option>
+            <option>Corporate or compliance training redesign</option>
+            <option>Exploring what is possible, no project yet</option>
+            <option>Collaborating on a project together</option>
+            <option>Something else</option>
+          </select>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-message">Tell me more</label>
+          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="The role, the course, or the problem. Whatever is on your mind."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--gold btn--block" id="cf-submit-btn">Send message</button>
+      </form>
+    </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-inner">
-    <a href="../" class="foot-logo" aria-label="Tenneri home">
-      <img src="https://tenneri.com/Ten-Logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
-      <span translate="no">Tenneri</span>
-    </a>
-    <ul class="foot-links">
-      <li><a href="./">Projects</a></li>
-      <li><a href="../#about">About</a></li>
-      <li><a href="../contact/">Contact</a></li>
-      <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
-    </ul>
-    <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri</span>
+<footer class="foot">
+  <div class="shell">
+    <div class="foot-mark" aria-hidden="true"></div>
+    <div class="foot-row">
+      <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri. Designed and coded by Ramano Stoute.</span>
+      <ul class="foot-links">
+        <li><a href="../">Home</a></li>
+        <li><a href="../#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
+      </ul>
+    </div>
   </div>
 </footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- MODAL (filled by projects.js) -->
 <div class="pj-modal" id="pj-modal" role="dialog" aria-modal="true" aria-labelledby="pj-modal-title">
@@ -159,7 +232,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="../script.js"></script>
-<script src="projects.js"></script>
+<script src="../script.js?v=20261021k"></script>
+<script src="projects.js?v=20261021r"></script>
 </body>
 </html>
