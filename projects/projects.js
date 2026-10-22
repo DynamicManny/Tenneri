@@ -6,68 +6,63 @@
 (function () {
   'use strict';
   if (!document.body || document.body.dataset.page !== 'projects') return;
+  // Without the animation library the plain project list shows instead
+  if (typeof gsap === 'undefined') return;
 
   /* ─── CONTENT ───────────────────────────────────────────────
      Images and demos load from the live projects folder, so this page
-     works wherever it is uploaded. To give ROSe a still image instead
-     of its video loop, add  img: 'ROSethumb.png'  and remove vimeo.   */
+     works wherever it is uploaded. A slide can show a looping Vimeo
+     video instead of a screenshot: give it  vimeo: 'ID'  instead of img. */
   const ASSETS = 'https://tenneri.com/projects/';
 
   const SLIDES = [
     {
-      kicker: 'Flagship · Brightspace',
-      t1: 'ROSe', t2: 'Operating System',
-      desc: "An operating system that lives inside Brightspace. Learners open apps, run tools and work through a company breach without leaving the course, and their work lands in the gradebook.",
-      tag: 'SCORM · Gradebook sync',
-      vimeo: '1169432149'
+      kicker: 'Learning game',
+      t1: 'Lexicon', t2: '',
+      desc: "A daily word game for K-12 classrooms and early-career professionals. Instructors load whatever terms they want learned, learners get six guesses, and a voice reads each word aloud so they know how to say it, not just spell it.",
+      tag: 'Play it in your browser',
+      img: 'Lexthumb.png',
+      href: ASSETS + 'Lexicon/'
     },
     {
-      kicker: 'Module · Live demo',
+      kicker: 'Module',
       t1: 'API', t2: 'Fundamentals',
       desc: "Nobody's first API call should hit a live endpoint. So the whole exchange is simulated on the page: real headers, real status codes and real failures, with nothing ever leaving the browser.",
-      tag: 'Built for real learners',
+      tag: 'Used by real learners',
       img: 'APIthumb.png',
       href: ASSETS + 'API/'
     },
     {
-      kicker: 'Module · Live demo',
+      kicker: 'Module',
       t1: 'AI-Assisted', t2: 'Communication',
       desc: "Practical AI literacy instead of another slide deck about it. A live prompt sandbox, five tabs and a knowledge check, all on one page inside the LMS.",
-      tag: 'Built for real learners',
+      tag: 'Used by real learners',
       img: 'AIthumb.png',
       href: ASSETS + 'ai-communication/'
     },
     {
-      kicker: 'Capstone · Live demo',
+      kicker: 'Capstone',
       t1: 'Stratos', t2: 'Cloud Console',
       desc: "Cloud, networking and security in one working console instead of three separate exercises: a live network on a US map, a Python pipeline to debug and a deployment spec to write.",
-      tag: 'Built for real learners',
+      tag: 'Used by real learners',
       img: 'Stratosthumb.png',
       href: ASSETS + 'stratos/'
     },
     {
-      kicker: 'Employee training · Live demo',
+      kicker: 'Employee training',
       t1: 'Reef', t2: 'Guardian',
-      desc: "Phishing training goes stale when the examples do. This one hands people a real-looking inbox: hover the links, check the senders, then report, junk or keep each email and see every red flag they missed.",
+      desc: "Phishing training goes stale when the examples do. This one hands people an inbox to work through: hover the links, check the senders, then report, junk or keep each email and see every red flag they missed.",
       tag: 'Used by employees',
       img: 'ReefGuardianthumb.png',
       href: ASSETS + 'ReefGuardian/'
     },
     {
-      kicker: 'Employee training · Live demo',
+      kicker: 'Employee training',
       t1: 'Think Before', t2: 'You Post',
       desc: "Security awareness gets ignored when it never applies to you. A quick check-in at the start decides which tips you see, so every scenario is one you'd actually run into.",
       tag: 'Used by employees',
       img: 'Awarenessthumb.png',
       href: ASSETS + 'awareness/'
-    },
-    {
-      kicker: 'Learning game · Live demo',
-      t1: 'Lexicon', t2: 'Word Game',
-      desc: "Vocabulary drills feel like a chore, so this one plays like a daily puzzle. Instructors load the words, learners get six guesses, and every attempt shows a definition, pronunciation and example.",
-      tag: 'Built for real learners',
-      img: 'Lexthumb.png',
-      href: ASSETS + 'Lexicon/'
     }
   ];
 
@@ -143,7 +138,7 @@
       goal: "Let students make their ethics mistakes in the lab instead of in the field."
     },
     {
-      badge: 'Compliance · GRC',
+      badge: 'Compliance and GRC',
       t1: 'THRESHOLD', t2: 'Compliance Training Lab',
       short: "Realistic workplace calls where the wrong choice plays out as a detailed chain of consequences, so the rules finally make sense.",
       img: 'Thresholdthumb.png',
@@ -192,7 +187,7 @@
   function openModal({ kicker, t1, t2, video, body }) {
     lastFocus = document.activeElement;
     mKicker.textContent = kicker || '';
-    mTitle.innerHTML = `${esc(t1)}: <em>${esc(t2)}</em>`;
+    mTitle.textContent = `${t1}: ${t2}`;
     mVideo.innerHTML = video ? videoMarkup(video, `${t1} ${t2}`) : '';
     mVideo.style.display = video ? '' : 'none';
     mBody.innerHTML = body || '';
@@ -233,6 +228,7 @@
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'pj-case reveal';
+      b.dataset.cursorLabel = 'Watch';
       b.setAttribute('aria-label', `Watch ${c.t1}: ${c.t2}`);
       b.innerHTML = `
         <div class="pj-case-thumb">
@@ -241,9 +237,9 @@
           <div class="pj-case-play" aria-hidden="true"><span>▶</span></div>
         </div>
         <div class="pj-case-body">
-          <h3 class="pj-case-title">${esc(c.t1)}: <em>${esc(c.t2)}</em></h3>
+          <h3 class="pj-case-title">${esc(c.t1)}: ${esc(c.t2)}</h3>
           <p class="pj-case-desc">${esc(c.short)}</p>
-          <div class="pj-case-foot"><span>Watch walkthrough</span><span>→</span></div>
+          <div class="pj-case-foot"><span>Watch the walkthrough</span></div>
         </div>`;
       b.addEventListener('click', () => openModal({ kicker: c.badge, t1: c.t1, t2: c.t2, video: c.video, body: caseBody(c) }));
       grid.appendChild(b);
@@ -278,6 +274,7 @@
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'pj-card';
+    b.dataset.cursorLabel = 'View';
     b.setAttribute('aria-label', `Show ${s.t1} ${s.t2}`);
     const media = s.vimeo
       ? `<div class="pj-card-media"><div class="pj-card-shot"><iframe src="https://player.vimeo.com/video/${s.vimeo}?background=1&autoplay=1&muted=1&loop=1&autopause=0" title="${esc(s.t1)} preview" allow="autoplay; fullscreen" tabindex="-1" aria-hidden="true"></iframe></div></div>`
@@ -286,8 +283,8 @@
       <div class="pj-card-shade"></div>
       <div class="pj-card-label">
         <span class="pj-card-bar"></span>
-        <span class="pj-card-kicker">${esc(s.kicker.split(' · ')[0])}</span>
-        <span class="pj-card-title">${esc(s.t1)} <em>${esc(s.t2)}</em></span>
+        <span class="pj-card-kicker">${esc(s.kicker)}</span>
+        <span class="pj-card-title">${esc(s.t1)} ${esc(s.t2)}</span>
       </div>`;
     b.addEventListener('click', () => goTo(i, true));
     cardsWrap.appendChild(b);
@@ -373,13 +370,13 @@
       openBtn.href = s.href;
       openBtn.target = '_blank';
       openBtn.rel = 'noopener';
-      openBtn.textContent = 'Open demo →';
+      openBtn.textContent = 'Open the demo';
       openBtn.removeAttribute('role');
     } else {
       openBtn.href = '#';
       openBtn.removeAttribute('target');
       openBtn.setAttribute('role', 'button');
-      openBtn.textContent = 'Watch it run →';
+      openBtn.textContent = 'Watch it run';
     }
   }
   openBtn.addEventListener('click', e => {
@@ -559,7 +556,7 @@
     fill(SLIDES[order[0]]);
     layout();
     setCount(false);
-    if (reduceMotion) { cover.remove(); return; }
+    if (reduceMotion) { cover.remove(); window.__tenneriProjects = true; return; }
 
     gsap.set([kick, t1, t2], { yPercent: 110 });
     gsap.set([desc, cta], { opacity: 0, y: 16 });
@@ -568,6 +565,7 @@
     const rest = order.slice(1).map(ci => cards[ci]);
     if (!m.mobile) gsap.set(rest, { x: '+=' + Math.round(m.W * 0.45) });
 
+    window.__tenneriProjects = true;
     gsap.timeline({ onComplete: startTimer })
       .to(cover, { xPercent: 101, duration: 0.95, ease: 'power3.inOut', delay: 0.1 })
       .from(cards[order[0]], { scale: 1.16, duration: 1.6, ease: 'power3.out' }, '-=0.65')
