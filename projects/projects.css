@@ -4,7 +4,7 @@
 ═══════════════════════════════════════════════════════════════ */
 
 /* No film strip on this page */
-body[data-page="projects"] { padding-right: 0 !important; }
+body[data-page="projects"] { padding-right: 0 !important; --strip-w: 0px; }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -393,3 +393,62 @@ body[data-page="projects"] .n-links a[aria-current="page"]:not(.n-cta) { color: 
 
 /* Nav toggle over the dark showcase */
 body[data-page="projects"] nav:not(.scrolled) .theme-toggle--nav { color: var(--gold-lt); border-color: rgba(212,168,67,0.55); }
+
+
+/* ═══════════════ HOUSE STYLE (matches the home page) ═══════════════
+   Labels in the regular sans, sentence case. Titles in one weight and
+   colour, no gold italic second line. */
+.pj-kicker {
+  font-family: var(--f-b); font-size: 1.02rem; font-weight: 600;
+  letter-spacing: 0; text-transform: none;
+}
+.pj-t2 { font-style: normal; color: #f2ede4; }
+.pj-tag, .pj-total, .pj-card-kicker, .pj-case-badge, .pj-case-foot,
+.pj-modal-kicker, .pj-modal-label, .pj-end-call, .pj-scroll-hint {
+  font-family: var(--f-b); letter-spacing: 0; text-transform: none;
+}
+.pj-tag { font-size: 0.98rem; font-weight: 500; color: rgba(242,237,228,0.82); }
+.pj-total { font-size: 0.95rem; color: rgba(242,237,228,0.75); }
+.pj-card-kicker { font-size: 0.85rem; font-weight: 600; color: rgba(242,237,228,0.82); }
+.pj-card-title em, .pj-case-title em, .pj-modal-title em { font-style: normal; color: inherit; }
+.pj-case-badge { font-size: 0.85rem; font-weight: 600; }
+.pj-case-foot { font-size: 0.98rem; font-weight: 600; color: var(--gold-ink); }
+[data-theme="dark"] .pj-case-foot { color: var(--gold-lt); }
+.pj-modal-kicker, .pj-modal-label { font-size: 0.95rem; font-weight: 600; color: var(--gold-ink); }
+[data-theme="dark"] .pj-modal-kicker, [data-theme="dark"] .pj-modal-label { color: var(--gold-lt); }
+.pj-modal-list li::before {
+  content: ''; width: 0.4rem; height: 0.4rem; border-radius: 50%;
+  background: var(--gold); transform: translateY(-0.15rem);
+}
+.pj-end-call { font-size: 0.98rem; color: var(--body); border-bottom-color: var(--edge); }
+.pj-scroll-hint { font-size: 0.9rem; font-weight: 500; color: rgba(242,237,228,0.8); }
+.pj-desc { color: rgba(242,237,228,0.88); }
+
+/* The closing band uses the shared container now */
+.pj-end-inner { margin: 0 auto; }
+.pj-end-inner .lead { max-width: 34em; margin: 16px auto 0; }
+.pj-end-actions .btn { min-width: 11rem; }
+.pj-more .lead { max-width: 40em; }
+
+/* Plain list of every project: the showcase replaces it on screen.
+   It shows on its own if the page's scripts are blocked. */
+.pj-index { display: none; padding: 4rem 0; background: var(--surface-2); }
+.pj-index h2 { font-family: var(--f-d); font-weight: 400; font-size: 2rem; margin: 0 0 1rem; color: var(--ink); }
+.pj-index ul { margin-bottom: 2.5rem; }
+.pj-index li { padding: 0.5rem 0; color: var(--body); border-bottom: 1px solid var(--rule); }
+.pj-index a { color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--edge); }
+html:not(.js) .pj-index, html.no-anim .pj-index { display: block; }
+html:not(.js) .pj-show, html.no-anim .pj-show { display: none; }
+
+/* No label above the title: the tag beside the button already says it */
+.pj-details > .pj-mask:first-child { display: none; }
+/* Single-word titles (Lexicon) don't leave an empty second line */
+.pj-t2:empty { padding: 0; height: 0; }
+
+/* "Open the demo" carries real weight: the one filled button in the showcase */
+.pj-cta { gap: 1.25rem; }
+.pj-cta .btn--gold {
+  min-height: 3.5rem; padding: 0.95rem 1.9rem;
+  font-size: 1.08rem; font-weight: 600;
+  box-shadow: 0 0.9rem 2.2rem -0.9rem rgba(212,168,67,0.75);
+}
