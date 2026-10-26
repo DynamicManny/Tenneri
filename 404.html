@@ -103,7 +103,7 @@ body[data-page="notfound"]{padding-right:0!important;min-height:100vh;min-height
     <li class="n-persist"><a href="/projects/">Projects</a></li>
     <li class="n-persist"><a href="/#rose">Labs</a></li>
     <li class="n-persist"><a href="/#about">About</a></li>
-    <li class="n-persist"><a href="/contact/" class="n-cta">Get in touch</a></li>
+    <li class="n-persist"><a href="/projects/#contact" class="n-cta">Get in touch</a></li>
   </ul>
   <div class="n-right">
     <button class="theme-toggle theme-toggle--nav" type="button" id="theme-toggle-fixed" aria-label="Toggle light/dark mode">
@@ -119,7 +119,7 @@ body[data-page="notfound"]{padding-right:0!important;min-height:100vh;min-height
   <a href="/projects/" onclick="closeMob()">Projects</a>
   <a href="/#rose" onclick="closeMob()">Labs</a>
   <a href="/#about" onclick="closeMob()">About</a>
-  <a href="/contact/" onclick="closeMob()">Get in touch</a>
+  <a href="/projects/#contact" onclick="closeMob()">Get in touch</a>
   <a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me" onclick="closeMob()">LinkedIn ↗</a>
 </div>
 
@@ -149,7 +149,7 @@ body[data-page="notfound"]{padding-right:0!important;min-height:100vh;min-height
         <span class="nf-link-t">Start over</span>
         <span class="nf-link-d">Who I am and how I build learning.</span>
       </a>
-      <a class="nf-link" href="/contact/">
+      <a class="nf-link" href="/projects/#contact">
         <span class="nf-link-arrow" aria-hidden="true">↗</span>
         <span class="nf-link-k">Contact</span>
         <span class="nf-link-t">Say hello</span>
@@ -159,19 +159,18 @@ body[data-page="notfound"]{padding-right:0!important;min-height:100vh;min-height
   </div>
 </main>
 
-<footer>
-  <div class="foot-inner">
-    <a href="/" class="foot-logo" aria-label="Tenneri home">
-      <img src="https://tenneri.com/Ten-Logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
-      <span translate="no">Tenneri</span>
-    </a>
-    <ul class="foot-links">
-      <li><a href="/projects/">Projects</a></li>
-      <li><a href="/#about">About</a></li>
-      <li><a href="/contact/">Contact</a></li>
-      <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
-    </ul>
-    <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri</span>
+<footer class="foot">
+  <div class="shell">
+    <div class="foot-mark" aria-hidden="true"></div>
+    <div class="foot-row">
+      <span class="foot-copy">© <span id="foot-year">2026</span> Tenneri. Designed and coded by Ramano Stoute.</span>
+      <ul class="foot-links">
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/projects/#contact">Contact</a></li>
+        <li><a href="https://www.linkedin.com/in/ramano-stoute" target="_blank" rel="noopener me">LinkedIn</a></li>
+      </ul>
+    </div>
   </div>
 </footer>
 
