@@ -537,7 +537,10 @@ function initVideoModal() {
     lastFocus = document.activeElement;
     mTitle.textContent = title;
     mType.textContent  = type;
-    mVideo.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
+    // A path ending in .mp4 plays the self-hosted file; anything else is a Vimeo ID
+    mVideo.innerHTML = /\.mp4$/i.test(vimeoId)
+      ? `<video src="${vimeoId}" autoplay muted loop playsinline controls aria-label="${title}"></video>`
+      : `<iframe src="https://player.vimeo.com/video/${vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
     overlay.classList.add('open');
     document.documentElement.classList.add('modal-video');
     lockScroll(true);
@@ -800,7 +803,7 @@ function initExtras() {
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   const heroWatch = $('hero-video-watch');
-  const watchReef = () => openVideo('Reef Guardian', 'Phishing training simulation, built for Brightspace (D2L)', '1236921375', { fullscreen: true });
+  const watchReef = () => openVideo('Reef Guardian', 'Phishing training simulation, built for Brightspace (D2L)', 'https://tenneri.com/ReefGuardian-demo.mp4', { fullscreen: true });
   if (heroWatch) heroWatch.addEventListener('click', watchReef);
   const heroFrame = $('hero-video-frame');
   if (heroFrame) {
