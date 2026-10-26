@@ -657,11 +657,13 @@ nav.scrolled .theme-toggle { width: 2.25rem; height: 2.25rem; }
 @media (hover: hover) and (pointer: fine) {
   .hero-video-frame:hover { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
 }
-.hero-video-frame iframe {
+.hero-video-frame iframe,
+.hero-video-frame video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   border: 0; pointer-events: none;
 }
+.hero-video-frame video { object-fit: cover; }
 .hero-demo-cap {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem;
   padding-top: 1.125rem;
@@ -1169,7 +1171,9 @@ nav.scrolled .theme-toggle { width: 2.25rem; height: 2.25rem; }
 .peek-modal-close:hover { color: var(--ink); border-color: var(--gold); }
 .peek-modal-video { padding-top: 56.25%; position: relative; background: #000; }
 .peek-modal-video:fullscreen { padding-top: 0; width: 100vw; height: 100vh; }
-.peek-modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.peek-modal-video iframe,
+.peek-modal-video video { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.peek-modal-video video { object-fit: contain; background: #000; }
 
 /* ── ROSE MODAL ── */
 #rose-modal-overlay {
