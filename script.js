@@ -811,6 +811,24 @@ function initExtras() {
     heroFrame.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); watchReef(); } });
   }
 
+  // Lazy videos: load only when scrolled near, pause when off screen
+  const lazyVids = $$('video[data-lazy-src]');
+  if (lazyVids.length && 'IntersectionObserver' in window) {
+    const vio = new IntersectionObserver(entries => {
+      entries.forEach(({ target: v, isIntersecting }) => {
+        if (isIntersecting) {
+          if (!v.src) { v.src = v.dataset.lazySrc; v.load(); }
+          const p = v.play(); if (p && p.catch) p.catch(() => {});
+        } else if (v.src) {
+          v.pause();
+        }
+      });
+    }, { rootMargin: '300px 0px' });
+    lazyVids.forEach(v => vio.observe(v));
+  } else {
+    lazyVids.forEach(v => { v.src = v.dataset.lazySrc; v.autoplay = true; });
+  }
+
   // Tab-out easter egg
   const originalTitle = document.title || 'Tenneri';
   let awayTimer = null;
