@@ -377,6 +377,15 @@ body {
 }
 [data-cursor].has-label .cursor-label { opacity: 1; transform: none; }
 
+/* Auto-contrast: the cursor inverts whatever is under it, so it reads on any section */
+[data-cursor], [data-cursor-dot] { mix-blend-mode: difference; }
+[data-cursor-dot], [data-cursor-dot].on-gold { background: #fff; }
+[data-cursor] .cursor-shape, [data-cursor].on-gold .cursor-shape { border-color: #fff; background: transparent; }
+[data-cursor].is-hover .cursor-shape { background: #fff; border-color: #fff; }
+/* The labelled ring ("Watch") keeps the brand fill so its label stays readable */
+[data-cursor].has-label { mix-blend-mode: normal; }
+[data-cursor].has-label .cursor-shape { background: var(--cursor); border-color: var(--cursor); }
+
 /* Hide the native pointer on every element, in both themes */
 html.cursor-ready [data-cursor], html.cursor-ready [data-cursor-dot] { display: block; }
 html.cursor-ready.cursor-live [data-cursor], html.cursor-ready.cursor-live [data-cursor-dot] { opacity: 1; }
@@ -1277,7 +1286,7 @@ html.theme-switching *, html.theme-switching *::before, html.theme-switching *::
 .edit-strike path, .edit-caret path {
   fill: none; stroke: var(--gold-ink); stroke-linecap: round; stroke-linejoin: round;
 }
-.edit-strike path, .edit-caret path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.edit-strike path, .edit-caret path { stroke-dasharray: 1; stroke-dashoffset: 1; }
 .edit-strike path { stroke-width: 5; }
 .edit-caret path { stroke-width: 4; }
 [data-theme="dark"] .edit-strike path, [data-theme="dark"] .edit-caret path { stroke: var(--gold-lt); }
@@ -1289,8 +1298,14 @@ html.theme-switching *, html.theme-switching *::before, html.theme-switching *::
   letter-spacing: 0; white-space: nowrap;
   color: var(--gold-ink);
   rotate: -3deg;
+  /* Hidden before GSAP runs; GSAP keeps the inline clip-path after animation so this never re-applies */
+  clip-path: inset(-20% 100% -20% 0);
 }
 [data-theme="dark"] .edit-new { color: var(--gold-lt); }
+/* If the animation scripts never load, show the finished edit instead of a bare "have to" */
+html:not(.js) .edit-new, html.no-anim .edit-new { clip-path: none; }
+html:not(.js) .edit-strike path, html:not(.js) .edit-caret path,
+html.no-anim .edit-strike path, html.no-anim .edit-caret path { stroke-dashoffset: 0; }
 .edit-caret {
   position: absolute; left: 50%; bottom: 62%;
   width: 0.34em; height: 0.26em;
@@ -1354,4 +1369,7 @@ html.theme-switching *, html.theme-switching *::before, html.theme-switching *::
   .hero-ticker-track { animation: none; }
   [data-cursor], [data-cursor-dot] { display: none !important; }
   body { cursor: auto !important; }
+  /* Show the edit's final state without animation */
+  .edit-new { clip-path: none !important; }
+  .edit-strike path, .edit-caret path { stroke-dashoffset: 0 !important; }
 }

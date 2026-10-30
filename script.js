@@ -432,7 +432,7 @@ function initHero() {
       .fromTo(strike, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.55, ease: 'power2.inOut' }, 1.05)
       .from(old, { color: ink, duration: 0.5, ease: 'power1.out', clearProps: 'color' }, 1.25)
       .fromTo(caret, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease: 'power2.out' }, 1.55)
-      .fromTo(fresh, { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% 0% -20% 0)', duration: 0.75, ease: 'power1.inOut', clearProps: 'clipPath' }, 1.7);
+      .fromTo(fresh, { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% 0% -20% 0)', duration: 0.75, ease: 'power1.inOut' }, 1.7);
   }
   tl.from(rest, { opacity: 0, y: 20, duration: 0.8, ease: 'expo.out', stagger: 0.1, clearProps: 'transform,opacity' }, 0.35);
   if (demo) tl.from(demo, { opacity: 0, y: 40, scale: 0.97, duration: 1.2, ease: 'expo.out', clearProps: 'transform,opacity' }, 0.25);
